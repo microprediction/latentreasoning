@@ -138,7 +138,7 @@ const NODES = [
 
  // theory
  {id:"tc0", c:"theory", label:"TC⁰ bound", url:"https://arxiv.org/abs/2207.00729",
-  note:"Merrill & Sabharwal 2023. One forward pass of a log-precision transformer lies in logspace-uniform TC⁰. Scale does not help — the bound never mentions it."},
+  note:"Merrill & Sabharwal 2023. One forward pass of a log-precision transformer lies in logspace-uniform TC⁰. An asymptotic bound on polynomial-size families over growing inputs — not a verdict on any finite benchmark instance."},
  {id:"cotexp", c:"theory", label:"CoT expressivity", url:"https://arxiv.org/abs/2310.07923",
   note:"Merrill & Sabharwal 2024. Expressivity climbs with CoT length: log — marginal; linear — all regular languages; polynomial — exactly P, under specific pre-norm assumptions."},
  {id:"serial", c:"theory", label:"CoT ⇒ serial computation", url:"https://arxiv.org/abs/2402.12875",
@@ -146,9 +146,9 @@ const NODES = [
  {id:"pauseth", c:"theory", label:"Pause tokens = AC⁰", url:"https://arxiv.org/abs/2505.21024",
   note:"London & Kanade 2025. A strict separation, with PARITY as the witness: pause tokens lift constant-depth transformers from strictly-inside-AC⁰ to all of AC⁰, and to TC⁰ with log precision."},
  {id:"cotvlatent", c:"theory", label:"TC^k vs TC^(k-1)", big:true, url:"https://arxiv.org/abs/2509.25239",
-  note:"Xu & Sato 2025. The one sharp theorem separating continuous from discrete steps — under matched depth AND deterministic decoding. Stochastic CoT wins back counting and sampling."},
+  note:"Xu & Sato 2025. Looped/continuous models are characterised exactly at polylog iterations; CoT is only bounded above by TC^(k-1). The strict separation assumes TC^(k-1) ⊊ TC^k — it is conditional, not settled."},
  {id:"memsep", c:"theory", label:"Memory-budget separation", url:"https://arxiv.org/abs/2605.30757",
-  note:"Zhang 2026. A fixed-size recurrent state cannot do what polynomial-length CoT can on P-complete problems: recurrence buys depth, not memory."},
+  note:"Haozhou Zhang 2026. Under P ⊄ DSPACE(polylog n), a compressed-state loop cannot decide P-complete problems that polynomial-length CoT can. Does not cover full sequence-state loops. Recurrence buys depth, not memory."},
  {id:"superth", c:"theory", label:"Superposition theory", url:"https://arxiv.org/abs/2505.12514",
   note:"Zhu et al. 2025. Two layers and D continuous steps solve graph reachability at diameter D, where the best discrete construction needs O(n²). The superposition emerges from training."},
 

@@ -66,9 +66,12 @@
           Xu, K., and Sato, I. (2025).
           <a href="https://arxiv.org/abs/2509.25239"><em>A Formal Comparison Between Chain of
           Thought and Latent Thought</em></a>. arXiv:2509.25239.
-          <em>Continuous latent thought at polylog depth reaches $\mathsf{TC}^k$; discrete chain of
-          thought at the same depth reaches $\mathsf{TC}^{k-1}$ &mdash; under deterministic
-          decoding. Stochastic decoding hands counting and sampling back to discrete chains.</em>
+          <em>At $\log^k n$ iterations, polynomial width and constant precision, looped/continuous
+          models are characterised exactly (Thm 3.12), while chain of thought is bounded above by
+          $\mathsf{TC}^{k-1}$ (Lem 3.13); the strict separation (Thm 3.15) assumes
+          $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. The countervailing stochastic result
+          assumes $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ for self-reducible relations and
+          compares against <strong>deterministic</strong> latent updates only.</em>
         </li>
         <li>
           Korbak, T., Balesni, M., Barnes, E., Bengio, Y., Benton, J., et al. (2025).
@@ -118,16 +121,19 @@
           Log-Precision Transformers.&rdquo; <em>TACL</em>.
           <a href="https://arxiv.org/abs/2207.00729">arXiv:2207.00729</a>.
           <em>One forward pass of a log-precision transformer lies inside logspace-uniform
-          $\mathsf{TC}^0$. Conditional on $\mathsf L \neq \mathsf P$, no amount of scale lets it
-          solve certain $\mathsf P$-complete problems in a single pass.</em>
+          $\mathsf{TC}^0$. Conditional on $\mathsf L \neq \mathsf P$, no polynomial-size family
+          solves certain $\mathsf P$-complete problems in a single pass &mdash; an asymptotic
+          statement about growing inputs, not a verdict on finite instances.</em>
         </li>
         <li>
           Feng, G., Zhang, B., Gu, Y., Ye, H., He, D., and Wang, L. (2023). &ldquo;Towards Revealing
           the Mystery behind Chain of Thought: A Theoretical Perspective.&rdquo; <em>NeurIPS</em>.
           <a href="https://arxiv.org/abs/2305.15408">arXiv:2305.15408</a>.
-          <em>Bounded-depth transformers need super-polynomial size to answer arithmetic directly;
-          constant-size autoregressive models with chain of thought can, and can implement dynamic
-          programming. A size-blowup impossibility result, not a circuit-class separation.</em>
+          <em>Assuming $\mathsf{TC}^0 \neq \mathsf{NC}^1$, no fixed-depth log-precision
+          transformer of polynomial width solves arithmetic-expression evaluation or linear-equation
+          solving over $\mathbb{Z}_p$ at all sizes; constant-size autoregressive models with chain
+          of thought can, and can implement dynamic programming. Conditional, and scoped to those
+          two problem families &mdash; not &ldquo;arithmetic&rdquo; generally.</em>
         </li>
         <li>
           Merrill, W., and Sabharwal, A. (2024). &ldquo;The Expressive Power of Transformers with
@@ -149,9 +155,13 @@
           London, C., and Kanade, V. (2025).
           <a href="https://arxiv.org/abs/2505.21024"><em>Pause Tokens Strictly Increase the
           Expressivity of Constant-Depth Transformers</em></a>. arXiv:2505.21024.
-          <em>A strict separation with PARITY as witness: no pause tokens is strictly inside
-          $\mathsf{AC}^0$; polynomially many reach all of $\mathsf{AC}^0$; with log precision,
-          $\mathsf{TC}^0$.</em>
+          <em>At constant precision and $O(\log n)$ width, polynomial pause-token padding
+          characterises exactly $\mathsf{AC}^0$ (Thm 4.1), with a non-uniform strict separation
+          from the unpadded case (Cor 4.2); the uniform separation needs quasi-polynomial padding
+          (Thm 4.3), and log precision with polynomial padding gives $\mathsf{TC}^0$ (Thm 4.5).
+          Padding buys parallel workspace at fixed depth, not serial depth. The PARITY result in
+          &sect;5 is a finite-size learning experiment requiring intermediate supervision, not the
+          separation's witness.</em>
         </li>
         <li>
           Zhu, H., Hao, S., Hu, Z., Jiao, J., Russell, S., and Tian, Y. (2025).
@@ -185,12 +195,14 @@
           between loop count and token count &mdash; the relationship is structural.</em>
         </li>
         <li>
-          Zhang, Y. (2026).
+          Zhang, H. (2026).
           <a href="https://arxiv.org/abs/2605.30757"><em>Chain-of-Thought and Compressed Looped
           Transformers: A Memory-Budget Separation</em></a>. arXiv:2605.30757.
-          <em>A fixed-size recurrent state cannot solve $\mathsf P$-complete problems that
-          polynomial-length chain of thought can, because the transcript's working memory grows with
-          emitted tokens and a compressed loop's does not. Recurrence buys depth, not memory.</em>
+          <em>Under a standard complexity assumption &mdash; $\mathsf P \not\subseteq
+          \mathsf{DSPACE}(\mathrm{polylog}\,n)$ &mdash; a compressed-state loop carrying
+          polylogarithmic persistent memory cannot decide problems $\mathsf P$-complete under
+          logspace reductions that polynomial-length chain of thought can. Explicitly does not cover
+          full sequence-state loops carrying $ndp$ bits. Recurrence buys depth, not memory.</em>
         </li>
       </ul>
 

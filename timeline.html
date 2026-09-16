@@ -67,7 +67,7 @@ const LANES = {
 const EVENTS = [
  // ---------------- expressivity theory ----------------
  {d:"2022-07", lane:"theory", label:"Merrill–Sabharwal: TC⁰", url:"https://arxiv.org/abs/2207.00729",
-  note:"One forward pass of a log-precision transformer sits inside logspace-uniform TC⁰. Conditional on L≠P, no amount of scale lets it solve certain P-complete problems in a single pass."},
+  note:"One forward pass of a log-precision transformer sits inside logspace-uniform TC⁰. Conditional on L≠P, no polynomial-size family solves certain P-complete problems in a single pass. Asymptotic, not a claim about finite instances."},
  {d:"2023-05", lane:"theory", label:"Feng et al.", url:"https://arxiv.org/abs/2305.15408",
   note:"Bounded-depth transformers need super-polynomial size to answer arithmetic directly; constant-size autoregressive models with CoT can do it, and can implement dynamic programming."},
  {d:"2023-10", lane:"theory", label:"Pause tokens", url:"https://arxiv.org/abs/2310.02226",
@@ -83,11 +83,11 @@ const EVENTS = [
  {d:"2025-05", lane:"theory", label:"Superposition theory", url:"https://arxiv.org/abs/2505.12514",
   note:"Zhu et al. A 2-layer transformer with D continuous steps solves graph reachability at diameter D, where the best discrete construction needs O(n²). The superposition emerges from training."},
  {d:"2025-05", lane:"theory", label:"London–Kanade", url:"https://arxiv.org/abs/2505.21024",
-  note:"A strict separation: without pause tokens, constant-depth bounded-precision transformers are strictly inside AC⁰; with poly(n) pause tokens they reach all of AC⁰; with log precision, TC⁰."},
+  note:"Polynomial pause-token padding characterises exactly AC⁰ at constant precision and O(log n) width; the strict separation from the unpadded case is non-uniform, the uniform one needs quasi-polynomial padding. Padding adds parallel workspace at fixed depth."},
  {d:"2025-09", lane:"theory", label:"CoT vs latent", big:true, url:"https://arxiv.org/abs/2509.25239",
   note:"Xu & Sato. The one sharp theorem: continuous latent thought at polylog depth reaches TC^k, discrete CoT only TC^(k-1) — under matched depth and DETERMINISTIC decoding. Stochastic CoT wins back counting and sampling."},
  {d:"2026-05", lane:"theory", label:"Memory separation", url:"https://arxiv.org/abs/2605.30757",
-  note:"Compressed-state loops cannot solve P-complete problems that polynomial-length CoT can: CoT's working memory grows with emitted tokens, a fixed recurrent state's does not. Recurrence buys depth, not memory."},
+  note:"Under P ⊄ DSPACE(polylog n), compressed-state loops cannot decide P-complete problems that polynomial-length CoT can. Scoped to compressed loops — full sequence-state loops carrying ndp bits are excluded."},
 
  // ---------------- internalised & continuous CoT ----------------
  {d:"2023-11", lane:"latent", label:"Implicit CoT", url:"https://arxiv.org/abs/2311.01460",

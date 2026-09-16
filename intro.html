@@ -48,12 +48,14 @@
     </div>
 
     <p>
-      The middle step is a <strong>quantiser</strong>. Compose it: the map
+      The middle step is a <strong>discretisation</strong>. The composite map
       $q = E \circ \mathrm{sample} \circ \mathrm{softmax} \circ W$ sends $\mathbb{R}^d$ to
-      $\mathbb{R}^d$, but its image is the finite set of $|V|$ rows of the embedding table. A
-      hidden state carries $d$ real coordinates; a token carries $\log_2 |V| \approx 17$ bits.
-      Whatever the model computed at step $t$ that is not recoverable from $x_t$ does not survive
-      to step $t+1$.
+      $\mathbb{R}^d$, but its image is the finite set of $|V|$ rows of the embedding table. Two
+      things it is <em>not</em>: it is not nearest-neighbour rounding in embedding space &mdash; it
+      is stochastic selection from a distribution, followed by a table lookup &mdash; and
+      $\log_2|V| \approx 17$ bits is an <em>alphabet capacity bound</em>, $H(x_t) \leq \log_2|V|$,
+      not the realised information content of a step. Whatever the model computed at step $t$ that
+      is not recoverable from $x_t$ does not travel <em>along this path</em> to step $t+1$.
     </p>
 
     <p>
@@ -75,60 +77,64 @@
     <h2>What the transcript does and does not give you</h2>
 
     <p>
-      It is worth being careful about a tempting objection: surely information also flows forward
-      through the KV cache, which is continuous? It does not, in the following precise sense.
-      The keys and values at position $t$ are a deterministic function of $e_1, \dots, e_t$, which
-      are a deterministic function of $x_1, \dots, x_t$. Under token-space decoding, then:
+      A cached decoder does not start from nothing at each step. Writing $C_t$ for the key-value
+      cache, the update is closer to
     </p>
 
-    <blockquote>
-      The complete internal state of the computation at step $t$ is a deterministic function of
-      the emitted token prefix. The transcript is a sufficient statistic for the computation.
-    </blockquote>
+    <div class="equation-card">
+      $$(C_{t+1}, h_{t+1}) = F_\theta\big(C_t,\; E[x_t]\big).$$
+    </div>
 
     <p>
-      This is worth stating carefully, because it is routinely asked to do more work than it can.
-    </p>
-
-    <p>
-      <strong>What it establishes.</strong> The channel from one reasoning step to the next has a
-      capacity of about $\log_2 |V| \approx 17$ bits. A model cannot accumulate hidden serial
-      state across many steps without routing it through that channel; whatever it does not write
-      down, it must re-derive inside each forward pass from what it did. Once $e_{t+1} = h_t$, that
-      bound is gone &mdash; the state at step $t+1$ is no longer a function of anything written
-      down.
+      So there are <strong>two paths</strong> from one step to the next, and they behave differently.
+      The <em>feedback path</em> runs from the top layer back to the next input embedding, and that
+      is the one the discretisation narrows. The <em>cached-activation path</em> carries retained
+      intermediate activations at every layer and position, and attention at later positions reads
+      them directly. Calling the emitted token a seventeen-bit bottleneck on <em>all</em> persistent
+      computation is therefore wrong, and this page previously said it.
     </p>
 
     <p>
-      <strong>What it does not establish.</strong> It does not follow that the transcript
-      <em>reveals</em> the reasoning. Determinacy is not legibility. The transcript fixes the
-      computation the way a seed fixes a pseudorandom sequence: completely, and without telling you
-      anything you can read off it.
+      This is exactly why filler tokens work. A row of identical dots carries no task-specific token
+      identity, yet each new position still attends over the whole retained cache and adds
+      computation. What bounds that computation is the decoder's layer-and-position dependency
+      graph, not the size of the vocabulary. Contentless padding buys parallel workspace at fixed
+      depth; it does not buy unbounded serial depth.
+    </p>
+
+    <h3>Three claims worth keeping apart</h3>
+
+    <p>
+      <strong>Replayability.</strong> Given the model, the full prompt, a fixed execution schedule
+      and deterministic forward operations, the cache can be recomputed from the token history, so
+      the run can be reproduced. But a deterministic latent recurrence $z_k = F_\theta^{(k)}(z_0)$
+      satisfies the same property &mdash; its state is fixed by the input and the iteration count.
+      <em>Replayability does not distinguish text reasoning from deterministic latent reasoning</em>,
+      and an earlier version of this page used it as though it did.
     </p>
 
     <p>
-      The counterexample is already in this literature. A row of filler dots is a transcript that
-      determines the model&apos;s state exactly while exposing nothing at all about the multi-step
-      computation running underneath it; recovering that took an unsupervised decoder operating on
-      hidden states, not a reader. So the case for monitoring does not rest on this property alone.
-      It rests on the bandwidth bound <em>plus</em> a contingent fact about how models are currently
-      trained &mdash; that they tend to put semantically meaningful content into the channel rather
-      than dots. The bound is structural; the legibility is a habit. Latent reasoning removes the
-      structural half, which is why it is worth watching, but the two should not be run together.
+      <strong>Computational resources.</strong> How much serial depth and parallel width a scheme
+      makes available is an architectural question &mdash; the subject of
+      <a href="./theory.html">the theory page</a> &mdash; and it is where the real differences
+      between token-space and latent schemes live.
     </p>
 
     <p>
-      One further caution. The property concerns the channel <em>between</em> steps, not what
-      happens inside one. A single forward pass computes a great deal that never surfaces, which is
-      why a chain of thought can be unfaithful to the computation that produced the answer even when
-      it is the only channel available &mdash; see
-      <a href="./monitorability.html">monitorability</a>.
+      <strong>Monitorability.</strong> Whether a human or an automated monitor can <em>read</em> what
+      the model is doing. This does not follow from either of the above. Determinacy is not
+      legibility: a transcript can fix a computation completely while telling you nothing you can
+      read off it, which is precisely what filler tokens demonstrate &mdash; recovering that hidden
+      computation took an unsupervised decoder operating on activations, not a reader. Monitorability
+      is an empirical property of how models are currently trained, not a structural consequence of
+      discretisation. See <a href="./monitorability.html">monitorability</a>.
     </p>
 
     <p class="muted">
-      A note on the framing. The quantiser view below is a convenient way to arrange a scattered
-      literature, not a claim that the field sees itself this way or that the axis is the only one
-      that matters. Where it stops being useful, the papers are still the point.
+      What deleting the discretisation does change is narrower than the older framing here claimed:
+      it widens the feedback interface, so intermediate state need no longer be funnelled through a
+      token vocabulary on its way to the next step. That is a real change and worth studying. It is
+      not the removal of the only channel, and it is not by itself the removal of oversight.
     </p>
 
     <h2>Two axes</h2>
@@ -172,8 +178,8 @@
         <text x="186" y="137" text-anchor="end" font-size="10.5" fill="#9a9a9a">~17 bits</text>
         <text x="186" y="196" text-anchor="end" font-size="12.5" fill="#10212b" font-weight="600">a vector</text>
         <text x="186" y="213" text-anchor="end" font-size="10.5" fill="#9a9a9a">~10&#8308; bits of width</text>
-        <text x="186" y="262" text-anchor="end" font-size="12.5" fill="#10212b" font-weight="600">nothing</text>
-        <text x="186" y="279" text-anchor="end" font-size="10.5" fill="#9a9a9a">no task content</text>
+        <text x="186" y="262" text-anchor="end" font-size="12.5" fill="#10212b" font-weight="600">no token content</text>
+        <text x="186" y="279" text-anchor="end" font-size="10.5" fill="#9a9a9a">activations still flow</text>
 
         <!-- cells: col 1 -->
         <rect x="200" y="92" width="260" height="58" rx="8" fill="#ffffff" stroke="#e2e2e2"/>
@@ -186,7 +192,7 @@
 
         <rect x="200" y="244" width="260" height="46" rx="8" fill="#ffffff" stroke="#e2e2e2"/>
         <text x="330" y="264" text-anchor="middle" font-size="13" font-weight="600" fill="#10212b">Filler &amp; pause tokens</text>
-        <text x="330" y="281" text-anchor="middle" font-size="10.5" fill="#5a5a5a">width and compute, no channel</text>
+        <text x="330" y="281" text-anchor="middle" font-size="10.5" fill="#5a5a5a">parallel workspace, fixed depth</text>
 
         <!-- cells: col 2 -->
         <rect x="470" y="92" width="260" height="58" rx="8" fill="#fafafa" stroke="#e2e2e2" stroke-dasharray="4 3"/>

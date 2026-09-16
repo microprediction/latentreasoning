@@ -54,11 +54,20 @@
     </div>
 
     <p>
-      The consequence is conditional but strong: if $\mathsf L \neq \mathsf P$, such a transformer
-      cannot solve certain $\mathsf P$-complete problems in a single pass <em>no matter how large
-      it is</em>. This is the parallelism tradeoff. Fixed depth means a fixed-depth parallel
-      circuit; the property that makes transformers efficient to run is the same property that caps
-      what one pass can do. Scale does not fix it, because the bound does not mention scale.
+      The consequence is conditional: if $\mathsf L \neq \mathsf P$, no <em>family</em> of such
+      transformers of polynomial size can solve certain $\mathsf P$-complete problems in a single
+      pass. This is the parallelism tradeoff &mdash; fixed depth means a fixed-depth parallel
+      circuit, and the property that makes transformers efficient to run is the same property that
+      caps what one pass can do.
+    </p>
+
+    <div class="caveat">
+      <p>
+        <strong>What this does not say.</strong> It is an asymptotic statement about families of
+        circuits over arbitrarily growing inputs, within a polynomial-size regime. It is not a
+        prohibition on a particular model solving a particular finite benchmark instance, and it
+        does not say that growing the model never helps in practice. Arguments of the form
+        &ldquo;$\mathsf{TC}^0$, therefore this model cannot do arithmetic&rdquo; do not follow.
     </p>
 
     <p>
@@ -113,32 +122,84 @@
     </p>
 
     <p>
-      Feng et al. (2023) give the applied complement. Bounded-depth transformers asked to emit the
-      answer directly need super-polynomially many parameters to do basic arithmetic and equation
-      solving; constant-size autoregressive transformers with chain of thought can do the same
-      tasks, and can implement a general class of dynamic programming algorithms. Their argument is
-      a size-blowup impossibility result rather than a named circuit-class separation, which is
-      worth keeping distinct from the Li et al. statement.
+      Feng et al. (2023) give the applied complement, and their premise matters.
+      <strong>Assuming $\mathsf{TC}^0 \neq \mathsf{NC}^1$</strong>, their Theorems 3.1 and 3.2
+      state that for any prime $p$, any fixed depth $L$ and any polynomial $Q$, there is a problem
+      size at which no log-precision autoregressive transformer of depth $L$ and hidden dimension
+      $d \leq Q(n)$ solves arithmetic-expression evaluation, or linear-equation solving, over the
+      finite field $\mathbb{Z}_p$. Constant-size autoregressive transformers with chain of thought
+      can do both, and can implement a general class of dynamic programming algorithms.
+    </p>
+
+    <p>
+      Two qualifications the site previously omitted. The scope is those two specified problem
+      families over finite fields, not &ldquo;basic arithmetic&rdquo; in general. And the lower
+      bound is supplied by circuit-complexity reasoning under an explicit conjecture &mdash; it is
+      not an unconditional size-blowup result.
     </p>
 
     <h2>Contentless tokens, made rigorous</h2>
 
     <p>
       If the theory says intermediate tokens are computation slots, then slots with no content
-      should work. London &amp; Kanade (2025) prove the sharp version for pause tokens:
+      should work. London &amp; Kanade (2025) prove this for pause tokens, and the statement needs
+      its qualifiers to be true.
     </p>
 
-    <div class="equation-card">
-      $$\text{no pause tokens} \subsetneq \mathsf{AC}^0, \qquad
-        \text{poly}(n) \text{ pause tokens} = \mathsf{AC}^0, \qquad
-        \text{+ log precision} = \mathsf{TC}^0.$$
+    <div class="table-wrap">
+      <table class="impl">
+        <thead><tr><th>Result</th><th>Statement</th><th>Regime</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="nowrap">Thm 4.1</td>
+            <td>Transformers with polynomially many pause tokens characterise exactly
+            $\mathsf{AC}^0$.</td>
+            <td class="mode">Constant precision, $O(\log n)$ embedding width, polynomial
+            padding.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Cor 4.2</td>
+            <td>Strict separation: without pause tokens $\subsetneq$ with polynomial pause
+            tokens.</td>
+            <td class="mode"><strong>Non-uniform</strong>, via a circuit-size hierarchy.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Thm 4.3</td>
+            <td>The corresponding fixed-depth separation in the uniform setting.</td>
+            <td class="mode">Requires <strong>quasi-polynomial</strong> padding, not
+            polynomial.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Thm 4.5</td>
+            <td>With logarithmic precision, polynomial padding characterises $\mathsf{TC}^0$.</td>
+            <td class="mode">Log precision, polynomial padding.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p>
-      A strict separation, not a conjecture, with a concrete witness: two-layer causally-masked
-      transformers learn PARITY &mdash; canonically outside $\mathsf{AC}^0$ &mdash; when given
-      pause tokens, and empirically fail without them.
+      The uniform and non-uniform statements are different theorems with different padding
+      requirements and should not be compressed into one line. What padding buys, in the authors'
+      own framing, is <em>parallel workspace at fixed layer depth</em> &mdash; not additional serial
+      computational depth. That distinction is the whole reason contentless tokens are not simply a
+      free substitute for chain of thought.
     </p>
+
+    <div class="caveat">
+      <p>
+        <strong>A correction this site previously got wrong.</strong> PARITY was described here as
+        the witness for the separation. It cannot be: full-input PARITY lies outside
+        $\mathsf{AC}^0$, so it cannot witness a strict containment <em>within</em> $\mathsf{AC}^0$.
+        PARITY appears in the paper's Section 5 as a finite-size <em>learning experiment</em> on a
+        2-layer, 4-head GPT-2-style model, motivated by the logarithmic-precision regime, and it
+        requires explicit intermediate supervision &mdash; threshold &ldquo;hint&rdquo; labels
+        $t_j = \mathbb{I}[\sum_i x_i \geq j]$ &mdash; because, as the authors note, gradient
+        training of a shallow transformer &ldquo;struggles to learn parity using only the loss on
+        the final prediction.&rdquo; That is an observation about learnability, not a proof of
+        expressivity, and the two were conflated here.
+      </p>
+    </div>
 
     <p>
       Pfau, Merrill &amp; Bowman (2024) characterise which problems admit a filler-token benefit
@@ -147,7 +208,7 @@
       steps at all.
     </p>
 
-    <h2>Continuous versus discrete steps</h2>
+<h2>Continuous versus discrete steps</h2>
 
     <p>
       This is the question the field actually turns on, and there is one sharp theorem. Xu &amp;
@@ -163,23 +224,51 @@
     </div>
 
     <p>
-      So continuous steps are strictly more expressive than discrete ones &mdash; <strong>under
-      matched depth and deterministic decoding.</strong> The qualification is not decoration. In a
-      probabilistic setting where chain of thought uses stochastic decoding, discrete CoT regains
-      ground that deterministic latent thought cannot reach, supporting FPRAS-style approximate
-      counting and sampling. The same authors' earlier comparison of chain of thought against
-      looped transformers lands in the same place: loops efficiently emulate parallel,
+      The statement needs three qualifications, all of which this site previously dropped.
+    </p>
+
+    <ul>
+      <li>
+        <strong>The separation is conditional.</strong> Theorem 3.15 gives
+        $\mathsf{CoT} \subsetneq \mathsf{Loop}$ at $\log^k n$ iterations <em>assuming</em>
+        $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. Deterministic decoding alone is not
+        sufficient; a believed but unproven circuit-class separation is doing real work.
+      </li>
+      <li>
+        <strong>The latent side is a characterisation; the CoT side is only an upper bound.</strong>
+        Theorem 3.12 characterises the looped/continuous classes exactly at polylogarithmic
+        iterations, polynomial width, and constant precision (or $\mathsf{TC}^k$ at logarithmic
+        precision). Lemma 3.13 gives $\mathsf{CoT} \subseteq \mathsf{TC}^{k-1}$ &mdash; an upper
+        bound. Treating that containment as an exact characterisation overstates it.
+      </li>
+      <li>
+        <strong>The stochastic comparison has its own premise.</strong> The counting and sampling
+        advantage assumes $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ for self-reducible
+        relations. It compares intermediate-token sampling against <em>deterministic</em> latent
+        updates, and is not a general impossibility result for stochastic latent computation
+        &mdash; latent models may still sample their final output tokens.
+      </li>
+    </ul>
+
+    <p>
+      These are asymptotic statements with explicit iteration budgets, width and precision
+      conditions. They are not equal-FLOP or equal-parameter comparisons, and should not be cited
+      as though a practitioner choosing between two 3B models were the setting. The same authors'
+      earlier comparison lands in the same place: loops efficiently emulate parallel,
       DAG-structured deterministic computation, while sequential CoT suits self-reducible,
-      compositionally sequential problems. They are complementary resources, not a ranking.
+      compositionally sequential problems &mdash; complementary resources, not a ranking.
     </p>
 
     <p>
-      Two results bound the enthusiasm. Zhang (2026) proves a memory-budget separation: a
-      <em>compressed</em>-state looped transformer &mdash; fixed-size recurrent state, which is the
-      common case &mdash; cannot solve $\mathsf P$-complete problems under logspace reductions that
-      polynomial-length chain of thought can, because CoT's effective working memory grows with the
-      emitted tokens while a compressed loop's does not. Recurrence buys depth; it does not buy
-      memory. And Reddi et al. (2025) establish the positive counterpart for depth specifically:
+      Two results bound the enthusiasm. Zhang (2026) proves a memory-budget separation,
+      <strong>under a standard complexity assumption</strong> (the paper's simulation runs in
+      $O(sdp + \log n + \log T)$ space, with the separation resting on
+      $\mathsf P \not\subseteq \mathsf{DSPACE}(\mathrm{polylog}\, n)$): a
+      <em>compressed</em>-state looped transformer, carrying polylogarithmic persistent memory with
+      a bounded iteration counter, cannot decide problems $\mathsf P$-complete under logspace
+      reductions that polynomial-length chain of thought can. The paper explicitly distinguishes
+      these from <em>full sequence-state</em> loops carrying $ndp$ bits, which are not covered.
+      Recurrence buys depth; it does not, in the compressed regime, buy memory. And Reddi et al. (2025) establish the positive counterpart for depth specifically:
       $k$ layers looped $L$ times nearly matches $kL$ unlooped layers, so problems that are
       depth-bound rather than parameter-bound are exactly the ones loops help with.
     </p>
@@ -216,10 +305,12 @@
         shipped in practice is open.
       </li>
       <li>
-        The $\mathsf{TC}^k$ versus $\mathsf{TC}^{k-1}$ separation is essentially the only theorem of
-        its kind. Whether it is tight, whether it holds for all $k$, and whether realistic
-        finite-precision continuous states retain the advantage are all open &mdash; and precision
-        is known to be decisive in the discrete case.
+        The $\mathsf{TC}^k$ versus $\mathsf{TC}^{k-1}$ separation is essentially the only theorem
+        of its kind, and it is conditional on $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. Worth
+        keeping distinct: the latent-side characterisation is already quantified, whereas the strict
+        separation inherits an unproved class separation. Whether realistic finite-precision
+        continuous states retain the advantage is also open &mdash; precision is known to be
+        decisive in the discrete case.
       </li>
       <li>
         Is the separation about <em>discreteness</em> or about <em>determinism</em>? Stochastic
