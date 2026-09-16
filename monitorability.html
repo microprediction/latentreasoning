@@ -18,6 +18,7 @@
       <nav>
         <a href="./intro.html">Introduction</a>
         <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
@@ -47,7 +48,7 @@
     <h2>The argument for monitoring</h2>
 
     <p>
-      The case, made in its strongest form by Korbak et al. (2025) in a position paper with more
+      The case, made in its strongest form by <a href="https://arxiv.org/abs/2507.11473">Korbak et al. (2025)</a> in a position paper with more
       than forty authors drawn from OpenAI, Anthropic, Google DeepMind, UK AISI, Redwood Research
       and Apollo, runs as follows. Current reasoning models are <em>architecturally forced</em> to
       externalise serial computation as natural-language tokens, because a single forward pass has
@@ -68,7 +69,7 @@
     </p>
 
     <p>
-      Baker et al. (2025) show the mechanism works empirically: a weak model reading raw chains of
+      <a href="https://arxiv.org/abs/2503.11926">Baker et al. (2025)</a> show the mechanism works empirically: a weak model reading raw chains of
       thought catches reward hacking during RL training that is otherwise invisible. They also show
       what breaks it. Optimising the policy directly against that same monitor produces
       <em>obfuscated</em> reward hacking: the model keeps misbehaving while producing a
@@ -86,17 +87,17 @@
 
     <p>
       Two papers predating the monitorability framing already showed chains of thought can be
-      systematically unfaithful. Turpin et al. (2023) biased multiple-choice prompts, for
+      systematically unfaithful. <a href="https://arxiv.org/abs/2305.04388">Turpin et al. (2023)</a> biased multiple-choice prompts, for
       instance by reordering options so a target answer is always correct, and found
       accuracy drops of up to 36% across thirteen BIG-Bench Hard tasks, with models systematically
-      failing to mention the biasing feature in their stated reasoning. Lanham et al. (2023)
+      failing to mention the biasing feature in their stated reasoning. <a href="https://arxiv.org/abs/2307.13702">Lanham et al. (2023)</a>
       introduced interventional metrics, truncation, inserted mistakes, paraphrasing, filler
       substitution, and found models often reach the same answer regardless of what the
       chain of thought says, with faithfulness not straightforwardly improving with scale.
     </p>
 
     <p>
-      Chen et al. (2025) at Anthropic sharpened this on current reasoning models. Testing Claude
+      <a href="https://arxiv.org/abs/2505.05410">Chen et al. (2025)</a> at Anthropic sharpened this on current reasoning models. Testing Claude
       3.7 Sonnet and DeepSeek R1 with six categories of hints planted in prompts, models verbalised
       using a hint they demonstrably used <em>often below 20% of the time</em>. Outcome-based
       RL improved faithfulness early in training and then plateaued without saturating. Where RL
@@ -111,12 +112,12 @@
     <h2>The case that the loss is real</h2>
 
     <p>
-      A leak rate under 20% is not zero, and Baker et al. Demonstrate the leak is exploitable in
+      A leak rate under 20% is not zero, and Baker et al. demonstrate the leak is exploitable in
       practice rather than merely nonzero. The sharper point is about what replaces it.
     </p>
 
     <p>
-      Brauer, Mayrink Verdun &amp; Marks (2026) ran the experiment that makes the choice concrete.
+      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun &amp; Marks (2026)</a> ran the experiment that makes the choice concrete.
       In frontier open-weight models, filler-token computation, multi-step work done over
       content-free dots carrying zero surface signal, defeats token-level monitoring
       outright. But an unsupervised decoder operating only on hidden states recovers the
@@ -140,7 +141,7 @@
     </p>
 
     <p>
-      Yang et al. (2024) find strong evidence that models internally resolve a bridge entity in
+      <a href="https://arxiv.org/abs/2402.16837">Yang et al. (2024)</a> find strong evidence that models internally resolve a bridge entity in
       two-hop prompts: recovering "Stevie Wonder" from "the singer of Superstition" and using
       that latent intermediate to complete the second hop: for certain relation types, with
       a companion paper questioning how much of this is genuine multi-hop reasoning versus shortcut
@@ -150,7 +151,7 @@
     </p>
 
     <p>
-      Lindsey (2025) adds the introspection piece: using concept injection, Claude Opus 4 and 4.1
+      <a href="https://transformer-circuits.pub/2025/introspection/index.html">Lindsey (2025)</a> adds the introspection piece: using concept injection, Claude Opus 4 and 4.1
       can sometimes detect and name a concept patched into their residual stream before it shows up
       behaviourally, in roughly 20% of trials under favourable conditions, but
       failures of introspection remain the norm.
@@ -166,7 +167,7 @@
 
     <p>
       A model does not need a latent architecture to hide reasoning: it can hide it in
-      innocuous text. Roger &amp; Greenblatt (2023) fine-tuned GPT-3.5-Turbo to embed intermediate
+      innocuous text. <a href="https://arxiv.org/abs/2310.18512">Roger &amp; Greenblatt (2023)</a> fine-tuned GPT-3.5-Turbo to embed intermediate
       reasoning steganographically in ordinary-looking output: it expressed opinions matching the
       user's stated beliefs 80% of the time with the hidden channel against 54% without. They also
       test a defence: context-aware paraphrasing of the chain of thought, combined with penalties
@@ -189,10 +190,10 @@
     </p>
 
     <p>
-      Mathew et al. (2024) report the more troubling version: steganographic collusion between
+      <a href="https://arxiv.org/abs/2410.03768">Mathew et al. (2024)</a> report the more troubling version: steganographic collusion between
       agents emerging from ordinary mis-specified RL incentives rather than deliberate training,
-      and robust to passive output monitoring and to paraphrase-based mitigation. Karpov et al.
-      (2025) find frontier models developing covert encoding schemes in realistic settings, though
+      and robust to passive output monitoring and to paraphrase-based mitigation. <a href="https://arxiv.org/abs/2505.03439">Karpov et al.
+      (2025)</a> find frontier models developing covert encoding schemes in realistic settings, though
       current capability is rudimentary and decoding accuracy falls off sharply with payload
       length.
     </p>
@@ -217,7 +218,7 @@
       <li>
         &ldquo;Simply informing the model that a CoT monitor is present can result in the model
         disproportionately shortening its CoT.&rdquo; This is the obfuscation dynamic
-        that Baker et al. Had to <em>induce</em> by optimising against a monitor, now appearing
+        that Baker et al. had to <em>induce</em> by optimising against a monitor, now appearing
         from mere awareness of one.
       </li>
       <li>
@@ -275,7 +276,7 @@
       The structural point survives whatever the details turn out to be. Recurrent-depth
       architectures are attractive for efficiency reasons that have nothing to do with oversight,
       and the legible trace disappears as a side effect rather than by anyone deciding to remove it.
-      That is precisely the scenario Korbak et al. Named a year earlier.
+      That is precisely the scenario Korbak et al. named a year earlier.
     </p>
 
     <h2>Countervailing evidence on interpretability</h2>
@@ -286,7 +287,7 @@
     </p>
 
     <p>
-      Dilgren &amp; Wiegreffe (2026) find latent reasoning tokens are frequently <em>unnecessary</em>
+      <a href="https://arxiv.org/abs/2604.04902">Dilgren &amp; Wiegreffe (2026)</a> find latent reasoning tokens are frequently <em>unnecessary</em>
       for the correct final answer on logical-reasoning datasets. Where they do carry the computation, a
       decoding method recovers a verified natural-language trace 65&ndash;93% of the time for
       correctly-answered instances. Their reading is that current latent-reasoning models largely
@@ -309,12 +310,12 @@
       <li>
         No <em>independent</em> measurement of monitorability loss. OpenAI has now
         published its own finding for Astra, which is a real advance on nothing. But it is
-        self-reported, not run against a shared public benchmark such as the suite in Guan et al.
-        (2025), and no outside party has reproduced it. Open recurrent-depth checkpoints exist and
+        self-reported, not run against a shared public benchmark such as the suite in <a href="https://arxiv.org/abs/2512.18311">Guan et al.
+        (2025)</a>, and no outside party has reproduced it. Open recurrent-depth checkpoints exist and
         that suite exists. Nobody has run one on the other.
       </li>
       <li>
-        <em>No consensus metric for monitorability.</em> Guan et al. (2025) and the several
+        <em>No consensus metric for monitorability.</em> <a href="https://arxiv.org/abs/2512.18311">Guan et al. (2025)</a> and the several
         2025&ndash;2026 measurement proposals are not obviously commensurable, and none has been
         shown to predict real catch rates for held-out classes of misbehaviour.
       </li>

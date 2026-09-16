@@ -18,6 +18,7 @@
       <nav>
         <a href="./intro.html">Introduction</a>
         <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
@@ -47,7 +48,7 @@
     <h2>One forward pass is weak, and provably so</h2>
 
     <p>
-      Merrill &amp; Sabharwal (2023) show that a log-precision transformer, poly-size, with
+      <a href="https://arxiv.org/abs/2207.00729">Merrill &amp; Sabharwal (2023)</a> show that a log-precision transformer, poly-size, with
       log-space-computable feedforward blocks, can be simulated by constant-depth,
       logspace-uniform threshold circuits. In symbols, it sits inside uniform $\mathsf{TC}^0$.
     </p>
@@ -55,6 +56,27 @@
     <div class="equation-card">
       $$\text{log-precision transformer, one pass} \subseteq \text{logspace-uniform } \mathsf{TC}^0.$$
     </div>
+
+    <details class="defn">
+      <summary>logspace-uniform $\mathsf{TC}^0$</summary>
+      <p>
+        The problems decided by Boolean circuit families of <em>constant depth</em> and polynomial
+        size, built from AND, OR, NOT and <em>threshold</em> gates, all with unbounded fan-in. A
+        threshold gate fires when at least $k$ of its inputs are on, which is what lets these
+        circuits count.
+      </p>
+      <p>
+        <em>Uniform</em> means the circuit for each input length can itself be built by an
+        algorithm, here one restricted to logarithmic workspace. Without that condition a circuit
+        family can smuggle in arbitrary precomputed advice, including uncomputable advice, and the
+        bound stops describing anything a real machine does.
+      </p>
+      <p>
+        Constant depth is the part that bites. A transformer with a fixed number of layers is a
+        constant-depth circuit, so whatever cannot be done in constant depth cannot be done in one
+        forward pass, at any width.
+      </p>
+    </details>
 
     <p>
       The consequence is conditional: if $\mathsf L \neq \mathsf P$, no <em>family</em> of such
@@ -73,24 +95,38 @@
     </p>
 
     <p>
-    Li, Liu, Zhou &amp; Ma (2024) tighten this under a different precision assumption: with
+    <a href="https://arxiv.org/abs/2402.12875">Li, Liu, Zhou &amp; Ma (2024)</a> tighten this under a different precision assumption: with
     <em>constant</em> bit precision and constant depth and no chain of thought, expressivity is
     confined to $\mathsf{AC}^0$, a strict subset of $\mathsf{TC}^0$. The precision regime is not
     a technicality: it moves the answer by a complexity class, and papers in this area are
     often compared as though it does not.
     </p>
 
+    <details class="defn">
+      <summary>$\mathsf{AC}^0$, and why PARITY sits outside it</summary>
+      <p>
+        $\mathsf{AC}^0$ is $\mathsf{TC}^0$ without the threshold gates: constant depth,
+        polynomial size, unbounded fan-in AND, OR and NOT. It is strictly weaker, and PARITY, the
+        question of whether an input has an odd number of ones, is the classical witness. Computing
+        it requires counting, threshold gates count, and AND/OR gates at constant depth cannot.
+      </p>
+      <p>
+        This is why PARITY cannot witness a separation <em>inside</em> $\mathsf{AC}^0$. It is not
+        in the class at either end.
+      </p>
+    </details>
+
     <h2>Serial steps buy computation, gradually</h2>
 
     <p>
-    Chain of thought converts token count into a serial computation budget. Li et al. State it
+    Chain of thought converts token count into a serial computation budget. Li et al. state it
     most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
     transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
     theory, meaningful reasoning: they are computation slots.
     </p>
 
     <p>
-    Merrill &amp; Sabharwal (2024) give the graded version, and it is worth quoting the shape of
+    <a href="https://arxiv.org/abs/2310.07923">Merrill &amp; Sabharwal (2024)</a> give the graded version, and it is worth quoting the shape of
     it precisely because the intermediate cases are the interesting ones:
     </p>
 
@@ -123,7 +159,7 @@
     </p>
 
     <p>
-      Feng et al. (2023) give the applied complement, and their premise matters.
+      <a href="https://arxiv.org/abs/2305.15408">Feng et al. (2023)</a> give the applied complement, and their premise matters.
       <em>Assuming $\mathsf{TC}^0 \neq \mathsf{NC}^1$</em>, their Theorems 3.1 and 3.2
       state that for any prime $p$, any fixed depth $L$ and any polynomial $Q$, there is a problem
       size at which no log-precision autoregressive transformer of depth $L$ and hidden dimension
@@ -143,7 +179,7 @@
 
     <p>
       If the theory says intermediate tokens are computation slots, then slots with no content
-      should work. London &amp; Kanade (2025) prove this for pause tokens, and the statement needs
+      should work. <a href="https://arxiv.org/abs/2505.21024">London &amp; Kanade (2025)</a> prove this for pause tokens, and the statement needs
       its qualifiers to be true.
     </p>
 
@@ -202,17 +238,42 @@
     </div>
 
     <p>
-      Pfau, Merrill &amp; Bowman (2024) characterise which problems admit a filler-token benefit
+      <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> characterise which problems admit a filler-token benefit
       via the quantifier depth of a first-order formula describing the problem: within the right
       quantifier-depth class, the intermediate tokens need carry no information about intermediate
       steps at all.
     </p>
 
+    <details class="defn">
+      <summary>Quantifier depth</summary>
+      <p>
+        How deeply nested the quantifiers are in a first-order formula describing a problem:
+        $\forall x\, \exists y\, P(x,y)$ has depth two. It is a measure of logical complexity
+        independent of formula length, and it is the axis along which filler tokens are shown to
+        help or not.
+      </p>
+    </details>
+
+    <details class="defn">
+      <summary>$\mathsf{TC}^k$, and why the separation is conditional</summary>
+      <p>
+        $\mathsf{TC}^k$ allows the same threshold circuits a depth of $O(\log^k n)$ rather than a
+        constant, giving a hierarchy $\mathsf{TC}^0 \subseteq \mathsf{TC}^1 \subseteq \cdots$.
+      </p>
+      <p>
+        No containment in that hierarchy is known to be strict. A result of the form
+        &ldquo;continuous steps reach $\mathsf{TC}^k$ and discrete steps only
+        $\mathsf{TC}^{k-1}$&rdquo; therefore separates the two only if
+        $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$, which is believed and unproven. The
+        theorem is real; the separation it implies inherits an open problem.
+      </p>
+    </details>
+
 <h2>Continuous versus discrete steps</h2>
 
     <p>
-      This is the question the field actually turns on, and there is one sharp theorem. Xu &amp;
-      Sato (2025) prove that iterating <em>continuous</em> latent thought to polylog depth reaches
+      This is the question the field actually turns on, and there is one sharp theorem. <a href="https://arxiv.org/abs/2509.25239">Xu &amp;
+      Sato (2025)</a> prove that iterating <em>continuous</em> latent thought to polylog depth reaches
       $\mathsf{TC}^k$, while discrete-token chain of thought at the same depth budget reaches only
       $\mathsf{TC}^{k-1}$.
     </p>
@@ -258,8 +319,25 @@
       compositionally sequential problems: complementary resources, not a ranking.
     </p>
 
+    <details class="defn">
+      <summary>$\mathsf P$-complete under logspace reductions, and $\mathsf{DSPACE}(\mathrm{polylog}\,n)$</summary>
+      <p>
+        A problem is $\mathsf P$-complete under logspace reductions when it lies in $\mathsf P$
+        and every other problem in $\mathsf P$ can be transformed into it by an algorithm using
+        only logarithmic workspace. These are the hardest polynomial-time problems, and the ones
+        believed to resist parallelisation.
+      </p>
+      <p>
+        $\mathsf{DSPACE}(\mathrm{polylog}\,n)$ is what a deterministic machine can decide with
+        polylogarithmic working memory. The assumption
+        $\mathsf P \not\subseteq \mathsf{DSPACE}(\mathrm{polylog}\,n)$ says some
+        polynomial-time problems genuinely need more memory than that, which is what makes a
+        fixed-size recurrent state insufficient where a growing transcript is not.
+      </p>
+    </details>
+
     <p>
-      Two results bound the enthusiasm. Zhang (2026) proves a memory-budget separation,
+      Two results bound the enthusiasm. <a href="https://arxiv.org/abs/2605.30757">Zhang (2026)</a> proves a memory-budget separation,
       <em>under a standard complexity assumption</em> (the paper's simulation runs in
       $O(sdp + \log n + \log T)$ space, with the separation resting on
       $\mathsf P \not\subseteq \mathsf{DSPACE}(\mathrm{polylog}\, n)$): a
@@ -270,19 +348,34 @@
       Recurrence buys depth. It does not, in the compressed regime, buy memory. </p>
 
     <p>
-      Reddi et al. (2025) establish the positive counterpart for depth specifically:
+      <a href="https://arxiv.org/abs/2502.17416">Reddi et al. (2025)</a> establish the positive counterpart for depth specifically:
       $k$ layers looped $L$ times nearly matches $kL$ unlooped layers, so problems that are
       depth-bound rather than parameter-bound are exactly the ones loops help with.
     </p>
 
     <p>
-      On the empirical side, Zhu et al. (2025) prove a two-layer transformer with $D$ continuous
+      On the empirical side, <a href="https://arxiv.org/abs/2505.12514">Zhu et al. (2025)</a> prove a two-layer transformer with $D$ continuous
       steps solves directed graph reachability for diameter $D$ where the best known discrete
       construction needs $O(n^2)$ steps, and show the superposition that makes this work emerges
-      from training rather than being built in. Gozeten et al. (2025) quantify the parallelism as
+      from training rather than being built in. <a href="https://arxiv.org/abs/2505.23648">Gozeten et al. (2025)</a> quantify the parallelism as
       tracking several discrete traces at once, with a constructive one-layer solution to
       subset-sum.
     </p>
+
+    <details class="defn">
+      <summary>$\mathsf{FPTAS}$ and $\mathsf{FPRAS}$</summary>
+      <p>
+        Both are schemes that approximate a quantity to within any chosen relative error, in time
+        polynomial in the input and in one over that error. The difference is randomness: an
+        $\mathsf{FPTAS}$ is deterministic, while an $\mathsf{FPRAS}$ may use random bits and need
+        only succeed with high probability.
+      </p>
+      <p>
+        $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ says randomisation genuinely helps for
+        approximate counting. That is the assumption behind the claim that stochastic decoding gives
+        discrete chains something deterministic latent iteration cannot match.
+      </p>
+    </details>
 
     <h2>Expressivity versus learnability</h2>
 

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Routing</title>
+  <meta name="description" content="Routing on latent state in LLMs: per-token depth routers, mixture-of-experts gates, latent-versus-explicit action heads, cross-model routing, and probes used as live gates." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Routing</h1>
+    <p class="subtitle">Deciding what to compute next by reading the model&apos;s own state.</p>
+
+    <p class="lead">
+      A router is a small function that reads something and picks an action: which expert, how many
+      more loops, whether to stop, whether to emit a token or stay in latent space, which model
+      answers at all. What it reads varies more than the literature admits, and the difference
+      decides how much of this belongs on a page about latent reasoning.
+    </p>
+
+    <h2>The signal a router reads</h2>
+
+    <p>
+      Four tiers appear across the routing literature, and they are not equally latent.
+    </p>
+
+    <div class="table-wrap">
+      <table class="impl">
+        <thead>
+          <tr><th>Signal</th><th>Where it is used</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nowrap">Hidden state</td>
+            <td>Mixture-of-experts gates, early-exit classifiers, per-token depth routers, halting
+            heads, latent-versus-explicit action heads</td>
+            <td class="mode">Dominant inside a single forward pass, where it is the only signal
+            available.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Output logits</td>
+            <td>Cascades, speculative-decoding accept tests, confidence-gated escalation</td>
+            <td class="mode">Dominant across models, because it needs no access to internals.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Prompt text</td>
+            <td>RouteLLM, IRT-Router</td>
+            <td class="mode">Routes before generation begins.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Activations, across models</td>
+            <td>Prefill-activation routing, hidden-state speculative verification</td>
+            <td class="mode">Two confirmed papers, both 2026. Thin and unreplicated.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The pattern is worth stating plainly. Inside one model, routing on latent state is the only
+      option, so the real comparison is routing against no routing, and routing wins on the
+      compute-quality frontier. Across models, latent state is one option among several, and it is
+      the least used.
+    </p>
+
+    <h2>Depth routing inside one model</h2>
+
+    <p>
+      Mixture-of-Depths (<a href="https://arxiv.org/abs/2404.02258">Raposo et al. 2024</a>) introduced top-<em>k</em> token routing per layer:
+      selected tokens get that layer&apos;s full computation, the rest take a cheap residual skip.
+      Mixture-of-Recursions (<a href="https://arxiv.org/abs/2507.10524">Bae et al. 2025</a>) applies the same idea to a shared recursive stack, so
+      the router decides how many passes each token makes rather than which layers it visits.
+      T-LoopFormer (<a href="https://arxiv.org/abs/2609.15160">Yu et al. 2026</a>) routes loop-continue against loop-exit per token from the hidden
+      state, with recursion-wise key-value caching.
+    </p>
+
+    <p>
+      Confident Adaptive Language Modeling (<a href="https://arxiv.org/abs/2207.07061">Schuster et al. 2022</a>) is the antecedent for the
+      exit-classifier form, reporting up to threefold speedups with calibrated sequence-level
+      guarantees. A 2026 alternative dispenses with the learned gate entirely: halt a token&apos;s
+      recursion once successive loop outputs stop changing, measured by a divergence threshold,
+      giving a 38% average depth reduction at quality parity on a 135M model without training a
+      router at all.
+    </p>
+
+    <p>
+      Serving these models is a separate problem from designing them. Continuous depth batching
+      (<a href="https://arxiv.org/abs/2608.09444">Schwethelm et al. 2026</a>) reports 1.5 to 1.9 times higher offline throughput and 45 to 90%
+      lower latency for Ouro and Huginn under dynamic load, closing most of the gap between the
+      theoretical compute saving and what a batched server actually delivers.
+    </p>
+
+    <details class="defn">
+      <summary>Expert-choice routing</summary>
+      <p>
+        In the usual mixture-of-experts arrangement each token picks its top few experts, which
+        leaves expert load uneven and needs an auxiliary balancing loss. Expert-choice routing
+        inverts the direction: each expert takes its own top-$k$ tokens, so load is balanced by
+        construction.
+      </p>
+      <p>
+        The inversion is what makes the mechanism portable to depth. If an expert is a recursion
+        depth rather than a feedforward block, an expert-choice gate becomes a router deciding how
+        many passes each token gets.
+      </p>
+    </details>
+
+    <h2>Mixture-of-experts as latent routing</h2>
+
+    <p>
+      A mixture-of-experts gate reads the token&apos;s hidden state through a learned linear map and
+      softmaxes over experts. By the definition at the top of this page, that is latent routing, and
+      it is by far the most deployed instance of it.
+    </p>
+
+    <p>
+      Two 2026 results caution against reading much into what those routers decide. Wang, Hayou and
+      Nalisnick find that because the gate is linear, hidden-state similarity is necessary and
+      sufficient for routing similarity: expert overlap across models on the same question runs
+      around 60%, statistically indistinguishable from unrelated queries. Routing tracks geometry,
+      not domain expertise. Mohamud, Wagner and Ravanelli go further and show a fixed subspace of
+      the raw hidden state routes competitively with no learned gate at all.
+    </p>
+
+    <h4>The two literatures do not read each other</h4>
+    <p>
+      Three dedicated latent-reasoning surveys from 2025 cite no mixture-of-experts routing work.
+      The dedicated mixture-of-experts survey from the same year cites no latent reasoning, implicit
+      chain of thought, or looped transformers. Coconut and the looped-transformer theory paper do
+      not mention mixture-of-experts.
+    </p>
+
+    <p>
+      One paper bridges them. Mixture-of-Recursions repurposes expert-choice routing to select
+      recursion depth, stating that each recursion depth becomes an expert, and cites both bodies of
+      work by name. It is the field&apos;s only explicit statement that latent thinking depth and
+      expert choice are the same mathematical object.
+    </p>
+
+    <div class="caveat">
+      <p>
+        Two naming collisions will surface in any keyword search and belong in neither section.
+        Chain-of-Experts is about sequential communication between experts inside a layer, not chain
+        of thought. DeepSeek-V3&apos;s Multi-head Latent Attention uses <em>latent</em> for a
+        compressed key-value cache, unrelated to latent reasoning.
+      </p>
+    </div>
+
+    <h2>Routing between latent and explicit steps</h2>
+
+    <p>
+      This is the part of the routing literature closest to the rest of this site, and it is very
+      young. TARPO (<a href="https://arxiv.org/abs/2606.05859">Zhang et al. 2026</a>) attaches an action head that reads the current hidden state
+      at each generation step and samples a binary decision: emit a discrete token, or continue in
+      continuous latent space. HyLaR (<a href="https://arxiv.org/abs/2604.20328">Cheng et al. 2026</a>) does the multimodal version, interleaving
+      text generation with continuous visual latents to avoid the semantic collapse that
+      discretising an image causes, trained with separate trust-region constraints for the textual
+      and latent components.
+    </p>
+
+    <p>
+      Both appeared in 2026, within two months of each other. Neither reports numeric deltas in its
+      abstract. The dial between token space and latent space that the rest of this site describes
+      is, in these two papers, an actual learned decision rather than a design-time choice.
+    </p>
+
+    <h2>Routing between models</h2>
+
+    <p>
+      Cross-model routing is a large literature that mostly does not touch internal state. RouteLLM
+      routes on query text and embeddings. FrugalGPT cascades on a learned scorer over question and
+      answer text. Speculative decoding drafts from the target model&apos;s hidden features but
+      makes the accept decision on output token probabilities.
+    </p>
+
+    <p>
+      Two 2026 papers are the exceptions. An NVIDIA prefill-activation router extracts residual
+      stream activations before generation, reduces them by PCA, and predicts per-model correctness
+      with an MLP, closing 45.58% of the gap to an oracle at 74.31% cost saving against the most
+      expensive model, explicitly contrasted with text-only semantic routers. A second probes hidden
+      states rather than logits to assess whether a drafted sequence is semantically plausible,
+      reporting up to 2.7 times speedup.
+    </p>
+
+    <p>
+      No head-to-head comparison exists between activation-based cross-model routing and the
+      text-based or output-confidence alternatives on the same tasks. The claim that internal state
+      helps rests on one recent unreplicated result.
+    </p>
+
+    <h2>Probes as live gates</h2>
+
+    <p>
+      Most probing work reads internal state to analyse it. A smaller set uses the reading to decide
+      something while generation is still running, which is the case that matters here.
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2504.05419">Zhang et al. (2025)</a> probe reasoning-model hidden states to verify intermediate answers and
+      exit early, cutting inference tokens by 24% without compromising performance. <a href="https://arxiv.org/abs/2606.13603">Scalena et al.
+      (2026)</a> identify a commitment boundary, a single step after which further chain-of-thought is
+      causally inert, and early-exiting there shortens chains by up to 55% on average with
+      negligible performance impact. <a href="https://arxiv.org/abs/2606.10487">Shu et al. (2026)</a> run a single-layer probe token by token
+      during decoding as a streaming moderation gate at sub-millisecond cost per token.
+    </p>
+
+    <p>
+      Adaptive halting for latent reasoning is the same mechanism pointed at loop count. Ouro
+      computes an exit gate from the final-layer hidden state at each recurrent step under an
+      entropy-regularised objective that stops it collapsing to maximum depth. <a href="https://arxiv.org/abs/2511.21581">Ning, Kuo and Gomes
+      (2025)</a> train a linear stop head by reinforcement learning and report a 52% drop in total
+      reasoning length with no penalty to accuracy, though the abstract does not say which baseline
+      that comparison uses.
+    </p>
+
+    <p>
+      A diagnostic study of Ouro&apos;s gates found that fixed-depth trajectories with a simple
+      post-hoc confidence readout often match or beat the jointly trained gate, tracing the problem
+      to how trajectories form under joint training rather than to gate capacity. The compute
+      savings are real. The learned gate is not obviously the right way to get them.
+    </p>
+
+    <details class="defn">
+      <summary>AUROC</summary>
+      <p>
+        The probability that a randomly chosen positive example is scored above a randomly chosen
+        negative one. A value of 0.5 is chance and 1.0 is perfect separation.
+      </p>
+      <p>
+        It says nothing about performance at any particular operating threshold, which is what a
+        deployed gate actually needs. A probe at 0.99 AUROC can still be unusable if the false-
+        positive rate at a tolerable recall is too high.
+      </p>
+    </details>
+
+    <h2>Failure modes</h2>
+
+    <h4>Probes are brittle off-distribution</h4>
+    <p>
+      Deception probes reach AUROC at or above 0.998 on clean data and fall toward chance under
+      stylistic distribution shift, adversarial suffixes, or reinforcement learning against the
+      monitor. A single linear direction accounts for only 0.61 to 0.80 AUROC once the distribution
+      moves, so the underlying structure is a subspace rather than a direction.
+    </p>
+
+    <h4>Probes decay when the model is updated</h4>
+    <p>
+      Activation monitors trained on a base model survive quantisation but frequently become
+      unreliable after LoRA or QLoRA fine-tuning. A probe validated at deployment is not
+      automatically valid after the routine model-lifecycle operations that happen continuously in
+      production.
+    </p>
+
+    <h4>Much probe accuracy is surface reading</h4>
+    <p>
+      <a href="https://arxiv.org/abs/2509.21344">Boxó, Neelappa and Raval (2025)</a> filter out tokens carrying explicit textual evidence of the
+      target behaviour and probe performance drops by 10 to 30 AUROC points: sandbagging detection
+      falls from 0.94 to 0.57, bias detection from 0.74 to 0.57. Much of what looks like reading a
+      latent belief state is reading the same surface signal a text monitor would already have seen.
+      That bears directly on <a href="./monitorability.html">monitorability</a>, where
+      activation-level oversight is offered as the successor to reading the transcript. Part of its
+      apparent independence is illusory.
+    </p>
+
+    <h4>Latent routers can be optimised against</h4>
+    <p>
+      Optimising activations directly drives latent-space defences from 100% recall to zero while
+      retaining a 90% jailbreak success rate. Reinforcement learning against a latent monitor
+      teaches evasion that partially transfers to unseen monitors, with token-level probes far more
+      vulnerable than aggregated ones.
+    </p>
+
+    <div class="next-steps">
+      <p><em>Related.</em> The <a href="./families.html">families</a> page covers the architectures
+      these routers sit inside, <a href="./monitorability.html">monitorability</a> covers what
+      reading internal state buys for oversight, and the <a href="./map.html">map</a> marks the
+      citation gap between the mixture-of-experts and latent-reasoning literatures.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

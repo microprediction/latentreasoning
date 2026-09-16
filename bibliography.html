@@ -18,6 +18,7 @@
       <nav>
         <a href="./intro.html">Introduction</a>
         <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
@@ -710,6 +711,127 @@
           <em>Questions the standard explanation that recursion simply buys effective depth, noting
           that recursively added layers trail one-pass models of the same feed-forward
           capacity.</em>
+        </li>
+      </ul>
+
+      <h3>Routing and control on latent state</h3>
+      <ul>
+        <li>
+          Raposo, D., Ritter, S., Richards, B., Lillicrap, T., Humphreys, P. C., and Santoro, A.
+          (2024). <a href="https://arxiv.org/abs/2404.02258"><em>Mixture-of-Depths: Dynamically
+          Allocating Compute in Transformer-Based Language Models</em></a>. arXiv:2404.02258.
+          <em>Top-$k$ token routing per layer: selected tokens get the layer&apos;s full
+          computation, the rest take a cheap residual skip.</em>
+        </li>
+        <li>
+          Zhou, Y., Lei, T., Liu, H., Du, N., et al. (2022). &ldquo;Mixture-of-Experts with Expert
+          Choice Routing.&rdquo; <em>NeurIPS</em>.
+          <a href="https://arxiv.org/abs/2202.09368">arXiv:2202.09368</a>.
+          <em>Experts select their own top-$k$ tokens rather than tokens selecting experts, making
+          load balance deterministic. The mechanism Mixture-of-Recursions later repurposes to select
+          recursion depth.</em>
+        </li>
+        <li>
+          Wang, Y., Hayou, S., and Nalisnick, E. (2026).
+          <a href="https://arxiv.org/abs/2604.09780"><em>The Myth of Expert Specialization in MoEs:
+          Why Routing Reflects Geometry, Not Necessarily Domain Expertise</em></a>.
+          arXiv:2604.09780. <em>Because the gate is linear, hidden-state similarity is necessary and
+          sufficient for routing similarity. Expert overlap across models on the same question runs
+          near 60 per cent, statistically indistinguishable from unrelated queries.</em>
+        </li>
+        <li>
+          Mohamud, S., Wagner, N., and Ravanelli, M. (2026).
+          <a href="https://arxiv.org/abs/2604.00421"><em>Self-Routing: Parameter-Free Expert Routing
+          from Hidden States</em></a>. arXiv:2604.00421.
+          <em>A fixed subspace of the raw hidden state routes competitively with no learned gate at
+          all.</em>
+        </li>
+        <li>
+          Zhang, L., Zhao, S., Zhao, X., Xu, Y., Wang, Y., and Li, Y. (2026).
+          <a href="https://arxiv.org/abs/2606.05859"><em>TARPO: Token-Wise Latent-Explicit Reasoning
+          via Action-Routing Policy Optimization</em></a>. arXiv:2606.05859.
+          <em>An action head reads the hidden state at each step and samples a binary decision: emit
+          a discrete token, or continue in continuous latent space. The dial between token and
+          latent space, made a learned choice.</em>
+        </li>
+        <li>
+          Cheng, T., Chen, S.-Z., Zhang, H., Qin, J., Luo, P., and Wei, X. (2026).
+          <a href="https://arxiv.org/abs/2604.20328"><em>Hybrid Latent Reasoning with Decoupled
+          Policy Optimization</em></a>. arXiv:2604.20328.
+          <em>Interleaves discrete text with continuous visual latents for multimodal models,
+          trained with separate trust-region constraints for the two components.</em>
+        </li>
+        <li>
+          Zhang, A., Chen, Y., Pan, J., Zhao, C., Panda, A., Li, J., and He, H. (2025).
+          <a href="https://arxiv.org/abs/2504.05419"><em>Reasoning Models Know When They&apos;re
+          Right: Probing Hidden States for Self-Verification</em></a>. arXiv:2504.05419.
+          <em>A probe verifies intermediate answers and drives early exit, cutting inference tokens
+          by 24 per cent without compromising performance. One of the few probes used as a live gate
+          rather than as analysis.</em>
+        </li>
+        <li>
+          Scalena, D., Candussio, G., Bortolussi, L., Fersini, E., Nissim, M., and Sarti, G. (2026).
+          <a href="https://arxiv.org/abs/2606.13603"><em>Beyond the Commitment Boundary: Probing
+          Epiphenomenal Chain-of-Thought in Large Reasoning Models</em></a>. arXiv:2606.13603.
+          <em>Identifies a step after which further chain of thought is causally inert. Exiting
+          there shortens chains by up to 55 per cent on average with negligible performance
+          impact.</em>
+        </li>
+        <li>
+          Ning, A., Kuo, Y.-L., and Gomes, C. (2025).
+          <a href="https://arxiv.org/abs/2511.21581"><em>Learning When to Stop: Adaptive Latent
+          Reasoning via Reinforcement Learning</em></a>. arXiv:2511.21581.
+          <em>A linear stop head trained by reinforcement learning halts latent reasoning, reported
+          as a 52 per cent drop in reasoning length with no penalty to accuracy. The abstract does
+          not name the baseline for that comparison.</em>
+        </li>
+        <li>
+          Popescu, A., S&aacute;ez de Oc&aacute;riz Borde, H., and Li&ograve;, P. (2026).
+          <a href="https://arxiv.org/abs/2607.20519"><em>Adaptive Depth in Looped Transformers:
+          Diagnosing Learned Halting Gates and Trajectory Readouts</em></a>. arXiv:2607.20519.
+          <em>Fixed-depth trajectories with a simple post-hoc confidence readout often match or beat
+          Ouro&apos;s jointly trained halting gate, tracing the problem to trajectory formation
+          rather than to gate capacity.</em>
+        </li>
+        <li>
+          Varshney, N., Surla, S., Xu, W., Krishnan, A., Jeblick, K., Austin, D., Vaidya, A., and
+          Onofrio, M. (2026). <a href="https://arxiv.org/abs/2603.20895"><em>LLM Router: Rethinking
+          Routing with Prefill Activations</em></a>. arXiv:2603.20895.
+          <em>Extracts residual-stream activations before generation and predicts per-model
+          correctness, closing 45.58 per cent of the gap to an oracle at 74.31 per cent cost saving.
+          One of two confirmed cases of cross-model routing on internal state rather than prompt
+          text.</em>
+        </li>
+        <li>
+          Bailey, L., Serrano, A., Sheshadri, A., Seleznyov, M., Taylor, J., Jenner, E., Hilton, J.,
+          Casper, S., Guestrin, C., and Emmons, S. (2024).
+          <a href="https://arxiv.org/abs/2412.09565"><em>Obfuscated Activations Bypass LLM
+          Latent-Space Defenses</em></a>. arXiv:2412.09565.
+          <em>Optimising activations directly drives latent-space defences from 100 per cent recall
+          to zero while retaining a 90 per cent jailbreak success rate.</em>
+        </li>
+        <li>
+          Box&oacute;, E., Neelappa, A., and Raval, N. (2025).
+          <a href="https://arxiv.org/abs/2509.21344"><em>Linear probes rely on textual evidence:
+          Results from leakage mitigation studies in language models</em></a>. arXiv:2509.21344.
+          <em>Filtering out tokens carrying explicit textual evidence drops probe AUROC by 10 to 30
+          points, with sandbagging detection falling from 0.94 to 0.57. Much apparent activation
+          reading is surface reading, which bears on whether activation monitoring is an independent
+          channel.</em>
+        </li>
+        <li>
+          Kumar, S. (2026).
+          <a href="https://arxiv.org/abs/2605.27958"><em>Pressure-Testing Deception Probes in LLMs:
+          Scaling, Robustness, and the Geometry of Deceptive Representations</em></a>.
+          arXiv:2605.27958. <em>Clean-data AUROC at or above 0.998 collapses under stylistic shift,
+          and a single linear direction accounts for only 0.61 to 0.80 AUROC off-distribution.</em>
+        </li>
+        <li>
+          Duan, Y. (2026).
+          <a href="https://arxiv.org/abs/2606.15980"><em>Do Activation Monitors Survive Model
+          Updates? Benchmarking, Predicting, and Repairing Activation-Monitor Staleness</em></a>.
+          arXiv:2606.15980. <em>Monitors survive quantisation but frequently become unreliable after
+          LoRA or QLoRA fine-tuning.</em>
         </li>
       </ul>
 

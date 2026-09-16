@@ -18,6 +18,7 @@
       <nav>
         <a href="./intro.html">Introduction</a>
         <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
@@ -54,7 +55,7 @@
 
     <div class="review">
       <h3>Coconut <span class="verdict mixed">read both numbers</span></h3>
-      <p class="meta">Hao et al. (2024) &middot; <a href="https://arxiv.org/abs/2412.06769">arXiv:2412.06769</a></p>
+      <p class="meta"><a href="https://arxiv.org/abs/2412.06769">Hao et al. (2024)</a> &middot; <a href="https://arxiv.org/abs/2412.06769">arXiv:2412.06769</a></p>
       <p>
         The paper that defined the object, and it deserves that status: feeding the hidden state
         back instead of a token is the cleanest possible statement of what latent reasoning is, and
@@ -70,7 +71,7 @@
         useful work.
       </p>
       <p class="line">
-        <em>Holds up:</em> the mechanism. Zhu et al. Later proved a two-layer transformer
+        <em>Holds up:</em> the mechanism. Zhu et al. later proved a two-layer transformer
         with $D$ continuous steps solves graph reachability at diameter $D$ where the best discrete
         construction needs $O(n^2)$, and that the superposition emerges from training rather than
         being built in. <em>Does not:</em> any reading of this as a general improvement over
@@ -92,7 +93,7 @@
         The paper is also unusually honest about its own limits: the benefit only materialises under
         dense, task-specific supervision, and does not emerge from ordinary training. That
         qualification is what separates it from the weaker filler-token claims that followed, and
-        Vennam et al. Later confirmed the pessimistic reading for naive implementations.
+        Vennam et al. later confirmed the pessimistic reading for naive implementations.
       </p>
       <p class="line">
         <em>The reason it matters most:</em> filler tokens are a transcript that fully
@@ -112,7 +113,7 @@
         gains are modest but real: up to 2.48 points pass@1 with up to 22.4% fewer tokens.
       </p>
       <p>
-        The explanation did not hold. Wu et al. Showed the model overwhelmingly follows the single
+        The explanation did not hold. Wu et al. showed the model overwhelmingly follows the single
         highest-probability component of the mixture, so the method largely reduces to greedy
         decoding wearing a continuous costume. Their fix, inject noise to force the
         exploration the original claimed was already happening, is an elegant diagnosis, since
@@ -172,7 +173,7 @@
 
     <div class="review">
       <h3>Recurrent depth, and Huginn-0125 <span class="verdict shines">shines</span></h3>
-      <p class="meta">Geiping et al. (2025) &middot; <a href="https://arxiv.org/abs/2502.05171">arXiv:2502.05171</a></p>
+      <p class="meta"><a href="https://arxiv.org/abs/2502.05171">Geiping et al. (2025)</a> &middot; <a href="https://arxiv.org/abs/2502.05171">arXiv:2502.05171</a></p>
       <p>
         A 3.5B model over 800B tokens whose core block unrolls 4 to 64 times at test time, trained
         with no chain-of-thought data at all, and the weights, the eight intermediate
@@ -194,7 +195,7 @@
 
     <div class="review">
       <h3>SIM-CoT, and the instability nobody advertised <span class="verdict shines">shines</span></h3>
-      <p class="meta">Wei et al. (2025) &middot; <a href="https://arxiv.org/abs/2509.20317">arXiv:2509.20317</a></p>
+      <p class="meta"><a href="https://arxiv.org/abs/2509.20317">Wei et al. (2025)</a> &middot; <a href="https://arxiv.org/abs/2509.20317">arXiv:2509.20317</a></p>
       <p>
         Its contribution is less the method than the diagnosis. As latent reasoning tokens are added,
         the latent vectors homogenise, lose semantic diversity, and training collapses. This had been

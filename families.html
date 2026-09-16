@@ -18,6 +18,7 @@
       <nav>
         <a href="./intro.html">Introduction</a>
         <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
@@ -53,7 +54,7 @@
         pass must do the work that used to be spread over many.
       </p>
       <p>
-        Deng et al. (2023) do this by distilling a teacher's horizontal, token-by-token reasoning
+        <a href="https://arxiv.org/abs/2311.01460">Deng et al. (2023)</a> do this by distilling a teacher's horizontal, token-by-token reasoning
         into a student's vertical, layer-by-layer computation. The follow-up, stepwise
         internalisation (Deng, Choi &amp; Shieber 2024), drops the emulator and simply removes
         tokens on a schedule. It takes GPT-2 Small to 99% on nine-by-nine multiplication, a task
@@ -79,7 +80,7 @@
         On ProsQA, a synthetic DAG-shaped multi-hop task released with the paper, Coconut reaches 97.0% against 77.5% for explicit chain of thought at GPT-2 scale, and the
         continuous thought vectors turn out to encode a <em>frontier</em> of several candidate
         reasoning paths rather than a single committed one, giving breadth-first-like search.
-        Zhu et al. (2025) proved this is not an artifact: a two-layer transformer using $D$
+        <a href="https://arxiv.org/abs/2505.12514">Zhu et al. (2025)</a> proved this is not an artifact: a two-layer transformer using $D$
         continuous steps solves directed graph reachability where $D$ is the graph diameter, while
         the best known discrete construction needs $O(n^2)$ decoding steps.
       </p>
@@ -143,7 +144,7 @@
         2021), but the modern instances are language models trained this way from scratch.
       </p>
       <p>
-        Geiping et al. (2025) pretrained Huginn-0125: 3.5B parameters, 800B tokens, a
+        <a href="https://arxiv.org/abs/2502.05171">Geiping et al. (2025)</a> pretrained Huginn-0125: 3.5B parameters, 800B tokens, a
         prelude/recurrent-core/coda design whose core is unrolled between 4 and 64 times at test
         time, with no chain-of-thought training data at all. Ouro (Zhu et al. 2025) is the largest
         confirmed effort, at 1.4B and 2.6B parameters over 7.7T tokens, and reports that the gains
@@ -151,11 +152,11 @@
         </p>
       <p>
         Mixture-of-Recursions (Bae et al. 2025) routes each token to its own recursion depth.
-        McLeish et al. (2025) show recurrence can be retrofitted onto an already-pretrained model
+        <a href="https://arxiv.org/abs/2511.07384">McLeish et al. (2025)</a> show recurrence can be retrofitted onto an already-pretrained model
         by a depth curriculum rather than requiring a fresh pretrain.
       </p>
       <p>
-        Reddi et al. (2025) give the cleanest statement of why this works: a $k$-layer transformer
+        <a href="https://arxiv.org/abs/2502.17416">Reddi et al. (2025)</a> give the cleanest statement of why this works: a $k$-layer transformer
         looped $L$ times nearly matches a non-looped $kL$-layer model on reasoning tasks, so many
         reasoning problems are bound by depth rather than by parameters.
       </p>
@@ -169,16 +170,16 @@
         serial positions and computation, meaningless tokens should help too.
       </p>
       <p>
-        They help, conditionally. Pfau, Merrill &amp; Bowman (2024) show transformers solve two
+        They help, conditionally. <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> show transformers solve two
         algorithmic tasks unsolvable in a single pass using nothing but repeated dots, and
         characterise which problems admit the benefit via the quantifier depth of a first-order
         description, but learning to exploit fillers requires dense, task-specific
-        supervision and does not emerge from ordinary training. Goyal et al. (2024) get real
+        supervision and does not emerge from ordinary training. <a href="https://arxiv.org/abs/2310.02226">Goyal et al. (2024)</a> get real
         downstream gains from learnable pause tokens on a 1B model, including +18% exact match on
         SQuAD, but only when pause tokens appear in <em>both</em> pretraining and fine-tuning.
       </p>
       <p>
-        The negative result is equally important: Vennam et al. (2024) find naive thinking tokens
+        The negative result is equally important: <a href="https://arxiv.org/abs/2411.11371">Vennam et al. (2024)</a> find naive thinking tokens
         consistently underperform real chain of thought, because a single repeated embedding
         produces noisy gradients. Contentless tokens are a proof about expressivity, not a
         practical substitute.
@@ -216,10 +217,10 @@
     <h3>The superposition story does not hold everywhere</h3>
     <p>
       Soft Thinking (Zhang et al. 2025) replaces each token with a probability-weighted mixture
-      of embeddings, claiming parallel exploration. Wu et al. (2025) showed directly that the
+      of embeddings, claiming parallel exploration. <a href="https://arxiv.org/abs/2508.03440">Wu et al. (2025)</a> showed directly that the
       model overwhelmingly follows the single highest-probability component: the method
-      degenerates to greedy decoding unless noise is deliberately injected. Rizvi-Martel,
-      Rabusseau &amp; Mosbach (2026) sharpen this: genuine superposition shows up in models
+      degenerates to greedy decoding unless noise is deliberately injected. <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel,
+      Rabusseau &amp; Mosbach (2026)</a> sharpen this: genuine superposition shows up in models
       trained from scratch with continuous latent CoT, and largely collapses under the fine-tuning
       regimes most practitioners actually use. Superposition is a per-method property to be
       demonstrated, not a family-wide entitlement.
@@ -227,7 +228,7 @@
 
     <h3>More depth is not monotonically better</h3>
     <p>
-      Yang et al. (2026) document looped language model performance peaking at some recurrence
+      <a href="https://arxiv.org/abs/2605.26733">Yang et al. (2026)</a> document looped language model performance peaking at some recurrence
       depth and then <em>collapsing</em> with further looping, and propose spectral-radius
       regularisation as a fix. This bears directly on the "infinite depth" framing several
       surveys use.
@@ -235,7 +236,7 @@
 
     <h3>Prompted implicit reasoning is mostly shortcuts</h3>
     <p>
-      Yu (2024) finds that models merely <em>prompted</em> to reason implicitly barely compute
+      <a href="https://arxiv.org/abs/2411.15862">Yu (2024)</a> finds that models merely <em>prompted</em> to reason implicitly barely compute
       genuine intermediate steps and lean on memorised shortcuts; models specifically
       <em>trained</em> for implicit CoT do show evidence of real internal stepwise computation.
       Both are brittle to superficial reformatting. Claims that "the model is reasoning
@@ -244,7 +245,7 @@
 
     <h3>Accuracy may be a poor proxy, but the measurement is contested</h3>
     <p>
-      Sahoo et al. (2026) report that on Qwen2.5-Math-7B at 61% accuracy, 18.4% of correct
+      <a href="https://arxiv.org/abs/2603.03475">Sahoo et al. (2026)</a> report that on Qwen2.5-Math-7B at 61% accuracy, 18.4% of correct
       predictions use stable faithful reasoning while 81.6% &ldquo;emerge through computationally
       inconsistent pathways,&rdquo; with 8.8% silent failures and a weak negative correlation
       ($r = -0.21$) between reasoning quality and correctness.

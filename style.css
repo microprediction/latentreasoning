@@ -166,3 +166,20 @@ header.site-header .navdrop-menu a:hover { background: var(--accent-soft); text-
     background: transparent; border: none; box-shadow: none; padding: 0; }
   header.site-header .navdrop-menu a { color: #fff; opacity: 0.7; padding: 3px 0; font-size: 0.85rem; }
 }
+
+/* fold-out definitions */
+details.defn {
+  background: #fbfbfa; border-left: 3px solid var(--accent-soft);
+  border-radius: 0 6px 6px 0; margin: 12px 0 18px; padding: 0 16px;
+  font-size: 0.94rem;
+}
+details.defn > summary {
+  cursor: pointer; color: var(--accent); font-weight: 600;
+  font-size: 0.88rem; padding: 9px 0; list-style: none;
+}
+details.defn > summary::-webkit-details-marker { display: none; }
+details.defn > summary::before { content: "\25b8\00a0"; font-size: 0.85em; }
+details.defn[open] > summary::before { content: "\25be\00a0"; }
+details.defn[open] { border-left-color: var(--accent); }
+details.defn p { margin: 0 0 11px; color: var(--muted); }
+details.defn p:first-of-type { margin-top: 2px; }

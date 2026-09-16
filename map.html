@@ -27,6 +27,7 @@
       <nav>
         <a href="./intro.html">Introduction</a>
         <a href="./families.html">Families</a>
+        <a href="./routing.html">Routing</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
@@ -119,6 +120,17 @@
       characterisations, so the broad claim that the toolkits never meet was wrong. What has not
       been connected is the superposition-and-parallel-trace line of argument to either of them.
       <em>Confidence: moderate.</em>
+    </li>
+    <li>
+      The mixture-of-experts and latent-reasoning literatures do not read each other.
+      A mixture-of-experts gate reads a token&apos;s hidden state and picks an action, which is
+      latent routing by any definition, and it is the most deployed instance of it anywhere. Three
+      dedicated latent-reasoning surveys from 2025 cite no mixture-of-experts routing work, the
+      dedicated mixture-of-experts survey cites no latent reasoning or looped transformers, and the
+      flagship papers on each side do not mention each other.
+      <a href="https://arxiv.org/abs/2507.10524">Mixture-of-Recursions</a> is the single bridge,
+      repurposing expert-choice routing to select recursion depth and citing both.
+      <em>Confidence: high, checked by full-text search of the four surveys.</em>
     </li>
     <li>
       Weights-as-memory and cache-as-scratchpad have never been compared head to head.
@@ -262,6 +274,16 @@ const NODES = [
   note:"Lu et al. 2025. Attempts to decode whether a depth-recurrent model's iterations correspond to chain-of-thought-like steps. Interpretability aimed specifically at recurrent depth."},
  {id:"injective", c:"theory", label:"Injective and invertible", url:"https://arxiv.org/abs/2510.15511",
   note:"Nikolaou et al. 2025. The input-to-state map is almost surely injective (real-analytic activations, so not ReLU), letting the PROMPT be recovered from per-position activations. Says nothing about recovering reasoning, or about recovering anything from emitted text."},
+ {id:"moe", c:"adjacent", label:"MoE routing", url:"https://arxiv.org/abs/2202.09368",
+  note:"Expert-choice routing (Zhou et al. 2022) and the mixture-of-experts gate generally: a linear map on the token's hidden state selects experts. The most deployed instance of routing on latent state, and almost entirely disconnected from this literature."},
+ {id:"moespec", c:"adjacent", label:"\u22a5 Routing is geometry", url:"https://arxiv.org/abs/2604.09780",
+  note:"Wang, Hayou & Nalisnick 2026. Because the gate is linear, hidden-state similarity is necessary and sufficient for routing similarity. Expert overlap on the same question runs near 60%, indistinguishable from unrelated queries \u2014 routing tracks geometry, not reasoning semantics."},
+ {id:"tarpo", c:"latent", label:"Latent/explicit routing", url:"https://arxiv.org/abs/2606.05859",
+  note:"TARPO 2026. An action head reads the hidden state each step and decides: emit a token, or stay latent. The site's central dial, made a learned per-step decision."},
+ {id:"probegate", c:"monitor", label:"Probes as live gates", url:"https://arxiv.org/abs/2504.05419",
+  note:"Probes on hidden states verifying intermediate answers and driving early exit: 24% fewer inference tokens, and up to 55% shorter chains when exiting at the commitment boundary."},
+ {id:"probefail", c:"monitor", label:"\u22a5 Probes read the surface", url:"https://arxiv.org/abs/2509.21344",
+  note:"Box\u00f3, Neelappa & Raval 2025. Filter out tokens carrying explicit textual evidence and probe AUROC drops 10\u201330 points; sandbagging detection falls 0.94 to 0.57. Much activation monitoring is reading the same surface signal a text monitor sees."},
  {id:"survey", c:"adjacent", label:"Survey", url:"https://arxiv.org/abs/2507.06203",
   note:"Zhu et al. 2025, 33 authors. Splits the field into vertical recurrence (activation-based) and horizontal recurrence (hidden-state-based)."},
 
@@ -291,6 +313,14 @@ const LINKS = [
  {s:"stego", t:"korbak", k:"builds"}, {s:"korbak", t:"monmon", k:"builds"},
  {s:"korbak", t:"astra", k:"builds", lab:"anticipated"},
  {s:"survey", t:"coconut", k:"builds"},
+ {s:"moe", t:"mor", k:"builds", lab:"depth as expert"},
+ {s:"moespec", t:"moe", k:"rebut"},
+ {s:"tarpo", t:"hub", k:"end", lab:"the dial, learned"},
+ {s:"tarpo", t:"coconut", k:"builds"},
+ {s:"probegate", t:"huginn", k:"builds"},
+ {s:"probefail", t:"dots", k:"rebut", lab:"activations not independent"},
+ {s:"probefail", t:"korbak", k:"rebut"},
+ {s:"moe", t:"survey", k:"gap", lab:"two literatures, no citations"},
  {s:"bench", t:"coconut", k:"builds", lab:"measures internal inference"},
  {s:"decode", t:"huginn", k:"builds"},
  {s:"decode", t:"dilgren", k:"builds"},
