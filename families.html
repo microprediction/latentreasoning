@@ -234,12 +234,42 @@
         internally" need to say which of these two situations they are in.
       </p>
 
-      <h3>Correct answers via incoherent internal paths</h3>
+      <h3>Accuracy may be a poor proxy &mdash; but the measurement is contested</h3>
       <p>
-        Sahoo et al. (2026) report that on Qwen2.5-Math-7B, 81.6% of correct answers arrive through
-        computationally inconsistent pathways and 8.8% of predictions are confident silent
-        failures, with reasoning-quality metrics correlating weakly <em>negatively</em> with
-        correctness. Accuracy is a poor proxy for whether latent reasoning is doing what it says.
+        Sahoo et al. (2026) report that on Qwen2.5-Math-7B at 61% accuracy, 18.4% of correct
+        predictions use stable faithful reasoning while 81.6% &ldquo;emerge through computationally
+        inconsistent pathways,&rdquo; with 8.8% silent failures and a weak negative correlation
+        ($r = -0.21$) between reasoning quality and correctness.
+      </p>
+      <p>
+        <strong>Those figures should not be read as established failure rates</strong>, and this
+        page previously presented them that way. Three problems, raised by a reader and checked
+        here:
+      </p>
+      <ul>
+        <li>
+          The reported statistics are mutually inconsistent. A negative correlation with binary
+          correctness cannot coexist with a higher mean fidelity for correct examples than for
+          incorrect ones &mdash; $\mathrm{Cov}(F,Y) = p(1-p)\{E[F \mid Y{=}1] - E[F \mid
+          Y{=}0]\}$ is positive whenever the conditional means are ordered that way. Something has
+          been mislabelled, and which it is has not been established.
+        </li>
+        <li>
+          The headline rates are <em>definitions built on proxies</em>, not independent verification
+          of reasoning errors. &ldquo;Confident&rdquo; is an activation-consistency score above a
+          threshold, not a calibrated output probability, so a correct answer falling below that
+          threshold has not thereby been shown to be a guess.
+        </li>
+        <li>
+          Some of the underlying metrics are partly fixed by construction &mdash; a statistic
+          defined as the fraction of layers above their own median sits near one half whatever the
+          model does.
+        </li>
+      </ul>
+      <p class="muted">
+        The paper is worth keeping as a contested diagnostic proposal and a reminder that accuracy
+        alone tells you little. It is one model family and a few hundred GSM8K items, and it is not
+        evidence about depth-recurrent or continuous-feedback architectures generally.
       </p>
 
       <h3>The evidence base is small and synthetic</h3>

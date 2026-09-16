@@ -121,9 +121,14 @@
     </p>
 
     <p>
-      <strong>The efficiency claims hold up.</strong> Depth-recurrent and latent methods reliably
-      beat token-matched explicit chain of thought on accuracy per FLOP and on latency. Open weights
-      exist at 1.4B to 3.5B parameters. These are reproducible wins.
+      <strong>The efficiency claims mostly hold up, but "efficiency" needs splitting.</strong>
+      Depth-recurrent and latent methods beat token-matched explicit chain of thought on reported
+      accuracy per inference FLOP and on thought-phase latency, and open weights exist at 1.4B to
+      3.5B parameters. But parameter savings, training compute, inference compute and wall-clock
+      latency are four different ledgers, and a win in one is not a win in the others: the iso-depth
+      scaling study prices a recurrence at roughly $r^{0.46}$ equivalent unique parameters and finds
+      a <em>training</em>-compute cost to parameter sharing in its setup. Claims here should say
+      which ledger they are drawn on.
     </p>
 
     <p>

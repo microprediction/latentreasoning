@@ -43,9 +43,10 @@
   <h1>Latent reasoning: research directions</h1>
   <p>Each node is a paper or a hub concept. Colours are literatures; solid edges are real
   connections; <b style="color:#c0392b">dashed red edges are connections that do not yet exist</b>
-  &mdash; absences checked as of September 2026, which is to say the research agenda. Dotted purple
-  edges are direct rebuttals, which this field has an unusual number of. Click a node to open the
-  work; drag to rearrange; hover for the one-line story.</p>
+  &mdash; searched for and not found as of 16 September 2026, which is to say the research agenda. Dotted purple
+  edges are direct rebuttals, which this field has an unusual number of. Dashed edges are dated,
+  scoped search claims rather than proofs of absence, and are withdrawn when someone finds the
+  thing. Click a node to open the work; drag to rearrange; hover for the one-line story.</p>
   <div class="legend" id="cluster-legend"></div>
   <div class="legend">
     <span><span class="line" style="border-color:#999"></span> builds on / descends from</span>
@@ -60,18 +61,33 @@
 
   <h2>The gaps, spelled out</h2>
   <p>Dashed edges are claims about the literature, so they are stated here in full with a
-  confidence. An absence is only interesting if someone actually looked.</p>
+  confidence. An absence is only interesting if someone actually looked &mdash; and only honest if
+  it is withdrawn when someone finds the thing.</p>
+
+  <div class="caveat">
+    <p>
+      <strong>Four claimed gaps were withdrawn on 16 September 2026</strong> after a reader supplied
+      counterexamples, all of which checked out. A joint scaling law for looped models, a joint
+      treatment of padding and looping, reinforcement learning over latent diffusion with verifiable
+      rewards, and state-space operators inside a latent recursive scaffold all exist and now appear
+      on the map as real connections. What follows is a dated, scoped search claim &mdash; not a
+      proof of absence.
+    </p>
+  </div>
+
   <ol class="gaps">
     <li>
       <strong>Interpretability results have not reached the deployment question.</strong>
-      The finding that latent traces decode 65&ndash;93% of the time and the live controversy over a
-      production recurrent-depth model do not cite each other. Nobody has applied the decoding
-      methods to the deployed case. <em>Confidence: high. The most policy-relevant gap here.</em>
+      The finding that latent traces decode 65&ndash;93% of the time and the controversy over a
+      production model whose card records reduced monitorability do not cite each other. Nobody has
+      applied the decoding methods to the deployed case. <em>Confidence: high. The most
+      policy-relevant gap here.</em>
     </li>
     <li>
-      <strong>No independent measurement of monitorability loss for a recurrent-depth model.</strong>
-      A measurement suite for monitorability exists, and open recurrent-depth checkpoints exist.
-      Nobody has run the former on the latter. <em>Confidence: high.</em>
+      <strong>No independent measurement of monitorability loss.</strong>
+      OpenAI has published its own finding; it is self-reported, not run against a shared public
+      suite, and unreproduced. Open recurrent-depth checkpoints exist and such a suite exists;
+      nobody has run one on the other. <em>Confidence: high.</em>
     </li>
     <li>
       <strong>No purpose-built benchmark isolates genuine latent computation.</strong>
@@ -80,42 +96,45 @@
       for a shared instrument. <em>Confidence: high.</em>
     </li>
     <li>
-      <strong>No theory of credit assignment through recurrent latent states.</strong>
-      Standard policy-gradient objectives implicitly assume single-step decisions; the observation
-      that this mis-specifies reward for multi-step latent computation is recent and not broadly
-      replicated. There is nothing here resembling the credit-assignment literature for token-level
-      RLHF. <em>Confidence: medium-high, and likely to close within a year.</em>
+      <strong>Which auxiliary objective, and why.</strong>
+      <em>Revised.</em> This previously claimed that policy-gradient objectives assume single-step
+      decisions and so cannot train latent recurrence. That is false: for a differentiable
+      recurrence with gradients retained, a terminal reward's total derivative already includes
+      every unrolled update. What is true is narrower &mdash; standard objectives have
+      <em>empirically</em> underperformed on looped models, and the causes on offer (long Jacobian
+      products, sparse reward, truncation or detaching in implementations) are optimisation
+      problems, not invalidity. The open question is which auxiliary objectives and
+      truncation/halting choices actually improve gradient quality and compute efficiency under
+      controlled comparison. <em>Confidence: moderate, and now a question rather than an
+      absence.</em>
     </li>
     <li>
-      <strong>The two theoretical toolkits have no known reduction between them.</strong>
-      Contentless tokens are analysed with finite model theory and quantifier depth; continuous
-      thoughts with circuit-depth iteration and superposition arguments. They describe the same
-      phenomenon from two sides and do not meet. <em>Confidence: high.</em>
-    </li>
-    <li>
-      <strong>No scaling law for recurrent depth.</strong>
-      Nothing fits loss jointly against parameters, loop count and tokens, so there is no
-      compute-optimal allocation between widening the block and looping it more. Individual papers
-      report compute-equivalent curves; none generalises. <em>Confidence: high.</em>
+      <strong>The superposition arguments still stand apart.</strong>
+      <em>Narrowed.</em> Padding and looping are now analysed together with threshold-circuit
+      characterisations, so the broad claim that the toolkits never meet was wrong. What has not
+      been connected is the superposition-and-parallel-trace line of argument to either of them.
+      <em>Confidence: moderate.</em>
     </li>
     <li>
       <strong>Weights-as-memory and cache-as-scratchpad have never been compared head to head.</strong>
       Test-time training compresses context into weights; KV-cache distillation compresses it into
-      the cache. These are competing answers to where state lives during long-horizon reasoning, and
-      no paper evaluates them against each other on reasoning tasks. <em>Confidence: medium.</em>
+      the cache. No paper evaluates them against each other on reasoning tasks.
+      <em>Confidence: medium.</em>
     </li>
     <li>
-      <strong>State-space recurrence is not being used as the reasoning medium.</strong>
-      Essentially all of this work loops attention blocks. Treating a linear-recurrent state as the
-      latent reasoning substrate is barely explored, despite the efficiency properties that
-      motivated looping in the first place. <em>Confidence: medium.</em>
-    </li>
-    <li>
-      <strong>Latent reasoning in diffusion language models has not met verifiable-reward RL.</strong>
-      Both subfields are active; no work found combines them. <em>Confidence: medium &mdash; both
-      areas move fast enough that this may already be closing.</em>
+      <strong>State-space recursion is untested beyond tiny scale.</strong>
+      <em>Narrowed.</em> Mamba-2 hybrid operators have been placed inside a latent recursive
+      scaffold, so the blanket claim was false. But that work is ~7M parameters on abstract
+      reasoning tasks, and nothing establishes a linear-state model as the reasoning medium at
+      language-model scale. <em>Confidence: medium, for the narrowed claim only.</em>
     </li>
   </ol>
+
+  <p class="muted" style="font-size:0.9rem;">
+    Found a counterexample to any of these? That is the most useful possible contribution &mdash;
+    open an <a href="https://github.com/microprediction/latentreasoning/issues">issue</a>. The four
+    withdrawn above arrived that way.
+  </p>
 </div>
 <div id="tooltip"></div>
 
@@ -223,6 +242,16 @@ const NODES = [
   note:"2026. Naive policy-gradient RL fails on looped latent models because it rewards only the final latent state; proposes rewarding the whole trajectory."},
  {id:"ssm", c:"adjacent", label:"State-space recurrence",
   note:"Linear-recurrent architectures. Their recurrent state is an obvious candidate reasoning medium, and almost nobody has used it as one — the field looped attention instead."},
+ {id:"isodepth", c:"depth", label:"Iso-depth scaling law", url:"https://arxiv.org/abs/2604.21106",
+  note:"Schwethelm, Rueckert & Kaissis 2026. Fits a joint law L = E + A(N_once + r^φ N_rec)^-α + BD^-β across recurrence counts r ∈ {1,2,4,8} over ~50× in training compute, with φ ≈ 0.46 in the tested regime. This site previously listed such a law as nonexistent."},
+ {id:"padding", c:"theory", label:"Padding expressivity", url:"https://arxiv.org/abs/2505.18948",
+  note:"Merrill & Sabharwal 2025. Analyses padding and looping together, giving threshold-circuit characterisations under its architecture assumptions — connecting two toolkits this site had described as disjoint."},
+ {id:"logdepth", c:"theory", label:"Log-depth transformers", url:"https://arxiv.org/abs/2503.03961",
+  note:"Merrill & Sabharwal 2025. How far bounded depth suffices on short inputs, and what increasing depth buys — the closest thing to task-specific depth guidance the theory offers."},
+ {id:"ladirl", c:"adjacent", label:"LaDi-RL", url:"https://arxiv.org/abs/2602.01705",
+  note:"Kang et al. 2026. Reinforcement learning over latent diffusion reasoning, trained against verifiable rewards including unit-test pass rates and exact answer correctness."},
+ {id:"mamba", c:"adjacent", label:"Mamba-2 recursive reasoning", url:"https://arxiv.org/abs/2602.12078",
+  note:"Wang & Reid 2026. Puts Mamba-2 hybrid operators inside a latent recursive scaffold at ~7M parameters. Narrow in task and scale, but enough to falsify a blanket claim that state-space operators are unused here."},
  {id:"survey", c:"adjacent", label:"Survey", url:"https://arxiv.org/abs/2507.06203",
   note:"Zhu et al. 2025, 33 authors. Splits the field into vertical recurrence (activation-based) and horizontal recurrence (hidden-state-based)."},
 
@@ -251,7 +280,8 @@ const LINKS = [
  {s:"chen", t:"korbak", k:"builds"}, {s:"baker", t:"korbak", k:"builds"},
  {s:"stego", t:"korbak", k:"builds"}, {s:"korbak", t:"monmon", k:"builds"},
  {s:"korbak", t:"astra", k:"builds", lab:"anticipated"},
- {s:"survey", t:"coconut", k:"builds"}, {s:"survey", t:"huginn", k:"builds"},
+ {s:"survey", t:"coconut", k:"builds"},
+ {s:"isodepth", t:"huginn", k:"builds"}, {s:"survey", t:"huginn", k:"builds"},
  {s:"rltt", t:"ouro", k:"builds"}, {s:"kava", t:"coconut", k:"builds"},
 
  // the dial
@@ -275,12 +305,18 @@ const LINKS = [
  // GAPS
  {s:"dilgren", t:"astra", k:"gap", lab:"never applied to the deployed case"},
  {s:"monmon", t:"huginn", k:"gap", lab:"never measured on open loops"},
- {s:"filler", t:"superth", k:"gap", lab:"no reduction between toolkits"},
- {s:"rltt", t:"cotvlatent", k:"gap", lab:"no credit-assignment theory"},
- {s:"reddi", t:"ouro", k:"gap", lab:"no scaling law for depth"},
+ {s:"padding", t:"filler", k:"builds"},
+ {s:"logdepth", t:"tc0", k:"builds"},
+ {s:"padding", t:"cotexp", k:"builds"},
+ {s:"padding", t:"superth", k:"gap", lab:"superposition side still separate"},
+ {s:"rltt", t:"cotvlatent", k:"gap", lab:"which auxiliary objective, and why"},
+ {s:"isodepth", t:"ouro", k:"builds", lab:"one recurrence, priced"},
+ {s:"isodepth", t:"reddi", k:"builds"},
  {s:"kava", t:"huginn", k:"gap", lab:"cache vs weights, never compared"},
- {s:"ssm", t:"hub", k:"gap", lab:"recurrent state unused as medium"},
- {s:"ladir", t:"rltt", k:"gap", lab:"diffusion latents × verifiable RL"},
+ {s:"mamba", t:"ssm", k:"builds"},
+ {s:"ssm", t:"hub", k:"gap", lab:"untested beyond tiny scale"},
+ {s:"ladir", t:"ladirl", k:"builds"},
+ {s:"ladirl", t:"rltt", k:"builds", lab:"verifiable reward on latents"},
  {s:"coconut", t:"monmon", k:"gap", lab:"no benchmark isolates latent compute"},
 ];
 

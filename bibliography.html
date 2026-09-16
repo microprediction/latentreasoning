@@ -445,9 +445,13 @@
           Sahoo, S., Chadha, A., Jain, V., and Chaudhary, D. (2026).
           <a href="https://arxiv.org/abs/2603.03475"><em>When Shallow Wins: Silent Failures and the
           Depth-Accuracy Paradox in Latent Reasoning</em></a>. arXiv:2603.03475.
-          <em>81.6% of correct answers arrive via computationally inconsistent pathways and 8.8% of
-          predictions are confident silent failures, with reasoning-quality metrics correlating
-          weakly negatively with correctness.</em>
+          <em>Reports 18.4% of correct predictions as stable and faithful against 81.6%
+          &ldquo;computationally inconsistent&rdquo;, 8.8% silent failures, and $r = -0.21$ between
+          reasoning quality and correctness. <strong>Treat as a contested diagnostic proposal.</strong>
+          The reported correlation is hard to reconcile with the conditional means given alongside
+          it, and the headline rates are threshold-based operational definitions rather than
+          independent verification of reasoning errors &mdash; see
+          <a href="./families.html">families</a>.</em>
         </li>
         <li>
           Yang, R., Han, S., Zhang, Y., Wei, C., Shao, Y., et al. (2026).
@@ -574,6 +578,43 @@
         </li>
       </ul>
 
+      <h3>Scaling, padding and depth</h3>
+      <ul>
+        <li>
+          Schwethelm, K., Rueckert, D., and Kaissis, G. (2026).
+          <a href="https://arxiv.org/abs/2604.21106"><em>How Much Is One Recurrence Worth? Iso-Depth
+          Scaling Laws for Looped Language Models</em></a>. arXiv:2604.21106.
+          <em>Prices a recurrence in equivalent unique parameters, fitting
+          $L = E + A(N_{\text{once}} + r^{\varphi} N_{\text{rec}})^{-\alpha} + BD^{-\beta}$ across
+          $r \in \{1,2,4,8\}$ and roughly fifty-fold in training compute, with
+          $\varphi \approx 0.46$ in the tested regime. This site previously listed such a law as
+          not existing.</em>
+        </li>
+        <li>
+          Merrill, W., and Sabharwal, A. (2025).
+          <a href="https://arxiv.org/abs/2505.18948"><em>Exact Expressive Power of Transformers with
+          Padding</em></a>. arXiv:2505.18948.
+          <em>Padding as an alternative to chain of thought that avoids sequential decoding, with
+          padding and looping analysed together under stated architecture assumptions.</em>
+        </li>
+        <li>
+          Merrill, W., and Sabharwal, A. (2025).
+          <a href="https://arxiv.org/abs/2503.03961"><em>A Little Depth Goes a Long Way: The
+          Expressive Power of Log-Depth Transformers</em></a>. arXiv:2503.03961.
+          <em>Constant depth is the wrong idealisation for short inputs: how far bounded depth
+          suffices, and what growing it buys. The nearest thing the theory offers to task-specific
+          depth guidance.</em>
+        </li>
+        <li>
+          Wierstra, D., F&ouml;rster, A., Peters, J., and Schmidhuber, J. (2009). &ldquo;Recurrent
+          Policy Gradients.&rdquo;
+          <a href="https://people.idsia.ch/~juergen/joa2009.pdf">PDF</a>.
+          <em>Trains recurrent policies by return-weighted backpropagation. Cited here because it
+          long predates, and contradicts, the claim that policy gradients cannot carry credit
+          through a recurrence.</em>
+        </li>
+      </ul>
+
       <h3>Surveys and adjacent work</h3>
       <ul>
         <li>
@@ -619,13 +660,31 @@
           <em>Continuous latent representation combined with iterative diffusion refinement.</em>
         </li>
         <li>
+          Kang, H., Zhang, W., Kuang, K., Ma, X., and Qin, C. (2026).
+          <a href="https://arxiv.org/abs/2602.01705"><em>LaDi-RL: Latent Diffusion Reasoning Prevents
+          Entropy Collapse in Reinforcement Learning</em></a>. arXiv:2602.01705.
+          <em>Reinforcement learning over latent diffusion reasoning against verifiable rewards,
+          including unit-test pass rates and exact answer correctness.</em>
+        </li>
+        <li>
+          Wang, T., and Reid, M. (2026).
+          <a href="https://arxiv.org/abs/2602.12078"><em>Tiny Recursive Reasoning with Mamba-2
+          Attention Hybrid</em></a>. arXiv:2602.12078.
+          <em>Mamba-2 hybrid operators inside a latent recursive scaffold at roughly 7M parameters.
+          Narrow in scale and task, but the operator question is being asked.</em>
+        </li>
+        <li>
           Williams, M., and T&uuml;reci, H. E. (2026).
           <a href="https://arxiv.org/abs/2602.10520"><em>Prioritize the Process, Not Just the
           Outcome: Rewarding Latent Thought Trajectories Improves Reasoning in Looped Language
           Models</em></a>. arXiv:2602.10520.
-          <em>Documents that standard policy-gradient RL fails on looped latent models because it
-          rewards only the final latent state, and rewards the whole trajectory instead. Among the
-          first to name the credit-assignment problem for latent recurrence.</em>
+          <em>Reports that standard objectives such as GRPO have underperformed on looped models
+          and that per-loop auxiliary credit helps. Note what this does and does not show: the
+          paper&apos;s own account has the terminal signal backpropagating through the latent
+          refinements, so this is an <strong>optimisation</strong> finding, not a demonstration that
+          policy gradients cannot train recurrence. For a differentiable recurrence with gradients
+          retained, a terminal reward&apos;s total derivative already includes every unrolled
+          update.</em>
         </li>
       </ul>
 
