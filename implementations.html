@@ -39,16 +39,22 @@
     <p class="subtitle">What you can actually run. Repository statistics verified September 2026.</p>
 
     <p class="lead">
-      Latent reasoning is research code, with one exception. The method-specific repositories are
-      self-contained academic releases at GPT-2 to 8B scale, without packaging and frequently
-      pinned to a stale dependency snapshot. Most reproduce their paper's numbers. None is
-      something to add to a serving stack.
+      The method-specific repositories are research code: self-contained academic releases at GPT-2
+      to 8B scale, without packaging and frequently pinned to a stale dependency snapshot. Most
+      reproduce their paper's numbers. None is something to add to a serving stack.
+    </p>
+
+    <p>
+      The open weights are a different matter, and the gap between the two has widened. Ouro and
+      Nanbeige4.2-3B both load through standard tooling, and the latter was trained on 28T tokens
+      and shipped as a general agentic model rather than as a demonstration. Depth recurrence has
+      left the lab even though the methods around it have not.
     </p>
 
     <h2>Open model checkpoints</h2>
 
     <p>
-      Two families of open weights exist that reason by depth recurrence.
+      Three sets of open weights reason by depth recurrence.
     </p>
 
     <div class="table-wrap">
