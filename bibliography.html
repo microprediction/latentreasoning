@@ -487,8 +487,12 @@
           <a href="https://arxiv.org/abs/2310.18512"><em>Preventing Language Models From Hiding
           Their Reasoning</em></a>. arXiv:2310.18512.
           <em>A fine-tuned model embeds reasoning steganographically in innocuous text &mdash; 80%
-          opinion-matching against 54% without the hidden channel. Context-aware paraphrasing is
-          argued to cut hidden capacity below about 3 bits per kilobyte.</em>
+          opinion-matching against 54% without the hidden channel. Context-aware paraphrasing
+          plus penalties for abnormal generations held estimated rates below about 3 bits per kilobyte
+          across the schemes tested, on one instruction and one maths dataset. That estimate assumes
+          a message is either transmitted perfectly or scrambled entirely, which the authors note
+          underestimates capacity, so it bounds the tested encoders from below rather than covert
+          capacity from above.</em>
         </li>
         <li>
           Yang, S., Gribovskaya, E., Kassner, N., Geva, M., and Riedel, S. (2024). &ldquo;Do Large

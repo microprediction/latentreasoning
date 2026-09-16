@@ -170,9 +170,23 @@
       innocuous text. Roger &amp; Greenblatt (2023) fine-tuned GPT-3.5-Turbo to embed intermediate
       reasoning steganographically in ordinary-looking output: it expressed opinions matching the
       user's stated beliefs 80% of the time with the hidden channel against 54% without. They also
-      show a defence &mdash; context-aware paraphrasing of the chain of thought &mdash; that they
-      argue pushes hidden-channel capacity below about 3 bits per kilobyte, which would make the
-      technique useless as a covert channel if deployed.
+      test a defence: context-aware paraphrasing of the chain of thought, combined with penalties
+      for abnormal generations. Across the encoding schemes they built, on one instruction dataset
+      and one maths dataset, it held estimated hidden-information rates below roughly 3 bits per
+      kilobyte of text.
+    </p>
+
+    <p>
+      Two qualifications travel with that number. It is an estimate for the schemes tested, obtained
+      by modelling the channel as one that either transmits a message perfectly or scrambles it
+      entirely, an assumption the authors note &ldquo;will underestimate the actual capacity.&rdquo;
+      It therefore bounds the tested encoders from below rather than bounding covert capacity from
+      above. And a low rate is not a closed channel. One reliably transmitted bit per kilobyte still
+      carries a binary decision, and repeated use carries more. Their own evaluation-aware acronym
+      scheme pushed about two bits through the paraphraser while incurring no suspiciousness
+      penalty. The authors put the conclusion as encoded reasoning being &ldquo;mostly
+      useless&rdquo; under the conditions tested, with transfer to code or scientific text left
+      open.
     </p>
 
     <p>
