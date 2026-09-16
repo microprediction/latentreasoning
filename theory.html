@@ -137,25 +137,38 @@
         <tr>
           <td class="nowrap">$T = O(\log n)$</td>
           <td>Only marginally beyond the no-CoT baseline.</td>
-          <td class="mode">&mdash;</td>
+          <td class="mode">Upper bound only, with no matching lower bound.</td>
         </tr>
         <tr>
           <td class="nowrap">$T = O(n)$</td>
-          <td>Recognises all regular languages; upper-bounded by context-sensitive.</td>
-          <td class="mode">Requires a projected pre-norm architecture.</td>
+          <td>Recognises all regular languages. Upper-bounded by context-sensitive.</td>
+          <td class="mode">Projected pre-norm, strict causal saturated attention.</td>
         </tr>
         <tr>
           <td class="nowrap">$T = \mathrm{poly}(n)$</td>
           <td>Exactly $\mathsf P$: as powerful as polynomial-time Turing machines.</td>
-          <td class="mode">Requires a generalised pre-norm architecture.</td>
+          <td class="mode">Projected pre-norm, strict causal attention. Stated as an equality,
+          the first for a transformer variant.</td>
         </tr>
       </tbody>
     </table>
 
     <p>
       The poly case is the first exact characterisation of a transformer variant by a standard
-      complexity class. The caveats decide the result. These are theorems about particular
-      normalisation variants, not about whatever architecture a lab happens to ship.
+      complexity class. The caveats decide the result, and they are architectural rather than
+      incidental. Both constructions assume <em>projected pre-norm</em>, a normalisation variant
+      introduced to make them work, and <em>saturated</em> attention, in which every attention score
+      is either zero or $1/v$. That is idealised averaging hard attention, not the softmax any
+      deployed model uses.
+    </p>
+
+    <p>
+      Two corrections to how this result is often relayed, including on earlier versions of this
+      page. The tiers are not distinguished by normalisation: the headline theorems for both the
+      linear and the polynomial case are stated for projected pre-norm, with <em>multi-pre-norm</em>
+      appearing as a shared proof device that projected pre-norm can simulate. And the log tier is
+      an upper bound only, $\mathsf{CoT}(O(\log n)) \subseteq \mathsf L$, with no matching lower
+      bound.
     </p>
 
     <p>
@@ -343,8 +356,11 @@
       $\mathsf P \not\subseteq \mathsf{DSPACE}(\mathrm{polylog}\, n)$): a
       <em>compressed</em>-state looped transformer, carrying polylogarithmic persistent memory with
       a bounded iteration counter, cannot decide problems $\mathsf P$-complete under logspace
-      reductions that polynomial-length chain of thought can. The paper explicitly distinguishes
-      these from <em>full sequence-state</em> loops carrying $ndp$ bits, which are not covered.
+      reductions that polynomial-length chain of thought can. The bound is explicitly narrow. It does
+      not cover full sequence-state loops carrying $ndp$ bits, loops with appended scratch
+      positions, stochastic decoding, or any architecture whose persistent state grows with the
+      context, and the author describes the accompanying experiments as finite-size probes of the
+      state-budget effect rather than tests of the asymptotic theorem.
       Recurrence buys depth. It does not, in the compressed regime, buy memory. </p>
 
     <p>

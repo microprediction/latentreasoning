@@ -175,7 +175,7 @@ const NODES = [
  {id:"tc0", c:"theory", label:"TC⁰ bound", url:"https://arxiv.org/abs/2207.00729",
   note:"Merrill & Sabharwal 2023. One forward pass of a log-precision transformer lies in logspace-uniform TC⁰. An asymptotic bound on polynomial-size families over growing inputs — not a verdict on any finite benchmark instance."},
  {id:"cotexp", c:"theory", label:"CoT expressivity", url:"https://arxiv.org/abs/2310.07923",
-  note:"Merrill & Sabharwal 2024. Expressivity climbs with CoT length: log — marginal; linear — all regular languages; polynomial — exactly P, under specific pre-norm assumptions."},
+  note:"Merrill & Sabharwal 2024. Expressivity climbs with CoT length: log — marginal; linear — all regular languages; polynomial — exactly P. Both constructions assume projected pre-norm and SATURATED attention (every score 0 or 1/v), not softmax."},
  {id:"serial", c:"theory", label:"CoT ⇒ serial computation", url:"https://arxiv.org/abs/2402.12875",
   note:"Li, Liu, Zhou & Ma 2024. No CoT at constant precision confines you to AC⁰; T steps of CoT simulate circuits of size O(T). Intermediate tokens are computation slots, not reasoning."},
  {id:"pauseth", c:"theory", label:"Pause tokens = AC⁰", url:"https://arxiv.org/abs/2505.21024",

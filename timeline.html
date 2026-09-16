@@ -77,7 +77,7 @@ const EVENTS = [
  {d:"2023-10", lane:"theory", label:"Pause tokens", url:"https://arxiv.org/abs/2310.02226",
   note:"Goyal et al. Learnable pause tokens delay answer extraction and buy computation. +18% EM on SQuAD at 1B — but only when pauses appear in BOTH pretraining and fine-tuning."},
  {d:"2023-10", lane:"theory", label:"CoT expressivity", url:"https://arxiv.org/abs/2310.07923",
-  note:"Merrill–Sabharwal. Expressivity grows with CoT length: O(log n) barely helps, O(n) reaches all regular languages, poly(n) is exactly P — each under specific pre-norm assumptions."},
+  note:"Merrill–Sabharwal. Expressivity grows with CoT length: O(log n) barely helps, O(n) reaches all regular languages, poly(n) is exactly P — assuming projected pre-norm and saturated rather than softmax attention."},
  {d:"2024-02", lane:"theory", label:"CoT ⇒ serial", url:"https://arxiv.org/abs/2402.12875",
   note:"Li, Liu, Zhou & Ma. Without CoT and at constant precision, expressivity is confined to AC⁰; T steps of CoT let the same model simulate circuits of size O(T). Tokens are computation slots."},
  {d:"2024-04", lane:"theory", label:"Filler tokens", big:true, url:"https://arxiv.org/abs/2404.15758",
