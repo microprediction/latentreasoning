@@ -125,9 +125,25 @@
         construction.
       </p>
       <p>
+        That balance belongs to a selector that is not causal. Ranking tokens jointly against a
+        fixed capacity compares the current token&apos;s score against scores for tokens later in
+        the sequence, which do not exist yet at autoregressive inference.
+        <a href="https://arxiv.org/abs/2507.10524">Mixture-of-Recursions</a> calls this information
+        leakage and a &ldquo;violation of causality during training.&rdquo; Its Table 2 sets
+        expert-choice&apos;s static compute budget against exactly that defect, where token-choice
+        trades no leakage for load imbalance.
+      </p>
+      <p>
+        The top-$k$ oracle is unavailable at inference, so the deployed router approximates it:
+        an auxiliary router or an auxiliary loss trained to predict whether a token would have been
+        selected. Mixture-of-Recursions measures how well the approximation holds, reporting
+        sampling accuracy alongside a dead-token ratio that exposes positional bias.
+      </p>
+      <p>
         The inversion is what makes the mechanism portable to depth. If an expert is a recursion
         depth rather than a feedforward block, an expert-choice gate becomes a router deciding how
-        many passes each token gets.
+        many passes each token gets. What travels is the allocation idea. The guaranteed balance
+        belongs to the noncausal training selector rather than to the deployed per-token decision.
       </p>
       <p>
         It also has a consequence for what a transcript determines. When experts select tokens, a
@@ -143,7 +159,7 @@
 
     <p>
       A mixture-of-experts gate reads the token&apos;s hidden state through a learned linear map and
-      softmaxes over experts. By the definition at the top of this page, that is latent routing, and
+      softmaxes over experts. By the definition above, that is latent routing, and
       it is by far the most deployed instance of it.
     </p>
 

@@ -111,7 +111,7 @@
     </p>
 
     <p>
-      Read together, the honest framing is not "we are about to lose a working safety mechanism"
+      Taken together, the honest framing is not "we are about to lose a working safety mechanism"
       but "we are about to lose a partially working, already-degrading one."
     </p>
 
@@ -208,8 +208,9 @@
     <p class="muted">
       Two instruments arrived alongside the attacks.
       <a href="https://arxiv.org/abs/2502.14829">Tutek et al. (2025)</a> measure faithfulness by
-      unlearning an individual reasoning step and testing whether the model&apos;s beliefs depended
-      on it, which is causal rather than behavioural. <a href="https://arxiv.org/abs/2603.28590">
+      erasing content associated with an individual reasoning step from the parameters and testing
+      whether the direct answer changes. That is a parameter intervention rather than a context
+      perturbation, and the authors read the resulting rate as a lower bound on true faithfulness. <a href="https://arxiv.org/abs/2603.28590">
       MonitorBench</a> offers 1,514 instances across 19 tasks, a candidate for the shared
       instrument this area has lacked.
     </p>
@@ -362,7 +363,7 @@
     </p>
 
     <p>
-      One sentence in the card cuts against the reading this page had been giving it. OpenAI states
+      One sentence in the card cuts against the architectural reading. OpenAI states
       it is &ldquo;quite confident that changes in CoT controllability are not differentially due to
       any architectural changes,&rdquo; and that the changes instead &ldquo;are correlated with the
       increase in no-CoT capabilities.&rdquo; So the card does not merely decline to name an

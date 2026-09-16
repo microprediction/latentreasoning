@@ -42,7 +42,7 @@
     
 
     <p>
-      Take a decoder-only language model, and let $f$ be the forward pass that maps a sequence of
+      One takes a decoder-only language model, with $f$ the forward pass that maps a sequence of
       input embeddings to the final-layer hidden state at the last position, $W$ the unembedding
       matrix, and $E$ the embedding table. Autoregressive decoding is then the loop
     </p>
@@ -124,7 +124,7 @@
       different mechanism: under a hard capacity factor, tokens arriving at a full expert are
       dropped, at reported over-capacity ratios of 20 to 40 per cent. For these models the token
       prefix fixes the computation only once the batch is also fixed, which is a condition nobody
-      controls in deployment. See <a href="./routing.html">routing</a>.
+      controls in deployment. The <a href="./routing.html">routing</a> page has the detail.
 
     </p>
 

@@ -7,8 +7,8 @@ committed here is world-readable once pushed. Treat every file as published.
 
 ## HARD RULE 1 — Never look outside this repository
 
-This project has **no permission to read, list, open, search, or reference anything outside
-`/Users/petercotton/github/latentreasoning`.**
+This project has **no permission to read, list, open, search, or reference anything outside the
+root directory of this repository** (the directory containing this file).
 
 - No `ls`, `cat`, `grep`, `find`, `Read`, or `Glob` targeting a parent, sibling, or home directory.
 - No reading other repositories, projects, notes, or scratch directories on this machine.

@@ -661,7 +661,7 @@
           activations, which excludes ReLU. The recovery algorithm needs all per-position states at
           a layer; doing it from the final embedding alone is possible in principle and left open in
           practice. This concerns <em>recovering the prompt from accessible activations</em>: not recovering intermediate reasoning, and not recovering anything from the
-          model&apos;s emitted text. Note also that the theorem is real-valued: a $d$-coordinate
+          model&apos;s emitted text. The theorem is also real-valued: a $d$-coordinate
           representation at $p$ bits per coordinate has at most $2^{dp}$ states, so injectivity over
           all length-$K$ prompts fails by counting once $|V|^K > 2^{dp}$.</em>
         </li>
@@ -861,8 +861,8 @@
           arXiv:2506.21734. <em>Two small recurrent modules at different frequencies, a slow
           planning loop and a fast detail loop, reported to beat chain-of-thought LLMs on Sudoku,
           maze and ARC-AGI-style puzzles at 27M parameters on roughly a thousand examples.
-          Recursion in continuous state with no emitted intermediate tokens, three orders of
-          magnitude below the recurrent-depth language models.</em>
+          Recursion in continuous state with no emitted intermediate tokens, roughly two orders of
+          magnitude below the 2.6&ndash;3.5B recurrent-depth language models.</em>
         </li>
         <li>
           Jolicoeur-Martineau, A. (2025).
@@ -877,7 +877,7 @@
           Guessing? A Mechanistic Analysis of Hierarchical Reasoning Models</em></a>.
           arXiv:2601.10679. <em>Probes the architecture and finds it fails on trivially simple
           puzzles while appearing to rely on pattern matching rather than the hierarchical process
-          claimed for it. Read next to the two above rather than after them.</em>
+          claimed for it. This belongs next to the two above rather than after them.</em>
         </li>
       </ul>
 
@@ -967,7 +967,7 @@
           <a href="https://arxiv.org/abs/2604.12946"><em>Parcae: Scaling Laws For Stable Looped
           Language Models</em></a>. arXiv:2604.12946.
           <em>A scaling-law study for looped models together with a recipe addressing training
-          instability. Read alongside the iso-depth law above.</em>
+          instability. This sits alongside the iso-depth law above.</em>
         </li>
         <li>
           Tan, W., Li, J., Ju, J., et al. (2025).
@@ -1035,13 +1035,15 @@
           <em>Illegibility arrives without anyone training for it.</em>
         </li>
         <li>
-          Tutek, M., Hashemi Chaleshtori, F., Maraso vi&cacute;, A., and Belinkov, Y. (2025).
+          Tutek, M., Hashemi Chaleshtori, F., Marasovi&cacute;, A., and Belinkov, Y. (2025).
           &ldquo;Measuring Chain of Thought Faithfulness by Unlearning Reasoning Steps.&rdquo;
           <em>EMNLP, Outstanding Paper</em>.
           <a href="https://arxiv.org/abs/2502.14829">arXiv:2502.14829</a>.
-          <em>Unlearns an individual reasoning step and tests whether the model&apos;s parametric
-          beliefs actually depended on it. A causal faithfulness measure rather than a behavioural
-          proxy.</em>
+          <em>Erases content associated with an individual reasoning step from the model&apos;s
+          parameters and measures the change in its direct answer, subject to efficacy and
+          specificity controls. The authors name the construct parametric faithfulness, distinguish
+          it from perturbing the context, and read <code>ff-hard</code> as a lower bound rather than
+          evidence that the emitted step mediated the original answer.</em>
         </li>
         <li>
           Hase, P., and Potts, C. (2026). &ldquo;Counterfactual Simulation Training for

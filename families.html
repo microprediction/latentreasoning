@@ -115,7 +115,7 @@
     <div class="family">
       <h3>3. Compression into latent tokens <span class="tag">many tokens &rarr; few vectors</span></h3>
       <p>
-        Rather than removing the intermediate representation, shrink it. A rationale that would
+        Rather than removing the intermediate representation, one shrinks it. A rationale that would
         have taken hundreds of tokens is encoded into a handful of dense vectors, called
         contemplation tokens, gist tokens, or thinking tokens depending on the paper, and
         the original text is discarded.
@@ -226,13 +226,17 @@
       </p>
       <p>
         Two things make this relevant here rather than a separate curiosity. The mechanism is
-        recursion in a continuous state with no emitted intermediate tokens, which is the definition
-        used throughout this page. And the scale is three orders of magnitude below the models in
-        the recurrent-depth family, which makes the claim that depth rather than parameters carries
-        reasoning harder to dismiss as a scaling artefact.
+        recursion in a continuous state with no emitted intermediate tokens, matching the definition
+        above. And the scale sits far below the recurrent-depth language models: HRM&apos;s 27M
+        parameters are about 96&times; smaller than Ouro at 2.6B and 130&times; smaller than Huginn
+        at 3.5B, and TRM&apos;s 7M about 370&ndash;500&times; smaller &mdash; two to nearly three
+        orders of magnitude, depending on which pair one takes. The systems differ in architecture,
+        training regime, data and task, so the ratio does not isolate depth as the cause. What it
+        supports is narrower: small recurrent networks report strong results on these puzzle
+        benchmarks.
       </p>
       <p class="muted">
-        Read with the mechanistic critique. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
+        A mechanistic critique cuts against it. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
         al. (2026)</a> probe HRM and find it fails on trivially simple puzzles and appears to rely
         on pattern matching rather than the hierarchical process claimed for it. The architecture
         works on the benchmarks. What it is doing to get there is contested.
@@ -296,9 +300,8 @@
       ($r = -0.21$) between reasoning quality and correctness.
     </p>
     <p>
-      Those figures should not be read as established failure rates, and this
-      page previously presented them that way. Three problems, raised by a reader and checked
-      here:
+      Those figures should not be read as established failure rates. Three problems, raised by a
+      reader and checked here:
     </p>
     <ul>
       <li>
