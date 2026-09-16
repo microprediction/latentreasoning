@@ -233,6 +233,14 @@
     </p>
 
     <p>
+      One negative result belongs here, from the same system card. OpenAI states that
+      &ldquo;current evaluations indicate Astra is not able to perform steganographic CoT reasoning
+      (i.e. concealing loadbearing hidden reasoning within ordinary and unrelated text).&rdquo; The
+      capability documented below in laboratory conditions has not been observed in the frontier
+      model whose monitorability decline prompted the concern.
+    </p>
+
+    <p>
       <a href="https://arxiv.org/abs/2410.03768">Mathew et al. (2024)</a> report the more troubling version: steganographic collusion between
       agents emerging from ordinary mis-specified RL incentives rather than deliberate training,
       and robust to passive output monitoring and to paraphrase-based mitigation. <a href="https://arxiv.org/abs/2505.03439">Karpov et al.
@@ -260,9 +268,10 @@
       </li>
       <li>
         &ldquo;Simply informing the model that a CoT monitor is present can result in the model
-        disproportionately shortening its CoT.&rdquo; This is the obfuscation dynamic
-        that Baker et al. had to <em>induce</em> by optimising against a monitor, now appearing
-        from mere awareness of one.
+        disproportionately shortening its CoT.&rdquo; Read in context: the section it sits in
+        concerns <em>instructed</em> evasion, reporting that Astra evades monitors better when told
+        to and can strategically sandbag when prompted. The shortening under mere awareness is the
+        weaker of the two observations and is not evidence of spontaneous obfuscation.
       </li>
       <li>
         With reasoning disabled, &ldquo;the set of tasks Astra is able to accomplish without the
@@ -316,10 +325,22 @@
     </p>
 
     <p>
-      The structural point survives whatever the details turn out to be. Recurrent-depth
-      architectures are attractive for efficiency reasons that have nothing to do with oversight,
-      and the legible trace disappears as a side effect rather than by anyone deciding to remove it.
-      That is precisely the scenario Korbak et al. named a year earlier.
+      One sentence in the card cuts against the reading this page had been giving it. OpenAI states
+      it is &ldquo;quite confident that changes in CoT controllability are not differentially due to
+      any architectural changes,&rdquo; and that the changes instead &ldquo;are correlated with the
+      increase in no-CoT capabilities.&rdquo; So the card does not merely decline to name an
+      architecture. It actively disputes the architectural explanation, attributing the loss to the
+      model getting better at working without a chain of thought at all.
+    </p>
+
+    <p>
+      That is worth sitting with, because it points somewhere less convenient than the tidy story.
+      If monitorability degrades because models are becoming capable of doing more without
+      externalising it, then no architectural restraint recovers the trace, and the efficiency
+      pressure the position paper worried about is not the mechanism. The structural concern
+      survives in a different form: the legible trace erodes as a by-product of capability rather
+      than of design, which is harder to hold back and harder to attribute to anyone&apos;s
+      decision.
     </p>
 
     <p>
@@ -362,11 +383,12 @@
         benchmarks, not open-domain or agentic tasks.
       </li>
       <li>
-        No <em>independent</em> measurement of monitorability loss. OpenAI has now
-        published its own finding for Astra, which is a real advance on nothing. But it is
-        self-reported, not run against a shared public benchmark such as the suite in <a href="https://arxiv.org/abs/2512.18311">Guan et al.
-        (2025)</a>, and no outside party has reproduced it. Open recurrent-depth checkpoints exist and
-        that suite exists. Nobody has run one on the other.
+        No measurement against a shared public benchmark. This gap has been narrowed after a
+        closer reading of the card, which carries a section of external monitorability evaluation by
+        the UK AI Security Institute. &ldquo;No outside party has looked&rdquo; was wrong. What
+        survives is that the evaluations use instruments chosen by the evaluators rather than a
+        common benchmark applied across models, and that open recurrent-depth checkpoints have not
+        been run through the same suite, so cross-model comparison remains unavailable.
       </li>
       <li>
         <em>No consensus metric for monitorability.</em> <a href="https://arxiv.org/abs/2512.18311">Guan et al. (2025)</a> and the several
