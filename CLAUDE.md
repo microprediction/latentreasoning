@@ -81,6 +81,15 @@ Prose follows `microprediction/style`. The rules that bite most often here:
 - **No significance announcements** — "the key point is", "what matters here is", "the
   interesting thing is", "worth noting". Put the two facts side by side and let the contrast work.
 - **No reading instructions** — "this is where I explain X". Trust the title.
+- **Never talk down to the reader.** "spelled out", "in full", "to be clear", "put simply",
+  "in other words", "needless to say" all assume the reader needs help they do not need. State the
+  thing once.
+- **No padding.** Sentences that announce what the next sentence will do ("what follows is…",
+  "the argument runs as follows", "it is worth quoting this because…", "that is worth sitting
+  with") carry no content. Delete them and start with the content.
+- **Headings name what the section contains.** Not the act of presenting it ("The gaps, spelled
+  out"), not a flourish ("One forward pass is weak, and provably so"), not a question. Keep them
+  under about sixty characters, and never repeat the page title as a heading inside the page.
 - **No self-referential writing about the artifact.** The reader does not care about the page, the
   site, the bibliography or the section. Never write "the families below", "this page says what to
   make of it", "each entry does X", "what follows is", "the argument below is set out so that".

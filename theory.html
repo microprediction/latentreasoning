@@ -45,7 +45,7 @@
       discrete one rests on one sharp theorem, and that theorem is conditional.
     </p>
 
-    <h2>One forward pass is weak, and provably so</h2>
+    <h2>The bound on a single forward pass</h2>
 
     <p>
       <a href="https://arxiv.org/abs/2207.00729">Merrill &amp; Sabharwal (2023)</a> show that a log-precision transformer, poly-size, with
@@ -116,7 +116,7 @@
       </p>
     </details>
 
-    <h2>Serial steps buy computation, gradually</h2>
+    <h2>Serial steps and circuit size</h2>
 
     <p>
     Chain of thought converts token count into a serial computation budget. Li et al. state it
@@ -126,8 +126,7 @@
     </p>
 
     <p>
-    <a href="https://arxiv.org/abs/2310.07923">Merrill &amp; Sabharwal (2024)</a> give the graded version, and it is worth quoting the shape of
-    it precisely because the intermediate cases are the interesting ones:
+    <a href="https://arxiv.org/abs/2310.07923">Merrill &amp; Sabharwal (2024)</a> give the graded version. The intermediate cases carry the content:
     </p>
 
     <div class="table-wrap">
@@ -188,7 +187,7 @@
       not an unconditional size-blowup result.
     </p>
 
-    <h2>Contentless tokens, made rigorous</h2>
+    <h2>Contentless tokens</h2>
 
     <p>
       If the theory says intermediate tokens are computation slots, then slots with no content

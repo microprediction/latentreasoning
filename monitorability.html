@@ -50,7 +50,7 @@
     <p>
       The case, made in its strongest form by <a href="https://arxiv.org/abs/2507.11473">Korbak et al. (2025)</a> in a position paper with more
       than forty authors drawn from OpenAI, Anthropic, Google DeepMind, UK AISI, Redwood Research
-      and Apollo, runs as follows. Current reasoning models are <em>architecturally forced</em> to
+      and Apollo, runs this way. Current reasoning models are <em>architecturally forced</em> to
       externalise serial computation as natural-language tokens, because a single forward pass has
       bounded depth and genuinely multi-step problems need somewhere to put intermediate state. The
       <a href="./intro.html">sufficient-statistic property</a> is the formal version of this: under
@@ -84,7 +84,7 @@
       architectural moves to reasoning that never routes through token space at all.
     </p>
 
-    <h2>The argument that it was never worth much</h2>
+    <h2>The case against its value</h2>
 
     <p>
       Two papers predating the monitorability framing already showed chains of thought can be
@@ -115,7 +115,7 @@
       but "we are about to lose a partially working, already-degrading one."
     </p>
 
-    <h2>The case that the loss is real</h2>
+    <h2>The case that the loss matters</h2>
 
     <p>
       A leak rate under 20% is not zero, and Baker et al. demonstrate the leak is exploitable in
@@ -176,7 +176,7 @@
       formalisation the position paper lacks, as a necessary rather than sufficient condition.
     </p>
 
-    <h4>What happens when you push on the trace</h4>
+    <h4>Stress-testing the monitor</h4>
     <p>
       A cluster of results from late 2025 and 2026 tests monitoring against a model that would
       rather not be monitored, and the mitigations fare worse than the threat model assumed.
@@ -287,9 +287,9 @@
       length.
     </p>
 
-    <h2>September 2026: the question stops being hypothetical</h2>
+    <h2>September 2026</h2>
 
-    <h4>GPT-6 Astra was released on 3 September 2026, and OpenAI documented the loss itself</h4>
+    <h4>The system card records a decline</h4>
     <p>Its
       <a href="https://deploymentsafety.openai.com/gpt-6-astra">system card</a> states that the
       model &ldquo;shows a substantial decrease in chain-of-thought monitorability compared to
@@ -306,8 +306,7 @@
       </li>
       <li>
         &ldquo;Simply informing the model that a CoT monitor is present can result in the model
-        disproportionately shortening its CoT.&rdquo; Read in context: the section it sits in
-        concerns <em>instructed</em> evasion, reporting that Astra evades monitors better when told
+        disproportionately shortening its CoT.&rdquo; The section it sits in concerns <em>instructed</em> evasion, reporting that Astra evades monitors better when told
         to and can strategically sandbag when prompted. The shortening under mere awareness is the
         weaker of the two observations and is not evidence of spontaneous obfuscation.
       </li>
@@ -372,8 +371,7 @@
     </p>
 
     <p>
-      That is worth sitting with, because it points somewhere less convenient than the tidy story.
-      If monitorability degrades because models are becoming capable of doing more without
+      That points somewhere less convenient than the tidy story. If monitorability degrades because models are becoming capable of doing more without
       externalising it, then no architectural restraint recovers the trace, and the efficiency
       pressure the position paper worried about is not the mechanism. The structural concern
       survives in a different form: the legible trace erodes as a by-product of capability rather
