@@ -638,10 +638,16 @@
           Nikolaou, G., Mencattini, T., Crisostomi, D., and Santilli, A. (2025).
           <a href="https://arxiv.org/abs/2510.15511"><em>Language Models are Injective and Hence
           Invertible</em></a>. arXiv:2510.15511.
-          <em>Proves that transformer language models mapping discrete input sequences to their
-          representations are injective, so the input is exactly recoverable from the
-          representation, despite non-injective components such as activations and normalisation.
-          Bears directly on what a hidden state does and does not conceal.</em>
+          <em>The input-to-state map is almost surely injective, at initialisation and after any
+          finite number of gradient steps, so distinct prompts give distinct last-token
+          representations despite non-injective activations and normalisation. Assumes real-analytic
+          activations, which excludes ReLU. The recovery algorithm needs all per-position states at
+          a layer; doing it from the final embedding alone is possible in principle and left open in
+          practice. This concerns <strong>recovering the prompt from accessible activations</strong>
+          &mdash; not recovering intermediate reasoning, and not recovering anything from the
+          model&apos;s emitted text. Note also that the theorem is real-valued: a $d$-coordinate
+          representation at $p$ bits per coordinate has at most $2^{dp}$ states, so injectivity over
+          all length-$K$ prompts fails by counting once $|V|^K > 2^{dp}$.</em>
         </li>
         <li>
           Yang, Z., Li, J., Xia, H., and Hu, X. (2025).

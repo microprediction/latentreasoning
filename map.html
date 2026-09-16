@@ -261,7 +261,7 @@ const NODES = [
  {id:"decode", c:"monitor", label:"Decoding depth-recurrence", url:"https://arxiv.org/abs/2507.02199",
   note:"Lu et al. 2025. Attempts to decode whether a depth-recurrent model's iterations correspond to chain-of-thought-like steps. Interpretability aimed specifically at recurrent depth."},
  {id:"injective", c:"theory", label:"Injective and invertible", url:"https://arxiv.org/abs/2510.15511",
-  note:"Nikolaou et al. 2025. Transformer LMs mapping discrete sequences to representations are injective, so the input is exactly recoverable from the representation — despite non-injective activations and normalisation."},
+  note:"Nikolaou et al. 2025. The input-to-state map is almost surely injective (real-analytic activations, so not ReLU), letting the PROMPT be recovered from per-position activations. Says nothing about recovering reasoning, or about recovering anything from emitted text."},
  {id:"survey", c:"adjacent", label:"Survey", url:"https://arxiv.org/abs/2507.06203",
   note:"Zhu et al. 2025, 33 authors. Splits the field into vertical recurrence (activation-based) and horizontal recurrence (hidden-state-based)."},
 
@@ -294,7 +294,7 @@ const LINKS = [
  {s:"bench", t:"coconut", k:"builds", lab:"measures internal inference"},
  {s:"decode", t:"huginn", k:"builds"},
  {s:"decode", t:"dilgren", k:"builds"},
- {s:"injective", t:"hub", k:"builds", lab:"state determines input"},
+ {s:"injective", t:"hub", k:"builds", lab:"prompt recoverable from activations"},
  {s:"isodepth", t:"huginn", k:"builds"}, {s:"survey", t:"huginn", k:"builds"},
  {s:"rltt", t:"ouro", k:"builds"}, {s:"kava", t:"coconut", k:"builds"},
 
