@@ -100,7 +100,7 @@
       identity, yet each new position still attends over the whole retained cache and adds
       computation. What bounds that computation is the decoder's layer-and-position dependency
       graph, not the size of the vocabulary. Contentless padding buys parallel workspace at fixed
-      depth. it does not buy unbounded serial depth.
+      depth. It does not buy unbounded serial depth.
     </p>
 
     <h3>Three claims worth keeping apart</h3>
@@ -223,7 +223,7 @@
     <p>
       <strong>Bandwidth.</strong> A reasoning step that must be rounded to a token cannot carry a
       probability distribution, a partial ordering, or a superposition of candidate answers to the
-      next step. it must commit. A continuous state can carry all of them, so search that would
+      next step. It must commit. A continuous state can carry all of them, so search that would
       require backtracking in token space can in principle proceed in parallel. This is the
       argument that continuous thoughts encode a frontier rather than a path, and it is the one
       with the most direct empirical support.

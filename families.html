@@ -54,7 +54,7 @@
         Deng et al. (2023) do this by distilling a teacher's horizontal, token-by-token reasoning
         into a student's vertical, layer-by-layer computation. The follow-up, stepwise
         internalisation (Deng, Choi &amp; Shieber 2024), drops the emulator and simply removes
-        tokens on a schedule. it takes GPT-2 Small to 99% on nine-by-nine multiplication, a task
+        tokens on a schedule. It takes GPT-2 Small to 99% on nine-by-nine multiplication, a task
         the same model cannot learn to do in one pass without the curriculum, and Mistral-7B past
         50% on GSM8K with nothing emitted between question and answer.
       </p>
@@ -85,7 +85,7 @@
       <p>
         <strong>The same paper's other number matters as much.</strong> On GSM8K, Coconut gets
         34.1% against 42.9% for explicit chain of thought. The gains are concentrated on search and
-        planning. on arithmetic the method loses. No account of this family is honest without both
+        planning. On arithmetic the method loses. No account of this family is honest without both
         numbers.
       </p>
       <p>
@@ -112,7 +112,7 @@
       <p>
         CCoT (Cheng &amp; Van Durme 2024) generates variable-length dense representations as a
         drop-in replacement for the rationale on off-the-shelf decoders, with a tunable compression
-        ratio. at a ratio of 0.10 it buys roughly nine accuracy points over emitting nothing while
+        ratio. At a ratio of 0.10 it buys roughly nine accuracy points over emitting nothing while
         adding about 0.4s of generation against 8.1s for the full decode. LightThinker (Zhang et al.
         2025) compresses during generation and evicts the original tokens from context using
         specialised attention masks. Heima (Shen et al. 2025) does the multimodal version and pairs
@@ -121,7 +121,7 @@
         student and finding CoT-bearing caches highly redundant.
       </p>
       <p class="muted">
-        Note what the interpreters in Heima and the auxiliary decoder in SIM-CoT concede: the
+        The interpreters in Heima and the auxiliary decoder in SIM-CoT concede something: the
         compression loses the auditable trace, and the authors build machinery to buy some of it
         back.
       </p>
