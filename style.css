@@ -22,15 +22,16 @@ a:hover { text-decoration: underline; }
 
 header.site-header {
   background: var(--ink); color: #fff;
-  padding: 14px 24px; border-bottom: 1px solid #07141b;
+  padding: 12px 24px; border-bottom: 1px solid #07141b;
+  line-height: 1.5;
 }
 header.site-header .nav-inner {
   max-width: 880px; margin: 0 auto;
-  display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+  display: flex; gap: 6px 18px; align-items: baseline; flex-wrap: wrap;
 }
 header.site-header .brand { font-weight: 600; font-size: 1.1rem; color: #fff; letter-spacing: -0.01em; }
-header.site-header nav { display: flex; flex-wrap: wrap; gap: 0 18px; }
-header.site-header nav a { color: #fff; opacity: 0.82; font-size: 0.95rem; }
+header.site-header nav { display: flex; flex-wrap: wrap; gap: 6px 16px; row-gap: 6px; }
+header.site-header nav a { color: #fff; opacity: 0.82; font-size: 0.92rem; white-space: nowrap; }
 header.site-header nav a:hover { opacity: 1; }
 
 main { max-width: 880px; margin: 32px auto; padding: 0 24px 60px; }
