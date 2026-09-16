@@ -98,13 +98,14 @@
         <text x="390" y="208" text-anchor="middle" font-size="10.5" fill="#9a9a9a">largely unexplored</text>
 
         <!-- legibility annotation -->
-        <text x="124" y="236" text-anchor="middle" font-size="10.5" fill="#b03a2e">legible, monitorable</text>
-        <text x="656" y="236" text-anchor="middle" font-size="10.5" fill="#b03a2e">opaque, unmonitored</text>
+        <text x="124" y="236" text-anchor="middle" font-size="10.5" fill="#b03a2e">written down</text>
+        <text x="656" y="236" text-anchor="middle" font-size="10.5" fill="#b03a2e">not written down</text>
         <line x1="205" y1="232" x2="575" y2="232" stroke="#f0d6d2" stroke-width="1.5" stroke-dasharray="4 3"/>
       </svg>
       <p class="caption">
-        One axis: how many bits of each reasoning step survive to the transcript. A convenient way
-        to arrange the work below: not a claim that the field organises itself this way.
+        One axis: how many bits of each reasoning step survive to the transcript. Whether what
+        survives can be <em>read</em> is a separate question the axis does not settle, taken up in
+        the <a href="./intro.html">introduction</a>.
       </p>
     </div>
 
@@ -116,8 +117,8 @@
     <h2>The state of play, September 2026</h2>
 
     <p>
-      Fifteen months separate the naming of continuous thought from four dedicated survey papers
-      and a production controversy. That velocity is itself evidence the question is real. Whether
+      Twenty-one months separate the naming of continuous thought in December 2024 from a
+      production controversy, with four dedicated surveys arriving along the way. That velocity is itself evidence the question is real. Whether
       the answer has arrived is a different matter, and it depends on which claim is being made.
     </p>
 
@@ -136,8 +137,13 @@
       reasoning paths at once rather than committing to one. That mechanism is proven for a specific
       construction and demonstrated in models trained from scratch. It was also shown not to occur
       in one prominent method that claimed it, and shown to collapse under the fine-tuning regimes
-      practitioners actually use. Recurrent depth does not scale monotonically either: performance
-      peaks and then falls with further looping.
+      practitioners actually use. Recurrent depth does not scale monotonically either. Looped performance can
+      peak and then fall with further iterations
+      (<a href="https://arxiv.org/abs/2605.26733">Yang et al. 2026</a>), and extra steps can move in
+      the right direction by the wrong distance
+      (<a href="https://arxiv.org/abs/2609.16665">Guo et al. 2026</a>). Huginn improves
+      monotonically out to 64 iterations, so this describes some looped models rather than
+      recurrence as such.
     </p>
 
     <h4>Continuous and discrete steps separate, conditionally</h4>

@@ -78,7 +78,7 @@
             <td class="nowrap">3B non-embed<br><span class="mode">28T tokens</span></td>
             <td>A general agentic model built on a looped transformer that reuses its layer stack
             for extra depth without extra parameters, trained on 28T tokens and released with open
-            weights. Two orders of magnitude more training than Huginn and roughly four times Ouro,
+            weights. Roughly thirty-five times the training tokens of Huginn and about four times Ouro,
             and the first case here of a looped architecture shipped as a general-purpose product
             rather than as a research artefact. An independent
             <a href="https://arxiv.org/abs/2608.13987">deployment report</a> documents five bugs
@@ -166,8 +166,9 @@
             <td><a href="https://github.com/xuyige/SoftCoT">xuyige/SoftCoT</a></td>
             <td>SoftCoT and SoftCoT++<br><span class="mode">arXiv:2502.12134, 2505.11484</span></td>
             <td class="nowrap">95 &middot; 2025-05</td>
-            <td>Training scripts, GSM8K preprocessing, checkpoints. No explicit license despite
-            being public: check before reuse.</td>
+            <td>Training scripts, GSM8K preprocessing, checkpoints. NTU/NTUITIVE dual licence,
+            <em>non-commercial use only</em>: commercial use, licensing, leasing and selling are
+            expressly forbidden, and redistribution is restricted.</td>
           </tr>
           <tr>
             <td><a href="https://github.com/JacobPfau/fillerTokens">JacobPfau/fillerTokens</a></td>
@@ -219,8 +220,9 @@
         independent reproduction paper.
       </li>
       <li>
-        <em>Loop the Loopies!</em> (arXiv:2607.16051): the largest looped model
-        reported, with no public code or checkpoint.
+        <em>Loop the Loopies!</em> (arXiv:2607.16051): the largest looped model reported by total
+        parameters, at 20B total and 2B active, so smaller than Huginn&apos;s 3.5B dense by active
+        count. No public code or checkpoint.
       </li>
     </ul>
 
@@ -297,7 +299,7 @@
       deferring to the repository&apos;s custom code, with Ouro-1.4B and 2.6B listed in the
       supported-model table. vLLM
       <a href="https://github.com/vllm-project/vllm/pull/49786">removed it</a> on 25 July 2026,
-      giving three reasons: the model was about a year old and superseded, it saw &ldquo;very little
+      giving three reasons: the model was about a year old and superseded by Plamo3, it saw &ldquo;very little
       usage in vLLM,&rdquo; and it had been marked for deletion.
     </p>
 

@@ -63,8 +63,9 @@
       carry hidden serial state across many steps without routing it through the visible channel.
       Whether what it routes there is readable is a separate, empirical question, and the measured
       answer is often that it is not. A model
-      carrying a hidden intermediate result across many serial steps has roughly seventeen bits per
-      step of token-space channel to do it in, and must otherwise re-derive the result inside each
+      carrying a hidden intermediate result across many serial steps has, by the
+      <a href="./intro.html">alphabet-capacity bound</a> $H(x_t) \leq \log_2|V|$, roughly seventeen
+      bits per step of token-space channel to do it in, and must otherwise re-derive the result inside each
       forward pass.
     </p>
 
@@ -93,7 +94,8 @@
       failing to mention the biasing feature in their stated reasoning. <a href="https://arxiv.org/abs/2307.13702">Lanham et al. (2023)</a>
       introduced interventional metrics, truncation, inserted mistakes, paraphrasing, filler
       substitution, and found models often reach the same answer regardless of what the
-      chain of thought says, with faithfulness not straightforwardly improving with scale.
+      chain of thought says. The scale finding is stronger than a null result: as models become larger
+      and more capable they produce <em>less</em> faithful reasoning on most tasks studied.
     </p>
 
     <p>
@@ -140,8 +142,10 @@
     <p>
       Two findings extend the faithfulness results beyond planted hints.
       <a href="https://arxiv.org/abs/2503.08679">Arcuschin et al. (2025)</a> show unfaithful chains
-      arise on natural, non-adversarial prompts, through illogical shortcuts and silent restoration
-      of a biased answer, so the phenomenon is not an artefact of injecting a cue.
+      arise on natural, non-adversarial prompts. Their two named categories are implicit post-hoc
+      rationalisation, where a model builds a superficially coherent argument for answers driven by
+      an implicit bias, and unfaithful illogical shortcuts, where subtly flawed reasoning makes a
+      speculative answer look proven. The phenomenon is not an artefact of injecting a cue.
       <a href="https://arxiv.org/abs/2603.05488">Boppana et al. (2026)</a> report what they call
       performative chain of thought on DeepSeek-R1 and GPT-OSS-120B: the model becomes internally
       confident in an answer and carries on emitting tokens that do not reveal that belief.
@@ -163,7 +167,11 @@
       models largely <em>cannot</em> deliberately control what they verbalise when asked to, which
       cuts against the worry that models will simply learn to hide.
       <a href="https://arxiv.org/abs/2602.03978">Xiong et al. (2026)</a> report monitorability
-      improving on its own early in verifiable-reward training.
+      improving on its own early in verifiable-reward training, though with two qualifications the
+      headline invites one to skip: the effect is &ldquo;not universal&rdquo; and strongly
+      data-dependent, and they attribute it mainly to response-distribution sharpening and
+      increased attention to the prompt rather than to stronger causal reliance on the reasoning
+      trace.
       <a href="https://arxiv.org/abs/2602.18297">Anwar et al. (2026)</a> give the mutual-information
       formalisation the position paper lacks, as a necessary rather than sufficient condition.
     </p>
