@@ -176,6 +176,44 @@
       formalisation the position paper lacks, as a necessary rather than sufficient condition.
     </p>
 
+    <h4>What happens when you push on the trace</h4>
+    <p>
+      A cluster of results from late 2025 and 2026 tests monitoring against a model that would
+      rather not be monitored, and the mitigations fare worse than the threat model assumed.
+      <a href="https://arxiv.org/abs/2506.01926">McCarthy et al. (2025)</a> penalise visible
+      reasoning patterns under process supervision and find models learn to encode the same
+      reasoning steganographically, generalising past the penalised patterns. That is the
+      obfuscation result in its sharpest form: pressure against legibility produces concealment
+      rather than honesty.
+    </p>
+
+    <p>
+      The recommended workaround does not escape it.
+      <a href="https://arxiv.org/abs/2511.11584">Drori et al. (2025)</a> show that training against
+      an <em>output-only</em> monitor, proposed precisely to avoid pressuring the trace, still
+      yields obfuscated and unfaithful chains. And monitoring can fail without any concealment to
+      detect: <a href="https://arxiv.org/abs/2510.01367">Wang et al. (2025)</a> identify implicit
+      reward hacking where the trace reads as benign while the model exploits a loophole, caught
+      only by truncating the reasoning and measuring how little of it the answer required.
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2505.23575">Arnav et al. (2025)</a> stress-test the monitor
+      directly and find it defeated by traces that are deceptive but plausible, with a hybrid
+      monitor reading both reasoning and actions roughly doubling detection of subtle sabotage.
+      <a href="https://arxiv.org/abs/2510.27338">Jose (2025)</a> reports illegible chains arising
+      with nobody training for them.
+    </p>
+
+    <p class="muted">
+      Two instruments arrived alongside the attacks.
+      <a href="https://arxiv.org/abs/2502.14829">Tutek et al. (2025)</a> measure faithfulness by
+      unlearning an individual reasoning step and testing whether the model&apos;s beliefs depended
+      on it, which is causal rather than behavioural. <a href="https://arxiv.org/abs/2603.28590">
+      MonitorBench</a> offers 1,514 instances across 19 tasks, a candidate for the shared
+      instrument this area has lacked.
+    </p>
+
     <h2>Reasoning was always partly latent</h2>
 
     <p>

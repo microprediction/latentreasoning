@@ -987,6 +987,110 @@
         </li>
       </ul>
 
+      <h3>Stress-testing chain-of-thought monitoring</h3>
+      <p class="muted" style="font-size:0.92rem;">A coherent cluster from NeurIPS 2025 and ICLR
+      2026, largely postdating the position paper, testing whether monitoring survives contact with
+      a model that would rather it did not.</p>
+      <ul>
+        <li>
+          Arnav, B., Bernabeu-P&eacute;rez, P., Helm-Burger, N., Kostolansky, T., Whittingham, H.,
+          and Phuong, M. (2025). &ldquo;CoT Red-Handed: Stress Testing Chain-of-Thought
+          Monitoring.&rdquo; <em>NeurIPS</em>.
+          <a href="https://arxiv.org/abs/2505.23575">arXiv:2505.23575</a>.
+          <em>Monitoring an untrusted model can be defeated by reasoning traces that are deceptive
+          but plausible. A hybrid monitor reading both the chain of thought and the actions roughly
+          doubles detection of subtle sabotage.</em>
+        </li>
+        <li>
+          McCarthy, R., Skaf, J., Iba&ntilde;ez-Lissen, L., Georgiev, V., Watts, C., et al. (2025).
+          &ldquo;Large language models can learn and generalize steganographic chain-of-thought
+          under process supervision.&rdquo; <em>NeurIPS</em>.
+          <a href="https://arxiv.org/abs/2506.01926">arXiv:2506.01926</a>.
+          <em>Penalise a model for visible reasoning patterns and it learns to encode the same
+          reasoning steganographically, generalising beyond the penalised patterns. The most direct
+          evidence that optimisation pressure against legibility produces concealment rather than
+          honesty.</em>
+        </li>
+        <li>
+          Drori, J., Marks, L., Woodworth, B., Cloud, A., and Turner, A. M. (2025). &ldquo;Output
+          Supervision Can Obfuscate the Chain of Thought.&rdquo; <em>ICLR 2026</em>.
+          <a href="https://arxiv.org/abs/2511.11584">arXiv:2511.11584</a>.
+          <em>Training against an output-only monitor, the mitigation proposed precisely to avoid
+          pressuring the trace, still produces obfuscated and unfaithful chains through two
+          identified mechanisms. The recommended workaround is not safe by construction.</em>
+        </li>
+        <li>
+          Wang, X., Joshi, N., Plank, B., Angell, R., and He, H. (2025). &ldquo;Is It Thinking or
+          Cheating? Detecting Implicit Reward Hacking by Measuring Reasoning Effort.&rdquo;
+          <em>ICLR 2026 oral</em>.
+          <a href="https://arxiv.org/abs/2510.01367">arXiv:2510.01367</a>.
+          <em>Implicit reward hacking, where the trace looks benign and the model still exploits a
+          loophole, is detected by truncating the reasoning and measuring how little of it the
+          answer needed. A monitor can be defeated without any verbalised cheating to catch.</em>
+        </li>
+        <li>
+          Jose, A. (2025). &ldquo;Reasoning Models Sometimes Output Illegible Chains of
+          Thought.&rdquo; <em>NeurIPS</em>.
+          <a href="https://arxiv.org/abs/2510.27338">arXiv:2510.27338</a>.
+          <em>Illegibility arrives without anyone training for it.</em>
+        </li>
+        <li>
+          Tutek, M., Hashemi Chaleshtori, F., Maraso vi&cacute;, A., and Belinkov, Y. (2025).
+          &ldquo;Measuring Chain of Thought Faithfulness by Unlearning Reasoning Steps.&rdquo;
+          <em>EMNLP, Outstanding Paper</em>.
+          <a href="https://arxiv.org/abs/2502.14829">arXiv:2502.14829</a>.
+          <em>Unlearns an individual reasoning step and tests whether the model&apos;s parametric
+          beliefs actually depended on it. A causal faithfulness measure rather than a behavioural
+          proxy.</em>
+        </li>
+        <li>
+          Hase, P., and Potts, C. (2026). &ldquo;Counterfactual Simulation Training for
+          Chain-of-Thought Faithfulness.&rdquo; <em>COLM</em>.
+          <a href="https://arxiv.org/abs/2602.20710">arXiv:2602.20710</a>.
+          <em>Trains for faithfulness by rewarding traces that let a simulator predict the
+          model&apos;s output on counterfactual inputs.</em>
+        </li>
+        <li>
+          Wang, H., Sun, Y., Ko, B., Talati, M., et al. (2026). &ldquo;MonitorBench: A
+          Comprehensive Benchmark for Chain-of-Thought Monitorability.&rdquo; <em>COLM</em>.
+          <a href="https://arxiv.org/abs/2603.28590">arXiv:2603.28590</a>.
+          <em>1,514 instances across 19 tasks. A candidate for the shared instrument this area
+          lacks.</em>
+        </li>
+      </ul>
+
+      <h3>Limits on internalisation</h3>
+      <ul>
+        <li>
+          Yao, Y., Du, Y., Zhu, D., Hahn, M., and Koller, A. (2025). &ldquo;Language models can
+          learn implicit multi-hop reasoning, but only if they have lots of training data.&rdquo;
+          <em>EMNLP</em>. <a href="https://arxiv.org/abs/2505.17923">arXiv:2505.17923</a>.
+          <em>Single-pass $k$-hop reasoning is learnable, at exponentially growing data and linearly
+          growing depth in $k$. The scaling is the finding.</em>
+        </li>
+        <li>
+          Qin, T., Alvarez-Melis, D., Jelassi, S., and Malach, E. (2025). &ldquo;To Backtrack or Not
+          to Backtrack: When Sequential Search Limits Model Reasoning.&rdquo; <em>COLM</em>.
+          <a href="https://arxiv.org/abs/2504.07052">arXiv:2504.07052</a>.
+          <em>Explicit backtracking supervision can suppress a model&apos;s capacity for implicit
+          non-verbalised reasoning. More visible search is not always more capability.</em>
+        </li>
+        <li>
+          Wu, H., Teng, Z., and Tu, K. (2025). &ldquo;Parallel Continuous Chain-of-Thought with
+          Jacobi Iteration.&rdquo; <em>EMNLP</em>.
+          <a href="https://arxiv.org/abs/2506.18582">arXiv:2506.18582</a>.
+          <em>Updates latent thought tokens by Jacobi iteration in parallel rather than
+          sequentially, about half the time of sequential continuous chain of thought.</em>
+        </li>
+        <li>
+          Svete, A., and Sabharwal, A. (2025). &ldquo;On the Reasoning Abilities of Masked Diffusion
+          Language Models.&rdquo; <em>ICLR 2026 oral</em>.
+          <a href="https://arxiv.org/abs/2510.13117">arXiv:2510.13117</a>.
+          <em>Extends the circuit-complexity programme to masked diffusion models, characterising
+          what they can solve and at what cost.</em>
+        </li>
+      </ul>
+
       <h3>Surveys and adjacent work</h3>
       <ul>
         <li>
