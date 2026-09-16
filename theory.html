@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>What the theory proves</title>
+  <meta name="description" content="Expressivity results for latent reasoning: TC0 bounds on a single forward pass, what chain-of-thought steps add, pause-token separations, and the one sharp theorem separating continuous from discrete reasoning steps." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>What the theory proves</h1>
+    <p class="subtitle">Stated carefully, because the complexity claims in this area are routinely
+    garbled.</p>
+
+    <p class="lead">
+      Three questions have real answers. What can one forward pass compute? What do serial token
+      steps add? And is a continuous step worth more than a discrete one? The first two are settled
+      in outline. The third has exactly one sharp theorem and a good deal of hand-waving around it.
+    </p>
+
+    <h2>One forward pass is weak, and provably so</h2>
+
+    <p>
+      Merrill &amp; Sabharwal (2023) show that a log-precision transformer &mdash; poly-size, with
+      log-space-computable feedforward blocks &mdash; can be simulated by constant-depth,
+      logspace-uniform threshold circuits. In symbols, it sits inside uniform $\mathsf{TC}^0$.
+    </p>
+
+    <div class="equation-card">
+      $$\text{log-precision transformer, one pass} \subseteq \text{logspace-uniform } \mathsf{TC}^0.$$
+    </div>
+
+    <p>
+      The consequence is conditional but strong: if $\mathsf L \neq \mathsf P$, such a transformer
+      cannot solve certain $\mathsf P$-complete problems in a single pass <em>no matter how large
+      it is</em>. This is the parallelism tradeoff. Fixed depth means a fixed-depth parallel
+      circuit; the property that makes transformers efficient to run is the same property that caps
+      what one pass can do. Scale does not fix it, because the bound does not mention scale.
+    </p>
+
+    <p>
+      Li, Liu, Zhou &amp; Ma (2024) tighten this under a different precision assumption: with
+      <em>constant</em> bit precision and constant depth and no chain of thought, expressivity is
+      confined to $\mathsf{AC}^0$, a strict subset of $\mathsf{TC}^0$. The precision regime is not
+      a technicality &mdash; it moves the answer by a complexity class, and papers in this area are
+      often compared as though it does not.
+    </p>
+
+    <h2>Serial steps buy computation, gradually</h2>
+
+    <p>
+      Chain of thought converts token count into a serial computation budget. Li et al. state it
+      most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
+      transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
+      theory, meaningful reasoning &mdash; they are computation slots.
+    </p>
+
+    <p>
+      Merrill &amp; Sabharwal (2024) give the graded version, and it is worth quoting the shape of
+      it precisely because the intermediate cases are the interesting ones:
+    </p>
+
+    <div class="table-wrap">
+      <table class="impl">
+        <thead><tr><th class="nowrap">CoT steps</th><th>Reachable class</th><th>Caveat</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="nowrap">$T = O(\log n)$</td>
+            <td>Only marginally beyond the no-CoT baseline.</td>
+            <td class="mode">&mdash;</td>
+          </tr>
+          <tr>
+            <td class="nowrap">$T = O(n)$</td>
+            <td>Recognises all regular languages; upper-bounded by context-sensitive.</td>
+            <td class="mode">Requires a projected pre-norm architecture.</td>
+          </tr>
+          <tr>
+            <td class="nowrap">$T = \mathrm{poly}(n)$</td>
+            <td>Exactly $\mathsf P$ &mdash; as powerful as polynomial-time Turing machines.</td>
+            <td class="mode">Requires a generalised pre-norm architecture.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The poly case is the first exact characterisation of a transformer variant by a standard
+      complexity class. The caveats are load-bearing: these are theorems about particular
+      normalisation variants, not about whatever architecture a lab happens to ship.
+    </p>
+
+    <p>
+      Feng et al. (2023) give the applied complement. Bounded-depth transformers asked to emit the
+      answer directly need super-polynomially many parameters to do basic arithmetic and equation
+      solving; constant-size autoregressive transformers with chain of thought can do the same
+      tasks, and can implement a general class of dynamic programming algorithms. Their argument is
+      a size-blowup impossibility result rather than a named circuit-class separation, which is
+      worth keeping distinct from the Li et al. statement.
+    </p>
+
+    <h2>Contentless tokens, made rigorous</h2>
+
+    <p>
+      If the theory says intermediate tokens are computation slots, then slots with no content
+      should work. London &amp; Kanade (2025) prove the sharp version for pause tokens:
+    </p>
+
+    <div class="equation-card">
+      $$\text{no pause tokens} \subsetneq \mathsf{AC}^0, \qquad
+        \text{poly}(n) \text{ pause tokens} = \mathsf{AC}^0, \qquad
+        \text{+ log precision} = \mathsf{TC}^0.$$
+    </div>
+
+    <p>
+      A strict separation, not a conjecture, with a concrete witness: two-layer causally-masked
+      transformers learn PARITY &mdash; canonically outside $\mathsf{AC}^0$ &mdash; when given
+      pause tokens, and empirically fail without them.
+    </p>
+
+    <p>
+      Pfau, Merrill &amp; Bowman (2024) characterise which problems admit a filler-token benefit
+      via the quantifier depth of a first-order formula describing the problem: within the right
+      quantifier-depth class, the intermediate tokens need carry no information about intermediate
+      steps at all.
+    </p>
+
+    <h2>Continuous versus discrete steps</h2>
+
+    <p>
+      This is the question the field actually turns on, and there is one sharp theorem. Xu &amp;
+      Sato (2025) prove that iterating <em>continuous</em> latent thought to polylog depth reaches
+      $\mathsf{TC}^k$, while discrete-token chain of thought at the same depth budget reaches only
+      $\mathsf{TC}^{k-1}$.
+    </p>
+
+    <div class="equation-card">
+      $$\text{latent thought, polylog depth} \to \mathsf{TC}^k
+        \quad\text{vs.}\quad
+        \text{discrete CoT, same depth} \to \mathsf{TC}^{k-1}.$$
+    </div>
+
+    <p>
+      So continuous steps are strictly more expressive than discrete ones &mdash; <strong>under
+      matched depth and deterministic decoding.</strong> The qualification is not decoration. In a
+      probabilistic setting where chain of thought uses stochastic decoding, discrete CoT regains
+      ground that deterministic latent thought cannot reach, supporting FPRAS-style approximate
+      counting and sampling. The same authors' earlier comparison of chain of thought against
+      looped transformers lands in the same place: loops efficiently emulate parallel,
+      DAG-structured deterministic computation, while sequential CoT suits self-reducible,
+      compositionally sequential problems. They are complementary resources, not a ranking.
+    </p>
+
+    <p>
+      Two results bound the enthusiasm. Zhang (2026) proves a memory-budget separation: a
+      <em>compressed</em>-state looped transformer &mdash; fixed-size recurrent state, which is the
+      common case &mdash; cannot solve $\mathsf P$-complete problems under logspace reductions that
+      polynomial-length chain of thought can, because CoT's effective working memory grows with the
+      emitted tokens while a compressed loop's does not. Recurrence buys depth; it does not buy
+      memory. And Reddi et al. (2025) establish the positive counterpart for depth specifically:
+      $k$ layers looped $L$ times nearly matches $kL$ unlooped layers, so problems that are
+      depth-bound rather than parameter-bound are exactly the ones loops help with.
+    </p>
+
+    <p>
+      On the empirical side, Zhu et al. (2025) prove a two-layer transformer with $D$ continuous
+      steps solves directed graph reachability for diameter $D$ where the best known discrete
+      construction needs $O(n^2)$ steps, and show the superposition that makes this work emerges
+      from training rather than being built in. Gozeten et al. (2025) quantify the parallelism as
+      tracking several discrete traces at once, with a constructive one-layer solution to
+      subset-sum.
+    </p>
+
+    <h2>The gap the theory does not close</h2>
+
+    <div class="caveat">
+      <p>
+        Every result above is about what <em>can</em> be expressed. None is about what gradient
+        descent will <em>find</em>. The empirical record is blunt about the difference: filler
+        tokens need dense task-specific supervision before a model learns to use them, pause tokens
+        need to be present in both pretraining and fine-tuning, and naive thinking tokens
+        underperform real chain of thought outright. An expressivity theorem guarantees a
+        construction exists in weight space. It says nothing about whether training reaches it, and
+        in this literature it frequently does not.
+      </p>
+    </div>
+
+    <h3>Open theoretical questions</h3>
+    <ul>
+      <li>
+        No unconditional characterisation connects realistic finite-precision transformers under
+        <em>actual training dynamics</em> to a complexity class. The sharp theorems assume
+        particular pre-norm variants and precision regimes; whether they survive the architectures
+        shipped in practice is open.
+      </li>
+      <li>
+        The $\mathsf{TC}^k$ versus $\mathsf{TC}^{k-1}$ separation is essentially the only theorem of
+        its kind. Whether it is tight, whether it holds for all $k$, and whether realistic
+        finite-precision continuous states retain the advantage are all open &mdash; and precision
+        is known to be decisive in the discrete case.
+      </li>
+      <li>
+        Is the separation about <em>discreteness</em> or about <em>determinism</em>? Stochastic
+        decoding is what gives discrete CoT its counting and sampling power. Whether injecting
+        noise into a continuous latent channel recovers it is unaddressed.
+      </li>
+      <li>
+        The filler-token toolkit (finite model theory, quantifier depth, $\mathsf{AC}^0$
+        separations) and the continuous-thought toolkit (circuit-depth iteration, superposition
+        arguments) have no known reduction between them, despite describing the same phenomenon
+        from two sides.
+      </li>
+      <li>
+        No theory predicts the minimal number of steps a given task needs. The results are
+        existential; the practical question of reasoning-token budgets is untouched by them.
+      </li>
+    </ul>
+
+    <div class="next-steps">
+      <p><strong>Next:</strong> if the theory says extra serial steps are computation slots rather
+      than reasoning, the natural question is whether reading them tells you anything &mdash;
+      see <a href="./monitorability.html">monitorability</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

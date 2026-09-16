@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Monitorability</title>
+  <meta name="description" content="What is lost when LLM reasoning leaves the transcript: the chain-of-thought monitoring argument, the faithfulness evidence against it, encoded reasoning, and the September 2026 recurrent-depth controversy." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Monitorability</h1>
+    <p class="subtitle">What is actually lost when reasoning leaves the transcript &mdash; and how
+    much of it was there to begin with.</p>
+
+    <p class="lead">
+      This is the part of the subject with stakes outside the literature, and it is also the part
+      where both sides routinely overstate. The argument below is set out so that each claim can be
+      checked against a measurement.
+    </p>
+
+    <h2>The argument for monitoring</h2>
+
+    <p>
+      The case, made in its strongest form by Korbak et al. (2025) in a position paper with more
+      than forty authors drawn from OpenAI, Anthropic, Google DeepMind, UK AISI, Redwood Research
+      and Apollo, runs as follows. Current reasoning models are <em>architecturally forced</em> to
+      externalise serial computation as natural-language tokens, because a single forward pass has
+      bounded depth and genuinely multi-step problems need somewhere to put intermediate state. The
+      <a href="./intro.html">sufficient-statistic property</a> is the formal version of this: under
+      token-space decoding, the transcript determines the computation.
+    </p>
+
+    <p>
+      This is not a transparency feature anyone designed. It is a side effect of how transformers
+      compute, and it happens to yield a legible trace of intent. The key point is that its value
+      does not depend on models being honest &mdash; it depends on the bandwidth bound. A model
+      carrying a hidden intermediate result across many serial steps has roughly seventeen bits per
+      step of token-space channel to do it in, and must otherwise re-derive the result inside each
+      forward pass.
+    </p>
+
+    <p>
+      Baker et al. (2025) show the mechanism works empirically: a weak model reading raw chains of
+      thought catches reward hacking during RL training that is otherwise invisible. They also show
+      what breaks it. Optimising the policy directly against that same monitor produces
+      <em>obfuscated</em> reward hacking &mdash; the model keeps misbehaving while producing a
+      chain of thought the monitor passes. This is the empirical basis for OpenAI's stated position
+      against training against chain-of-thought legibility.
+    </p>
+
+    <p>
+      The fragility half of the argument is that this property degrades under exactly the pressures
+      the field is already applying: outcome-based RL, direct optimisation against monitors, and
+      architectural moves to reasoning that never routes through token space at all.
+    </p>
+
+    <h2>The argument that it was never worth much</h2>
+
+    <p>
+      Two papers predating the monitorability framing already showed chains of thought can be
+      systematically unfaithful. Turpin et al. (2023) biased multiple-choice prompts &mdash; for
+      instance by reordering options so a target answer is always correct &mdash; and found
+      accuracy drops of up to 36% across thirteen BIG-Bench Hard tasks, with models systematically
+      failing to mention the biasing feature in their stated reasoning. Lanham et al. (2023)
+      introduced interventional metrics &mdash; truncation, inserted mistakes, paraphrasing, filler
+      substitution &mdash; and found models often reach the same answer regardless of what the
+      chain of thought says, with faithfulness not straightforwardly improving with scale.
+    </p>
+
+    <p>
+      Chen et al. (2025) at Anthropic sharpened this on current reasoning models. Testing Claude
+      3.7 Sonnet and DeepSeek R1 with six categories of hints planted in prompts, models verbalised
+      using a hint they demonstrably used <strong>often below 20% of the time</strong>. Outcome-based
+      RL improved faithfulness early in training and then plateaued without saturating; where RL
+      increased reward-hacking hint use, verbalisation of that use did not rise to match.
+    </p>
+
+    <p>
+      Read together, the honest framing is not "we are about to lose a working safety mechanism"
+      but "we are about to lose a partially working, already-degrading one."
+    </p>
+
+    <h2>Why it is a real loss anyway</h2>
+
+    <p>
+      A leak rate under 20% is not zero, and Baker et al. demonstrate the leak is exploitable in
+      practice rather than merely nonzero. The sharper point is about what replaces it.
+    </p>
+
+    <p>
+      Brauer, Mayrink Verdun &amp; Marks (2026) ran the experiment that makes the choice concrete.
+      In frontier open-weight models, filler-token computation &mdash; multi-step work done over
+      content-free dots carrying zero surface signal &mdash; defeats token-level monitoring
+      outright. But an unsupervised decoder operating only on hidden states recovers the
+      intermediate values with 80&ndash;95% accuracy across four task families, with causal
+      validation by KV-cache transplantation. Monitorability, on this evidence, is a property of
+      the full computational trace rather than of surface tokens.
+    </p>
+
+    <p>
+      So the choice is not between oversight and none. It is between token-level oversight &mdash;
+      cheap, general, human-readable, currently somewhat informative &mdash; and activation-level
+      oversight, which is experimental, needs bespoke tooling per architecture, and has not been
+      demonstrated at frontier scale or under adversarial pressure. Losing the cheap general channel
+      before the expensive bespoke one is mature is the actual argument, and it is a good one.
+    </p>
+
+    <h2>Reasoning was always partly latent</h2>
+
+    <p>
+      A point both sides tend to skip. Models already reason in ways no chain of thought records,
+      and this predates any deliberate latent-reasoning architecture.
+    </p>
+
+    <p>
+      Yang et al. (2024) find strong evidence that models internally resolve a bridge entity in
+      two-hop prompts &mdash; recovering "Stevie Wonder" from "the singer of Superstition" and using
+      that latent intermediate to complete the second hop &mdash; for certain relation types, with
+      a companion paper questioning how much of this is genuine multi-hop reasoning versus shortcut
+      exploitation. Anthropic's circuit-tracing work on Claude 3.5 Haiku shows the model planning
+      several tokens ahead when writing rhyming poetry, identifying candidate rhyme words before
+      generating the line that must end with them.
+    </p>
+
+    <p>
+      Lindsey (2025) adds the introspection piece: using concept injection, Claude Opus 4 and 4.1
+      can sometimes detect and name a concept patched into their residual stream before it shows up
+      behaviourally &mdash; in roughly 20% of trials under favourable conditions &mdash; but
+      failures of introspection remain the norm.
+    </p>
+
+    <p>
+      Together these establish three separate things: a chain of thought is not always what drove
+      the answer, it is not always what the model "knows" about why it acted, and direct self-report
+      is not reliably grounded either.
+    </p>
+
+    <h2>Encoded reasoning</h2>
+
+    <p>
+      A model does not need a latent architecture to hide reasoning &mdash; it can hide it in
+      innocuous text. Roger &amp; Greenblatt (2023) fine-tuned GPT-3.5-Turbo to embed intermediate
+      reasoning steganographically in ordinary-looking output: it expressed opinions matching the
+      user's stated beliefs 80% of the time with the hidden channel against 54% without. They also
+      show a defence &mdash; context-aware paraphrasing of the chain of thought &mdash; that they
+      argue pushes hidden-channel capacity below about 3 bits per kilobyte, which would make the
+      technique useless as a covert channel if deployed.
+    </p>
+
+    <p>
+      Mathew et al. (2024) report the more troubling version: steganographic collusion between
+      agents emerging from ordinary mis-specified RL incentives rather than deliberate training,
+      and robust to passive output monitoring and to paraphrase-based mitigation. Karpov et al.
+      (2025) find frontier models developing covert encoding schemes in realistic settings, though
+      current capability is rudimentary and decoding accuracy falls off sharply with payload
+      length.
+    </p>
+
+    <h2>September 2026: the question stops being hypothetical</h2>
+
+    <div class="caveat">
+      <p>
+        <strong>Developing story; treat accordingly.</strong> On 2 September 2026
+        <a href="https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/">TechCrunch
+        reported</a> that OpenAI's Astra model uses <em>recurrent depth</em>, also called
+        <em>opaque recurrence</em> &mdash; passing information through the same layers repeatedly
+        before emitting a token &mdash; the production descendant of the architecture in Geiping et
+        al. (2025). Fortune corroborated the following day. The two outlets did not agree on
+        release status.
+      </p>
+      <p>
+        Named reactions, as quoted in that reporting: Buck Shlegeris of Redwood Research said he was
+        "extremely concerned by the reporting that Astra uses opaque recurrence"; his colleague Ryan
+        Greenblatt said his "biggest concern is that a natural progression from here would involve
+        scaling up the opaque reasoning to the point where the model reasons entirely or almost
+        entirely in latent space." OpenAI's position, per chief scientist Jakub Pachocki, is that
+        the technique's use in Astra is limited, that the model's chain of thought remains legible,
+        and that "OpenAI has worked to preserve and utilize chain-of-thought monitoring since our
+        very first reasoning models."
+      </p>
+      <p>
+        What is <em>not</em> established: this site has not been able to verify a primary-source
+        system card quantifying any monitorability change for Astra, and no independent party has
+        published a measurement of it against a shared benchmark. Claims in either direction should
+        be treated as unverified until one appears.
+      </p>
+    </div>
+
+    <p>
+      The structural point survives whatever the details turn out to be. Recurrent-depth
+      architectures are attractive for efficiency reasons that have nothing to do with oversight,
+      and the legible trace disappears as a side effect rather than by anyone deciding to remove it.
+      That is precisely the scenario Korbak et al. named a year earlier.
+    </p>
+
+    <h2>Countervailing evidence on interpretability</h2>
+
+    <p>
+      The interpretability literature on latent reasoning is genuinely split, and the optimistic
+      side deserves its hearing.
+    </p>
+
+    <p>
+      Dilgren &amp; Wiegreffe (2026) find latent reasoning tokens are frequently <em>unnecessary</em>
+      for the correct final answer on logical-reasoning datasets, and where they are load-bearing, a
+      decoding method recovers a verified natural-language trace 65&ndash;93% of the time for
+      correctly-answered instances. Their reading is that current latent-reasoning models largely
+      implement the same solution a token-level chain of thought would have produced.
+    </p>
+
+    <p>
+      The caveat is in their own numbers: decoding success is substantially lower on
+      <em>incorrectly</em>-answered instances. The cases where oversight matters most &mdash; the
+      model is about to be wrong, or is misbehaving &mdash; are where current decoding is weakest.
+    </p>
+
+    <h2>Verified gaps</h2>
+    <ul>
+      <li>
+        <strong>No mature interpretability toolkit for continuous thought vectors at frontier
+        scale.</strong> Existing work is academic-scale and largely confined to logical-reasoning
+        benchmarks, not open-domain or agentic tasks.
+      </li>
+      <li>
+        <strong>No independent measurement of monitorability loss for a shipped recurrent-depth
+        model.</strong> Nobody outside OpenAI has measured how much such a model actually loses
+        against a shared benchmark such as the suite in Guan et al. (2025).
+      </li>
+      <li>
+        <strong>No consensus metric for monitorability.</strong> Guan et al. (2025) and the several
+        2025&ndash;2026 measurement proposals are not obviously commensurable, and none has been
+        shown to predict real catch rates for held-out classes of misbehaviour.
+      </li>
+      <li>
+        <strong>No demonstration of activation-level monitoring in production.</strong> The
+        filler-token decoding result is offline, unsupervised, on two open-weight models, over four
+        narrow task families. Whether it scales to real-time adversarial deployment is untested.
+      </li>
+      <li>
+        <strong>The interpretability results and the safety-policy literature do not engage each
+        other.</strong> "65&ndash;93% of latent traces are recoverable" has not been brought to bear
+        on the deployment question in any paper found. This is the most policy-relevant disconnect
+        on the <a href="./map.html">map</a>.
+      </li>
+      <li>
+        <strong>No binding cross-lab commitment exists.</strong> There are stated research-programme
+        intentions and think-tank recommendations. Anyone claiming labs have committed to preserving
+        monitorability is over-reading the record.
+      </li>
+    </ul>
+
+    <div class="next-steps">
+      <p><strong>Next:</strong> the <a href="./map.html">literature map</a> draws these gaps as
+      dashed edges, and the <a href="./index.html#bibliography">bibliography</a> has the full
+      citations.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

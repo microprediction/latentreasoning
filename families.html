@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Families of latent reasoning methods</title>
+  <meta name="description" content="Six families of latent reasoning in LLMs: internalisation by curriculum, continuous thoughts, latent compression, recurrent depth, contentless tokens, and hybrids - with what is known to fail." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Families of methods</h1>
+    <p class="subtitle">Six ways to move reasoning off the transcript, and what each one is actually
+    doing.</p>
+
+    <p class="lead">
+      The <a href="./intro.html">introduction</a> sets up two axes: where the reasoning loop closes,
+      and what survives it. The families below are the clusters the literature has actually formed,
+      which do not partition the axes neatly &mdash; several methods are hybrids by construction.
+      Each entry says what the method does mechanically, not what it claims.
+    </p>
+
+    <div class="family">
+      <h3>1. Internalisation by curriculum <span class="tag">token &rarr; nothing</span></h3>
+      <p>
+        Keep the architecture and the vocabulary exactly as they are, but train the explicit
+        rationale away. A model is first taught to emit a chain of thought, then the intermediate
+        tokens are progressively deleted during fine-tuning until none remain and the same forward
+        pass must do the work that used to be spread over many.
+      </p>
+      <p>
+        Deng et al. (2023) do this by distilling a teacher's horizontal, token-by-token reasoning
+        into a student's vertical, layer-by-layer computation. The follow-up, stepwise
+        internalisation (Deng, Choi &amp; Shieber 2024), drops the emulator and simply removes
+        tokens on a schedule; it takes GPT-2 Small to 99% on nine-by-nine multiplication, a task
+        the same model cannot learn to do in one pass without the curriculum, and Mistral-7B past
+        50% on GSM8K with nothing emitted between question and answer.
+      </p>
+      <p class="muted">
+        This family is the cleanest demonstration that a fixed-depth forward pass has more capacity
+        than standard training extracts from it. It is also the family where the curriculum does
+        the most work, and where it is least clear the curriculum transfers.
+      </p>
+    </div>
+
+    <div class="family">
+      <h3>2. Continuous thoughts <span class="tag">token &rarr; vector</span></h3>
+      <p>
+        Delete the quantiser: feed the last hidden state back as the next input embedding. Coconut
+        (Hao et al. 2024) is the reference implementation and the paper that named the idea.
+      </p>
+      <p>
+        The result that made the family interesting is not the headline accuracy but the mechanism.
+        On ProsQA &mdash; a synthetic DAG-shaped multi-hop task released with the paper &mdash;
+        Coconut reaches 97.0% against 77.5% for explicit chain of thought at GPT-2 scale, and the
+        continuous thought vectors turn out to encode a <em>frontier</em> of several candidate
+        reasoning paths rather than a single committed one, giving breadth-first-like search.
+        Zhu et al. (2025) proved this is not an artifact: a two-layer transformer using $D$
+        continuous steps solves directed graph reachability where $D$ is the graph diameter, while
+        the best known discrete construction needs $O(n^2)$ decoding steps.
+      </p>
+      <p>
+        <strong>The same paper's other number matters as much.</strong> On GSM8K, Coconut gets
+        34.1% against 42.9% for explicit chain of thought. The gains are concentrated on search and
+        planning; on arithmetic the method loses. No account of this family is honest without both
+        numbers.
+      </p>
+      <p>
+        Later work mostly addresses training rather than capability. CODI (Shen et al. 2025)
+        replaces Coconut's multi-stage curriculum with self-distillation that aligns a single
+        token's hidden state between an explicit and an implicit pass, and is the first in the
+        family to match explicit CoT on GSM8K at GPT-2 scale. SoftCoT (Xu et al. 2025) never
+        fine-tunes the target model at all &mdash; a small frozen assistant produces soft thoughts
+        that a trained projector maps into the frozen LLM's embedding space &mdash; which is an
+        explicit workaround for the catastrophic forgetting that full-parameter latent fine-tuning
+        causes on models that already reason well. SIM-CoT (Wei et al. 2025) adds a step-level
+        auxiliary decoder, discarded at inference, to stop latent vectors homogenising.
+      </p>
+    </div>
+
+    <div class="family">
+      <h3>3. Compression into latent tokens <span class="tag">many tokens &rarr; few vectors</span></h3>
+      <p>
+        Rather than removing the intermediate representation, shrink it. A rationale that would
+        have taken hundreds of tokens is encoded into a handful of dense vectors &mdash; called
+        contemplation tokens, gist tokens, or thinking tokens depending on the paper &mdash; and
+        the original text is discarded.
+      </p>
+      <p>
+        CCoT (Cheng &amp; Van Durme 2024) generates variable-length dense representations as a
+        drop-in replacement for the rationale on off-the-shelf decoders, with a tunable compression
+        ratio; at a ratio of 0.10 it buys roughly nine accuracy points over emitting nothing while
+        adding about 0.4s of generation against 8.1s for the full decode. LightThinker (Zhang et al.
+        2025) compresses during generation and evicts the original tokens from context using
+        specialised attention masks. Heima (Shen et al. 2025) does the multimodal version and pairs
+        it with an auxiliary interpreter that reconstructs the discarded text. KaVa (Kuzina et al.
+        2025) attacks the KV cache directly, distilling a compressed teacher cache into a latent
+        student and finding CoT-bearing caches highly redundant.
+      </p>
+      <p class="muted">
+        Note what the interpreters in Heima and the auxiliary decoder in SIM-CoT concede: the
+        compression loses the auditable trace, and the authors build machinery to buy some of it
+        back.
+      </p>
+    </div>
+
+    <div class="family">
+      <h3>4. Recurrent depth <span class="tag">loop inside the stack</span></h3>
+      <p>
+        Spend the extra computation in depth rather than in sequence length. A block of layers is
+        applied repeatedly to the same state, so test-time compute decouples from context length
+        and from the vocabulary entirely. The antecedents are old &mdash; adaptive computation time
+        (Graves 2016), Universal Transformers (Dehghani et al. 2018), PonderNet (Banino et al.
+        2021) &mdash; but the modern instances are language models trained this way from scratch.
+      </p>
+      <p>
+        Geiping et al. (2025) pretrained Huginn-0125: 3.5B parameters, 800B tokens, a
+        prelude/recurrent-core/coda design whose core is unrolled between 4 and 64 times at test
+        time, with no chain-of-thought training data at all. Ouro (Zhu et al. 2025) is the largest
+        confirmed effort, at 1.4B and 2.6B parameters over 7.7T tokens, and reports that the gains
+        come from better knowledge <em>manipulation</em> rather than added knowledge capacity.
+        Mixture-of-Recursions (Bae et al. 2025) routes each token to its own recursion depth.
+        McLeish et al. (2025) show recurrence can be retrofitted onto an already-pretrained model
+        by a depth curriculum rather than requiring a fresh pretrain.
+      </p>
+      <p>
+        Reddi et al. (2025) give the cleanest statement of why this works: a $k$-layer transformer
+        looped $L$ times nearly matches a non-looped $kL$-layer model on reasoning tasks, so many
+        reasoning problems are bound by depth rather than by parameters.
+      </p>
+    </div>
+
+    <div class="family">
+      <h3>5. Contentless tokens <span class="tag">extra compute, no channel</span></h3>
+      <p>
+        The control experiment for the whole field. If intermediate tokens help because they carry
+        reasoning content, then meaningless tokens should not help; if they help because they buy
+        serial positions and computation, meaningless tokens should help too.
+      </p>
+      <p>
+        They help, conditionally. Pfau, Merrill &amp; Bowman (2024) show transformers solve two
+        algorithmic tasks unsolvable in a single pass using nothing but repeated dots, and
+        characterise which problems admit the benefit via the quantifier depth of a first-order
+        description &mdash; but learning to exploit fillers requires dense, task-specific
+        supervision and does not emerge from ordinary training. Goyal et al. (2024) get real
+        downstream gains from learnable pause tokens on a 1B model, including +18% exact match on
+        SQuAD, but only when pause tokens appear in <em>both</em> pretraining and fine-tuning.
+      </p>
+      <p>
+        The negative result is equally important: Vennam et al. (2024) find naive thinking tokens
+        consistently underperform real chain of thought, because a single repeated embedding
+        produces noisy gradients. Contentless tokens are a proof about expressivity, not a
+        practical substitute.
+      </p>
+    </div>
+
+    <div class="family">
+      <h3>6. Hybrids and interleaving <span class="tag">both channels</span></h3>
+      <p>
+        The pragmatic response to the fact that neither endpoint dominates. Token Assorted (Su et
+        al. 2025) abstracts only the <em>early</em> portion of a trace into discrete VQ-VAE latent
+        tokens and mixes them with ordinary text, reporting gains of 4&ndash;13% across model sizes
+        with traces about 17% shorter. SpiralThinker (Piao &amp; Park 2025) alternates latent
+        iterations with text. LOTUS (Fan et al. 2026) supervises loop latents in parallel and is
+        reported as the first latent-CoT method to close the gap with explicit CoT at 3B scale,
+        having noted that earlier latent methods fall behind past 1B and that the gap widens with
+        scale.
+      </p>
+      <p class="muted">
+        This is where the dial in the <a href="./index.html">central diagram</a> is actually being
+        turned, and it is thinly populated compared with the two endpoints.
+      </p>
+    </div>
+
+    <h2>What goes wrong</h2>
+
+    <div class="caveat">
+      <h3>Latent representations collapse as you add steps</h3>
+      <p>
+        SIM-CoT documents this as <em>latent instability</em>: as the number of latent reasoning
+        tokens grows, the vectors homogenise, lose semantic diversity, and training collapses. That
+        the fix is step-level auxiliary supervision is itself evidence that end-to-end latent
+        training under-constrains the representation.
+      </p>
+
+      <h3>The superposition story does not hold everywhere</h3>
+      <p>
+        Soft Thinking (Zhang et al. 2025) replaces each token with a probability-weighted mixture
+        of embeddings, claiming parallel exploration. Wu et al. (2025) showed directly that the
+        model overwhelmingly follows the single highest-probability component &mdash; the method
+        degenerates to greedy decoding unless noise is deliberately injected. Rizvi-Martel,
+        Rabusseau &amp; Mosbach (2026) sharpen this: genuine superposition shows up in models
+        trained from scratch with continuous latent CoT, and largely collapses under the fine-tuning
+        regimes most practitioners actually use. Superposition is a per-method property to be
+        demonstrated, not a family-wide entitlement.
+      </p>
+
+      <h3>More depth is not monotonically better</h3>
+      <p>
+        Yang et al. (2026) document looped language model performance peaking at some recurrence
+        depth and then <em>collapsing</em> with further looping, and propose spectral-radius
+        regularisation as a fix. This bears directly on the "infinite depth" framing several
+        surveys use.
+      </p>
+
+      <h3>Prompted implicit reasoning is mostly shortcuts</h3>
+      <p>
+        Yu (2024) finds that models merely <em>prompted</em> to reason implicitly barely compute
+        genuine intermediate steps and lean on memorised shortcuts; models specifically
+        <em>trained</em> for implicit CoT do show evidence of real internal stepwise computation.
+        Both are brittle to superficial reformatting. Claims that "the model is reasoning
+        internally" need to say which of these two situations they are in.
+      </p>
+
+      <h3>Correct answers via incoherent internal paths</h3>
+      <p>
+        Sahoo et al. (2026) report that on Qwen2.5-Math-7B, 81.6% of correct answers arrive through
+        computationally inconsistent pathways and 8.8% of predictions are confident silent
+        failures, with reasoning-quality metrics correlating weakly <em>negatively</em> with
+        correctness. Accuracy is a poor proxy for whether latent reasoning is doing what it says.
+      </p>
+
+      <h3>The evidence base is small and synthetic</h3>
+      <p>
+        Much of the strongest support &mdash; graph reachability, ProsQA, ProntoQA, maze tasks
+        &mdash; comes from benchmarks purpose-built to showcase parallel search. Most strong
+        empirical results are at GPT-2 to 8B scale. See <a href="./implementations.html">the
+        benchmark note</a> for why cross-paper comparison in this field is largely
+        apples-to-oranges.
+      </p>
+    </div>
+
+    <div class="next-steps">
+      <p><strong>Next:</strong> what the <a href="./theory.html">theory</a> proves about all of
+      this, or the <a href="./monitorability.html">monitorability</a> consequences. The
+      <a href="./map.html">literature map</a> shows how these families connect, and the
+      <a href="./timeline.html">timeline</a> shows the order they arrived in.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

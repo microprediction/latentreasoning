@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>What latent reasoning is</title>
+  <meta name="description" content="A precise account of latent reasoning in language models: the inter-step quantiser, the sufficient-statistic property of a chain-of-thought transcript, and the two axes along which methods vary." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>What latent reasoning is</h1>
+    <p class="subtitle">One line of the decoding loop, deleted.</p>
+
+    <h2>The decoding loop</h2>
+
+    <p>
+      Fix a decoder-only language model. Write $f$ for the forward pass that maps a sequence of
+      input embeddings to the final-layer hidden state at the last position, $W$ for the unembedding
+      matrix, and $E$ for the embedding table. Autoregressive decoding is the loop
+    </p>
+
+    <div class="equation-card">
+      $$h_t = f(e_1, \dots, e_t), \qquad x_t \sim \mathrm{softmax}(W h_t), \qquad e_{t+1} = E[x_t].$$
+    </div>
+
+    <p>
+      The middle step is a <strong>quantiser</strong>. Compose it: the map
+      $q = E \circ \mathrm{sample} \circ \mathrm{softmax} \circ W$ sends $\mathbb{R}^d$ to
+      $\mathbb{R}^d$, but its image is the finite set of $|V|$ rows of the embedding table. A
+      hidden state carries $d$ real coordinates; a token carries $\log_2 |V| \approx 17$ bits.
+      Whatever the model computed at step $t$ that is not recoverable from $x_t$ does not survive
+      to step $t+1$.
+    </p>
+
+    <p>
+      Latent reasoning is what happens when you delete $q$:
+    </p>
+
+    <div class="equation-card">
+      $$e_{t+1} = h_t.$$
+    </div>
+
+    <p>
+      That is the entire mechanical content of the continuous-thought family. The model keeps
+      running its own forward pass on its own output, as before, but the output is now the
+      unrounded state. Everything else &mdash; the architecture, the attention, the KV cache
+      &mdash; is untouched. What changes is the width of the channel between one step of reasoning
+      and the next.
+    </p>
+
+    <h2>Why the transcript is the whole story, until it isn't</h2>
+
+    <p>
+      It is worth being careful about a tempting objection: surely information also flows forward
+      through the KV cache, which is continuous? It does not, in the following precise sense.
+      The keys and values at position $t$ are a deterministic function of $e_1, \dots, e_t$, which
+      are a deterministic function of $x_1, \dots, x_t$. Under token-space decoding, then:
+    </p>
+
+    <blockquote>
+      The complete internal state of the computation at step $t$ is a deterministic function of
+      the emitted token prefix. The transcript is a sufficient statistic for the computation.
+    </blockquote>
+
+    <p>
+      This is the property that makes a chain of thought legible in principle, and it is exactly
+      the property that latent reasoning gives up. Once $e_{t+1} = h_t$, the state at step $t+1$
+      is no longer a function of anything that was written down, and no amount of reading the
+      output recovers it.
+    </p>
+
+    <p>
+      Two cautions, in both directions. The sufficient-statistic property is about the channel
+      <em>between</em> steps, not about what happens inside one. A single forward pass computes a
+      great deal that never appears in the transcript, which is why a chain of thought can be
+      unfaithful to the computation that produced the answer even when it is the only channel
+      available &mdash; see <a href="./monitorability.html">monitorability</a>. Conversely, the
+      property does real work: a model that wants to carry a hidden intermediate result across
+      many serial steps has, in token space, about seventeen bits per step to do it in, and must
+      otherwise re-derive the result inside each pass. The strength of chain-of-thought monitoring
+      rests on that bottleneck, not on any assumption that models are honest.
+    </p>
+
+    <h2>Two axes</h2>
+
+    <p>
+      Methods in this literature vary along two independent axes, and most confusion about the
+      field comes from conflating them.
+    </p>
+
+    <p>
+      <strong>Where the loop closes.</strong> A reasoning step can be a new sequence position
+      &mdash; the loop runs around the outside of the forward pass, one token of context consumed
+      per step &mdash; or it can be a new pass through the same layers, the loop running inside
+      the stack with no sequence position spent. The first buys serial computation at the cost of
+      context length; the second buys serial <em>depth</em> at the cost of latency, and is where
+      recurrent-depth architectures live.
+    </p>
+
+    <p>
+      <strong>What survives the loop.</strong> A token, a continuous vector, or nothing at all.
+      The third case is not a joke: filler and pause tokens add sequence positions and compute
+      while passing essentially no task content through the channel, which makes them the cleanest
+      experiment anyone has run on what intermediate tokens are actually for.
+    </p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 780 300" role="img"
+           aria-label="Two-by-two taxonomy: where the reasoning loop closes, against what survives the loop">
+        <!-- axis labels -->
+        <text x="18" y="24" font-size="11.5" font-weight="600" fill="#5a5a5a" letter-spacing="0.04em">WHAT SURVIVES THE LOOP</text>
+        <text x="756" y="292" text-anchor="end" font-size="11.5" font-weight="600" fill="#5a5a5a" letter-spacing="0.04em">WHERE THE LOOP CLOSES</text>
+
+        <!-- column headers -->
+        <text x="330" y="52" text-anchor="middle" font-size="12.5" fill="#10212b" font-weight="600">around the forward pass</text>
+        <text x="330" y="68" text-anchor="middle" font-size="10.5" fill="#9a9a9a">costs a sequence position</text>
+        <text x="600" y="52" text-anchor="middle" font-size="12.5" fill="#10212b" font-weight="600">inside the layer stack</text>
+        <text x="600" y="68" text-anchor="middle" font-size="10.5" fill="#9a9a9a">costs a pass through the weights</text>
+
+        <!-- row labels -->
+        <text x="186" y="120" text-anchor="end" font-size="12.5" fill="#10212b" font-weight="600">a token</text>
+        <text x="186" y="137" text-anchor="end" font-size="10.5" fill="#9a9a9a">~17 bits</text>
+        <text x="186" y="196" text-anchor="end" font-size="12.5" fill="#10212b" font-weight="600">a vector</text>
+        <text x="186" y="213" text-anchor="end" font-size="10.5" fill="#9a9a9a">~10&#8308; bits of width</text>
+        <text x="186" y="262" text-anchor="end" font-size="12.5" fill="#10212b" font-weight="600">nothing</text>
+        <text x="186" y="279" text-anchor="end" font-size="10.5" fill="#9a9a9a">no task content</text>
+
+        <!-- cells: col 1 -->
+        <rect x="200" y="92" width="260" height="58" rx="8" fill="#ffffff" stroke="#e2e2e2"/>
+        <text x="330" y="116" text-anchor="middle" font-size="13" font-weight="600" fill="#10212b">Chain of thought</text>
+        <text x="330" y="134" text-anchor="middle" font-size="10.5" fill="#5a5a5a">the transcript is a sufficient statistic</text>
+
+        <rect x="200" y="168" width="260" height="58" rx="8" fill="#e6f3f5" stroke="#0d7d8c"/>
+        <text x="330" y="192" text-anchor="middle" font-size="13" font-weight="600" fill="#0d7d8c">Continuous thoughts</text>
+        <text x="330" y="210" text-anchor="middle" font-size="10.5" fill="#5a5a5a">feed h&#8348; back as e&#8348;&#8330;&#8321;</text>
+
+        <rect x="200" y="244" width="260" height="46" rx="8" fill="#ffffff" stroke="#e2e2e2"/>
+        <text x="330" y="264" text-anchor="middle" font-size="13" font-weight="600" fill="#10212b">Filler &amp; pause tokens</text>
+        <text x="330" y="281" text-anchor="middle" font-size="10.5" fill="#5a5a5a">width and compute, no channel</text>
+
+        <!-- cells: col 2 -->
+        <rect x="470" y="92" width="260" height="58" rx="8" fill="#fafafa" stroke="#e2e2e2" stroke-dasharray="4 3"/>
+        <text x="600" y="120" text-anchor="middle" font-size="11.5" fill="#9a9a9a">degenerate &mdash; a loop that</text>
+        <text x="600" y="136" text-anchor="middle" font-size="11.5" fill="#9a9a9a">emits a token has left the stack</text>
+
+        <rect x="470" y="168" width="260" height="58" rx="8" fill="#e6f3f5" stroke="#0d7d8c"/>
+        <text x="600" y="192" text-anchor="middle" font-size="13" font-weight="600" fill="#0d7d8c">Recurrent depth</text>
+        <text x="600" y="210" text-anchor="middle" font-size="10.5" fill="#5a5a5a">iterate a block to convergence</text>
+
+        <rect x="470" y="244" width="260" height="46" rx="8" fill="#ffffff" stroke="#e2e2e2"/>
+        <text x="600" y="264" text-anchor="middle" font-size="13" font-weight="600" fill="#10212b">Adaptive depth</text>
+        <text x="600" y="281" text-anchor="middle" font-size="10.5" fill="#5a5a5a">halt when a learned signal says so</text>
+      </svg>
+      <p class="caption">
+        The two shaded cells are what the field means by latent reasoning. The literature on the
+        unshaded cells is what tells us whether it should work.
+      </p>
+    </div>
+
+    <h2>Why anyone expects this to help</h2>
+
+    <p>
+      Three arguments recur, and they are not the same argument.
+    </p>
+
+    <p>
+      <strong>Bandwidth.</strong> A reasoning step that must be rounded to a token cannot carry a
+      probability distribution, a partial ordering, or a superposition of candidate answers to the
+      next step; it must commit. A continuous state can carry all of them, so search that would
+      require backtracking in token space can in principle proceed in parallel. This is the
+      argument that continuous thoughts encode a frontier rather than a path, and it is the one
+      with the most direct empirical support.
+    </p>
+
+    <p>
+      <strong>Expressivity.</strong> Serial steps add computational power to a transformer in a
+      way that width and parameters do not. The theory here is about token-space steps and is
+      genuinely settled in outline; whether continuous steps add strictly more is a separate and
+      much less settled question. See <a href="./theory.html">theory</a>.
+    </p>
+
+    <p>
+      <strong>Cost.</strong> Natural language is a wasteful encoding of intermediate arithmetic.
+      If the same computation can be done in fewer, denser steps, inference gets cheaper. This is
+      the argument that motivates most of the compression work, and it is the one where claimed
+      gains are most sensitive to how the baseline was tuned.
+    </p>
+
+    <div class="next-steps">
+      <p><strong>Next:</strong> the <a href="./families.html">families of methods</a> organised by
+      the two axes above, what the <a href="./theory.html">theory</a> actually proves, and the
+      <a href="./monitorability.html">monitorability</a> question that the bandwidth argument
+      raises in its sharpest form.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

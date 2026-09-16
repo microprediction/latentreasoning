@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Implementations</title>
+  <meta name="description" content="Open code, model checkpoints, benchmarks and datasets for latent reasoning in LLMs, with repository statistics verified September 2026." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Implementations</h1>
+    <p class="subtitle">What you can actually run. Repository statistics verified September 2026.</p>
+
+    <p class="lead">
+      The blunt summary: latent reasoning is research code, with one exception. Every
+      method-specific repository below is a self-contained academic release at GPT-2 to 8B scale,
+      with no packaging and frequently a pinned dependency snapshot. Most will reproduce their
+      paper's numbers. None of them is something you add to a serving stack.
+    </p>
+
+    <h2>Open model checkpoints</h2>
+
+    <p>
+      Two families of open weights exist that reason by depth recurrence.
+    </p>
+
+    <div class="table-wrap">
+      <table class="impl">
+        <thead>
+          <tr><th>Model</th><th>Scale</th><th>Notes</th><th class="nowrap">License</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://huggingface.co/ByteDance/Ouro-2.6B">Ouro</a></td>
+            <td class="nowrap">1.4B / 2.6B<br><span class="mode">7.7T tokens</span></td>
+            <td>Looped language model, 24 layers, 4 recurrent steps by default with configurable
+            early exit. Instruction-tuned <em>-Thinking</em> variants published alongside. Loads
+            through standard Hugging Face tooling. Claims 3&ndash;4B dense-equivalent quality at
+            2.6B parameters. The only release here a practitioner could plausibly deploy rather
+            than study.</td>
+            <td class="nowrap">Apache-2.0</td>
+          </tr>
+          <tr>
+            <td><a href="https://huggingface.co/tomg-group-umd/huginn-0125">Huginn-0125</a></td>
+            <td class="nowrap">3.5B<br><span class="mode">800B tokens</span></td>
+            <td>Prelude / recurrent core / coda, with user-controlled test-time recursion
+            (<code>num_steps</code>, typically 4&ndash;64) and entropy, KL and argmax-stability
+            early-exit criteria. Eight intermediate training checkpoints also published. Explicitly
+            a proof of concept and undertrained relative to modern dense models of the same size.</td>
+            <td class="nowrap">Apache-2.0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Method implementations</h2>
+
+    <div class="table-wrap">
+      <table class="impl">
+        <thead>
+          <tr><th>Repository</th><th>Method</th><th class="nowrap">Stars / last push</th><th>State</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/facebookresearch/coconut">facebookresearch/coconut</a></td>
+            <td>Coconut &mdash; continuous thoughts<br><span class="mode">arXiv:2412.06769</span></td>
+            <td class="nowrap">1,705 &middot; 2026-07</td>
+            <td>Training code and data for the GPT-2-scale GSM8K / ProsQA / ProntoQA experiments.
+            No official checkpoints; community reproductions exist on the Hub. MIT.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/seal-rg/recurrent-pretraining">seal-rg/recurrent-pretraining</a></td>
+            <td>Recurrent depth (Huginn)<br><span class="mode">arXiv:2502.05171</span></td>
+            <td class="nowrap">961 &middot; 2025-12</td>
+            <td>Full pretraining stack behind Huginn-0125. Well documented, actively maintained.
+            Apache-2.0.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/raymin0223/mixture_of_recursions">raymin0223/mixture_of_recursions</a></td>
+            <td>Mixture-of-Recursions<br><span class="mode">arXiv:2507.10524</span></td>
+            <td class="nowrap">626 &middot; 2025-09</td>
+            <td>Complete pretraining framework with per-token depth routing and matched KV caching.
+            The most production-adjacent of the architecture-level methods. Apache-2.0.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/ezelikman/quiet-star">ezelikman/quiet-star</a></td>
+            <td>Quiet-STaR<br><span class="mode">arXiv:2403.09629</span></td>
+            <td class="nowrap">740 &middot; 2024-08</td>
+            <td>Stale. Patches a specific <code>transformers</code> dev snapshot from 2024 into
+            Mistral's modeling code; brittle to run against current versions. Apache-2.0.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/InternLM/SIM-CoT">InternLM/SIM-CoT</a></td>
+            <td>Supervised implicit CoT<br><span class="mode">arXiv:2509.20317</span></td>
+            <td class="nowrap">215 &middot; 2026-04</td>
+            <td>The best-resourced and most current implicit-CoT repository. Reports gains over
+            CoT, Coconut and CODI on GPT-2 and Llama 1B/3B/8B. Apache-2.0.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/da03/Internalize_CoT_Step_by_Step">da03/Internalize_CoT_Step_by_Step</a></td>
+            <td>Stepwise internalisation<br><span class="mode">arXiv:2405.14838</span></td>
+            <td class="nowrap">208 &middot; 2025-04</td>
+            <td>Ships data (including GSM8K-Aug), pretrained checkpoints and eval scripts.
+            Genuinely reproduces the paper. MIT.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/zjunlp/LightThinker">zjunlp/LightThinker</a></td>
+            <td>Gist-token compression<br><span class="mode">arXiv:2502.15589</span></td>
+            <td class="nowrap">165 &middot; 2026-06</td>
+            <td>Actively maintained. MIT.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/zhenyi4/codi">zhenyi4/codi</a></td>
+            <td>CODI &mdash; self-distillation<br><span class="mode">arXiv:2502.21074</span></td>
+            <td class="nowrap">107 &middot; 2025-12</td>
+            <td>Self-contained GPT-2-scale training and eval; reproduces the GSM8K numbers. No
+            license file &mdash; check before reuse.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/xuyige/SoftCoT">xuyige/SoftCoT</a></td>
+            <td>SoftCoT and SoftCoT++<br><span class="mode">arXiv:2502.12134, 2505.11484</span></td>
+            <td class="nowrap">95 &middot; 2025-05</td>
+            <td>Training scripts, GSM8K preprocessing, checkpoints. No explicit license despite
+            being public &mdash; check before reuse.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/JacobPfau/fillerTokens">JacobPfau/fillerTokens</a></td>
+            <td>Filler tokens<br><span class="mode">arXiv:2404.15758</span></td>
+            <td class="nowrap">76 &middot; 2024-04</td>
+            <td>Minimal research code for two synthetic algorithmic tasks. Dormant. No license.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/mcleish7/retrofitting-recurrence">mcleish7/retrofitting-recurrence</a></td>
+            <td>Retrofitted recurrence<br><span class="mode">arXiv:2511.07384</span></td>
+            <td class="nowrap">69 &middot; 2025-11</td>
+            <td>Converts a pretrained non-recurrent model to depth-recurrent via curriculum.
+            Apache-2.0.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/yingfan-bot/lotus">yingfan-bot/lotus</a></td>
+            <td>LOTUS &mdash; supervised loop latents<br><span class="mode">arXiv:2606.31779</span></td>
+            <td class="nowrap">51 &middot; 2026-07</td>
+            <td>Fine-tuning scripts over Llama-3.2-3B; no standalone checkpoint. MIT.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/alperengozeten/CoT2">alperengozeten/CoT2</a></td>
+            <td>Continuous CoT / parallel search<br><span class="mode">arXiv:2505.23648</span></td>
+            <td class="nowrap">16 &middot; 2026-02</td>
+            <td>Accompanies the theory paper. MIT.</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/UW-Madison-Lee-Lab/looped-tf">UW-Madison-Lee-Lab/looped-tf</a></td>
+            <td>Looped transformers, length generalisation<br><span class="mode">arXiv:2409.15647</span></td>
+            <td class="nowrap">14 &middot; 2025-04</td>
+            <td>Small research codebase.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Papers with no public implementation</h2>
+    <ul>
+      <li>
+        <strong>Pause tokens</strong> (Goyal et al., arXiv:2310.02226) &mdash; never released by
+        Google Research. The only related public repo is an independent toy that predates the paper
+        and does not reproduce its pretraining setup.
+      </li>
+      <li>
+        <strong>Compressed Chain of Thought</strong> (Cheng &amp; Van Durme, arXiv:2412.13171)
+        &mdash; no release found anywhere. Note that an unrelated multimodal-prompting repository
+        shares the CCoT acronym.
+      </li>
+      <li>
+        <strong>CoTFormer</strong> (arXiv:2310.10845) &mdash; no official repository; only a later
+        independent reproduction paper.
+      </li>
+      <li>
+        <strong>Loop the Loopies!</strong> (arXiv:2607.16051) &mdash; the largest looped model
+        reported, with no public code or checkpoint.
+      </li>
+    </ul>
+
+    <h2>Benchmarks and data</h2>
+
+    <div class="caveat">
+      <p>
+        <strong>There is no shared benchmark for this field.</strong> ProsQA &mdash; a synthetic
+        DAG-shaped multi-hop task, roughly 17.9k train and 300 validation examples at 3&ndash;6 hops
+        &mdash; is the only benchmark purpose-built for latent reasoning, and it ships as JSON
+        inside the Coconut repository rather than as an independent dataset. Everything else is
+        borrowed: <a href="https://github.com/asaparov/prontoqa">ProntoQA</a> (synthetic
+        first-order-logic QA, predating the field),
+        <a href="https://huggingface.co/datasets/whynlp/gsm8k-aug">GSM8K-Aug</a> (385k augmented
+        GSM8K samples with intermediate expressions stripped, now the de facto training corpus for
+        implicit CoT), <a href="https://huggingface.co/datasets/reasoning-machines/gsm-hard">GSM-Hard</a>,
+        and the standard suites &mdash; MATH-500, AIME, SVAMP, BIG-Bench Hard, CommonsenseQA, ARC-C,
+        GPQA.
+      </p>
+      <p>
+        None of these was designed to isolate whether a model is genuinely computing latently rather
+        than taking a shortcut. Every critique paper in this area has had to build its own
+        diagnostic. Cross-paper comparison is correspondingly unreliable, and this is a real,
+        actionable gap rather than a search failure.
+      </p>
+    </div>
+
+    <h2>Framework support</h2>
+
+    <p>
+      None. No evidence that Transformers, vLLM, TGI, SGLang or llama.cpp exposes continuous-thought
+      decoding, recurrent-depth loop control, or pause-token mechanisms as a documented first-class
+      API, the way they expose KV-cache quantisation or speculative decoding. Huginn and Ouro ship
+      custom modeling files loaded through <code>trust_remote_code=True</code>, which is a packaging
+      convenience rather than a library feature. The absence is itself informative: every method
+      here remains a bespoke one-off.
+    </p>
+
+    <h2>Curated lists</h2>
+    <ul>
+      <li>
+        <a href="https://github.com/xlyu0106/Awesome-Latent-Space">Awesome-Latent-Space</a> &mdash;
+        970 stars, last updated July 2026. The broadest and most-starred. (Formerly published under
+        the <code>YU-deep</code> account; that path now redirects.)
+      </li>
+      <li>
+        <a href="https://github.com/EIT-NLP/Awesome-Latent-CoT">EIT-NLP/Awesome-Latent-CoT</a>
+        &mdash; 382 stars, June 2026. Companion to the "Reasoning Beyond Language" survey and the
+        most focused on latent chain of thought specifically.
+      </li>
+      <li>
+        <a href="https://github.com/multimodal-art-projection/LatentCoT-Horizon">LatentCoT-Horizon</a>
+        &mdash; 414 stars, November 2025.
+      </li>
+    </ul>
+
+    <div class="next-steps">
+      <p><strong>Working on something that belongs here?</strong> Open an issue on
+      <a href="https://github.com/microprediction/latentreasoning">the repository</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

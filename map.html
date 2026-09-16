@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Latent reasoning: research directions</title>
+  <meta name="description" content="An interactive map of the latent reasoning literature in LLMs - expressivity theory, continuous thoughts, recurrent depth, contentless tokens and monitorability - with dashed edges marking verified absences.">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    #map-wrap { max-width: 1140px; margin: 0 auto; padding: 16px 24px 40px; }
+    #graph { width: 100%; height: 780px; border: 1px solid #ddd; background: #fdfdfd; border-radius: 4px; }
+    .legend { font-size: 0.85em; color: #444; display: flex; flex-wrap: wrap; gap: 14px 22px; margin: 10px 0; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+    .line { width: 26px; height: 0; border-top: 2.5px solid #999; display: inline-block; }
+    #tooltip { position: absolute; pointer-events: none; background: rgba(20,20,20,0.95); color: #eee;
+        padding: 8px 11px; border-radius: 4px; font-size: 13px; max-width: 350px; display: none; line-height: 1.35; }
+    text.nodelabel { font: 11px sans-serif; fill: #222; pointer-events: none; }
+    .hint { color:#666; font-size: 0.9em; }
+    .gaps li { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./map.html">Literature map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+<div id="map-wrap">
+  <h1>Latent reasoning: research directions</h1>
+  <p>Each node is a paper or a hub concept. Colours are literatures; solid edges are real
+  connections; <b style="color:#c0392b">dashed red edges are connections that do not yet exist</b>
+  &mdash; absences checked as of September 2026, which is to say the research agenda. Dotted purple
+  edges are direct rebuttals, which this field has an unusual number of. Click a node to open the
+  work; drag to rearrange; hover for the one-line story.</p>
+  <div class="legend" id="cluster-legend"></div>
+  <div class="legend">
+    <span><span class="line" style="border-color:#999"></span> builds on / descends from</span>
+    <span><span class="line" style="border-color:#2471a3; border-top-width:3.5px"></span> same object, two readings</span>
+    <span><span class="line" style="border-color:#1e8449"></span> endpoint of the dial</span>
+    <span><span class="line" style="border-top-style:dotted; border-color:#7d3c98"></span> rebuts / contradicts</span>
+    <span><span class="line" style="border-top-style:dashed; border-color:#c0392b"></span> GAP &mdash; does not exist</span>
+  </div>
+  <div id="graph"></div>
+  <p class="hint">Corrections welcome &mdash; file an issue on
+  <a href="https://github.com/microprediction/latentreasoning">microprediction/latentreasoning</a>.</p>
+
+  <h2>The gaps, spelled out</h2>
+  <p>Dashed edges are claims about the literature, so they are stated here in full with a
+  confidence. An absence is only interesting if someone actually looked.</p>
+  <ol class="gaps">
+    <li>
+      <strong>Interpretability results have not reached the deployment question.</strong>
+      The finding that latent traces decode 65&ndash;93% of the time and the live controversy over a
+      production recurrent-depth model do not cite each other. Nobody has applied the decoding
+      methods to the deployed case. <em>Confidence: high. The most policy-relevant gap here.</em>
+    </li>
+    <li>
+      <strong>No independent measurement of monitorability loss for a recurrent-depth model.</strong>
+      A measurement suite for monitorability exists, and open recurrent-depth checkpoints exist.
+      Nobody has run the former on the latter. <em>Confidence: high.</em>
+    </li>
+    <li>
+      <strong>No purpose-built benchmark isolates genuine latent computation.</strong>
+      ProsQA is the only benchmark built for this field and is small, synthetic and shipped inside
+      one repository. Every critique paper has had to construct its own diagnostic rather than reach
+      for a shared instrument. <em>Confidence: high.</em>
+    </li>
+    <li>
+      <strong>No theory of credit assignment through recurrent latent states.</strong>
+      Standard policy-gradient objectives implicitly assume single-step decisions; the observation
+      that this mis-specifies reward for multi-step latent computation is recent and not broadly
+      replicated. There is nothing here resembling the credit-assignment literature for token-level
+      RLHF. <em>Confidence: medium-high, and likely to close within a year.</em>
+    </li>
+    <li>
+      <strong>The two theoretical toolkits have no known reduction between them.</strong>
+      Contentless tokens are analysed with finite model theory and quantifier depth; continuous
+      thoughts with circuit-depth iteration and superposition arguments. They describe the same
+      phenomenon from two sides and do not meet. <em>Confidence: high.</em>
+    </li>
+    <li>
+      <strong>No scaling law for recurrent depth.</strong>
+      Nothing fits loss jointly against parameters, loop count and tokens, so there is no
+      compute-optimal allocation between widening the block and looping it more. Individual papers
+      report compute-equivalent curves; none generalises. <em>Confidence: high.</em>
+    </li>
+    <li>
+      <strong>Weights-as-memory and cache-as-scratchpad have never been compared head to head.</strong>
+      Test-time training compresses context into weights; KV-cache distillation compresses it into
+      the cache. These are competing answers to where state lives during long-horizon reasoning, and
+      no paper evaluates them against each other on reasoning tasks. <em>Confidence: medium.</em>
+    </li>
+    <li>
+      <strong>State-space recurrence is not being used as the reasoning medium.</strong>
+      Essentially all of this work loops attention blocks. Treating a linear-recurrent state as the
+      latent reasoning substrate is barely explored, despite the efficiency properties that
+      motivated looping in the first place. <em>Confidence: medium.</em>
+    </li>
+    <li>
+      <strong>Latent reasoning in diffusion language models has not met verifiable-reward RL.</strong>
+      Both subfields are active; no work found combines them. <em>Confidence: medium &mdash; both
+      areas move fast enough that this may already be closing.</em>
+    </li>
+  </ol>
+</div>
+<div id="tooltip"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+const CLUSTERS = {
+  hub:       {label:"The dial itself",                 color:"#10212b"},
+  theory:    {label:"Expressivity theory",             color:"#8e44ad"},
+  latent:    {label:"Continuous & internalised CoT",   color:"#0d7d8c"},
+  depth:     {label:"Recurrent depth",                 color:"#27ae60"},
+  contentless:{label:"Contentless tokens",             color:"#e67e22"},
+  monitor:   {label:"Faithfulness & monitorability",   color:"#c0392b"},
+  adjacent:  {label:"Adjacent & frontier",             color:"#7f8c8d"},
+  deploy:    {label:"Deployment",                      color:"#000000"},
+};
+
+const NODES = [
+ {id:"hub", c:"hub", label:"Where the computation lives", big:true,
+  note:"The organising question: how many bits of each reasoning step survive to the transcript. Token space is ~17 bits per step; latent space is the full hidden state."},
+
+ // theory
+ {id:"tc0", c:"theory", label:"TC⁰ bound", url:"https://arxiv.org/abs/2207.00729",
+  note:"Merrill & Sabharwal 2023. One forward pass of a log-precision transformer lies in logspace-uniform TC⁰. Scale does not help — the bound never mentions it."},
+ {id:"cotexp", c:"theory", label:"CoT expressivity", url:"https://arxiv.org/abs/2310.07923",
+  note:"Merrill & Sabharwal 2024. Expressivity climbs with CoT length: log — marginal; linear — all regular languages; polynomial — exactly P, under specific pre-norm assumptions."},
+ {id:"serial", c:"theory", label:"CoT ⇒ serial computation", url:"https://arxiv.org/abs/2402.12875",
+  note:"Li, Liu, Zhou & Ma 2024. No CoT at constant precision confines you to AC⁰; T steps of CoT simulate circuits of size O(T). Intermediate tokens are computation slots, not reasoning."},
+ {id:"pauseth", c:"theory", label:"Pause tokens = AC⁰", url:"https://arxiv.org/abs/2505.21024",
+  note:"London & Kanade 2025. A strict separation, with PARITY as the witness: pause tokens lift constant-depth transformers from strictly-inside-AC⁰ to all of AC⁰, and to TC⁰ with log precision."},
+ {id:"cotvlatent", c:"theory", label:"TC^k vs TC^(k-1)", big:true, url:"https://arxiv.org/abs/2509.25239",
+  note:"Xu & Sato 2025. The one sharp theorem separating continuous from discrete steps — under matched depth AND deterministic decoding. Stochastic CoT wins back counting and sampling."},
+ {id:"memsep", c:"theory", label:"Memory-budget separation", url:"https://arxiv.org/abs/2605.30757",
+  note:"Zhang 2026. A fixed-size recurrent state cannot do what polynomial-length CoT can on P-complete problems: recurrence buys depth, not memory."},
+ {id:"superth", c:"theory", label:"Superposition theory", url:"https://arxiv.org/abs/2505.12514",
+  note:"Zhu et al. 2025. Two layers and D continuous steps solve graph reachability at diameter D, where the best discrete construction needs O(n²). The superposition emerges from training."},
+
+ // continuous / internalised
+ {id:"implicit", c:"latent", label:"Implicit CoT", url:"https://arxiv.org/abs/2311.01460",
+  note:"Deng et al. 2023. Distil horizontal token-by-token reasoning into vertical layer-by-layer computation."},
+ {id:"stepwise", c:"latent", label:"Stepwise internalisation", url:"https://arxiv.org/abs/2405.14838",
+  note:"Deng, Choi & Shieber 2024. Delete CoT tokens on a schedule. GPT-2 Small hits 99% on 9×9 multiplication emitting nothing."},
+ {id:"coconut", c:"latent", label:"Coconut", big:true, url:"https://arxiv.org/abs/2412.06769",
+  note:"Hao et al. 2024. Feed the hidden state back instead of a token. ProsQA 97.0 vs 77.5 — but GSM8K 34.1 vs 42.9. Gains are search, not arithmetic."},
+ {id:"codi", c:"latent", label:"CODI", url:"https://arxiv.org/abs/2502.21074",
+  note:"Shen et al. 2025. Self-distillation replaces Coconut's curriculum; first in the family to match explicit CoT on GSM8K at GPT-2 scale."},
+ {id:"simcot", c:"latent", label:"SIM-CoT", url:"https://arxiv.org/abs/2509.20317",
+  note:"Wei et al. 2025. Names latent instability — latent vectors homogenise as you add steps — and stabilises training with a step-level decoder dropped at inference."},
+ {id:"softthink", c:"latent", label:"Soft Thinking", url:"https://arxiv.org/abs/2505.15778",
+  note:"Training-free mixture-of-embeddings decoding, claiming parallel exploration."},
+ {id:"singlethread", c:"latent", label:"⟂ Single-threaded", url:"https://arxiv.org/abs/2508.03440",
+  note:"Wu et al. 2025. The model follows the top component of the mixture; Soft Thinking degenerates to greedy decoding without injected noise."},
+ {id:"illusion", c:"latent", label:"⟂ Illusion of superposition", url:"https://arxiv.org/abs/2604.06374",
+  note:"Rizvi-Martel, Rabusseau & Mosbach 2026. Superposition appears when training from scratch and collapses under the fine-tuning regimes actually used."},
+
+ // depth
+ {id:"ut", c:"depth", label:"Universal Transformers", url:"https://arxiv.org/abs/1807.03819",
+  note:"Dehghani et al. 2018. Weight-tied layers plus adaptive halting — depth as a loop. The architectural precursor."},
+ {id:"huginn", c:"depth", label:"Huginn / recurrent depth", big:true, url:"https://arxiv.org/abs/2502.05171",
+  note:"Geiping et al. 2025. 3.5B params, 800B tokens, core unrolled 4–64× at test time with no CoT training data. Open weights."},
+ {id:"reddi", c:"depth", label:"Loops ≈ depth", url:"https://arxiv.org/abs/2502.17416",
+  note:"Reddi et al. 2025. k layers looped L times ≈ kL unlooped layers. Many reasoning problems are depth-bound, not parameter-bound."},
+ {id:"mor", c:"depth", label:"Mixture-of-Recursions", url:"https://arxiv.org/abs/2507.10524",
+  note:"Bae et al. 2025. Per-token routed recursion depth with matched KV caching."},
+ {id:"ouro", c:"depth", label:"Ouro", big:true, url:"https://arxiv.org/abs/2510.25741",
+  note:"2025. 1.4B/2.6B looped LMs over 7.7T tokens — recurrence in pretraining, not bolted on. Gains traced to knowledge manipulation, not capacity."},
+ {id:"stars", c:"depth", label:"⟂ Depth collapse", url:"https://arxiv.org/abs/2605.26733",
+  note:"2026. Looped performance peaks at some depth then collapses with more looping. Cuts against the 'infinite depth' framing."},
+ {id:"lotus", c:"depth", label:"LOTUS", url:"https://arxiv.org/abs/2606.31779",
+  note:"Fan et al. 2026. Latent CoT had been losing to explicit CoT past 1B with the gap widening; reports closing it at 3B via parallel supervision of loop latents."},
+
+ // contentless
+ {id:"pause", c:"contentless", label:"Pause tokens", url:"https://arxiv.org/abs/2310.02226",
+  note:"Goyal et al. 2024. +18% EM on SQuAD at 1B — but only with pauses in both pretraining and fine-tuning."},
+ {id:"filler", c:"contentless", label:"Filler tokens", big:true, url:"https://arxiv.org/abs/2404.15758",
+  note:"Pfau, Merrill & Bowman 2024. Repeated dots solve tasks unsolvable in one pass, under dense supervision. The control experiment for the field."},
+ {id:"thinkfail", c:"contentless", label:"⟂ Thinking tokens fail", url:"https://arxiv.org/abs/2411.11371",
+  note:"Vennam et al. 2024. Naive thinking tokens underperform real CoT — one repeated embedding gives noisy gradients."},
+ {id:"dots", c:"contentless", label:"Reading between the dots", url:"https://arxiv.org/abs/2607.03502",
+  note:"2026. Filler computation defeats token-level monitoring, yet unsupervised decoding of hidden states recovers intermediates at 80–95%. Monitorability lives in activations."},
+
+ // monitorability
+ {id:"turpin", c:"monitor", label:"Turpin et al.", url:"https://arxiv.org/abs/2305.04388",
+  note:"2023. Biasing prompts shifts answers up to 36% while the CoT never mentions the bias."},
+ {id:"lanham", c:"monitor", label:"Lanham et al.", url:"https://arxiv.org/abs/2307.13702",
+  note:"2023. Interventional faithfulness metrics; models often answer the same regardless of what the CoT says."},
+ {id:"stego", c:"monitor", label:"Encoded reasoning", url:"https://arxiv.org/abs/2310.18512",
+  note:"Roger & Greenblatt 2023. Steganographic CoT: 80% vs 54% opinion-matching. Paraphrase defence claimed to cut capacity below ~3 bits/KB."},
+ {id:"chen", c:"monitor", label:"Models don't say", url:"https://arxiv.org/abs/2505.05410",
+  note:"Chen et al. 2025. Hints demonstrably used are verbalised often below 20% of the time; outcome-based RL plateaus rather than saturating."},
+ {id:"baker", c:"monitor", label:"Obfuscated reward hacking", url:"https://arxiv.org/abs/2503.11926",
+  note:"Baker et al. 2025. Monitors catch hacking — until you optimise against them, at which point the hacking hides and still passes."},
+ {id:"korbak", c:"monitor", label:"CoT monitorability", big:true, url:"https://arxiv.org/abs/2507.11473",
+  note:"Korbak et al. 2025, 40+ authors across the major labs. Models are currently forced to externalise serial computation legibly; this is an accident, not a guarantee, and latent reasoning threatens it."},
+ {id:"monmon", c:"monitor", label:"Monitoring Monitorability", url:"https://arxiv.org/abs/2512.18311",
+  note:"Guan et al. 2025. A suite treating monitorability as a measurable, degradable property: 13 evaluations across 24 environments."},
+ {id:"dilgren", c:"monitor", label:"Latent CoT decodable?", url:"https://arxiv.org/abs/2604.04902",
+  note:"Dilgren & Wiegreffe 2026. Latent traces decode 65–93% of the time when load-bearing — but much less on incorrectly answered instances, which is where oversight matters."},
+
+ // adjacent / frontier
+ {id:"kava", c:"adjacent", label:"KV-cache distillation", url:"https://arxiv.org/abs/2510.02312",
+  note:"KaVa 2025. Distils a compressed teacher KV cache into a latent student; CoT-bearing caches are highly redundant. Cache-as-scratchpad."},
+ {id:"ladir", c:"adjacent", label:"Latent diffusion reasoning", url:"https://arxiv.org/abs/2510.04573",
+  note:"LaDiR 2025. Continuous latent representation with iterative diffusion refinement."},
+ {id:"rltt", c:"adjacent", label:"Rewarding latent trajectories", url:"https://arxiv.org/abs/2602.10520",
+  note:"2026. Naive policy-gradient RL fails on looped latent models because it rewards only the final latent state; proposes rewarding the whole trajectory."},
+ {id:"ssm", c:"adjacent", label:"State-space recurrence",
+  note:"Linear-recurrent architectures. Their recurrent state is an obvious candidate reasoning medium, and almost nobody has used it as one — the field looped attention instead."},
+ {id:"survey", c:"adjacent", label:"Survey", url:"https://arxiv.org/abs/2507.06203",
+  note:"Zhu et al. 2025, 33 authors. Splits the field into vertical recurrence (activation-based) and horizontal recurrence (hidden-state-based)."},
+
+ // deployment
+ {id:"astra", c:"deploy", label:"Recurrent depth in production", big:true,
+  url:"https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/",
+  note:"September 2026. Reporting that OpenAI's Astra uses 'opaque recurrence'. OpenAI says use is limited and CoT stays legible. No primary system card verified here — a developing story."},
+];
+
+const LINKS = [
+ // descent
+ {s:"tc0", t:"cotexp", k:"builds"}, {s:"tc0", t:"serial", k:"builds"},
+ {s:"cotexp", t:"cotvlatent", k:"builds"}, {s:"serial", t:"pauseth", k:"builds"},
+ {s:"serial", t:"filler", k:"builds", lab:"tokens as slots"},
+ {s:"pause", t:"filler", k:"builds"}, {s:"filler", t:"pauseth", k:"builds"},
+ {s:"filler", t:"dots", k:"same", lab:"same object, two readings"},
+ {s:"implicit", t:"stepwise", k:"builds"}, {s:"stepwise", t:"coconut", k:"builds"},
+ {s:"coconut", t:"codi", k:"builds"}, {s:"coconut", t:"simcot", k:"builds"},
+ {s:"coconut", t:"softthink", k:"builds"}, {s:"coconut", t:"superth", k:"builds", lab:"explained by"},
+ {s:"coconut", t:"lotus", k:"builds"},
+ {s:"ut", t:"huginn", k:"builds"}, {s:"ut", t:"mor", k:"builds"}, {s:"ut", t:"ouro", k:"builds"},
+ {s:"reddi", t:"huginn", k:"builds", lab:"depth, not parameters"},
+ {s:"huginn", t:"ouro", k:"builds"}, {s:"huginn", t:"stars", k:"builds"},
+ {s:"huginn", t:"astra", k:"builds", lab:"reported basis"},
+ {s:"turpin", t:"lanham", k:"builds"}, {s:"lanham", t:"chen", k:"builds"},
+ {s:"chen", t:"korbak", k:"builds"}, {s:"baker", t:"korbak", k:"builds"},
+ {s:"stego", t:"korbak", k:"builds"}, {s:"korbak", t:"monmon", k:"builds"},
+ {s:"korbak", t:"astra", k:"builds", lab:"anticipated"},
+ {s:"survey", t:"coconut", k:"builds"}, {s:"survey", t:"huginn", k:"builds"},
+ {s:"rltt", t:"ouro", k:"builds"}, {s:"kava", t:"coconut", k:"builds"},
+
+ // the dial
+ {s:"hub", t:"coconut", k:"end", lab:"loop outside the pass"},
+ {s:"hub", t:"huginn", k:"end", lab:"loop inside the stack"},
+ {s:"hub", t:"pause", k:"end", lab:"zero-bandwidth corner"},
+ {s:"hub", t:"cotvlatent", k:"end", lab:"the separation"},
+ {s:"hub", t:"korbak", k:"end", lab:"what it costs"},
+
+ // same object
+ {s:"coconut", t:"huginn", k:"same", lab:"the quantiser, deleted twice"},
+
+ // rebuttals
+ {s:"singlethread", t:"softthink", k:"rebut"},
+ {s:"illusion", t:"superth", k:"rebut"},
+ {s:"stars", t:"ouro", k:"rebut", lab:"depth collapses"},
+ {s:"thinkfail", t:"pause", k:"rebut"},
+ {s:"dilgren", t:"korbak", k:"rebut", lab:"more legible than feared"},
+ {s:"memsep", t:"cotvlatent", k:"rebut", lab:"loops lack memory"},
+
+ // GAPS
+ {s:"dilgren", t:"astra", k:"gap", lab:"never applied to the deployed case"},
+ {s:"monmon", t:"huginn", k:"gap", lab:"never measured on open loops"},
+ {s:"filler", t:"superth", k:"gap", lab:"no reduction between toolkits"},
+ {s:"rltt", t:"cotvlatent", k:"gap", lab:"no credit-assignment theory"},
+ {s:"reddi", t:"ouro", k:"gap", lab:"no scaling law for depth"},
+ {s:"kava", t:"huginn", k:"gap", lab:"cache vs weights, never compared"},
+ {s:"ssm", t:"hub", k:"gap", lab:"recurrent state unused as medium"},
+ {s:"ladir", t:"rltt", k:"gap", lab:"diffusion latents × verifiable RL"},
+ {s:"coconut", t:"monmon", k:"gap", lab:"no benchmark isolates latent compute"},
+];
+
+const EDGE = {
+  builds: {stroke:"#999",    w:1.4, dash:null},
+  same:   {stroke:"#2471a3", w:3.2, dash:null},
+  end:    {stroke:"#1e8449", w:1.8, dash:null},
+  rebut:  {stroke:"#7d3c98", w:1.6, dash:"2,3"},
+  gap:    {stroke:"#c0392b", w:1.8, dash:"6,4"},
+};
+
+const W = document.getElementById("graph").clientWidth, H = 780;
+const svg = d3.select("#graph").append("svg")
+  .attr("width","100%").attr("height",H).attr("viewBox",[0,0,W,H]);
+const tooltip = d3.select("#tooltip");
+
+const links = LINKS.map(l => ({...l, source:l.s, target:l.t}));
+const nodes = NODES.map(n => ({...n}));
+
+const sim = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d=>d.id).distance(d=>d.k==="gap"?160:95).strength(d=>d.k==="gap"?0.12:0.5))
+  .force("charge", d3.forceManyBody().strength(-540))
+  .force("center", d3.forceCenter(W/2, H/2))
+  .force("collide", d3.forceCollide().radius(46));
+
+const link = svg.append("g").selectAll("line").data(links).join("line")
+  .attr("stroke", d=>EDGE[d.k].stroke)
+  .attr("stroke-width", d=>EDGE[d.k].w)
+  .attr("stroke-dasharray", d=>EDGE[d.k].dash)
+  .attr("opacity", 0.85);
+
+const edgelabel = svg.append("g").selectAll("text").data(links.filter(d=>d.lab)).join("text")
+  .attr("font-size", 9.5).attr("font-style","italic")
+  .attr("fill", d=>d.k==="gap"?"#c0392b":"#777")
+  .attr("text-anchor","middle")
+  .attr("paint-order","stroke").attr("stroke","#fdfdfd").attr("stroke-width",3.5).attr("stroke-linejoin","round")
+  .text(d=>d.lab);
+
+const node = svg.append("g").selectAll("g").data(nodes).join("g")
+  .style("cursor", d=>d.url?"pointer":"grab")
+  .on("click", (e,d)=>{ if(d.url) window.open(d.url,"_blank"); })
+  .on("mousemove", (e,d)=>{ tooltip.style("display","block")
+      .style("left",(e.pageX+14)+"px").style("top",(e.pageY+8)+"px")
+      .html(`<b>${d.label}</b><br>${d.note}`); })
+  .on("mouseout", ()=>tooltip.style("display","none"))
+  .call(d3.drag()
+    .on("start",(e,d)=>{ if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+    .on("drag", (e,d)=>{ d.fx=e.x; d.fy=e.y; })
+    .on("end",  (e,d)=>{ if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }));
+
+node.append("circle")
+  .attr("r", d=>d.big?11:7)
+  .attr("fill", d=>CLUSTERS[d.c].color)
+  .attr("stroke","#fff").attr("stroke-width",1.6);
+
+node.append("text").attr("class","nodelabel")
+  .attr("x", 0).attr("y", d=>(d.big?11:7)+13)
+  .attr("text-anchor","middle")
+  .attr("paint-order","stroke").attr("stroke","#fdfdfd").attr("stroke-width",3.5).attr("stroke-linejoin","round")
+  .text(d=>d.label);
+
+sim.on("tick", () => {
+  nodes.forEach(d => { d.x = Math.max(60, Math.min(W-60, d.x)); d.y = Math.max(24, Math.min(H-24, d.y)); });
+  link.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y)
+      .attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
+  edgelabel.attr("x",d=>(d.source.x+d.target.x)/2).attr("y",d=>(d.source.y+d.target.y)/2-3);
+  node.attr("transform", d=>`translate(${d.x},${d.y})`);
+});
+
+d3.select("#cluster-legend").selectAll("span").data(Object.values(CLUSTERS)).join("span")
+  .html(d=>`<span class="dot" style="background:${d.color}"></span>${d.label}`);
+</script>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>
