@@ -39,9 +39,9 @@
     <h2>The decoding loop</h2>
 
     <p>
-      Fix a decoder-only language model. Write $f$ for the forward pass that maps a sequence of
-      input embeddings to the final-layer hidden state at the last position, $W$ for the unembedding
-      matrix, and $E$ for the embedding table. Autoregressive decoding is the loop
+      Take a decoder-only language model, and let $f$ be the forward pass that maps a sequence of
+      input embeddings to the final-layer hidden state at the last position, $W$ the unembedding
+      matrix, and $E$ the embedding table. Autoregressive decoding is then the loop
     </p>
 
     <div class="equation-card">
@@ -78,8 +78,8 @@
     <h2>What the transcript does and does not give you</h2>
 
     <p>
-      A cached decoder does not start from nothing at each step. Writing $C_t$ for the key-value
-      cache, the update is closer to
+      A cached decoder does not start from nothing at each step. If $C_t$ is the key-value cache,
+      the update is closer to
     </p>
 
     <div class="equation-card">
@@ -128,7 +128,7 @@
       read off it, which is precisely what filler tokens demonstrate &mdash; recovering that hidden
       computation took an unsupervised decoder operating on activations, not a reader. Monitorability
       is an empirical property of how models are currently trained, not a structural consequence of
-      discretisation. See <a href="./monitorability.html">monitorability</a>.
+      discretisation. <a href="./monitorability.html">Monitorability</a> has the measurements.
     </p>
 
     <p class="muted">
@@ -233,7 +233,7 @@
       <strong>Expressivity.</strong> Serial steps add computational power to a transformer in a
       way that width and parameters do not. The theory here is about token-space steps and is
       genuinely settled in outline. Whether continuous steps add strictly more is a separate and
-      much less settled question. See <a href="./theory.html">theory</a>.
+      much less settled question. The <a href="./theory.html">theory</a> page has the bounds.
     </p>
 
     <p>

@@ -37,16 +37,15 @@
     doing.</p>
 
     <p class="lead">
-      The <a href="./intro.html">introduction</a> sets up two axes: where the reasoning loop closes,
-      and what survives it. The families below are the clusters the literature has actually formed,
-      which do not partition the axes neatly &mdash; several methods are hybrids by construction.
-      Each entry says what the method does mechanically, not what it claims.
+      Methods differ along two independent dimensions: where the reasoning loop closes, and what
+      crosses from one step to the next. The named families cut across both, and several methods are
+      hybrids by construction.
     </p>
 
     <div class="family">
       <h3>1. Internalisation by curriculum <span class="tag">token &rarr; nothing</span></h3>
       <p>
-        Keep the architecture and the vocabulary exactly as they are, but train the explicit
+        One keeps the architecture and the vocabulary exactly as they are, and trains the explicit
         rationale away. A model is first taught to emit a chain of thought, then the intermediate
         tokens are progressively deleted during fine-tuning until none remain and the same forward
         pass must do the work that used to be spread over many.
@@ -69,7 +68,8 @@
     <div class="family">
       <h3>2. Continuous thoughts <span class="tag">token &rarr; vector</span></h3>
       <p>
-        Delete the quantiser: feed the last hidden state back as the next input embedding. Coconut
+        One deletes the discretisation, feeding the last hidden state back as the next input
+        embedding. Coconut
         (Hao et al. 2024) is the reference implementation and the paper that named the idea.
       </p>
       <p>
@@ -130,7 +130,7 @@
     <div class="family">
       <h3>4. Recurrent depth <span class="tag">loop inside the stack</span></h3>
       <p>
-        Spend the extra computation in depth rather than in sequence length. A block of layers is
+        One spends the extra computation in depth rather than in sequence length. A block of layers is
         applied repeatedly to the same state, so test-time compute decouples from context length
         and from the vocabulary entirely. The antecedents are old &mdash; adaptive computation time
         (Graves 2016), Universal Transformers (Dehghani et al. 2018), PonderNet (Banino et al.
@@ -197,91 +197,89 @@
 
     <h2>What goes wrong</h2>
 
-    <div class="caveat">
-      <h3>Latent representations collapse as you add steps</h3>
-      <p>
-        SIM-CoT documents this as <em>latent instability</em>: as the number of latent reasoning
-        tokens grows, the vectors homogenise, lose semantic diversity, and training collapses. That
-        the fix is step-level auxiliary supervision is itself evidence that end-to-end latent
-        training under-constrains the representation.
-      </p>
+    <h3>Latent representations collapse as you add steps</h3>
+    <p>
+      SIM-CoT documents this as <em>latent instability</em>: as the number of latent reasoning
+      tokens grows, the vectors homogenise, lose semantic diversity, and training collapses. That
+      the fix is step-level auxiliary supervision is itself evidence that end-to-end latent
+      training under-constrains the representation.
+    </p>
 
-      <h3>The superposition story does not hold everywhere</h3>
-      <p>
-        Soft Thinking (Zhang et al. 2025) replaces each token with a probability-weighted mixture
-        of embeddings, claiming parallel exploration. Wu et al. (2025) showed directly that the
-        model overwhelmingly follows the single highest-probability component &mdash; the method
-        degenerates to greedy decoding unless noise is deliberately injected. Rizvi-Martel,
-        Rabusseau &amp; Mosbach (2026) sharpen this: genuine superposition shows up in models
-        trained from scratch with continuous latent CoT, and largely collapses under the fine-tuning
-        regimes most practitioners actually use. Superposition is a per-method property to be
-        demonstrated, not a family-wide entitlement.
-      </p>
+    <h3>The superposition story does not hold everywhere</h3>
+    <p>
+      Soft Thinking (Zhang et al. 2025) replaces each token with a probability-weighted mixture
+      of embeddings, claiming parallel exploration. Wu et al. (2025) showed directly that the
+      model overwhelmingly follows the single highest-probability component &mdash; the method
+      degenerates to greedy decoding unless noise is deliberately injected. Rizvi-Martel,
+      Rabusseau &amp; Mosbach (2026) sharpen this: genuine superposition shows up in models
+      trained from scratch with continuous latent CoT, and largely collapses under the fine-tuning
+      regimes most practitioners actually use. Superposition is a per-method property to be
+      demonstrated, not a family-wide entitlement.
+    </p>
 
-      <h3>More depth is not monotonically better</h3>
-      <p>
-        Yang et al. (2026) document looped language model performance peaking at some recurrence
-        depth and then <em>collapsing</em> with further looping, and propose spectral-radius
-        regularisation as a fix. This bears directly on the "infinite depth" framing several
-        surveys use.
-      </p>
+    <h3>More depth is not monotonically better</h3>
+    <p>
+      Yang et al. (2026) document looped language model performance peaking at some recurrence
+      depth and then <em>collapsing</em> with further looping, and propose spectral-radius
+      regularisation as a fix. This bears directly on the "infinite depth" framing several
+      surveys use.
+    </p>
 
-      <h3>Prompted implicit reasoning is mostly shortcuts</h3>
-      <p>
-        Yu (2024) finds that models merely <em>prompted</em> to reason implicitly barely compute
-        genuine intermediate steps and lean on memorised shortcuts; models specifically
-        <em>trained</em> for implicit CoT do show evidence of real internal stepwise computation.
-        Both are brittle to superficial reformatting. Claims that "the model is reasoning
-        internally" need to say which of these two situations they are in.
-      </p>
+    <h3>Prompted implicit reasoning is mostly shortcuts</h3>
+    <p>
+      Yu (2024) finds that models merely <em>prompted</em> to reason implicitly barely compute
+      genuine intermediate steps and lean on memorised shortcuts; models specifically
+      <em>trained</em> for implicit CoT do show evidence of real internal stepwise computation.
+      Both are brittle to superficial reformatting. Claims that "the model is reasoning
+      internally" need to say which of these two situations they are in.
+    </p>
 
-      <h3>Accuracy may be a poor proxy &mdash; but the measurement is contested</h3>
-      <p>
-        Sahoo et al. (2026) report that on Qwen2.5-Math-7B at 61% accuracy, 18.4% of correct
-        predictions use stable faithful reasoning while 81.6% &ldquo;emerge through computationally
-        inconsistent pathways,&rdquo; with 8.8% silent failures and a weak negative correlation
-        ($r = -0.21$) between reasoning quality and correctness.
-      </p>
-      <p>
-        <strong>Those figures should not be read as established failure rates</strong>, and this
-        page previously presented them that way. Three problems, raised by a reader and checked
-        here:
-      </p>
-      <ul>
-        <li>
-          The reported statistics are mutually inconsistent. A negative correlation with binary
-          correctness cannot coexist with a higher mean fidelity for correct examples than for
-          incorrect ones &mdash; $\mathrm{Cov}(F,Y) = p(1-p)\{E[F \mid Y{=}1] - E[F \mid
-          Y{=}0]\}$ is positive whenever the conditional means are ordered that way. Something has
-          been mislabelled, and which it is has not been established.
-        </li>
-        <li>
-          The headline rates are <em>definitions built on proxies</em>, not independent verification
-          of reasoning errors. &ldquo;Confident&rdquo; is an activation-consistency score above a
-          threshold, not a calibrated output probability, so a correct answer falling below that
-          threshold has not thereby been shown to be a guess.
-        </li>
-        <li>
-          Some of the underlying metrics are partly fixed by construction &mdash; a statistic
-          defined as the fraction of layers above their own median sits near one half whatever the
-          model does.
-        </li>
-      </ul>
-      <p class="muted">
-        The paper is worth keeping as a contested diagnostic proposal and a reminder that accuracy
-        alone tells you little. It is one model family and a few hundred GSM8K items, and it is not
-        evidence about depth-recurrent or continuous-feedback architectures generally.
-      </p>
+    <h3>Accuracy may be a poor proxy &mdash; but the measurement is contested</h3>
+    <p>
+      Sahoo et al. (2026) report that on Qwen2.5-Math-7B at 61% accuracy, 18.4% of correct
+      predictions use stable faithful reasoning while 81.6% &ldquo;emerge through computationally
+      inconsistent pathways,&rdquo; with 8.8% silent failures and a weak negative correlation
+      ($r = -0.21$) between reasoning quality and correctness.
+    </p>
+    <p>
+      <strong>Those figures should not be read as established failure rates</strong>, and this
+      page previously presented them that way. Three problems, raised by a reader and checked
+      here:
+    </p>
+    <ul>
+      <li>
+        The reported statistics are mutually inconsistent. A negative correlation with binary
+        correctness cannot coexist with a higher mean fidelity for correct examples than for
+        incorrect ones &mdash; $\mathrm{Cov}(F,Y) = p(1-p)\{E[F \mid Y{=}1] - E[F \mid
+        Y{=}0]\}$ is positive whenever the conditional means are ordered that way. Something has
+        been mislabelled, and which it is has not been established.
+      </li>
+      <li>
+        The headline rates are <em>definitions built on proxies</em>, not independent verification
+        of reasoning errors. &ldquo;Confident&rdquo; is an activation-consistency score above a
+        threshold, not a calibrated output probability, so a correct answer falling below that
+        threshold has not thereby been shown to be a guess.
+      </li>
+      <li>
+        Some of the underlying metrics are partly fixed by construction &mdash; a statistic
+        defined as the fraction of layers above their own median sits near one half whatever the
+        model does.
+      </li>
+    </ul>
+    <p class="muted">
+      The paper is worth keeping as a contested diagnostic proposal and a reminder that accuracy
+      alone tells you little. It is one model family and a few hundred GSM8K items, and it is not
+      evidence about depth-recurrent or continuous-feedback architectures generally.
+    </p>
 
-      <h3>The evidence base is small and synthetic</h3>
-      <p>
-        Much of the strongest support &mdash; graph reachability, ProsQA, ProntoQA, maze tasks
-        &mdash; comes from benchmarks built to exhibit parallel search. Most strong
-        empirical results are at GPT-2 to 8B scale. See <a href="./implementations.html">the
-        benchmark note</a> for why cross-paper comparison in this field is largely
-        apples-to-oranges.
-      </p>
-    </div>
+    <h3>The evidence base is small and synthetic</h3>
+    <p>
+      Much of the strongest support &mdash; graph reachability, ProsQA, ProntoQA, maze tasks
+      &mdash; comes from benchmarks built to exhibit parallel search. Most strong
+      empirical results are at GPT-2 to 8B scale. Cross-paper comparison is largely
+      apples-to-oranges, for the reasons given under
+      <a href="./implementations.html">implementations</a>.
+    </p>
 
     <div class="next-steps">
       <p><strong>Next:</strong> what the <a href="./theory.html">theory</a> proves about all of

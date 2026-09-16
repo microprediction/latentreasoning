@@ -62,59 +62,57 @@
       caps what one pass can do.
     </p>
 
-    <div class="caveat">
-      <p>
-        <strong>What this does not say.</strong> It is an asymptotic statement about families of
-        circuits over arbitrarily growing inputs, within a polynomial-size regime. It is not a
-        prohibition on a particular model solving a particular finite benchmark instance, and it
-        does not say that growing the model never helps in practice. Arguments of the form
-        &ldquo;$\mathsf{TC}^0$, therefore this model cannot do arithmetic&rdquo; do not follow.
+    <p>
+      <strong>What this does not say.</strong> It is an asymptotic statement about families of
+      circuits over arbitrarily growing inputs, within a polynomial-size regime. It is not a
+      prohibition on a particular model solving a particular finite benchmark instance, and it
+      does not say that growing the model never helps in practice. Arguments of the form
+      &ldquo;$\mathsf{TC}^0$, therefore this model cannot do arithmetic&rdquo; do not follow.
     </p>
 
     <p>
-      Li, Liu, Zhou &amp; Ma (2024) tighten this under a different precision assumption: with
-      <em>constant</em> bit precision and constant depth and no chain of thought, expressivity is
-      confined to $\mathsf{AC}^0$, a strict subset of $\mathsf{TC}^0$. The precision regime is not
-      a technicality &mdash; it moves the answer by a complexity class, and papers in this area are
-      often compared as though it does not.
+    Li, Liu, Zhou &amp; Ma (2024) tighten this under a different precision assumption: with
+    <em>constant</em> bit precision and constant depth and no chain of thought, expressivity is
+    confined to $\mathsf{AC}^0$, a strict subset of $\mathsf{TC}^0$. The precision regime is not
+    a technicality &mdash; it moves the answer by a complexity class, and papers in this area are
+    often compared as though it does not.
     </p>
 
     <h2>Serial steps buy computation, gradually</h2>
 
     <p>
-      Chain of thought converts token count into a serial computation budget. Li et al. State it
-      most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
-      transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
-      theory, meaningful reasoning &mdash; they are computation slots.
+    Chain of thought converts token count into a serial computation budget. Li et al. State it
+    most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
+    transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
+    theory, meaningful reasoning &mdash; they are computation slots.
     </p>
 
     <p>
-      Merrill &amp; Sabharwal (2024) give the graded version, and it is worth quoting the shape of
-      it precisely because the intermediate cases are the interesting ones:
+    Merrill &amp; Sabharwal (2024) give the graded version, and it is worth quoting the shape of
+    it precisely because the intermediate cases are the interesting ones:
     </p>
 
     <div class="table-wrap">
-      <table class="impl">
-        <thead><tr><th class="nowrap">CoT steps</th><th>Reachable class</th><th>Caveat</th></tr></thead>
-        <tbody>
-          <tr>
-            <td class="nowrap">$T = O(\log n)$</td>
-            <td>Only marginally beyond the no-CoT baseline.</td>
-            <td class="mode">&mdash;</td>
-          </tr>
-          <tr>
-            <td class="nowrap">$T = O(n)$</td>
-            <td>Recognises all regular languages; upper-bounded by context-sensitive.</td>
-            <td class="mode">Requires a projected pre-norm architecture.</td>
-          </tr>
-          <tr>
-            <td class="nowrap">$T = \mathrm{poly}(n)$</td>
-            <td>Exactly $\mathsf P$ &mdash; as powerful as polynomial-time Turing machines.</td>
-            <td class="mode">Requires a generalised pre-norm architecture.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="impl">
+      <thead><tr><th class="nowrap">CoT steps</th><th>Reachable class</th><th>Caveat</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="nowrap">$T = O(\log n)$</td>
+          <td>Only marginally beyond the no-CoT baseline.</td>
+          <td class="mode">&mdash;</td>
+        </tr>
+        <tr>
+          <td class="nowrap">$T = O(n)$</td>
+          <td>Recognises all regular languages; upper-bounded by context-sensitive.</td>
+          <td class="mode">Requires a projected pre-norm architecture.</td>
+        </tr>
+        <tr>
+          <td class="nowrap">$T = \mathrm{poly}(n)$</td>
+          <td>Exactly $\mathsf P$ &mdash; as powerful as polynomial-time Turing machines.</td>
+          <td class="mode">Requires a generalised pre-norm architecture.</td>
+        </tr>
+      </tbody>
+    </table>
 
     <p>
       The poly case is the first exact characterisation of a transformer variant by a standard
@@ -133,8 +131,8 @@
     </p>
 
     <p>
-      Two qualifications the site previously omitted. The scope is those two specified problem
-      families over finite fields, not &ldquo;basic arithmetic&rdquo; in general. And the lower
+      Two qualifications matter. The scope is those two specified problem families over finite
+      fields, not &ldquo;basic arithmetic&rdquo; in general. And the lower
       bound is supplied by circuit-complexity reasoning under an explicit conjecture &mdash; it is
       not an unconditional size-blowup result.
     </p>

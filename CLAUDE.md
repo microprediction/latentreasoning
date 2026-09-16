@@ -81,6 +81,14 @@ Prose follows `microprediction/style`. The rules that bite most often here:
 - **No significance announcements** — "the key point is", "what matters here is", "the
   interesting thing is", "worth noting". Put the two facts side by side and let the contrast work.
 - **No reading instructions** — "this is where I explain X". Trust the title.
+- **No self-referential writing about the artifact.** The reader does not care about the page, the
+  site, the bibliography or the section. Never write "the families below", "this page says what to
+  make of it", "each entry does X", "what follows is", "the argument below is set out so that".
+  Delete such sentences; replace them with the substance they were introducing, or with nothing.
+  Cross-page links are fine — prose *narrating* the structure is not.
+- **No subjectless imperative sentences.** Not "Delete the quantiser: feed the hidden state back."
+  Use a subject: "One deletes the discretisation, feeding the hidden state back", or "You can …".
+  This applies to cross-references too: not "See theory", but "The theory page has the bounds."
 - **No self-grading prose** — "to be precise", "strictly speaking" as self-audit.
 - **Factual, not conversational.** Avoid second-person address and tour-guide scaffolding; it
   reads as lecturing.
@@ -99,6 +107,9 @@ its AVOID table appearing in a draft is a bug.
 - State complexity-theory claims with their preconditions, or not at all.
 - Mark anything resting on news reporting rather than a primary document.
 - Dashed edges on the literature map are claims about absences — each carries a confidence level.
+- Do not run long passages inside coloured callout boxes. The `.caveat` class is for a short note,
+  under roughly 150 words. A multi-heading section belongs in ordinary prose; a page-length band of
+  tinted background wearies the reader.
 
 ## Build
 
