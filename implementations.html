@@ -207,37 +207,86 @@
 
     <h2>Benchmarks and data</h2>
 
+    <p>
+      Three instruments were built for this question, and they measure different objects.
+    </p>
+
+    <div class="table-wrap">
+      <table class="impl">
+        <thead><tr><th>Instrument</th><th>What it measures</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/facebookresearch/coconut">ProsQA</a><br>
+            <span class="mode">arXiv:2412.06769</span></td>
+            <td>Search and planning on a synthetic DAG task, used to compare latent-CoT methods
+            against each other. Roughly 17.9k train and 300 validation examples at 3&ndash;6 hops,
+            shipped as JSON inside the Coconut repository rather than as an independent
+            dataset.</td>
+          </tr>
+          <tr>
+            <td><a href="https://arxiv.org/abs/2504.10615">Hagendorff &amp; Fabi</a><br>
+            <span class="mode">arXiv:2504.10615</span></td>
+            <td>Model-internal inference forced before the first answer token: the answer is
+            signalled by the language of the initial response token, so it cannot be written out.
+            4,000 items, 18 models. The authors state they cannot rule out heuristic
+            exploitation.</td>
+          </tr>
+          <tr>
+            <td><a href="https://arxiv.org/abs/2606.07157">Think Fast</a><br>
+            <span class="mode">arXiv:2606.07157</span></td>
+            <td>Breadth and scaling of no-CoT capacity: over 30,000 questions across 43 benchmarks,
+            with no-CoT behaviour enforced, estimating a 50% task-completion time horizon against
+            human times. A suite rather than a dataset, and its collated datasets are available on
+            request rather than released.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Everything else is borrowed: <a href="https://github.com/asaparov/prontoqa">ProntoQA</a>,
+      <a href="https://huggingface.co/datasets/whynlp/gsm8k-aug">GSM8K-Aug</a> (385k augmented
+      samples with intermediate expressions stripped, now the de facto training corpus for implicit
+      CoT), <a href="https://huggingface.co/datasets/reasoning-machines/gsm-hard">GSM-Hard</a>, and
+      the standard suites MATH-500, AIME, SVAMP, BIG-Bench Hard, CommonsenseQA, ARC-C and GPQA.
+    </p>
+
     <div class="caveat">
-      <h4>There is no shared benchmark for this field</h4>
-          <p>
-        ProsQA, a synthetic DAG-shaped multi-hop task with roughly 17.9k train and 300 validation
-        examples at 3&ndash;6 hops, is the only benchmark purpose-built for latent reasoning, and it ships as JSON
-        inside the Coconut repository rather than as an independent dataset. Everything else is
-        borrowed: <a href="https://github.com/asaparov/prontoqa">ProntoQA</a> (synthetic
-        first-order-logic QA, predating the field),
-        <a href="https://huggingface.co/datasets/whynlp/gsm8k-aug">GSM8K-Aug</a> (385k augmented
-        GSM8K samples with intermediate expressions stripped, now the de facto training corpus for
-        implicit CoT), <a href="https://huggingface.co/datasets/reasoning-machines/gsm-hard">GSM-Hard</a>,
-        and the standard suites &mdash; MATH-500, AIME, SVAMP, BIG-Bench Hard, CommonsenseQA, ARC-C,
-        GPQA.
-      </p>
       <p>
-        None of these was designed to isolate whether a model is genuinely computing latently rather
-        than taking a shortcut. Every critique paper in this area has had to build its own
-        diagnostic. Cross-paper comparison is correspondingly unreliable, and this is a real,
-        actionable gap rather than a search failure.
+        What is still missing is a <em>shared</em> instrument that discriminates between
+        latent-reasoning architectures and rules out shortcut exploitation. The three above measure
+        different things, none has been adopted as a community standard, and critique papers
+        continue to construct bespoke diagnostics rather than reach for a common one. Cross-paper
+        comparison remains correspondingly unreliable.
       </p>
     </div>
 
     <h2>Framework support</h2>
 
     <p>
-      None. No evidence that Transformers, vLLM, TGI, SGLang or llama.cpp exposes continuous-thought
-      decoding, recurrent-depth loop control, or pause-token mechanisms as a documented first-class
-      API, the way they expose KV-cache quantisation or speculative decoding. Huginn and Ouro ship
-      custom modeling files loaded through <code>trust_remote_code=True</code>, which is a packaging
-      convenience rather than a library feature. The absence is itself informative: every method
-      here remains a bespoke one-off.
+      No cross-framework API was found for generic continuous-thought decoding, pause tokens,
+      user-controlled recurrent depth, or inspection of intermediate loop states. Huginn and Ouro
+      ship custom modeling files loaded through <code>trust_remote_code=True</code>, which is a
+      packaging convenience rather than a library feature.
+    </p>
+
+    <p>
+      One architecture did get native support, and its lifecycle is more informative than the
+      absence would be. vLLM merged
+      <a href="https://github.com/vllm-project/vllm/pull/27794"><code>OuroForCausalLM</code></a> on
+      30 October 2025, a 521-line implementation containing the recurrence loop itself rather than
+      deferring to the repository&apos;s custom code, with Ouro-1.4B and 2.6B listed in the
+      supported-model table. vLLM
+      <a href="https://github.com/vllm-project/vllm/pull/49786">removed it</a> on 25 July 2026,
+      giving three reasons: the model was about a year old and superseded, it saw &ldquo;very little
+      usage in vLLM,&rdquo; and it had been marked for deletion.
+    </p>
+
+    <p>
+      A major serving engine integrated a looped architecture and then withdrew it for lack of
+      demand. That is a sharper reading of ecosystem maturity than never having been integrated at
+      all. Note also what the integration was not: inference support for one architecture, not a
+      general interface for latent reasoning.
     </p>
 
     <h2>Curated lists</h2>
