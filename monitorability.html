@@ -21,6 +21,7 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -96,7 +97,7 @@
       Chen et al. (2025) at Anthropic sharpened this on current reasoning models. Testing Claude
       3.7 Sonnet and DeepSeek R1 with six categories of hints planted in prompts, models verbalised
       using a hint they demonstrably used <strong>often below 20% of the time</strong>. Outcome-based
-      RL improved faithfulness early in training and then plateaued without saturating; where RL
+      RL improved faithfulness early in training and then plateaued without saturating. Where RL
       increased reward-hacking hint use, verbalisation of that use did not rise to match.
     </p>
 
@@ -108,7 +109,7 @@
     <h2>Why it is a real loss anyway</h2>
 
     <p>
-      A leak rate under 20% is not zero, and Baker et al. demonstrate the leak is exploitable in
+      A leak rate under 20% is not zero, and Baker et al. Demonstrate the leak is exploitable in
       practice rather than merely nonzero. The sharper point is about what replaces it.
     </p>
 
@@ -202,8 +203,8 @@
         </li>
         <li>
           &ldquo;Simply informing the model that a CoT monitor is present can result in the model
-          disproportionately shortening its CoT.&rdquo; Note what this is: the obfuscation dynamic
-          that Baker et al. had to <em>induce</em> by optimising against a monitor, now appearing
+          disproportionately shortening its CoT.&rdquo; This is the obfuscation dynamic
+          that Baker et al. Had to <em>induce</em> by optimising against a monitor, now appearing
           from mere awareness of one.
         </li>
         <li>
@@ -259,7 +260,7 @@
       The structural point survives whatever the details turn out to be. Recurrent-depth
       architectures are attractive for efficiency reasons that have nothing to do with oversight,
       and the legible trace disappears as a side effect rather than by anyone deciding to remove it.
-      That is precisely the scenario Korbak et al. named a year earlier.
+      That is precisely the scenario Korbak et al. Named a year earlier.
     </p>
 
     <h2>Countervailing evidence on interpretability</h2>
@@ -271,7 +272,7 @@
 
     <p>
       Dilgren &amp; Wiegreffe (2026) find latent reasoning tokens are frequently <em>unnecessary</em>
-      for the correct final answer on logical-reasoning datasets, and where they are load-bearing, a
+      for the correct final answer on logical-reasoning datasets. Where they do carry the computation, a
       decoding method recovers a verified natural-language trace 65&ndash;93% of the time for
       correctly-answered instances. Their reading is that current latent-reasoning models largely
       implement the same solution a token-level chain of thought would have produced.
@@ -295,7 +296,7 @@
         published its own finding for Astra, which is a real advance on nothing. But it is
         self-reported, not run against a shared public benchmark such as the suite in Guan et al.
         (2025), and no outside party has reproduced it. Open recurrent-depth checkpoints exist and
-        that suite exists; nobody has run one on the other.
+        that suite exists. Nobody has run one on the other.
       </li>
       <li>
         <strong>No consensus metric for monitorability.</strong> Guan et al. (2025) and the several
@@ -306,7 +307,7 @@
         <strong>No demonstration of activation-level monitoring in production.</strong> The
         filler-token decoding result is offline, unsupervised, on two open-weight models, over four
         narrow task families. OpenAI now states it is investigating activation monitoring as a
-        successor to reading the chain of thought; as of this writing that is a stated research
+        successor to reading the chain of thought. as of this writing that is a stated research
         direction, not a demonstrated capability at deployment scale.
       </li>
       <li>

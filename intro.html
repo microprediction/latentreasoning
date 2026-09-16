@@ -21,6 +21,7 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -91,7 +92,7 @@
       is the one the discretisation narrows. The <em>cached-activation path</em> carries retained
       intermediate activations at every layer and position, and attention at later positions reads
       them directly. Calling the emitted token a seventeen-bit bottleneck on <em>all</em> persistent
-      computation is therefore wrong, and this page previously said it.
+      computation is therefore wrong.
     </p>
 
     <p>
@@ -99,7 +100,7 @@
       identity, yet each new position still attends over the whole retained cache and adds
       computation. What bounds that computation is the decoder's layer-and-position dependency
       graph, not the size of the vocabulary. Contentless padding buys parallel workspace at fixed
-      depth; it does not buy unbounded serial depth.
+      depth. it does not buy unbounded serial depth.
     </p>
 
     <h3>Three claims worth keeping apart</h3>
@@ -110,7 +111,7 @@
       the run can be reproduced. But a deterministic latent recurrence $z_k = F_\theta^{(k)}(z_0)$
       satisfies the same property &mdash; its state is fixed by the input and the iteration count.
       <em>Replayability does not distinguish text reasoning from deterministic latent reasoning</em>,
-      and an earlier version of this page used it as though it did.
+
     </p>
 
     <p>
@@ -149,7 +150,7 @@
       &mdash; the loop runs around the outside of the forward pass, one token of context consumed
       per step &mdash; or it can be a new pass through the same layers, the loop running inside
       the stack with no sequence position spent. The first buys serial computation at the cost of
-      context length; the second buys serial <em>depth</em> at the cost of latency, and is where
+      context length. The second buys serial <em>depth</em> at the cost of latency, and is where
       recurrent-depth architectures live.
     </p>
 
@@ -222,7 +223,7 @@
     <p>
       <strong>Bandwidth.</strong> A reasoning step that must be rounded to a token cannot carry a
       probability distribution, a partial ordering, or a superposition of candidate answers to the
-      next step; it must commit. A continuous state can carry all of them, so search that would
+      next step. it must commit. A continuous state can carry all of them, so search that would
       require backtracking in token space can in principle proceed in parallel. This is the
       argument that continuous thoughts encode a frontier rather than a path, and it is the one
       with the most direct empirical support.
@@ -231,7 +232,7 @@
     <p>
       <strong>Expressivity.</strong> Serial steps add computational power to a transformer in a
       way that width and parameters do not. The theory here is about token-space steps and is
-      genuinely settled in outline; whether continuous steps add strictly more is a separate and
+      genuinely settled in outline. Whether continuous steps add strictly more is a separate and
       much less settled question. See <a href="./theory.html">theory</a>.
     </p>
 

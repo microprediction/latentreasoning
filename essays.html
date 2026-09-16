@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Essays</title>
+  <meta name="description" content="Longer-form essays on latent reasoning, each with a retrospective scoring how its claims have aged." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Essays</h1>
+    <p class="subtitle">Longer-form arguments about latent reasoning, with a retrospective on how
+    each has aged.</p>
+
+    <p class="lead">
+      One entry so far, and it is by reference rather than written here. The criterion for
+      inclusion is that a piece made a bet about where reasoning happens, early enough that the bet
+      can now be scored.
+    </p>
+
+    <div class="review">
+      <h3>Remind Me Again Why Large Language Models Can&apos;t Think</h3>
+      <p class="meta">
+        Peter Cotton, 6 April 2023 &middot;
+        <a href="https://medium.com/the-modern-scientist/remind-me-again-why-large-language-models-cant-think-acab12da63de">The
+        Modern Scientist</a> &middot; retrospective written September 2026, 3.4 years on
+      </p>
+
+      <h4>The argument</h4>
+      <p>
+        Written four months after ChatGPT&apos;s release, the essay stages the reductionist case
+        against machine reasoning and declines to accept it on the available evidence. It works
+        through the standard objections of the period in turn: that reasoning cannot be learned
+        from text alone without sensory grounding, that pattern-matching is not understanding, that
+        deep networks cannot represent relations and propositions precisely, and that
+        hallucination betrays the absence of a world model. Marcus, LeCun, Mitchell, Davis and
+        Edelman supply the prosecution.
+      </p>
+      <p>
+        The essay turns on a model of what language is evidence <em>of</em>. Thought is
+        treated as structure in some internal representation space, and speech as the output of a
+        composition of observation maps applied to that structure &mdash; lossy, partial, and in
+        the essay&apos;s phrase the &ldquo;wrong&rdquo; format. Recovering the internal state from
+        the words becomes an inverse problem, and the essay notes that a model need not arrive at
+        the same internal state to be doing something real: a different set of representations
+        &ldquo;conspiring to create mostly similar observations, predictions and conclusions&rdquo;
+        would do. Human utterances are then valuable less as facts than as traces of the
+        machinery, in the way cloud-chamber tracks are valuable.
+      </p>
+
+      <h4>What held up</h4>
+      <p>
+        <strong>The observation-map framing is the one this field adopted.</strong> Treating the
+        transcript as a lossy observation of an internal state, rather than as the computation
+        itself, is the assumption underneath every method on this site. The
+        <a href="./intro.html">introduction</a> states it as the distinction between the
+        discretised feedback path and the retained activations. The essay got there before there
+        was a literature to get there with.
+      </p>
+      <p>
+        <strong>Internalised speech became a training method.</strong> The essay invokes the
+        developmental picture in which speech is internalised and becomes inner speech that still
+        guides behaviour. Deng, Choi and Shieber&apos;s stepwise internalisation does precisely
+        this by construction, deleting the explicit rationale on a schedule until the same forward
+        pass performs the work unaided. What was an analogy in 2023 is a training curriculum with
+        benchmark numbers attached.
+      </p>
+      <p>
+        <strong>Reasoning does happen where the words are not.</strong> The essay&apos;s insistence
+        that the interesting structure is non-verbal, and that nobody could say whether a concept
+        had been learned by reading outputs, anticipated the faithfulness results. Models resolve
+        intermediate entities internally without verbalising them, plan several tokens ahead, and
+        verbalise a hint they demonstrably used well under a fifth of the time. See
+        <a href="./monitorability.html">monitorability</a>.
+      </p>
+      <p>
+        <strong>The grounding objection did fade.</strong> The essay predicts that text-only models
+        form much the same representations as multimodal ones, and that gaps could be closed after
+        the fact. Multimodal training arrived and the grounding argument largely stopped being the
+        live objection.
+      </p>
+
+      <h4>What it got wrong, or could not have known</h4>
+      <p>
+        <strong>The question it argues about was dissolved rather than settled.</strong> The essay
+        contests whether language models think. The field stopped asking. The 2026 questions are
+        where the computation sits, how many bits pass between steps, and whether any of it can be
+        read &mdash; none of which require adjudicating thought. The essay&apos;s own framing
+        contributed to that dissolution, which is a strange way to lose an argument.
+      </p>
+      <p>
+        <strong>Some of the mystery was formalised away.</strong> The essay treats the limits of a
+        forward pass as open. Within two years they were characterised: a log-precision transformer
+        in a single pass sits inside uniform $\mathsf{TC}^0$, and serial steps convert token count
+        into circuit size. Those results give a precise account of what one pass cannot do and what
+        extra steps buy, where the essay had an analogy about filtering. See
+        <a href="./theory.html">theory</a>.
+      </p>
+      <p>
+        <strong>It did not anticipate the detour through explicit text.</strong> The essay&apos;s
+        emphasis is internal representation. What followed instead was three years in which the
+        dominant method for improving reasoning was making models write vastly more of it down, at
+        length, in natural language. Latent reasoning is in part a reaction to the cost of that
+        detour. A 2023 reader of this essay would have been surprised by 2025.
+      </p>
+      <p>
+        <strong>The inverse problem turned out to have a partial answer.</strong> The essay treats
+        the internal state as inaccessible in principle, which is what makes the trial framing
+        work. Transformer language models mapping discrete sequences to representations have since
+        been shown injective, and so invertible; intermediate values are recoverable from hidden
+        states at filler positions with 80&ndash;95% accuracy; latent traces decode to natural
+        language much of the time. The internal state is more legible than the essay assumed,
+        which weakens its rhetorical position and improves the prospects for oversight.
+      </p>
+
+      <h4>Net</h4>
+      <p>
+        Prescient on mechanism, superseded on framing. The essay&apos;s picture of thought as
+        internal structure imperfectly observed through language is the picture this site is
+        organised around. Its central question &mdash; whether the machine thinks &mdash; is one
+        the subsequent literature routed around entirely.
+      </p>
+    </div>
+
+    <div class="next-steps">
+      <p><strong>Suggestions welcome.</strong> Essays that made a datable, checkable bet about
+      where reasoning happens are the ones worth adding. Open an
+      <a href="https://github.com/microprediction/latentreasoning/issues">issue</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

@@ -21,6 +21,7 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -38,8 +39,8 @@
 
     <div class="bib">
       
-      <p>Every entry also appears on the <a href="./map.html">literature map</a>; the dated version
-      is on the <a href="./timeline.html">timeline</a>; a few get a closer reading under
+      <p>Every entry also appears on the <a href="./map.html">literature map</a>. The dated version
+      is on the <a href="./timeline.html">timeline</a>. a few get a closer reading under
       <a href="./reviews.html">reviews</a>. arXiv identifiers were checked against the arXiv and
       Semantic Scholar APIs in September 2026.</p>
 
@@ -68,7 +69,7 @@
           Thought and Latent Thought</em></a>. arXiv:2509.25239.
           <em>At $\log^k n$ iterations, polynomial width and constant precision, looped/continuous
           models are characterised exactly (Thm 3.12), while chain of thought is bounded above by
-          $\mathsf{TC}^{k-1}$ (Lem 3.13); the strict separation (Thm 3.15) assumes
+          $\mathsf{TC}^{k-1}$ (Lem 3.13). The strict separation (Thm 3.15) assumes
           $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. The countervailing stochastic result
           assumes $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ for self-reducible relations and
           compares against <strong>deterministic</strong> latent updates only.</em>
@@ -157,7 +158,7 @@
           Expressivity of Constant-Depth Transformers</em></a>. arXiv:2505.21024.
           <em>At constant precision and $O(\log n)$ width, polynomial pause-token padding
           characterises exactly $\mathsf{AC}^0$ (Thm 4.1), with a non-uniform strict separation
-          from the unpadded case (Cor 4.2); the uniform separation needs quasi-polynomial padding
+          from the unpadded case (Cor 4.2). The uniform separation needs quasi-polynomial padding
           (Thm 4.3), and log precision with polynomial padding gives $\mathsf{TC}^0$ (Thm 4.5).
           Padding buys parallel workspace at fixed depth, not serial depth. The PARITY result in
           &sect;5 is a finite-size learning experiment requiring intermediate supervision, not the
@@ -168,7 +169,7 @@
           <a href="https://arxiv.org/abs/2505.12514"><em>Reasoning by Superposition: A Theoretical
           Perspective on Chain of Continuous Thought</em></a>. arXiv:2505.12514.
           <em>A two-layer transformer with $D$ continuous steps solves directed graph reachability
-          at diameter $D$, where the best known discrete construction needs $O(n^2)$ steps; the
+          at diameter $D$, where the best known discrete construction needs $O(n^2)$ steps. The
           superposition emerges from training rather than being built in. The companion paper on
           training dynamics is <a href="https://arxiv.org/abs/2509.23365">arXiv:2509.23365</a>.</em>
         </li>
@@ -370,7 +371,7 @@
           <a href="https://arxiv.org/abs/2604.11791"><em>A Mechanistic Analysis of Looped Reasoning
           Language Models</em></a>. arXiv:2604.11791.
           <em>Each layer in the loop converges toward a distinct fixed point and the block settles
-          into a stable cyclic trajectory. Convergence is not automatic; it is the stability
+          into a stable cyclic trajectory. Convergence is not automatic. it is the stability
           condition the training recipes are all implicitly chasing.</em>
         </li>
       </ul>
@@ -407,7 +408,7 @@
 
       <h3>Negative results and critiques</h3>
       <p class="muted" style="font-size:0.92rem;">This field produces rebuttals at an unusual rate,
-      and they are load-bearing. Several headline mechanisms did not survive replication.</p>
+      Several headline mechanisms did not survive replication.</p>
       <ul>
         <li>
           Vennam, S., Valente, D., Herel, D., and Kumaraguru, P. (2024).
@@ -438,7 +439,7 @@
           <a href="https://arxiv.org/abs/2604.06374"><em>The Illusion of Superposition? A Principled
           Analysis of Latent Thinking in Language Models</em></a>. arXiv:2604.06374.
           <em>Genuine superposition shows up only in models trained from scratch with continuous
-          latent chain of thought; under fine-tuning or training-free regimes it collapses to token
+          latent chain of thought. Under fine-tuning or training-free regimes it collapses to token
           commitment or shortcuts. Undercuts the family's central theoretical selling point.</em>
         </li>
         <li>
@@ -542,7 +543,7 @@
           <a href="https://arxiv.org/abs/2604.04902"><em>Are Latent Reasoning Models Easily
           Interpretable?</em></a> arXiv:2604.04902.
           <em>The optimistic counterweight: latent reasoning tokens are frequently unnecessary, and
-          where load-bearing, traces decode 65&ndash;93% of the time &mdash; but substantially less
+          where they carry the computation, traces decode 65&ndash;93% of the time, and substantially less
           often on incorrectly answered instances, which is where oversight matters most.</em>
         </li>
         <li>
@@ -587,8 +588,7 @@
           <em>Prices a recurrence in equivalent unique parameters, fitting
           $L = E + A(N_{\text{once}} + r^{\varphi} N_{\text{rec}})^{-\alpha} + BD^{-\beta}$ across
           $r \in \{1,2,4,8\}$ and roughly fifty-fold in training compute, with
-          $\varphi \approx 0.46$ in the tested regime. This site previously listed such a law as
-          not existing.</em>
+          $\varphi \approx 0.46$ in the tested regime.</em>
         </li>
         <li>
           Merrill, W., and Sabharwal, A. (2025).
@@ -612,6 +612,96 @@
           <em>Trains recurrent policies by return-weighted backpropagation. Cited here because it
           long predates, and contradicts, the claim that policy gradients cannot carry credit
           through a recurrence.</em>
+        </li>
+      </ul>
+
+      <h3>Probing and decoding latent computation</h3>
+      <ul>
+        <li>
+          Hagendorff, T., and Fabi, S. (2025).
+          <a href="https://arxiv.org/abs/2504.10615"><em>Beyond Chains of Thought: Benchmarking
+          Latent-Space Reasoning Abilities in Large Language Models</em></a>. arXiv:2504.10615.
+          <em>A 4,000-item benchmark that forces model-internal inference by requiring the answer to
+          be signalled through the language of the first response token rather than through
+          descriptive text, so the reasoning cannot be externalised. Eighteen models evaluated, best
+          accuracy 74.7%. The authors state they cannot rule out heuristic exploitation under some
+          conditions.</em>
+        </li>
+        <li>
+          Lu, W., Yang, Y., Lee, K., and Li, L. (2025).
+          <a href="https://arxiv.org/abs/2507.02199"><em>Latent Chain-of-Thought? Decoding the
+          Depth-Recurrent Transformer</em></a>. arXiv:2507.02199.
+          <em>Asks whether a depth-recurrent model&apos;s iterations correspond to anything like
+          chain-of-thought steps, and attempts to decode them. The closest thing to interpretability
+          tooling aimed specifically at recurrent depth.</em>
+        </li>
+        <li>
+          Nikolaou, G., Mencattini, T., Crisostomi, D., and Santilli, A. (2025).
+          <a href="https://arxiv.org/abs/2510.15511"><em>Language Models are Injective and Hence
+          Invertible</em></a>. arXiv:2510.15511.
+          <em>Proves that transformer language models mapping discrete input sequences to their
+          representations are injective, so the input is exactly recoverable from the
+          representation, despite non-injective components such as activations and normalisation.
+          Bears directly on what a hidden state does and does not conceal.</em>
+        </li>
+        <li>
+          Yang, Z., Li, J., Xia, H., and Hu, X. (2025).
+          <a href="https://arxiv.org/abs/2505.14530"><em>Internal Chain-of-Thought: Empirical
+          Evidence for Layer-wise Subtask Scheduling in LLMs</em></a>. arXiv:2505.14530.
+          <em>Across fifteen two-step composite tasks, distinct subtasks are learned at different
+          depths and executed in sequence across layers &mdash; multi-step structure inside a single
+          forward pass.</em>
+        </li>
+        <li>
+          Du, Z., Wang, C., Bai, Y., and Cao, Y. (2025).
+          <a href="https://arxiv.org/abs/2511.09149"><em>Enabling Agents to Communicate Entirely in
+          Latent Space</em></a>. arXiv:2511.09149.
+          <em>Agent-to-agent communication that bypasses tokens on the argument that discretising
+          internal states limits what can be transmitted. The concrete version of the neuralese
+          concern in <a href="./monitorability.html">monitorability</a>: multi-agent traffic with no
+          readable channel by construction.</em>
+        </li>
+      </ul>
+
+      <h3>Further latent-reasoning methods</h3>
+      <ul>
+        <li>
+          Liu, H., Murty, S., Manning, C. D., and Csord&aacute;s, R. (2025).
+          <a href="https://arxiv.org/abs/2510.00219"><em>Thoughtbubbles: an Unsupervised Method for
+          Parallel Thinking in Latent Space</em></a>. arXiv:2510.00219.
+          <em>A transformer variant that performs parallel latent computation natively and can be
+          applied during pretraining, rather than requiring serially generated natural-language
+          verbalisation.</em>
+        </li>
+        <li>
+          Koishekenov, Y., Lipani, A., and Cancedda, N. (2025).
+          <a href="https://arxiv.org/abs/2510.07358"><em>Encode, Think, Decode: Scaling test-time
+          reasoning with recursive latent thoughts</em></a>. arXiv:2510.07358.
+          <em>Motivated by interpretability work locating reasoning computation in a limited band of
+          layers, recurses on that band rather than the whole stack.</em>
+        </li>
+        <li>
+          Zeng, Z., Li, Y., Song, K., and Wang, W. (2025).
+          <a href="https://arxiv.org/abs/2509.23184"><em>PonderLM-2: Pretraining LLM with Latent
+          Thoughts in Continuous Space</em></a>. arXiv:2509.23184.
+          <em>Moves the extra computational steps into pretraining, spending them on every token
+          rather than at test time on a reasoning trace.</em>
+        </li>
+        <li>
+          Deng, S., Pang, W., Wei, Y., and Xu, L. (2025).
+          <a href="https://arxiv.org/abs/2510.15522"><em>LLM Latent Reasoning as Chain of
+          Superposition</em></a>. arXiv:2510.15522.
+          <em>Latent-SFT, addressing distributional misalignment and ambiguous chain definitions, on
+          the premise that latent reasoning should function as a superposition of several reasoning
+          paths. Read against the replication evidence in <a href="./families.html">families</a>.</em>
+        </li>
+        <li>
+          Asadulaev, A., Banerjee, S., Karray, F., and Tak&aacute;&ccaron;, M. (2025).
+          <a href="https://arxiv.org/abs/2511.16886"><em>Latent Reasoning in TRMs is Secretly a
+          Policy Improvement Operator</em></a>. arXiv:2511.16886.
+          <em>Questions the standard explanation that recursion simply buys effective depth, noting
+          that recursively added layers trail one-pass models of the same feed-forward
+          capacity.</em>
         </li>
       </ul>
 

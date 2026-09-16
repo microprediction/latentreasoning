@@ -21,6 +21,7 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -81,7 +82,7 @@
     <h2>Serial steps buy computation, gradually</h2>
 
     <p>
-      Chain of thought converts token count into a serial computation budget. Li et al. state it
+      Chain of thought converts token count into a serial computation budget. Li et al. State it
       most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
       transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
       theory, meaningful reasoning &mdash; they are computation slots.
@@ -117,7 +118,7 @@
 
     <p>
       The poly case is the first exact characterisation of a transformer variant by a standard
-      complexity class. The caveats are load-bearing: these are theorems about particular
+      complexity class. The caveats decide the result. These are theorems about particular
       normalisation variants, not about whatever architecture a lab happens to ship.
     </p>
 
@@ -188,8 +189,7 @@
 
     <div class="caveat">
       <p>
-        <strong>A correction this site previously got wrong.</strong> PARITY was described here as
-        the witness for the separation. It cannot be: full-input PARITY lies outside
+        <strong>PARITY is not the witness for this separation.</strong> Full-input PARITY lies outside
         $\mathsf{AC}^0$, so it cannot witness a strict containment <em>within</em> $\mathsf{AC}^0$.
         PARITY appears in the paper's Section 5 as a finite-size <em>learning experiment</em> on a
         2-layer, 4-head GPT-2-style model, motivated by the logarithmic-precision regime, and it
@@ -224,7 +224,7 @@
     </div>
 
     <p>
-      The statement needs three qualifications, all of which this site previously dropped.
+      Three qualifications govern the statement.
     </p>
 
     <ul>
@@ -232,10 +232,10 @@
         <strong>The separation is conditional.</strong> Theorem 3.15 gives
         $\mathsf{CoT} \subsetneq \mathsf{Loop}$ at $\log^k n$ iterations <em>assuming</em>
         $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. Deterministic decoding alone is not
-        sufficient; a believed but unproven circuit-class separation is doing real work.
+        sufficient. a believed but unproven circuit-class separation is doing real work.
       </li>
       <li>
-        <strong>The latent side is a characterisation; the CoT side is only an upper bound.</strong>
+        <strong>The latent side is a characterisation. The CoT side is only an upper bound.</strong>
         Theorem 3.12 characterises the looped/continuous classes exactly at polylogarithmic
         iterations, polynomial width, and constant precision (or $\mathsf{TC}^k$ at logarithmic
         precision). Lemma 3.13 gives $\mathsf{CoT} \subseteq \mathsf{TC}^{k-1}$ &mdash; an upper
@@ -268,7 +268,7 @@
       a bounded iteration counter, cannot decide problems $\mathsf P$-complete under logspace
       reductions that polynomial-length chain of thought can. The paper explicitly distinguishes
       these from <em>full sequence-state</em> loops carrying $ndp$ bits, which are not covered.
-      Recurrence buys depth; it does not, in the compressed regime, buy memory. And Reddi et al. (2025) establish the positive counterpart for depth specifically:
+      Recurrence buys depth. it does not, in the compressed regime, buy memory. And Reddi et al. (2025) establish the positive counterpart for depth specifically:
       $k$ layers looped $L$ times nearly matches $kL$ unlooped layers, so problems that are
       depth-bound rather than parameter-bound are exactly the ones loops help with.
     </p>
@@ -301,7 +301,7 @@
       <li>
         No unconditional characterisation connects realistic finite-precision transformers under
         <em>actual training dynamics</em> to a complexity class. The sharp theorems assume
-        particular pre-norm variants and precision regimes; whether they survive the architectures
+        particular pre-norm variants and precision regimes. Whether they survive the architectures
         shipped in practice is open.
       </li>
       <li>
@@ -325,7 +325,7 @@
       </li>
       <li>
         No theory predicts the minimal number of steps a given task needs. The results are
-        existential; the practical question of reasoning-token budgets is untouched by them.
+        existential. The practical question of reasoning-token budgets is untouched by them.
       </li>
     </ul>
 

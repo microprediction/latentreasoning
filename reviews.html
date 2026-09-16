@@ -21,6 +21,7 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -46,7 +47,7 @@
         <strong>On what these assessments rest.</strong> They are based on abstracts, reported
         figures, the rebuttal literature, and cross-checking between papers &mdash; not on a
         full reading of every PDF. Where an assessment turns on a specific number, that number was
-        verified; where it turns on judgement, it is a judgement and should be argued with. Corrections
+        verified. Where it turns on judgement, it is a judgement and should be argued with. Corrections
         are welcome as <a href="https://github.com/microprediction/latentreasoning/issues">issues</a>.
       </p>
     </div>
@@ -69,7 +70,7 @@
         useful work.
       </p>
       <p class="line">
-        <strong>Holds up:</strong> the mechanism. Zhu et al. later proved a two-layer transformer
+        <strong>Holds up:</strong> the mechanism. Zhu et al. Later proved a two-layer transformer
         with $D$ continuous steps solves graph reachability at diameter $D$ where the best discrete
         construction needs $O(n^2)$, and that the superposition emerges from training rather than
         being built in. <strong>Does not:</strong> any reading of this as a general improvement over
@@ -91,7 +92,7 @@
         The paper is also unusually honest about its own limits: the benefit only materialises under
         dense, task-specific supervision, and does not emerge from ordinary training. That
         qualification is what separates it from the weaker filler-token claims that followed, and
-        Vennam et al. later confirmed the pessimistic reading for naive implementations.
+        Vennam et al. Later confirmed the pessimistic reading for naive implementations.
       </p>
       <p class="line">
         <strong>The reason it matters most:</strong> filler tokens are a transcript that fully
@@ -111,7 +112,7 @@
         gains are modest but real &mdash; up to 2.48 points pass@1 with up to 22.4% fewer tokens.
       </p>
       <p>
-        The explanation did not hold. Wu et al. showed the model overwhelmingly follows the single
+        The explanation did not hold. Wu et al. Showed the model overwhelmingly follows the single
         highest-probability component of the mixture, so the method largely reduces to greedy
         decoding wearing a continuous costume. Their fix &mdash; inject noise to force the
         exploration the original claimed was already happening &mdash; is an elegant diagnosis, since
@@ -119,8 +120,8 @@
       </p>
       <p class="line">
         <strong>Why it is here:</strong> not to single out one paper, but because this is the field's
-        characteristic failure mode. A method produces a real gain; the gain is attributed to
-        superposition; nobody checks whether superposition occurred. Treat parallel-exploration
+        characteristic failure mode. A method produces a real gain. The gain is attributed to
+        superposition. Nobody checks whether superposition occurred. Treat parallel-exploration
         claims as per-method burdens of proof, never as a property of continuous representations.
       </p>
     </div>
@@ -222,12 +223,12 @@
         names an architecture.</strong> Recurrent depth, looped transformers, opaque recurrence
         &mdash; none of it appears. That attribution comes from reporting. So there are two claims
         with different evidentiary standing, and they are being welded together: the monitorability
-        loss is OpenAI's own documented measurement; the mechanism behind it is journalism. Both may
+        loss is OpenAI's own documented measurement. The mechanism behind it is journalism. Both may
         well be true. They are not equally established, and a literature that has just watched
         several mechanism claims fail replication should be the last to blur that line.
       </p>
       <p class="line">
-        <strong>Also worth noting:</strong> the card commits to "investigating alternatives to CoT
+        <strong>Mitigation:</strong> the card commits to "investigating alternatives to CoT
         monitoring (such as methods based on activation monitoring)" &mdash; which is this
         literature's open research problem restated as a deployment roadmap.
       </p>

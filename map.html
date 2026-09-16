@@ -30,6 +30,7 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
+        <a href="./essays.html">Essays</a>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -66,7 +67,7 @@
 
   <div class="caveat">
     <p>
-      <strong>Four claimed gaps were withdrawn on 16 September 2026</strong> after a reader supplied
+      <strong>Five claimed gaps have been withdrawn or narrowed since 16 September 2026</strong> after a reader supplied
       counterexamples, all of which checked out. A joint scaling law for looped models, a joint
       treatment of padding and looping, reinforcement learning over latent diffusion with verifiable
       rewards, and state-space operators inside a latent recursive scaffold all exist and now appear
@@ -85,15 +86,18 @@
     </li>
     <li>
       <strong>No independent measurement of monitorability loss.</strong>
-      OpenAI has published its own finding; it is self-reported, not run against a shared public
-      suite, and unreproduced. Open recurrent-depth checkpoints exist and such a suite exists;
-      nobody has run one on the other. <em>Confidence: high.</em>
+      OpenAI has published its own finding. it is self-reported, not run against a shared public
+      suite, and unreproduced. Open recurrent-depth checkpoints exist and such a suite exists. Nobody has run one on the other. <em>Confidence: high.</em>
     </li>
     <li>
-      <strong>No purpose-built benchmark isolates genuine latent computation.</strong>
-      ProsQA is the only benchmark built for this field and is small, synthetic and shipped inside
-      one repository. Every critique paper has had to construct its own diagnostic rather than reach
-      for a shared instrument. <em>Confidence: high.</em>
+      <strong>No shared benchmark for latent computation.</strong>
+      <em>Narrowed.</em> A purpose-built instrument does exist: a 4,000-item benchmark that forces
+      internal inference by requiring the answer to be signalled through the language of the first
+      response token, so it cannot be externalised as text. What is still missing is community
+      convergence &mdash; it measures internal reasoning in stock models rather than discriminating
+      between latent-reasoning architectures, its authors cannot rule out heuristic exploitation,
+      and critique papers continue to build bespoke diagnostics instead of adopting a common one.
+      <em>Confidence: moderate, for the narrowed claim.</em>
     </li>
     <li>
       <strong>Which auxiliary objective, and why.</strong>
@@ -231,7 +235,7 @@ const NODES = [
  {id:"monmon", c:"monitor", label:"Monitoring Monitorability", url:"https://arxiv.org/abs/2512.18311",
   note:"Guan et al. 2025. A suite treating monitorability as a measurable, degradable property: 13 evaluations across 24 environments."},
  {id:"dilgren", c:"monitor", label:"Latent CoT decodable?", url:"https://arxiv.org/abs/2604.04902",
-  note:"Dilgren & Wiegreffe 2026. Latent traces decode 65–93% of the time when load-bearing — but much less on incorrectly answered instances, which is where oversight matters."},
+  note:"Dilgren & Wiegreffe 2026. Latent traces decode 65–93% of the time where they carry the computation, and much less often on incorrectly answered instances."},
 
  // adjacent / frontier
  {id:"kava", c:"adjacent", label:"KV-cache distillation", url:"https://arxiv.org/abs/2510.02312",
@@ -243,7 +247,7 @@ const NODES = [
  {id:"ssm", c:"adjacent", label:"State-space recurrence",
   note:"Linear-recurrent architectures. Their recurrent state is an obvious candidate reasoning medium, and almost nobody has used it as one — the field looped attention instead."},
  {id:"isodepth", c:"depth", label:"Iso-depth scaling law", url:"https://arxiv.org/abs/2604.21106",
-  note:"Schwethelm, Rueckert & Kaissis 2026. Fits a joint law L = E + A(N_once + r^φ N_rec)^-α + BD^-β across recurrence counts r ∈ {1,2,4,8} over ~50× in training compute, with φ ≈ 0.46 in the tested regime. This site previously listed such a law as nonexistent."},
+  note:"Schwethelm, Rueckert & Kaissis 2026. Fits a joint law L = E + A(N_once + r^φ N_rec)^-α + BD^-β across recurrence counts r ∈ {1,2,4,8} over ~50× in training compute, with φ ≈ 0.46 in the tested regime."},
  {id:"padding", c:"theory", label:"Padding expressivity", url:"https://arxiv.org/abs/2505.18948",
   note:"Merrill & Sabharwal 2025. Analyses padding and looping together, giving threshold-circuit characterisations under its architecture assumptions — connecting two toolkits this site had described as disjoint."},
  {id:"logdepth", c:"theory", label:"Log-depth transformers", url:"https://arxiv.org/abs/2503.03961",
@@ -252,6 +256,12 @@ const NODES = [
   note:"Kang et al. 2026. Reinforcement learning over latent diffusion reasoning, trained against verifiable rewards including unit-test pass rates and exact answer correctness."},
  {id:"mamba", c:"adjacent", label:"Mamba-2 recursive reasoning", url:"https://arxiv.org/abs/2602.12078",
   note:"Wang & Reid 2026. Puts Mamba-2 hybrid operators inside a latent recursive scaffold at ~7M parameters. Narrow in task and scale, but enough to falsify a blanket claim that state-space operators are unused here."},
+ {id:"bench", c:"monitor", label:"Latent-space benchmark", url:"https://arxiv.org/abs/2504.10615",
+  note:"Hagendorff & Fabi 2025. A 4,000-item benchmark forcing model-internal inference: the answer is signalled by the language of the first response token, so it cannot be written out. 18 models; best 74.7%."},
+ {id:"decode", c:"monitor", label:"Decoding depth-recurrence", url:"https://arxiv.org/abs/2507.02199",
+  note:"Lu et al. 2025. Attempts to decode whether a depth-recurrent model's iterations correspond to chain-of-thought-like steps. Interpretability aimed specifically at recurrent depth."},
+ {id:"injective", c:"theory", label:"Injective and invertible", url:"https://arxiv.org/abs/2510.15511",
+  note:"Nikolaou et al. 2025. Transformer LMs mapping discrete sequences to representations are injective, so the input is exactly recoverable from the representation — despite non-injective activations and normalisation."},
  {id:"survey", c:"adjacent", label:"Survey", url:"https://arxiv.org/abs/2507.06203",
   note:"Zhu et al. 2025, 33 authors. Splits the field into vertical recurrence (activation-based) and horizontal recurrence (hidden-state-based)."},
 
@@ -281,6 +291,10 @@ const LINKS = [
  {s:"stego", t:"korbak", k:"builds"}, {s:"korbak", t:"monmon", k:"builds"},
  {s:"korbak", t:"astra", k:"builds", lab:"anticipated"},
  {s:"survey", t:"coconut", k:"builds"},
+ {s:"bench", t:"coconut", k:"builds", lab:"measures internal inference"},
+ {s:"decode", t:"huginn", k:"builds"},
+ {s:"decode", t:"dilgren", k:"builds"},
+ {s:"injective", t:"hub", k:"builds", lab:"state determines input"},
  {s:"isodepth", t:"huginn", k:"builds"}, {s:"survey", t:"huginn", k:"builds"},
  {s:"rltt", t:"ouro", k:"builds"}, {s:"kava", t:"coconut", k:"builds"},
 
@@ -317,7 +331,7 @@ const LINKS = [
  {s:"ssm", t:"hub", k:"gap", lab:"untested beyond tiny scale"},
  {s:"ladir", t:"ladirl", k:"builds"},
  {s:"ladirl", t:"rltt", k:"builds", lab:"verifiable reward on latents"},
- {s:"coconut", t:"monmon", k:"gap", lab:"no benchmark isolates latent compute"},
+ {s:"bench", t:"monmon", k:"gap", lab:"no shared instrument"},
 ];
 
 const EDGE = {
