@@ -53,96 +53,95 @@
       <p>
         Written four months after ChatGPT&apos;s release, the essay stages the reductionist case
         against machine reasoning and declines to accept it on the available evidence. It works
-        through the standard objections of the period in turn: that reasoning cannot be learned
-        from text alone without sensory grounding, that pattern-matching is not understanding, that
-        deep networks cannot represent relations and propositions precisely, and that
-        hallucination betrays the absence of a world model. Marcus, LeCun, Mitchell, Davis and
-        Edelman supply the prosecution.
+        through the objections of the period in turn: that reasoning cannot be learned from text
+        alone without sensory grounding, that pattern-matching is not understanding, that deep
+        networks cannot represent relations and propositions precisely, and that hallucination
+        betrays the absence of a world model. Marcus, LeCun, Mitchell, Davis and Edelman supply the
+        prosecution. The stated aim is not to show that models think, only to sow reasonable doubt.
       </p>
       <p>
-        The essay turns on a model of what language is evidence <em>of</em>. Thought is
-        treated as structure in some internal representation space, and speech as the output of a
-        composition of observation maps applied to that structure &mdash; lossy, partial, and in
-        the essay&apos;s phrase the &ldquo;wrong&rdquo; format. Recovering the internal state from
-        the words becomes an inverse problem, and the essay notes that a model need not arrive at
-        the same internal state to be doing something real: a different set of representations
-        &ldquo;conspiring to create mostly similar observations, predictions and conclusions&rdquo;
-        would do. Human utterances are then valuable less as facts than as traces of the
-        machinery, in the way cloud-chamber tracks are valuable.
+        Its mechanism is a two-stage observation model, and the detail matters. A map $f$ runs from
+        an unknown forest of representations in the brain to language processing; a second map $g$
+        gives the reflection in words on a page; the composition $h = g \circ f$ is what an
+        observer gets. Thought is structure in the first space, speech is a doubly noisy,
+        once-removed observation of it, and the essay&apos;s question is what that stream licenses
+        anyone to infer. It adds an identification caveat: a model need not recover the same
+        internal state, since some other set of representations &ldquo;conspiring to create mostly
+        similar observations, predictions and conclusions&rdquo; would serve.
       </p>
 
       <h4>What held up</h4>
       <p>
-        <strong>The observation-map framing is the one this field adopted.</strong> Treating the
-        transcript as a lossy observation of an internal state, rather than as the computation
-        itself, is the assumption underneath every method on this site. The
-        <a href="./intro.html">introduction</a> states it as the distinction between the
-        discretised feedback path and the retained activations. The essay got there before there
-        was a literature to get there with.
-      </p>
-      <p>
-        <strong>Internalised speech became a training method.</strong> The essay invokes the
-        developmental picture in which speech is internalised and becomes inner speech that still
-        guides behaviour. Deng, Choi and Shieber&apos;s stepwise internalisation does precisely
-        this by construction, deleting the explicit rationale on a schedule until the same forward
-        pass performs the work unaided. What was an analogy in 2023 is a training curriculum with
-        benchmark numbers attached.
-      </p>
-      <p>
-        <strong>Reasoning does happen where the words are not.</strong> The essay&apos;s insistence
-        that the interesting structure is non-verbal, and that nobody could say whether a concept
-        had been learned by reading outputs, anticipated the faithfulness results. Models resolve
-        intermediate entities internally without verbalising them, plan several tokens ahead, and
-        verbalise a hint they demonstrably used well under a fifth of the time. <a href="./monitorability.html">Monitorability</a> collects the evidence.
-      </p>
-      <p>
         <strong>Language does betray the representations underneath.</strong> The essay declines to
         accept what it calls the cloaking argument, holding it &ldquo;underdeveloped at best&rdquo;
-        and doubting that deep representations could never be betrayed by language alone. The
-        decoding work since then runs that way: intermediate values are recoverable from hidden
-        states at filler positions with 80&ndash;95% accuracy, and latent traces decode to a
-        verified natural-language trace 65&ndash;93% of the time where they carry the computation.
-        Neither result reads thought off utterances, which is the stronger claim the essay was
-        arguing against, but both cut against principled inaccessibility.
+        and asking anyone certain that machines cannot learn through indirect observation to name
+        the cloaking mechanism they have in mind. Its stronger version: with sufficient evidence
+        that latent structure &ldquo;<em>must</em> eventually be revealed.&rdquo; The decoding work
+        runs that way. Intermediate values are recoverable from hidden states at filler positions
+        with 80&ndash;95% accuracy, and latent traces decode to a verified natural-language trace
+        65&ndash;93% of the time where they carry the computation. Neither reads thought off
+        utterances, which is the composition $h$ the essay was actually asking about.
+      </p>
+      <p>
+        <strong>Internalised speech became a training method.</strong> The essay traces private
+        speech to inner speech by way of Vygotsky and Dennett, then asks why, if one such transition
+        is possible, another could not run deeper &mdash; concluding that learning deep things from
+        language looks like &ldquo;a practical challenge (a. la. vanishing gradients) not a profound
+        roadblock.&rdquo; Stepwise internalisation is that challenge, met by construction: delete the
+        rationale on a schedule until the same forward pass does the work unaided. GPT-2 Small
+        reaches 99% on nine-by-nine multiplication that way.
+      </p>
+      <p>
+        <strong>A less pruned search can be useful.</strong> Listed as the first reason hallucination
+        might persist rather than be cured. Continuous thoughts do something close to it: they carry
+        a frontier of candidate paths instead of committing to one, and the gains on ProsQA come
+        from exactly that breadth. The essay reaches the same place from Dennett&apos;s Multiple
+        Drafts and from chess, where it notes that a fuzzy network found 8.d5 because it had not
+        pruned the way a human would.
+      </p>
+      <p>
+        <strong>Reasoning happens where the words are not.</strong> The essay insists the interesting
+        structure is non-verbal, and that nobody can say from outputs whether a concept was learned.
+        Models resolve intermediate entities internally without verbalising them, plan several
+        tokens ahead, and verbalise a hint they demonstrably used well under a fifth of the time.
+      </p>
+      <p>
+        <strong>The grounding objection did fade.</strong> The essay reports that text-only models
+        form much the same representations as multimodal ones, and that gaps can be closed after the
+        fact. Multimodal training arrived and grounding stopped being the live objection.
       </p>
 
+      <h4>What it did not anticipate</h4>
       <p>
-        <strong>The grounding objection did fade.</strong> The essay predicts that text-only models
-        form much the same representations as multimodal ones, and that gaps could be closed after
-        the fact. Multimodal training arrived and the grounding argument largely stopped being the
-        live objection.
+        <strong>Three years of scaling the opposite thing.</strong> The essay&apos;s emphasis falls
+        on internal representation. What followed was a period in which the dominant method for
+        improving reasoning was making models write far more of it down, in natural language, at
+        length. Latent reasoning is partly a reaction to the cost of that detour, so the essay&apos;s
+        direction was right and its timing inverted.
+      </p>
+      <p>
+        <strong>The limits of a single pass were formalised.</strong> Where the essay treats the
+        capacity of a statistical machine as an open question and warns against extrapolating from
+        small ones, the bounds arrived within two years: a log-precision transformer in one forward
+        pass sits inside uniform $\mathsf{TC}^0$, and serial steps convert token count into circuit
+        size. That is a sharper account of what one pass cannot do than the essay expected to be
+        available.
+      </p>
+      <p>
+        <strong>The question it argues was dissolved, not settled.</strong> Whether models think is
+        not a question the subsequent literature adjudicates. It asks where the computation sits,
+        how much survives between steps, and whether any of it can be read. The essay&apos;s own
+        framing helped make that substitution possible.
       </p>
 
-      <h4>What it got wrong, or could not have known</h4>
-      <p>
-        <strong>The question it argues about was dissolved rather than settled.</strong> The essay
-        contests whether language models think. The field stopped asking. The 2026 questions are
-        where the computation sits, how many bits pass between steps, and whether any of it can be
-        read &mdash; none of which require adjudicating thought. The essay&apos;s own framing
-        contributed to that dissolution, which is a strange way to lose an argument.
-      </p>
-      <p>
-        <strong>Some of the mystery was formalised away.</strong> The essay treats the limits of a
-        forward pass as open. Within two years they were characterised: a log-precision transformer
-        in a single pass sits inside uniform $\mathsf{TC}^0$, and serial steps convert token count
-        into circuit size. Those results give a precise account of what one pass cannot do and what
-        extra steps buy, where the essay had an analogy about filtering. The <a href="./theory.html">theory</a> page states the bounds.
-      </p>
-      <p>
-        <strong>It did not anticipate the detour through explicit text.</strong> The essay&apos;s
-        emphasis is internal representation. What followed instead was three years in which the
-        dominant method for improving reasoning was making models write vastly more of it down, at
-        length, in natural language. Latent reasoning is in part a reaction to the cost of that
-        detour. A 2023 reader of this essay would have been surprised by 2025.
-      </p>
       <h4>Net</h4>
       <p>
-        Prescient on mechanism, superseded on framing. Thought as internal structure imperfectly
-        observed through language is the picture the field settled into. Its central question
-        &mdash; whether the machine thinks &mdash; is one
-        the subsequent literature routed around entirely.
+        The two-map model is the better half. Separating $f$ from $g$, and asking what the
+        composition licenses, is the distinction most claims about reading a model&apos;s mind get
+        wrong. A theorem about $f$ &mdash; that the input-to-state map is almost surely injective,
+        so a prompt can be recovered from activations &mdash; establishes nothing about $g$, and the
+        two are routinely conflated. The essay had the structure right three years earlier.
       </p>
-    </div>
 
     <div class="next-steps">
       <p><strong>Suggestions welcome.</strong> Essays that made a datable, checkable bet about
