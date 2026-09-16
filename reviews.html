@@ -183,8 +183,16 @@
       <p>
         One framing to handle carefully: the compute-equivalence figures, often relayed as "performs
         like a 50B model." That is a compute-load comparison within one paper's setup, not a general
-        scaling claim, and there is still no scaling law fitting loss jointly against parameters,
-        loop count and tokens. The paper is more careful about this than its citations are.
+        scaling law. The paper is more careful about this than its citations are.
+      </p>
+      <p>
+        A general law arrived later.
+        <a href="https://arxiv.org/abs/2604.21106">Schwethelm, Rueckert and Kaissis (2026)</a> fit
+        $L = E + A(N_{\text{once}} + r^{\varphi} N_{\text{rec}})^{-\alpha} + BD^{-\beta}$ across
+        recurrence counts and roughly fifty-fold in training compute, pricing one recurrence at
+        about $r^{0.46}$ equivalent unique parameters in their tested regime. They also find a
+        training-compute cost to parameter sharing, which is the ledger the compute-equivalence
+        framing tends to leave out.
       </p>
       <p class="line">
         <em>Complicated by:</em> the 2026 finding that looped performance peaks at some
