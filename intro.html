@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>What latent reasoning is</title>
+  <title>The decoding loop</title>
   <meta name="description" content="A precise account of latent reasoning in language models: the inter-step quantiser, the sufficient-statistic property of a chain-of-thought transcript, and the two axes along which methods vary." />
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
@@ -35,7 +35,7 @@
 
   <main>
     <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
-    <h1>What latent reasoning is</h1>
+    <h1>The decoding loop</h1>
     <p class="subtitle">One line of the decoding loop, deleted.</p>
 
     <h2>The decoding loop</h2>
@@ -54,8 +54,8 @@
       The middle step is a <em>discretisation</em>. The composite map
       $q = E \circ \mathrm{sample} \circ \mathrm{softmax} \circ W$ sends $\mathbb{R}^d$ to
       $\mathbb{R}^d$, but its image is the finite set of $|V|$ rows of the embedding table. Two
-      things it is <em>not</em>: it is not nearest-neighbour rounding in embedding space &mdash; it
-      is stochastic selection from a distribution, followed by a table lookup &mdash; and
+      things it is <em>not</em>: it is not nearest-neighbour rounding in embedding space, it
+      is stochastic selection from a distribution, followed by a table lookup, and
       $\log_2|V| \approx 17$ bits is an <em>alphabet capacity bound</em>, $H(x_t) \leq \log_2|V|$,
       not the realised information content of a step. Whatever the model computed at step $t$ that
       is not recoverable from $x_t$ does not travel <em>along this path</em> to step $t+1$.
@@ -72,12 +72,11 @@
     <p>
       That is the entire mechanical content of the continuous-thought family. The model keeps
       running its own forward pass on its own output, as before, but the output is now the
-      unrounded state. Everything else &mdash; the architecture, the attention, the KV cache
-      &mdash; is untouched. What changes is the width of the channel between one step of reasoning
+      unrounded state. Everything else, the architecture, the attention, the KV cache, is untouched. What changes is the width of the channel between one step of reasoning
       and the next.
     </p>
 
-    <h2>What the transcript does and does not give you</h2>
+    <h2>Replayability, resources, monitorability</h2>
 
     <p>
       A cached decoder does not start from nothing at each step. If $C_t$ is the key-value cache,
@@ -111,23 +110,23 @@
       <em>Replayability.</em> Given the model, the full prompt, a fixed execution schedule
       and deterministic forward operations, the cache can be recomputed from the token history, so
       the run can be reproduced. But a deterministic latent recurrence $z_k = F_\theta^{(k)}(z_0)$
-      satisfies the same property &mdash; its state is fixed by the input and the iteration count.
-      <em>Replayability does not distinguish text reasoning from deterministic latent reasoning</em>,
+      satisfies the same property: its state is fixed by the input and the iteration count.
+      <em>Replayability does not distinguish text reasoning from deterministic latent reasoning.</em>
 
     </p>
 
     <h4>Computational resources</h4>
     <p>How much serial depth and parallel width a scheme
-      makes available is an architectural question &mdash; the subject of
-      <a href="./theory.html">the theory page</a> &mdash; and it is where the real differences
-      between token-space and latent schemes live.
+      makes available is an architectural question, treated on
+      <a href="./theory.html">the theory page</a>. It is where the real differences between
+      token-space and latent schemes live.
     </p>
 
     <p>
       <em>Monitorability.</em> Whether a human or an automated monitor can <em>read</em> what
       the model is doing. This does not follow from either of the above. Determinacy is not
       legibility: a transcript can fix a computation completely while telling you nothing you can
-      read off it, which is precisely what filler tokens demonstrate &mdash; recovering that hidden
+      read off it, which is precisely what filler tokens demonstrate: recovering that hidden
       computation took an unsupervised decoder operating on activations, not a reader. Monitorability
       is an empirical property of how models are currently trained, not a structural consequence of
       discretisation. <a href="./monitorability.html">Monitorability</a> has the measurements.
@@ -147,16 +146,15 @@
       field comes from conflating them.
     </p>
 
-    <h4>Where the loop closes</h4>
-    <p>A reasoning step can be a new sequence position
-      &mdash; the loop runs around the outside of the forward pass, one token of context consumed
-      per step &mdash; or it can be a new pass through the same layers, the loop running inside
+    <h4>Position of the loop</h4>
+    <p>A reasoning step can be a new sequence position, the loop runs around the outside of the forward pass, one token of context consumed
+      per step, or it can be a new pass through the same layers, the loop running inside
       the stack with no sequence position spent. The first buys serial computation at the cost of
       context length. The second buys serial <em>depth</em> at the cost of latency, and is where
       recurrent-depth architectures live.
     </p>
 
-    <h4>What survives the loop</h4>
+    <h4>Content of the channel</h4>
     <p>A token, a continuous vector, or nothing at all.
       The third case is not a joke: filler and pause tokens add sequence positions and compute
       while passing essentially no task content through the channel, which makes them the cleanest
@@ -199,7 +197,7 @@
 
         <!-- cells: col 2 -->
         <rect x="470" y="92" width="260" height="58" rx="8" fill="#fafafa" stroke="#e2e2e2" stroke-dasharray="4 3"/>
-        <text x="600" y="120" text-anchor="middle" font-size="11.5" fill="#9a9a9a">degenerate &mdash; a loop that</text>
+        <text x="600" y="120" text-anchor="middle" font-size="11.5" fill="#9a9a9a">degenerate: a loop that</text>
         <text x="600" y="136" text-anchor="middle" font-size="11.5" fill="#9a9a9a">emits a token has left the stack</text>
 
         <rect x="470" y="168" width="260" height="58" rx="8" fill="#e6f3f5" stroke="#0d7d8c"/>
@@ -216,7 +214,7 @@
       </p>
     </div>
 
-    <h2>Why anyone expects this to help</h2>
+    <h2>Arguments for latent reasoning</h2>
 
     <p>
       Three arguments recur, and they are not the same argument.

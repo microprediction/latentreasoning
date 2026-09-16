@@ -35,7 +35,7 @@
   <main>
     <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
     <h1>Monitorability</h1>
-    <p class="subtitle">What is actually lost when reasoning leaves the transcript &mdash; and how
+    <p class="subtitle">What is actually lost when reasoning leaves the transcript, and how
     much of it was there to begin with.</p>
 
     <p class="lead">
@@ -71,7 +71,7 @@
       Baker et al. (2025) show the mechanism works empirically: a weak model reading raw chains of
       thought catches reward hacking during RL training that is otherwise invisible. They also show
       what breaks it. Optimising the policy directly against that same monitor produces
-      <em>obfuscated</em> reward hacking &mdash; the model keeps misbehaving while producing a
+      <em>obfuscated</em> reward hacking: the model keeps misbehaving while producing a
       chain of thought the monitor passes. This is the empirical basis for OpenAI's stated position
       against training against chain-of-thought legibility.
     </p>
@@ -86,12 +86,12 @@
 
     <p>
       Two papers predating the monitorability framing already showed chains of thought can be
-      systematically unfaithful. Turpin et al. (2023) biased multiple-choice prompts &mdash; for
-      instance by reordering options so a target answer is always correct &mdash; and found
+      systematically unfaithful. Turpin et al. (2023) biased multiple-choice prompts, for
+      instance by reordering options so a target answer is always correct, and found
       accuracy drops of up to 36% across thirteen BIG-Bench Hard tasks, with models systematically
       failing to mention the biasing feature in their stated reasoning. Lanham et al. (2023)
-      introduced interventional metrics &mdash; truncation, inserted mistakes, paraphrasing, filler
-      substitution &mdash; and found models often reach the same answer regardless of what the
+      introduced interventional metrics, truncation, inserted mistakes, paraphrasing, filler
+      substitution, and found models often reach the same answer regardless of what the
       chain of thought says, with faithfulness not straightforwardly improving with scale.
     </p>
 
@@ -108,7 +108,7 @@
       but "we are about to lose a partially working, already-degrading one."
     </p>
 
-    <h2>Why it is a real loss anyway</h2>
+    <h2>The case that the loss is real</h2>
 
     <p>
       A leak rate under 20% is not zero, and Baker et al. Demonstrate the leak is exploitable in
@@ -117,8 +117,8 @@
 
     <p>
       Brauer, Mayrink Verdun &amp; Marks (2026) ran the experiment that makes the choice concrete.
-      In frontier open-weight models, filler-token computation &mdash; multi-step work done over
-      content-free dots carrying zero surface signal &mdash; defeats token-level monitoring
+      In frontier open-weight models, filler-token computation, multi-step work done over
+      content-free dots carrying zero surface signal, defeats token-level monitoring
       outright. But an unsupervised decoder operating only on hidden states recovers the
       intermediate values with 80&ndash;95% accuracy across four task families, with causal
       validation by KV-cache transplantation. Monitorability, on this evidence, is a property of
@@ -126,8 +126,7 @@
     </p>
 
     <p>
-      So the choice is not between oversight and none. It is between token-level oversight &mdash;
-      cheap, general, human-readable, currently somewhat informative &mdash; and activation-level
+      So the choice is not between oversight and none. It is between token-level oversight, cheap, general, human-readable, currently somewhat informative, and activation-level
       oversight, which is experimental, needs bespoke tooling per architecture, and has not been
       demonstrated at frontier scale or under adversarial pressure. Losing the cheap general channel
       before the expensive bespoke one is mature is the actual argument, and it is a good one.
@@ -142,8 +141,8 @@
 
     <p>
       Yang et al. (2024) find strong evidence that models internally resolve a bridge entity in
-      two-hop prompts &mdash; recovering "Stevie Wonder" from "the singer of Superstition" and using
-      that latent intermediate to complete the second hop &mdash; for certain relation types, with
+      two-hop prompts: recovering "Stevie Wonder" from "the singer of Superstition" and using
+      that latent intermediate to complete the second hop: for certain relation types, with
       a companion paper questioning how much of this is genuine multi-hop reasoning versus shortcut
       exploitation. Anthropic's circuit-tracing work on Claude 3.5 Haiku shows the model planning
       several tokens ahead when writing rhyming poetry, identifying candidate rhyme words before
@@ -153,7 +152,7 @@
     <p>
       Lindsey (2025) adds the introspection piece: using concept injection, Claude Opus 4 and 4.1
       can sometimes detect and name a concept patched into their residual stream before it shows up
-      behaviourally &mdash; in roughly 20% of trials under favourable conditions &mdash; but
+      behaviourally, in roughly 20% of trials under favourable conditions, but
       failures of introspection remain the norm.
     </p>
 
@@ -166,7 +165,7 @@
     <h2>Encoded reasoning</h2>
 
     <p>
-      A model does not need a latent architecture to hide reasoning &mdash; it can hide it in
+      A model does not need a latent architecture to hide reasoning: it can hide it in
       innocuous text. Roger &amp; Greenblatt (2023) fine-tuned GPT-3.5-Turbo to embed intermediate
       reasoning steganographically in ordinary-looking output: it expressed opinions matching the
       user's stated beliefs 80% of the time with the hidden channel against 54% without. They also
@@ -177,7 +176,7 @@
     </p>
 
     <p>
-      Two qualifications travel with that number. It is an estimate for the schemes tested, obtained
+      That estimate is a floor, not a ceiling. It covers the schemes tested, and was obtained
       by modelling the channel as one that either transmits a message perfectly or scrambles it
       entirely, an assumption the authors note &ldquo;will underestimate the actual capacity.&rdquo;
       It therefore bounds the tested encoders from below rather than bounding covert capacity from
@@ -223,7 +222,7 @@
       </li>
       <li>
         With reasoning disabled, &ldquo;the set of tasks Astra is able to accomplish without the
-        use of CoT is greatly expanded&rdquo; &mdash; the capability no longer depends on the
+        use of CoT is greatly expanded&rdquo;: the capability no longer depends on the
         legible trace.
       </li>
       <li>
@@ -237,16 +236,19 @@
       external deployment, expanded internal safeguards, and a commitment to
       &ldquo;investigating alternatives to CoT monitoring (such as methods based on activation
       monitoring).&rdquo; That last phrase is this literature's central open problem appearing as
-      a deployment commitment &mdash; see the filler-token decoding result above, which is
+      a deployment commitment: see the filler-token decoding result above, which is
       roughly the research version of it.
     </p>
-    <h4>What the system card does not say is as important</h4>
+    <h4>The card does not name an architecture</h4>
     <p>It never names the
-      architecture. Recurrent depth, looped transformers, opaque recurrence &mdash; none of these
+      architecture. Recurrent depth, looped transformers, opaque recurrence: none of these
       appear in it. That attribution comes from reporting: The Information on 1 September,
       followed by
       <a href="https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/">TechCrunch</a>
-      and Fortune. So the two halves of the story have different standing. <em>The monitorability
+      and Fortune. </p>
+
+    <p>
+      So the two halves of the story have different standing. <em>The monitorability
       loss is OpenAI's own documented claim. The mechanism behind it is journalism's.</em>
       Anyone citing Astra as proof that latent reasoning destroys oversight is welding those two
       together, and should say so.
@@ -293,8 +295,8 @@
 
     <p>
       The caveat is in their own numbers: decoding success is substantially lower on
-      <em>incorrectly</em>-answered instances. The cases where oversight matters most &mdash; the
-      model is about to be wrong, or is misbehaving &mdash; are where current decoding is weakest.
+      <em>incorrectly</em>-answered instances. The cases where oversight matters most, the
+      model is about to be wrong, or is misbehaving, are where current decoding is weakest.
     </p>
 
     <h2>Verified gaps</h2>

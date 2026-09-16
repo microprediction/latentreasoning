@@ -39,7 +39,7 @@
 
     <p class="lead">
       A language model that reasons step by step writes each step down. The step is rounded to the
-      nearest token, emitted, and read back in. That rounding is not incidental &mdash; it is a
+      nearest token, emitted, and read back in. That rounding is not incidental: it is a
       <em>quantiser</em> sitting in the middle of the reasoning loop, and it throws away
       almost everything the model computed. Latent reasoning is the study of what happens when you
       take it out.
@@ -49,7 +49,7 @@
       The question has two halves that pull against each other. Removing the quantiser widens the
       channel between reasoning steps by three orders of magnitude, which buys parallel search,
       shorter traces, and computation that no vocabulary can express. It also removes the bound that
-      currently forces a model to route serial reasoning through text &mdash; which is not the same
+      currently forces a model to route serial reasoning through text, which is not the same
       as saying the text was ever a faithful account of the reasoning, and the
       <a href="./monitorability.html">evidence that it was not</a> is substantial.
     </p>
@@ -103,7 +103,7 @@
       </svg>
       <p class="caption">
         One axis: how many bits of each reasoning step survive to the transcript. A convenient way
-        to arrange the work below &mdash; not a claim that the field organises itself this way.
+        to arrange the work below: not a claim that the field organises itself this way.
       </p>
     </div>
 
@@ -131,7 +131,7 @@
     </p>
 
     <h4>The claims about <em>how</em> the model reasons are contested, and weakening</h4>
-    <p>The theoretical selling point of continuous thoughts is superposition &mdash; holding several
+    <p>The theoretical selling point of continuous thoughts is superposition: holding several
       reasoning paths at once rather than committing to one. That mechanism is proven for a specific
       construction and demonstrated in models trained from scratch. It was also shown not to occur
       in one prominent method that claimed it, and shown to collapse under the fine-tuning regimes
@@ -139,10 +139,9 @@
       peaks and then falls with further looping.
     </p>
 
-    <h4>One theorem separates the endpoints</h4>
+    <h4>Continuous and discrete steps separate, conditionally</h4>
     <p>Continuous latent steps reach
-      $\mathsf{TC}^k$ where discrete steps at matched depth reach only $\mathsf{TC}^{k-1}$ &mdash;
-      under deterministic decoding. Under stochastic decoding, discrete chains win back counting and
+      $\mathsf{TC}^k$ where discrete steps at matched depth reach only $\mathsf{TC}^{k-1}$: under deterministic decoding. Under stochastic decoding, discrete chains win back counting and
       sampling power. They are complementary resources rather than a ranking, which is an
       unsatisfying answer and appears to be the true one. The <a href="./theory.html">theory</a> page has the statements and their premises.
     </p>
@@ -154,13 +153,13 @@
       against each other rather than asserted.
     </p>
 
-    <h2>Where the argument is going</h2>
+    <h2>Deployment</h2>
 
     <p>
       In September 2026 the question stopped being architectural. OpenAI released GPT-6 Astra and
       its <a href="https://deploymentsafety.openai.com/gpt-6-astra">system card</a> records
       &ldquo;a substantial decrease in chain-of-thought monitorability compared to previous
-      models&rdquo; &mdash; a frontier lab documenting the loss as a measured property of a shipped
+      models&rdquo;: a frontier lab documenting the loss as a measured property of a shipped
       model. The card does not name an architecture. The attribution to recurrent depth comes from
       reporting, and the two claims should be kept apart. The position paper that anticipated all of
       this was published thirteen months earlier by forty authors drawn from the labs now on both
@@ -177,34 +176,33 @@
     <h2>Further reading, by depth</h2>
     <ul>
       <li>
-        Hao et al. (2024), <a href="https://arxiv.org/abs/2412.06769">Coconut</a> &mdash; the
+        Hao et al. (2024), <a href="https://arxiv.org/abs/2412.06769">Coconut</a>: the
         shortest path to understanding what latent reasoning means mechanically. The GSM8K numbers matter as much as the ProsQA ones.
       </li>
       <li>
         Geiping et al. (2025),
-        <a href="https://arxiv.org/abs/2502.05171">recurrent depth</a> &mdash; the other endpoint,
+        <a href="https://arxiv.org/abs/2502.05171">recurrent depth</a>: the other endpoint,
         at pretraining scale, with open weights.
       </li>
       <li>
         Korbak et al. (2025),
-        <a href="https://arxiv.org/abs/2507.11473">chain of thought monitorability</a> &mdash; why
+        <a href="https://arxiv.org/abs/2507.11473">chain of thought monitorability</a>: why
         any of this matters outside the literature.
       </li>
       <li>
         Xu &amp; Sato (2025),
-        <a href="https://arxiv.org/abs/2509.25239">CoT versus latent thought</a> &mdash; the sharp
+        <a href="https://arxiv.org/abs/2509.25239">CoT versus latent thought</a>: the sharp
         theorem, and the qualification that makes it honest.
       </li>
       <li>
         Zhu et al. (2025), <a href="https://arxiv.org/abs/2507.06203">A Survey on Latent
-        Reasoning</a> &mdash; the field's own account of itself, organised into vertical
+        Reasoning</a>: the field's own account of itself, organised into vertical
         (activation-based) and horizontal (hidden-state) recurrence.
       </li>
     </ul>
 
     <div class="next-steps">
-      <p>The full annotated bibliography now lives on its own page &mdash;
-      roughly seventy entries across theory, continuous thoughts, recurrent depth, contentless
+      <p>The full annotated bibliography now lives on its own page: roughly seventy entries across theory, continuous thoughts, recurrent depth, contentless
       tokens, rebuttals and monitorability, each with a note on why it matters. The <a href="./bibliography.html">bibliography</a> has them all, and
       <a href="./reviews.html">reviews</a> gives a handful a closer reading.</p>
     </div>

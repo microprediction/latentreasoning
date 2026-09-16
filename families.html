@@ -76,8 +76,7 @@
       </p>
       <p>
         The result that made the family interesting is not the headline accuracy but the mechanism.
-        On ProsQA &mdash; a synthetic DAG-shaped multi-hop task released with the paper &mdash;
-        Coconut reaches 97.0% against 77.5% for explicit chain of thought at GPT-2 scale, and the
+        On ProsQA, a synthetic DAG-shaped multi-hop task released with the paper, Coconut reaches 97.0% against 77.5% for explicit chain of thought at GPT-2 scale, and the
         continuous thought vectors turn out to encode a <em>frontier</em> of several candidate
         reasoning paths rather than a single committed one, giving breadth-first-like search.
         Zhu et al. (2025) proved this is not an artifact: a two-layer transformer using $D$
@@ -87,16 +86,20 @@
       <h4>The same paper's other number matters as much</h4>
     <p>On GSM8K, Coconut gets
         34.1% against 42.9% for explicit chain of thought. The gains are concentrated on search and
-        planning. On arithmetic the method loses. No account of this family is honest without both
+        planning. On arithmetic the method loses.
+      </p>
+      <p> No account of this family is honest without both
         numbers.
       </p>
       <p>
         Later work mostly addresses training rather than capability. CODI (Shen et al. 2025)
         replaces Coconut's multi-stage curriculum with self-distillation that aligns a single
         token's hidden state between an explicit and an implicit pass, and is the first in the
-        family to match explicit CoT on GSM8K at GPT-2 scale. SoftCoT (Xu et al. 2025) never
-        fine-tunes the target model at all &mdash; a small frozen assistant produces soft thoughts
-        that a trained projector maps into the frozen LLM's embedding space &mdash; which is an
+        family to match explicit CoT on GSM8K at GPT-2 scale. </p>
+      <p>
+        SoftCoT (Xu et al. 2025) never
+        fine-tunes the target model at all: a small frozen assistant produces soft thoughts
+        that a trained projector maps into the frozen LLM's embedding space, which is an
         explicit workaround for the catastrophic forgetting that full-parameter latent fine-tuning
         causes on models that already reason well. SIM-CoT (Wei et al. 2025) adds a step-level
         auxiliary decoder, discarded at inference, to stop latent vectors homogenising.
@@ -107,16 +110,17 @@
       <h3>3. Compression into latent tokens <span class="tag">many tokens &rarr; few vectors</span></h3>
       <p>
         Rather than removing the intermediate representation, shrink it. A rationale that would
-        have taken hundreds of tokens is encoded into a handful of dense vectors &mdash; called
-        contemplation tokens, gist tokens, or thinking tokens depending on the paper &mdash; and
+        have taken hundreds of tokens is encoded into a handful of dense vectors, called
+        contemplation tokens, gist tokens, or thinking tokens depending on the paper, and
         the original text is discarded.
       </p>
       <p>
         CCoT (Cheng &amp; Van Durme 2024) generates variable-length dense representations as a
         drop-in replacement for the rationale on off-the-shelf decoders, with a tunable compression
         ratio. At a ratio of 0.10 it buys roughly nine accuracy points over emitting nothing while
-        adding about 0.4s of generation against 8.1s for the full decode. LightThinker (Zhang et al.
-        2025) compresses during generation and evicts the original tokens from context using
+        adding about 0.4s of generation against 8.1s for the full decode. </p>
+      <p>
+        LightThinker (Zhang et al. 2025) compresses during generation and evicts the original tokens from context using
         specialised attention masks. Heima (Shen et al. 2025) does the multimodal version and pairs
         it with an auxiliary interpreter that reconstructs the discarded text. KaVa (Kuzina et al.
         2025) attacks the KV cache directly, distilling a compressed teacher cache into a latent
@@ -134,9 +138,9 @@
       <p>
         One spends the extra computation in depth rather than in sequence length. A block of layers is
         applied repeatedly to the same state, so test-time compute decouples from context length
-        and from the vocabulary entirely. The antecedents are old &mdash; adaptive computation time
+        and from the vocabulary entirely. The antecedents are old: adaptive computation time
         (Graves 2016), Universal Transformers (Dehghani et al. 2018), PonderNet (Banino et al.
-        2021) &mdash; but the modern instances are language models trained this way from scratch.
+        2021), but the modern instances are language models trained this way from scratch.
       </p>
       <p>
         Geiping et al. (2025) pretrained Huginn-0125: 3.5B parameters, 800B tokens, a
@@ -144,6 +148,8 @@
         time, with no chain-of-thought training data at all. Ouro (Zhu et al. 2025) is the largest
         confirmed effort, at 1.4B and 2.6B parameters over 7.7T tokens, and reports that the gains
         come from better knowledge <em>manipulation</em> rather than added knowledge capacity.
+        </p>
+      <p>
         Mixture-of-Recursions (Bae et al. 2025) routes each token to its own recursion depth.
         McLeish et al. (2025) show recurrence can be retrofitted onto an already-pretrained model
         by a depth curriculum rather than requiring a fresh pretrain.
@@ -166,7 +172,7 @@
         They help, conditionally. Pfau, Merrill &amp; Bowman (2024) show transformers solve two
         algorithmic tasks unsolvable in a single pass using nothing but repeated dots, and
         characterise which problems admit the benefit via the quantifier depth of a first-order
-        description &mdash; but learning to exploit fillers requires dense, task-specific
+        description, but learning to exploit fillers requires dense, task-specific
         supervision and does not emerge from ordinary training. Goyal et al. (2024) get real
         downstream gains from learnable pause tokens on a 1B model, including +18% exact match on
         SQuAD, but only when pause tokens appear in <em>both</em> pretraining and fine-tuning.
@@ -197,7 +203,7 @@
       </p>
     </div>
 
-    <h2>What goes wrong</h2>
+    <h2>Failure modes</h2>
 
     <h3>Latent representations collapse as you add steps</h3>
     <p>
@@ -211,7 +217,7 @@
     <p>
       Soft Thinking (Zhang et al. 2025) replaces each token with a probability-weighted mixture
       of embeddings, claiming parallel exploration. Wu et al. (2025) showed directly that the
-      model overwhelmingly follows the single highest-probability component &mdash; the method
+      model overwhelmingly follows the single highest-probability component: the method
       degenerates to greedy decoding unless noise is deliberately injected. Rizvi-Martel,
       Rabusseau &amp; Mosbach (2026) sharpen this: genuine superposition shows up in models
       trained from scratch with continuous latent CoT, and largely collapses under the fine-tuning
@@ -236,7 +242,7 @@
       internally" need to say which of these two situations they are in.
     </p>
 
-    <h3>Accuracy may be a poor proxy &mdash; but the measurement is contested</h3>
+    <h3>Accuracy may be a poor proxy, but the measurement is contested</h3>
     <p>
       Sahoo et al. (2026) report that on Qwen2.5-Math-7B at 61% accuracy, 18.4% of correct
       predictions use stable faithful reasoning while 81.6% &ldquo;emerge through computationally
@@ -263,7 +269,7 @@
         threshold has not thereby been shown to be a guess.
       </li>
       <li>
-        Some of the underlying metrics are partly fixed by construction &mdash; a statistic
+        Some of the underlying metrics are partly fixed by construction: a statistic
         defined as the fraction of layers above their own median sits near one half whatever the
         model does.
       </li>
@@ -276,8 +282,7 @@
 
     <h3>The evidence base is small and synthetic</h3>
     <p>
-      Much of the strongest support &mdash; graph reachability, ProsQA, ProntoQA, maze tasks
-      &mdash; comes from benchmarks built to exhibit parallel search. Most strong
+      Much of the strongest support, graph reachability, ProsQA, ProntoQA, maze tasks, comes from benchmarks built to exhibit parallel search. Most strong
       empirical results are at GPT-2 to 8B scale. Cross-paper comparison is largely
       apples-to-oranges, for the reasons given under
       <a href="./implementations.html">implementations</a>.

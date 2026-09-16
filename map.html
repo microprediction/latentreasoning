@@ -45,8 +45,7 @@
 <div id="map-wrap">
   <h1>Latent reasoning: research directions</h1>
   <p>Each node is a paper or a hub concept. Colours are literatures; solid edges are real
-  connections; <b style="color:#c0392b">dashed red edges are connections that do not yet exist</b>
-  &mdash; searched for and not found as of 16 September 2026, which is to say the research agenda. Dotted purple
+  connections; <b style="color:#c0392b">dashed red edges are connections that do not yet exist</b>: searched for and not found as of 16 September 2026, which is to say the research agenda. Dotted purple
   edges are direct rebuttals, which this field has an unusual number of. Dashed edges are dated,
   scoped search claims rather than proofs of absence, and are withdrawn when someone finds the
   thing. Click a node to open the work; drag to rearrange; hover for the one-line story.</p>
@@ -56,15 +55,15 @@
     <span><span class="line" style="border-color:#2471a3; border-top-width:3.5px"></span> same object, two readings</span>
     <span><span class="line" style="border-color:#1e8449"></span> endpoint of the dial</span>
     <span><span class="line" style="border-top-style:dotted; border-color:#7d3c98"></span> rebuts / contradicts</span>
-    <span><span class="line" style="border-top-style:dashed; border-color:#c0392b"></span> GAP &mdash; does not exist</span>
+    <span><span class="line" style="border-top-style:dashed; border-color:#c0392b"></span> GAP: does not exist</span>
   </div>
   <div id="graph"></div>
-  <p class="hint">Corrections welcome &mdash; file an issue on
+  <p class="hint">Corrections welcome: file an issue on
   <a href="https://github.com/microprediction/latentreasoning">microprediction/latentreasoning</a>.</p>
 
   <h2>The gaps, spelled out</h2>
   <p>Dashed edges are claims about the literature, so they are stated here in full with a
-  confidence. An absence is only interesting if someone actually looked &mdash; and only honest if
+  confidence. An absence is only interesting if someone actually looked, and only honest if
   it is withdrawn when someone finds the thing.</p>
 
   <div class="caveat">
@@ -73,7 +72,7 @@
       counterexamples, all of which checked out. A joint scaling law for looped models, a joint
       treatment of padding and looping, reinforcement learning over latent diffusion with verifiable
       rewards, and state-space operators inside a latent recursive scaffold all exist and now appear
-      on the map as real connections. What follows is a dated, scoped search claim &mdash; not a
+      on the map as real connections. What follows is a dated, scoped search claim: not a
       proof of absence.
     </p>
   </div>
@@ -96,7 +95,7 @@
       <em>Narrowed.</em> A purpose-built instrument does exist: a 4,000-item benchmark that forces
       internal inference by requiring the answer to be signalled through the language of the first
       response token, so it cannot be externalised as text. What is still missing is community
-      convergence &mdash; it measures internal reasoning in stock models rather than discriminating
+      convergence: it measures internal reasoning in stock models rather than discriminating
       between latent-reasoning architectures, its authors cannot rule out heuristic exploitation,
       and critique papers continue to build bespoke diagnostics instead of adopting a common one.
       <em>Confidence: moderate, for the narrowed claim.</em>
@@ -106,7 +105,7 @@
       <em>Revised.</em> This previously claimed that policy-gradient objectives assume single-step
       decisions and so cannot train latent recurrence. That is false: for a differentiable
       recurrence with gradients retained, a terminal reward's total derivative already includes
-      every unrolled update. What is true is narrower &mdash; standard objectives have
+      every unrolled update. What is true is narrower: standard objectives have
       <em>empirically</em> underperformed on looped models, and the causes on offer (long Jacobian
       products, sparse reward, truncation or detaching in implementations) are optimisation
       problems, not invalidity. The open question is which auxiliary objectives and
@@ -137,8 +136,7 @@
   </ol>
 
   <p class="muted" style="font-size:0.9rem;">
-    Found a counterexample to any of these? That is the most useful possible contribution &mdash;
-    open an <a href="https://github.com/microprediction/latentreasoning/issues">issue</a>. The four
+    Found a counterexample to any of these? That is the most useful possible contribution: open an <a href="https://github.com/microprediction/latentreasoning/issues">issue</a>. The four
     withdrawn above arrived that way.
   </p>
 </div>

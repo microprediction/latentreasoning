@@ -89,7 +89,7 @@
         <tbody>
           <tr>
             <td><a href="https://github.com/facebookresearch/coconut">facebookresearch/coconut</a></td>
-            <td>Coconut &mdash; continuous thoughts<br><span class="mode">arXiv:2412.06769</span></td>
+            <td>Coconut: continuous thoughts<br><span class="mode">arXiv:2412.06769</span></td>
             <td class="nowrap">1,705 &middot; 2026-07</td>
             <td>Training code and data for the GPT-2-scale GSM8K / ProsQA / ProntoQA experiments.
             No official checkpoints; community reproductions exist on the Hub. MIT.</td>
@@ -137,17 +137,17 @@
           </tr>
           <tr>
             <td><a href="https://github.com/zhenyi4/codi">zhenyi4/codi</a></td>
-            <td>CODI &mdash; self-distillation<br><span class="mode">arXiv:2502.21074</span></td>
+            <td>CODI: self-distillation<br><span class="mode">arXiv:2502.21074</span></td>
             <td class="nowrap">107 &middot; 2025-12</td>
             <td>Self-contained GPT-2-scale training and eval; reproduces the GSM8K numbers. No
-            license file &mdash; check before reuse.</td>
+            license file: check before reuse.</td>
           </tr>
           <tr>
             <td><a href="https://github.com/xuyige/SoftCoT">xuyige/SoftCoT</a></td>
             <td>SoftCoT and SoftCoT++<br><span class="mode">arXiv:2502.12134, 2505.11484</span></td>
             <td class="nowrap">95 &middot; 2025-05</td>
             <td>Training scripts, GSM8K preprocessing, checkpoints. No explicit license despite
-            being public &mdash; check before reuse.</td>
+            being public: check before reuse.</td>
           </tr>
           <tr>
             <td><a href="https://github.com/JacobPfau/fillerTokens">JacobPfau/fillerTokens</a></td>
@@ -164,7 +164,7 @@
           </tr>
           <tr>
             <td><a href="https://github.com/yingfan-bot/lotus">yingfan-bot/lotus</a></td>
-            <td>LOTUS &mdash; supervised loop latents<br><span class="mode">arXiv:2606.31779</span></td>
+            <td>LOTUS: supervised loop latents<br><span class="mode">arXiv:2606.31779</span></td>
             <td class="nowrap">51 &middot; 2026-07</td>
             <td>Fine-tuning scripts over Llama-3.2-3B. no standalone checkpoint. MIT.</td>
           </tr>
@@ -187,20 +187,19 @@
     <h2>Papers with no public implementation</h2>
     <ul>
       <li>
-        <em>Pause tokens</em> (Goyal et al., arXiv:2310.02226) &mdash; never released by
+        <em>Pause tokens</em> (Goyal et al., arXiv:2310.02226): never released by
         Google Research. The only related public repo is an independent toy that predates the paper
         and does not reproduce its pretraining setup.
       </li>
       <li>
-        <em>Compressed Chain of Thought</em> (Cheng &amp; Van Durme, arXiv:2412.13171)
-        &mdash; no release found anywhere. An unrelated multimodal-prompting repository shares the CCoT acronym.
+        <em>Compressed Chain of Thought</em> (Cheng &amp; Van Durme, arXiv:2412.13171): no release found anywhere. An unrelated multimodal-prompting repository shares the CCoT acronym.
       </li>
       <li>
-        <em>CoTFormer</em> (arXiv:2310.10845) &mdash; no official repository; only a later
+        <em>CoTFormer</em> (arXiv:2310.10845): no official repository; only a later
         independent reproduction paper.
       </li>
       <li>
-        <em>Loop the Loopies!</em> (arXiv:2607.16051) &mdash; the largest looped model
+        <em>Loop the Loopies!</em> (arXiv:2607.16051): the largest looped model
         reported, with no public code or checkpoint.
       </li>
     </ul>
@@ -209,9 +208,9 @@
 
     <div class="caveat">
       <h4>There is no shared benchmark for this field</h4>
-    <p>ProsQA &mdash; a synthetic
-        DAG-shaped multi-hop task, roughly 17.9k train and 300 validation examples at 3&ndash;6 hops
-        &mdash; is the only benchmark purpose-built for latent reasoning, and it ships as JSON
+          <p>
+        ProsQA, a synthetic DAG-shaped multi-hop task with roughly 17.9k train and 300 validation
+        examples at 3&ndash;6 hops, is the only benchmark purpose-built for latent reasoning, and it ships as JSON
         inside the Coconut repository rather than as an independent dataset. Everything else is
         borrowed: <a href="https://github.com/asaparov/prontoqa">ProntoQA</a> (synthetic
         first-order-logic QA, predating the field),

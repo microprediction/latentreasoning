@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>What the theory proves</title>
+  <title>Expressivity results</title>
   <meta name="description" content="Expressivity results for latent reasoning: TC0 bounds on a single forward pass, what chain-of-thought steps add, pause-token separations, and the one sharp theorem separating continuous from discrete reasoning steps." />
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
@@ -34,21 +34,21 @@
   </header>
   <main>
     <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
-    <h1>What the theory proves</h1>
+    <h1>Expressivity results</h1>
     <p class="subtitle">Stated carefully, because the complexity claims in this area are routinely
     garbled.</p>
 
     <p class="lead">
-      Three questions have real answers. What can one forward pass compute? What do serial token
-      steps add? And is a continuous step worth more than a discrete one? The first two are settled
-      in outline. The third has exactly one sharp theorem and a good deal of hand-waving around it.
+      A single forward pass has a known upper bound, and serial token steps have a known effect on
+      it. Both results are settled in outline. Whether a continuous step is worth more than a
+      discrete one rests on one sharp theorem, and that theorem is conditional.
     </p>
 
     <h2>One forward pass is weak, and provably so</h2>
 
     <p>
-      Merrill &amp; Sabharwal (2023) show that a log-precision transformer &mdash; poly-size, with
-      log-space-computable feedforward blocks &mdash; can be simulated by constant-depth,
+      Merrill &amp; Sabharwal (2023) show that a log-precision transformer, poly-size, with
+      log-space-computable feedforward blocks, can be simulated by constant-depth,
       logspace-uniform threshold circuits. In symbols, it sits inside uniform $\mathsf{TC}^0$.
     </p>
 
@@ -59,12 +59,12 @@
     <p>
       The consequence is conditional: if $\mathsf L \neq \mathsf P$, no <em>family</em> of such
       transformers of polynomial size can solve certain $\mathsf P$-complete problems in a single
-      pass. This is the parallelism tradeoff &mdash; fixed depth means a fixed-depth parallel
+      pass. This is the parallelism tradeoff: fixed depth means a fixed-depth parallel
       circuit, and the property that makes transformers efficient to run is the same property that
       caps what one pass can do.
     </p>
 
-    <h4>What this does not say</h4>
+    <h4>Scope of the bound</h4>
     <p>It is an asymptotic statement about families of
       circuits over arbitrarily growing inputs, within a polynomial-size regime. It is not a
       prohibition on a particular model solving a particular finite benchmark instance, and it
@@ -76,7 +76,7 @@
     Li, Liu, Zhou &amp; Ma (2024) tighten this under a different precision assumption: with
     <em>constant</em> bit precision and constant depth and no chain of thought, expressivity is
     confined to $\mathsf{AC}^0$, a strict subset of $\mathsf{TC}^0$. The precision regime is not
-    a technicality &mdash; it moves the answer by a complexity class, and papers in this area are
+    a technicality: it moves the answer by a complexity class, and papers in this area are
     often compared as though it does not.
     </p>
 
@@ -86,7 +86,7 @@
     Chain of thought converts token count into a serial computation budget. Li et al. State it
     most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
     transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
-    theory, meaningful reasoning &mdash; they are computation slots.
+    theory, meaningful reasoning: they are computation slots.
     </p>
 
     <p>
@@ -110,7 +110,7 @@
         </tr>
         <tr>
           <td class="nowrap">$T = \mathrm{poly}(n)$</td>
-          <td>Exactly $\mathsf P$ &mdash; as powerful as polynomial-time Turing machines.</td>
+          <td>Exactly $\mathsf P$: as powerful as polynomial-time Turing machines.</td>
           <td class="mode">Requires a generalised pre-norm architecture.</td>
         </tr>
       </tbody>
@@ -133,9 +133,9 @@
     </p>
 
     <p>
-      Two qualifications matter. The scope is those two specified problem families over finite
-      fields, not &ldquo;basic arithmetic&rdquo; in general. And the lower
-      bound is supplied by circuit-complexity reasoning under an explicit conjecture &mdash; it is
+      The scope is those two specified problem families over finite fields, not &ldquo;basic
+      arithmetic&rdquo; in general. And the lower
+      bound is supplied by circuit-complexity reasoning under an explicit conjecture: it is
       not an unconditional size-blowup result.
     </p>
 
@@ -182,7 +182,7 @@
     <p>
       The uniform and non-uniform statements are different theorems with different padding
       requirements and should not be compressed into one line. What padding buys, in the authors'
-      own framing, is <em>parallel workspace at fixed layer depth</em> &mdash; not additional serial
+      own framing, is <em>parallel workspace at fixed layer depth</em>: not additional serial
       computational depth. That distinction is the whole reason contentless tokens are not simply a
       free substitute for chain of thought.
     </p>
@@ -193,8 +193,8 @@
         $\mathsf{AC}^0$, so it cannot witness a strict containment <em>within</em> $\mathsf{AC}^0$.
         PARITY appears in the paper's Section 5 as a finite-size <em>learning experiment</em> on a
         2-layer, 4-head GPT-2-style model, motivated by the logarithmic-precision regime, and it
-        requires explicit intermediate supervision &mdash; threshold &ldquo;hint&rdquo; labels
-        $t_j = \mathbb{I}[\sum_i x_i \geq j]$ &mdash; because, as the authors note, gradient
+        requires explicit intermediate supervision, threshold &ldquo;hint&rdquo; labels
+        $t_j = \mathbb{I}[\sum_i x_i \geq j]$, because, as the authors note, gradient
         training of a shallow transformer &ldquo;struggles to learn parity using only the loss on
         the final prediction.&rdquo; That is an observation about learnability, not a proof of
         expressivity, and the two were conflated here.
@@ -224,7 +224,7 @@
     </div>
 
     <p>
-      Three qualifications govern the statement.
+      The statement carries three qualifications.
     </p>
 
     <ul>
@@ -238,15 +238,14 @@
         The latent side is a characterisation. The CoT side is only an upper bound.
         Theorem 3.12 characterises the looped/continuous classes exactly at polylogarithmic
         iterations, polynomial width, and constant precision (or $\mathsf{TC}^k$ at logarithmic
-        precision). Lemma 3.13 gives $\mathsf{CoT} \subseteq \mathsf{TC}^{k-1}$ &mdash; an upper
+        precision). Lemma 3.13 gives $\mathsf{CoT} \subseteq \mathsf{TC}^{k-1}$: an upper
         bound. Treating that containment as an exact characterisation overstates it.
       </li>
       <li>
         <em>The stochastic comparison has its own premise.</em> The counting and sampling
         advantage assumes $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ for self-reducible
         relations. It compares intermediate-token sampling against <em>deterministic</em> latent
-        updates, and is not a general impossibility result for stochastic latent computation
-        &mdash; latent models may still sample their final output tokens.
+        updates, and is not a general impossibility result for stochastic latent computation: latent models may still sample their final output tokens.
       </li>
     </ul>
 
@@ -256,7 +255,7 @@
       as though a practitioner choosing between two 3B models were the setting. The same authors'
       earlier comparison lands in the same place: loops efficiently emulate parallel,
       DAG-structured deterministic computation, while sequential CoT suits self-reducible,
-      compositionally sequential problems &mdash; complementary resources, not a ranking.
+      compositionally sequential problems: complementary resources, not a ranking.
     </p>
 
     <p>
@@ -268,7 +267,10 @@
       a bounded iteration counter, cannot decide problems $\mathsf P$-complete under logspace
       reductions that polynomial-length chain of thought can. The paper explicitly distinguishes
       these from <em>full sequence-state</em> loops carrying $ndp$ bits, which are not covered.
-      Recurrence buys depth. It does not, in the compressed regime, buy memory. And Reddi et al. (2025) establish the positive counterpart for depth specifically:
+      Recurrence buys depth. It does not, in the compressed regime, buy memory. </p>
+
+    <p>
+      Reddi et al. (2025) establish the positive counterpart for depth specifically:
       $k$ layers looped $L$ times nearly matches $kL$ unlooped layers, so problems that are
       depth-bound rather than parameter-bound are exactly the ones loops help with.
     </p>
@@ -282,7 +284,7 @@
       subset-sum.
     </p>
 
-    <h2>The gap the theory does not close</h2>
+    <h2>Expressivity versus learnability</h2>
 
     <div class="caveat">
       <p>
@@ -309,7 +311,7 @@
         of its kind, and it is conditional on $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. Worth
         keeping distinct: the latent-side characterisation is already quantified, whereas the strict
         separation inherits an unproved class separation. Whether realistic finite-precision
-        continuous states retain the advantage is also open &mdash; precision is known to be
+        continuous states retain the advantage is also open: precision is known to be
         decisive in the discrete case.
       </li>
       <li>
@@ -331,8 +333,7 @@
 
     <div class="next-steps">
       <p><em>Next:</em> if the theory says extra serial steps are computation slots rather
-      than reasoning, the natural question is whether reading them tells you anything &mdash;
-      see <a href="./monitorability.html">monitorability</a>.</p>
+      than reasoning, the natural question is whether reading them tells you anything: see <a href="./monitorability.html">monitorability</a>.</p>
     </div>
   </main>
 

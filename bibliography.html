@@ -52,7 +52,7 @@
           <a href="https://arxiv.org/abs/2412.06769"><em>Training Large Language Models to Reason
           in a Continuous Latent Space</em></a>. arXiv:2412.06769.
           <em>Coconut. Feeds the final hidden state back as the next input embedding, deleting the
-          quantiser. ProsQA 97.0% against 77.5% for explicit chain of thought &mdash; and GSM8K
+          quantiser. ProsQA 97.0% against 77.5% for explicit chain of thought, and GSM8K
           34.1% against 42.9%. The paper that named the idea and, read carefully, bounded it.</em>
         </li>
         <li>
@@ -98,7 +98,7 @@
         <li>
           Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., and Kaiser, &#321;. (2018).
           <a href="https://arxiv.org/abs/1807.03819"><em>Universal Transformers</em></a>.
-          arXiv:1807.03819. <em>Weight-tied layers plus per-position adaptive halting &mdash; depth
+          arXiv:1807.03819. <em>Weight-tied layers plus per-position adaptive halting: depth
           becomes a loop. The architectural precursor to recurrent-depth language models.</em>
         </li>
         <li>
@@ -124,7 +124,7 @@
           <a href="https://arxiv.org/abs/2207.00729">arXiv:2207.00729</a>.
           <em>One forward pass of a log-precision transformer lies inside logspace-uniform
           $\mathsf{TC}^0$. Conditional on $\mathsf L \neq \mathsf P$, no polynomial-size family
-          solves certain $\mathsf P$-complete problems in a single pass &mdash; an asymptotic
+          solves certain $\mathsf P$-complete problems in a single pass: an asymptotic
           statement about growing inputs, not a verdict on finite instances.</em>
         </li>
         <li>
@@ -135,7 +135,7 @@
           transformer of polynomial width solves arithmetic-expression evaluation or linear-equation
           solving over $\mathbb{Z}_p$ at all sizes; constant-size autoregressive models with chain
           of thought can, and can implement dynamic programming. Conditional, and scoped to those
-          two problem families &mdash; not &ldquo;arithmetic&rdquo; generally.</em>
+          two problem families: not &ldquo;arithmetic&rdquo; generally.</em>
         </li>
         <li>
           Merrill, W., and Sabharwal, A. (2024). &ldquo;The Expressive Power of Transformers with
@@ -194,14 +194,14 @@
           Between Chain-of-Thought and Looped Transformers</em></a>. arXiv:2505.19245.
           <em>Loops efficiently emulate parallel DAG-structured deterministic computation; sequential
           chain of thought suits self-reducible compositional problems. No universal conversion
-          between loop count and token count &mdash; the relationship is structural.</em>
+          between loop count and token count: the relationship is structural.</em>
         </li>
         <li>
           Zhang, H. (2026).
           <a href="https://arxiv.org/abs/2605.30757"><em>Chain-of-Thought and Compressed Looped
           Transformers: A Memory-Budget Separation</em></a>. arXiv:2605.30757.
-          <em>Under a standard complexity assumption &mdash; $\mathsf P \not\subseteq
-          \mathsf{DSPACE}(\mathrm{polylog}\,n)$ &mdash; a compressed-state loop carrying
+          <em>Under a standard complexity assumption, $\mathsf P \not\subseteq
+          \mathsf{DSPACE}(\mathrm{polylog}\,n)$, a compressed-state loop carrying
           polylogarithmic persistent memory cannot decide problems $\mathsf P$-complete under
           logspace reductions that polynomial-length chain of thought can. Explicitly does not cover
           full sequence-state loops carrying $ndp$ bits. Recurrence buys depth, not memory.</em>
@@ -223,8 +223,7 @@
           <a href="https://arxiv.org/abs/2403.09629"><em>Quiet-STaR: Language Models Can Teach
           Themselves to Think Before Speaking</em></a>. arXiv:2403.09629.
           <em>Generates rationales after every token and rewards those that improve prediction of
-          the real continuation. Zero-shot GSM8K 5.9% to 10.9%. The rationales are still tokens
-          &mdash; a bridge case rather than latent reasoning proper.</em>
+          the real continuation. Zero-shot GSM8K 5.9% to 10.9%. The rationales are still tokens: a bridge case rather than latent reasoning proper.</em>
         </li>
         <li>
           Deng, Y., Choi, Y., and Shieber, S. (2024).
@@ -246,8 +245,7 @@
           <a href="https://arxiv.org/abs/2502.03275"><em>Token Assorted: Mixing Latent and Text
           Tokens for Improved Language Model Reasoning</em></a>. arXiv:2502.03275.
           <em>Abstracts only the early part of a trace into discrete VQ-VAE latent tokens and mixes
-          them with text. Gains of 4&ndash;13% across model sizes with traces about 17% shorter
-          &mdash; a hybrid by construction.</em>
+          them with text. Gains of 4&ndash;13% across model sizes with traces about 17% shorter: a hybrid by construction.</em>
         </li>
         <li>
           Xu, Y., Guo, X., Zeng, Z., and Miao, C. (2025).
@@ -292,8 +290,8 @@
           Wei, X., Liu, Z., Zang, Y., Dong, X., Cao, Y., et al. (2025).
           <a href="https://arxiv.org/abs/2509.20317"><em>SIM-CoT: Supervised Implicit
           Chain-of-Thought</em></a>. arXiv:2509.20317.
-          <em>Diagnoses latent instability &mdash; latent vectors homogenise as steps are added
-          until training collapses &mdash; and fixes it with a step-level auxiliary decoder removed
+          <em>Diagnoses latent instability, latent vectors homogenise as steps are added
+          until training collapses, and fixes it with a step-level auxiliary decoder removed
           at inference.</em>
         </li>
         <li>
@@ -339,7 +337,7 @@
           Bae, S., Kim, Y., Bayat, R., Kim, S., Ha, J., et al. (2025).
           <a href="https://arxiv.org/abs/2507.10524"><em>Mixture-of-Recursions: Learning Dynamic
           Recursive Depths for Adaptive Token-Level Computation</em></a>. arXiv:2507.10524.
-          <em>A router picks each token's recursion depth, with matched KV caching &mdash; a new
+          <em>A router picks each token's recursion depth, with matched KV caching: a new
           Pareto frontier for perplexity per FLOP and for throughput.</em>
         </li>
         <li>
@@ -384,7 +382,7 @@
           &ldquo;Think before you speak: Training Language Models With Pause Tokens.&rdquo;
           <em>ICLR</em>. <a href="https://arxiv.org/abs/2310.02226">arXiv:2310.02226</a>.
           <em>Learnable pause tokens delay answer extraction and buy computation: +18% exact match
-          on SQuAD at 1B. The precondition is strong &mdash; pauses must appear in both pretraining
+          on SQuAD at 1B. The precondition is strong: pauses must appear in both pretraining
           and fine-tuning. No code was released.</em>
         </li>
         <li>
@@ -392,7 +390,7 @@
           <a href="https://arxiv.org/abs/2404.15758"><em>Let's Think Dot by Dot: Hidden Computation
           in Transformer Language Models</em></a>. arXiv:2404.15758.
           <em>Transformers solve two tasks unsolvable in a single pass using nothing but repeated
-          dots, with the admissible problems characterised by quantifier depth &mdash; but learning
+          dots, with the admissible problems characterised by quantifier depth, but learning
           to exploit fillers needs dense, task-specific supervision and does not emerge from
           ordinary training.</em>
         </li>
@@ -452,7 +450,7 @@
           reasoning quality and correctness. <em>This is a contested diagnostic proposal.</em>
           The reported correlation is hard to reconcile with the conditional means given alongside
           it, and the headline rates are threshold-based operational definitions rather than
-          independent verification of reasoning errors &mdash; see
+          independent verification of reasoning errors: see
           <a href="./families.html">families</a>.</em>
         </li>
         <li>
@@ -478,7 +476,7 @@
           Lanham, T., Chen, A., Radhakrishnan, A., Steiner, B., Denison, C., et al. (2023).
           <a href="https://arxiv.org/abs/2307.13702"><em>Measuring Faithfulness in Chain-of-Thought
           Reasoning</em></a>. arXiv:2307.13702.
-          <em>Interventional metrics &mdash; truncation, inserted mistakes, paraphrase, filler
+          <em>Interventional metrics: truncation, inserted mistakes, paraphrase, filler
           substitution. Models often reach the same answer regardless of what the chain says, and
           faithfulness does not straightforwardly improve with scale.</em>
         </li>
@@ -499,7 +497,7 @@
           Language Models Latently Perform Multi-Hop Reasoning?&rdquo; <em>ACL</em>.
           <a href="https://arxiv.org/abs/2402.16837">arXiv:2402.16837</a>.
           <em>Evidence that models internally resolve a bridge entity and use it for the second hop,
-          for certain relation types &mdash; reasoning was partly latent before anyone designed it
+          for certain relation types: reasoning was partly latent before anyone designed it
           that way. The follow-up
           <a href="https://arxiv.org/abs/2411.16679">arXiv:2411.16679</a> asks how much of this
           survives a shortcut analysis.</em>
@@ -508,7 +506,7 @@
           Baker, B., Huizinga, J., Gao, L., Dou, Z., Guan, M. Y., et al. (2025).
           <a href="https://arxiv.org/abs/2503.11926"><em>Monitoring Reasoning Models for Misbehavior
           and the Risks of Promoting Obfuscation</em></a>. arXiv:2503.11926.
-          <em>A weak monitor reading raw chains catches reward hacking during RL &mdash; but
+          <em>A weak monitor reading raw chains catches reward hacking during RL, but
           optimising the policy against that monitor yields obfuscated hacking that still passes it.
           The empirical basis for not training against chain-of-thought legibility.</em>
         </li>
@@ -534,7 +532,7 @@
           Introspective Awareness in Large Language Models</em></a>. Transformer Circuits; later
           <a href="https://arxiv.org/abs/2601.01828">arXiv:2601.01828</a>.
           <em>Concept injection shows Claude Opus 4 and 4.1 sometimes detecting and naming a vector
-          patched into the residual stream &mdash; roughly 20% of trials under favourable
+          patched into the residual stream: roughly 20% of trials under favourable
           conditions. Failures of introspection remain the norm.</em>
         </li>
         <li>
@@ -649,8 +647,7 @@
           representations despite non-injective activations and normalisation. Assumes real-analytic
           activations, which excludes ReLU. The recovery algorithm needs all per-position states at
           a layer; doing it from the final embedding alone is possible in principle and left open in
-          practice. This concerns <em>recovering the prompt from accessible activations</em>
-          &mdash; not recovering intermediate reasoning, and not recovering anything from the
+          practice. This concerns <em>recovering the prompt from accessible activations</em>: not recovering intermediate reasoning, and not recovering anything from the
           model&apos;s emitted text. Note also that the theorem is real-valued: a $d$-coordinate
           representation at $p$ bits per coordinate has at most $2^{dp}$ states, so injectivity over
           all length-$K$ prompts fails by counting once $|V|^K > 2^{dp}$.</em>
@@ -660,7 +657,7 @@
           <a href="https://arxiv.org/abs/2505.14530"><em>Internal Chain-of-Thought: Empirical
           Evidence for Layer-wise Subtask Scheduling in LLMs</em></a>. arXiv:2505.14530.
           <em>Across fifteen two-step composite tasks, distinct subtasks are learned at different
-          depths and executed in sequence across layers &mdash; multi-step structure inside a single
+          depths and executed in sequence across layers: multi-step structure inside a single
           forward pass.</em>
         </li>
         <li>
@@ -737,8 +734,8 @@
           Li, J., Fu, Y., Fan, L., Liu, J., Shu, Y., et al. (2025).
           <a href="https://arxiv.org/abs/2509.02350"><em>Implicit Reasoning in Large Language
           Models: A Comprehensive Survey</em></a>. arXiv:2509.02350.
-          <em>Organises by mechanism of control &mdash; latent optimisation, signal-guided control,
-          layer-recurrent execution &mdash; rather than by representation.</em>
+          <em>Organises by mechanism of control, latent optimisation, signal-guided control,
+          layer-recurrent execution, rather than by representation.</em>
         </li>
         <li>
           Yu, X., Chen, Z., He, Y., Fu, T., Yang, J., et al. (2026).
