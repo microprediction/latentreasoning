@@ -137,6 +137,37 @@
       before the expensive bespoke one is mature is the actual argument, and it is a good one.
     </p>
 
+    <p>
+      Two findings extend the faithfulness results beyond planted hints.
+      <a href="https://arxiv.org/abs/2503.08679">Arcuschin et al. (2025)</a> show unfaithful chains
+      arise on natural, non-adversarial prompts, through illogical shortcuts and silent restoration
+      of a biased answer, so the phenomenon is not an artefact of injecting a cue.
+      <a href="https://arxiv.org/abs/2603.05488">Boppana et al. (2026)</a> report what they call
+      performative chain of thought on DeepSeek-R1 and GPT-OSS-120B: the model becomes internally
+      confident in an answer and carries on emitting tokens that do not reveal that belief.
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2608.29070">Shi et al. (2026)</a> add a specific gap. Chains of
+      thought do not uniformly surface the hidden directives a model has been given, which
+      undermines the assumption that reading the trace tells you what the model was instructed to
+      do. And <a href="https://arxiv.org/abs/2607.22925">Baherwani et al. (2026)</a> demonstrate
+      across thirteen frontier models that semantically irrelevant filler tokens support hidden
+      computation, which is the filler-token result at deployment scale rather than on synthetic
+      tasks.
+    </p>
+
+    <p>
+      Not everything points one way.
+      <a href="https://arxiv.org/abs/2603.05706">Chen Yueh-Han et al. (2026)</a> find that reasoning
+      models largely <em>cannot</em> deliberately control what they verbalise when asked to, which
+      cuts against the worry that models will simply learn to hide.
+      <a href="https://arxiv.org/abs/2602.03978">Xiong et al. (2026)</a> report monitorability
+      improving on its own early in verifiable-reward training.
+      <a href="https://arxiv.org/abs/2602.18297">Anwar et al. (2026)</a> give the mutual-information
+      formalisation the position paper lacks, as a necessary rather than sufficient condition.
+    </p>
+
     <h2>Reasoning was always partly latent</h2>
 
     <p>
@@ -281,6 +312,14 @@
       architectures are attractive for efficiency reasons that have nothing to do with oversight,
       and the legible trace disappears as a side effect rather than by anyone deciding to remove it.
       That is precisely the scenario Korbak et al. named a year earlier.
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2506.19143">Bogdan et al. (2025)</a> give the method most used
+      to make this concrete. Sentence-level attribution over a reasoning trace identifies a small
+      set of anchor sentences that disproportionately determine the final answer, which turns
+      "is this trace causally connected to the output" into something measurable per sentence
+      rather than per trace.
     </p>
 
     <h2>Countervailing evidence on interpretability</h2>

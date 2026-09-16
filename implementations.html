@@ -68,6 +68,19 @@
             <td class="nowrap">Apache-2.0</td>
           </tr>
           <tr>
+            <td><a href="https://huggingface.co/Nanbeige/Nanbeige4.2-3B">Nanbeige4.2-3B</a></td>
+            <td class="nowrap">3B non-embed<br><span class="mode">28T tokens</span></td>
+            <td>A general agentic model built on a looped transformer that reuses its layer stack
+            for extra depth without extra parameters, trained on 28T tokens and released with open
+            weights. Two orders of magnitude more training than Huginn and roughly four times Ouro,
+            and the first case here of a looped architecture shipped as a general-purpose product
+            rather than as a research artefact. An independent
+            <a href="https://arxiv.org/abs/2608.13987">deployment report</a> documents five bugs
+            breaking the released checkpoint under Hugging Face Transformers on Apple Silicon,
+            including a silently zeroed RoPE buffer.</td>
+            <td class="nowrap">see repo</td>
+          </tr>
+          <tr>
             <td><a href="https://huggingface.co/tomg-group-umd/huginn-0125">Huginn-0125</a></td>
             <td class="nowrap">3.5B<br><span class="mode">800B tokens</span></td>
             <td>Prelude / recurrent core / coda, with user-controlled test-time recursion

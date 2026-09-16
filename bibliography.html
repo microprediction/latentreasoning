@@ -847,6 +847,141 @@
         </li>
       </ul>
 
+      <h3>Hierarchical and tiny recursive networks</h3>
+      <ul>
+        <li>
+          Wang, G., Li, J., Sun, Y., Chen, X., Liu, C.-L., Wu, Y., Lu, M., Song, S., and Abbasi
+          Yadkori, Y. (2025).
+          <a href="https://arxiv.org/abs/2506.21734"><em>Hierarchical Reasoning Model</em></a>.
+          arXiv:2506.21734. <em>Two small recurrent modules at different frequencies, a slow
+          planning loop and a fast detail loop, reported to beat chain-of-thought LLMs on Sudoku,
+          maze and ARC-AGI-style puzzles at 27M parameters on roughly a thousand examples.
+          Recursion in continuous state with no emitted intermediate tokens, three orders of
+          magnitude below the recurrent-depth language models.</em>
+        </li>
+        <li>
+          Jolicoeur-Martineau, A. (2025).
+          <a href="https://arxiv.org/abs/2510.04871"><em>Less is More: Recursive Reasoning with Tiny
+          Networks</em></a>. arXiv:2510.04871. <em>Strips the hierarchical model to a single tiny
+          recursive network with a simpler training recipe, reporting results past both it and much
+          larger models on the same puzzles.</em>
+        </li>
+        <li>
+          Ren, Z., Liu, Z., et al. (2026).
+          <a href="https://arxiv.org/abs/2601.10679"><em>Are Your Reasoning Models Reasoning or
+          Guessing? A Mechanistic Analysis of Hierarchical Reasoning Models</em></a>.
+          arXiv:2601.10679. <em>Probes the architecture and finds it fails on trivially simple
+          puzzles while appearing to rely on pattern matching rather than the hierarchical process
+          claimed for it. Read next to the two above rather than after them.</em>
+        </li>
+      </ul>
+
+      <h3>Faithfulness beyond planted hints</h3>
+      <ul>
+        <li>
+          Arcuschin, I., Janiak, J., Krzyzanowski, R., et al. (2025).
+          <a href="https://arxiv.org/abs/2503.08679"><em>Chain-of-Thought Reasoning In The Wild Is
+          Not Always Faithful</em></a>. arXiv:2503.08679.
+          <em>Unfaithful chains arise on natural, non-adversarial prompts through illogical
+          shortcuts and silent restoration of a biased answer, so the phenomenon is not an artefact
+          of injecting a cue.</em>
+        </li>
+        <li>
+          Bogdan, P., Macar, U., Nanda, N., et al. (2025).
+          <a href="https://arxiv.org/abs/2506.19143"><em>Thought Anchors: Which LLM Reasoning Steps
+          Matter?</em></a> arXiv:2506.19143. <em>Sentence-level causal attribution over a reasoning
+          trace, identifying a small set of anchor sentences that disproportionately determine the
+          answer. Makes causal connection measurable per sentence rather than per trace.</em>
+        </li>
+        <li>
+          Boppana, S., Ma, A., Loeffler, M., et al. (2026).
+          <a href="https://arxiv.org/abs/2603.05488"><em>Reasoning Theater: Disentangling Model
+          Beliefs from Chain-of-Thought</em></a>. arXiv:2603.05488.
+          <em>Performative chain of thought on DeepSeek-R1 and GPT-OSS-120B: the model becomes
+          internally confident and keeps emitting tokens that do not reveal that belief.</em>
+        </li>
+        <li>
+          Shi, J., Tifft, E., Xing, C., et al. (2026).
+          <a href="https://arxiv.org/abs/2608.29070"><em>Selective Disclosure of Hidden Directives
+          in Reasoning Models</em></a>. arXiv:2608.29070.
+          <em>Chains of thought do not uniformly surface the hidden directives a model is following,
+          which undercuts the assumption that the trace reveals what the model was told to do.</em>
+        </li>
+        <li>
+          Baherwani, V., Goldstein, T., Panda, A., et al. (2026).
+          <a href="https://arxiv.org/abs/2607.22925"><em>Not All LLM Reasoning is Visible in the
+          Chain-of-Thought</em></a>. arXiv:2607.22925.
+          <em>Across thirteen frontier models, semantically irrelevant filler tokens support hidden
+          computation. The filler-token result at deployment scale rather than on synthetic
+          tasks.</em>
+        </li>
+        <li>
+          Chen Yueh-Han, McCarthy, R., Lee, B., et al. (2026).
+          <a href="https://arxiv.org/abs/2603.05706"><em>Reasoning Models Struggle to Control their
+          Chains of Thought</em></a>. arXiv:2603.05706.
+          <em>A control suite finding that models largely cannot deliberately alter what they
+          verbalise. Evidence against the worry that models will simply learn to hide.</em>
+        </li>
+        <li>
+          Xiong, Z., Chen, S., Lakkaraju, H., et al. (2026).
+          <a href="https://arxiv.org/abs/2602.03978"><em>Monitorability as a Free Gift: How RLVR
+          Spontaneously Aligns Reasoning</em></a>. arXiv:2602.03978.
+          <em>Monitorability improving early in verifiable-reward training without being optimised
+          for. A more optimistic reading than the position paper&apos;s.</em>
+        </li>
+        <li>
+          Anwar, U., Bakker, T., Kianfar, D., et al. (2026).
+          <a href="https://arxiv.org/abs/2602.18297"><em>Analyzing and Improving Chain-of-Thought
+          Monitorability Through Information Theory</em></a>. arXiv:2602.18297.
+          <em>A mutual-information formalisation of monitorability as a necessary rather than
+          sufficient condition, which the position paper leaves informal.</em>
+        </li>
+      </ul>
+
+      <h3>Recent critiques and refinements</h3>
+      <ul>
+        <li>
+          Aswal, A., Palmeira Ferraz, T., Zhou, Y., et al. (2026).
+          <a href="https://arxiv.org/abs/2606.12689"><em>Observable Patterns Are Not Explanations: A
+          Causal-Geometric Analysis of Latent Reasoning Models</em></a>. arXiv:2606.12689.
+          <em>Tests Coconut and CODI against controls lacking their recurrence or curriculum and
+          finds the patterns read as evidence of internal reasoning appear in the controls too,
+          without always causally affecting behaviour. Latent thoughts are hidden computation, not
+          hidden explanation.</em>
+        </li>
+        <li>
+          Guo, S., Wu, T., Du, Y., et al. (2026).
+          <a href="https://arxiv.org/abs/2609.16665"><em>Right Direction, Wrong Step: Geometric
+          Analysis of Finite-Step Failure in Looped Transformers</em></a>. arXiv:2609.16665.
+          <em>Separates a wrong update direction from a correct direction with the wrong step size.
+          Extra iterations can reduce support for the correct answer even when the direction is
+          right.</em>
+        </li>
+        <li>
+          Prairie, H., Novack, Z., Berg-Kirkpatrick, T., et al. (2026).
+          <a href="https://arxiv.org/abs/2604.12946"><em>Parcae: Scaling Laws For Stable Looped
+          Language Models</em></a>. arXiv:2604.12946.
+          <em>A scaling-law study for looped models together with a recipe addressing training
+          instability. Read alongside the iso-depth law above.</em>
+        </li>
+        <li>
+          Tan, W., Li, J., Ju, J., et al. (2025).
+          <a href="https://arxiv.org/abs/2505.16552"><em>Think Silently, Think Fast: Dynamic Latent
+          Compression of LLM Reasoning Chains</em></a>. arXiv:2505.16552.
+          <em>CoLaR. Two-stage supervised then reinforcement training that compresses chain of
+          thought into latent space at variable compression ratios.</em>
+        </li>
+        <li>
+          Yang, J., Huang, Y., et al. (2026).
+          <a href="https://arxiv.org/abs/2607.22083"><em>Nanbeige4.2-3B: Unlocking Agentic
+          Capabilities in a Compact Model</em></a>. arXiv:2607.22083.
+          <em>A general agentic model on a looped transformer that reuses its layer stack for depth
+          without extra parameters, 3B non-embedding parameters over 28T tokens, with open weights.
+          The first looped architecture here shipped as a product rather than as a research
+          artefact.</em>
+        </li>
+      </ul>
+
       <h3>Surveys and adjacent work</h3>
       <ul>
         <li>

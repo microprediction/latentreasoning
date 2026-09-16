@@ -209,6 +209,36 @@
       </p>
     </div>
 
+    <div class="family">
+      <h3>7. Tiny recursive networks <span class="tag">recursion without an LLM</span></h3>
+      <p>
+        The other families all start from a language model. This one does not, and it reaches the
+        same place from the opposite direction.
+      </p>
+      <p>
+        The Hierarchical Reasoning Model (<a href="https://arxiv.org/abs/2506.21734">Wang et al.
+        2025</a>) uses two small recurrent modules running at different frequencies, a slow one for
+        planning and a fast one for detail, and reports beating chain-of-thought LLMs on Sudoku,
+        maze and ARC-AGI-style puzzles at 27M parameters trained on roughly a thousand examples.
+        <a href="https://arxiv.org/abs/2510.04871">Jolicoeur-Martineau (2025)</a> then stripped it
+        further: one tiny recursive network, a simpler recipe, and reported results beating both HRM
+        and much larger models on the same tasks.
+      </p>
+      <p>
+        Two things make this relevant here rather than a separate curiosity. The mechanism is
+        recursion in a continuous state with no emitted intermediate tokens, which is the definition
+        used throughout this page. And the scale is three orders of magnitude below the models in
+        the recurrent-depth family, which makes the claim that depth rather than parameters carries
+        reasoning harder to dismiss as a scaling artefact.
+      </p>
+      <p class="muted">
+        Read with the mechanistic critique. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
+        al. (2026)</a> probe HRM and find it fails on trivially simple puzzles and appears to rely
+        on pattern matching rather than the hierarchical process claimed for it. The architecture
+        works on the benchmarks. What it is doing to get there is contested.
+      </p>
+    </div>
+
     <h2>Failure modes</h2>
 
     <h3>Latent representations collapse as you add steps</h3>
@@ -294,6 +324,27 @@
       The paper is worth keeping as a contested diagnostic proposal and a reminder that accuracy
       alone tells you little. It is one model family and a few hundred GSM8K items, and it is not
       evidence about depth-recurrent or continuous-feedback architectures generally.
+    </p>
+
+    <h3>Decodable structure is not evidence of mechanism</h3>
+    <p>
+      <a href="https://arxiv.org/abs/2606.12689">Aswal et al. (2026)</a> test Coconut and CODI
+      against controls that lack the proposed recurrence or curriculum, and find the patterns taken
+      as evidence of internal reasoning, breadth-first-like frontiers and decodable arithmetic,
+      appear in the controls too and do not always causally affect behaviour. Their conclusion is
+      that latent thoughts should be treated as hidden computation rather than hidden explanation,
+      and that decodability alone establishes nothing without matched controls and causal tests.
+      Much of the interpretive story told about this family rests on exactly the evidence they rule
+      insufficient.
+    </p>
+
+    <h3>More loops can move the wrong distance</h3>
+    <p>
+      <a href="https://arxiv.org/abs/2609.16665">Guo et al. (2026)</a> separate two failure modes in
+      looped transformers: an update in the wrong direction, and an update in the right direction
+      with the wrong step size. Additional iterations can reduce support for the correct answer even
+      when the direction is locally correct, which is a different mechanism from the depth collapse
+      reported above and has the same practical consequence.
     </p>
 
     <h3>The evidence base is small and synthetic</h3>
