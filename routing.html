@@ -130,6 +130,14 @@
         depth rather than a feedforward block, an expert-choice gate becomes a router deciding how
         many passes each token gets.
       </p>
+      <p>
+        It also has a consequence for what a transcript determines. When experts select tokens, a
+        token&apos;s route depends on the rest of the batch, so the computation run on one sequence
+        is not a function of that sequence alone. The same holds for token-choice routing under a
+        hard capacity factor, where tokens reaching a full expert are dropped. The
+        <a href="./intro.html">sufficient-statistic argument</a> needs the batch held fixed as well
+        as the prefix.
+      </p>
     </details>
 
     <h2>Mixture-of-experts as latent routing</h2>
