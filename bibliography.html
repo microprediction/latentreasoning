@@ -747,9 +747,14 @@
           Wang, Y., Hayou, S., and Nalisnick, E. (2026).
           <a href="https://arxiv.org/abs/2604.09780"><em>The Myth of Expert Specialization in MoEs:
           Why Routing Reflects Geometry, Not Necessarily Domain Expertise</em></a>.
-          arXiv:2604.09780. <em>Because the gate is linear, hidden-state similarity is necessary and
-          sufficient for routing similarity. Expert overlap across models on the same question runs
-          near 60 per cent, statistically indistinguishable from unrelated queries.</em>
+          arXiv:2604.09780. <em>Proposition 1 bounds the distance between two tokens&apos; routing logits
+          by their distance in the router-relevant subspace plus a residual, so similar hidden
+          states give similar logits. The paper states the converse fails and calls the mapping
+          many-to-one, and the bound governs logits rather than the discrete top-$k$ route. The
+          abstract&apos;s &ldquo;necessary and sufficient to explain&rdquo; is an informal gloss,
+          not a theorem about expert selection. Empirically, expert overlap across models on the
+          same question runs near 60 per cent, comparable to one model&apos;s overlap across
+          different questions.</em>
         </li>
         <li>
           Mohamud, S., Wagner, N., and Ravanelli, M. (2026).

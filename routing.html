@@ -142,10 +142,20 @@
 
     <p>
       Two 2026 results caution against reading much into what those routers decide. Wang, Hayou and
-      Nalisnick find that because the gate is linear, hidden-state similarity is necessary and
-      sufficient for routing similarity: expert overlap across models on the same question runs
-      around 60%, statistically indistinguishable from unrelated queries. Routing tracks geometry,
-      not domain expertise. Mohamud, Wagner and Ravanelli go further and show a fixed subspace of
+      Nalisnick bound the distance between two tokens&apos; routing logits by their distance in the
+      router-relevant subspace of hidden-state space, plus a residual. Similar hidden states
+      therefore give similar logits. The converse fails, and the paper says so: different hidden
+      states can produce either similar or different logits, a relationship it calls many-to-one.
+    </p>
+
+    <p>
+      The bound is on logits rather than on the discrete route, which matters wherever a continuous
+      representation is turned into a selection. A vector in the kernel of the gate leaves the
+      logits untouched at any magnitude, and two states arbitrarily close together can still fall on
+      opposite sides of a top-$k$ boundary and select different experts. What their empirical result
+      shows is narrower and still striking: expert overlap across models on the same question runs
+      near 60 per cent, comparable to the overlap between one model&apos;s answers to different
+      questions. Routing tracks geometry, not domain expertise. Mohamud, Wagner and Ravanelli go further and show a fixed subspace of
       the raw hidden state routes competitively with no learned gate at all.
     </p>
 

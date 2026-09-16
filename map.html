@@ -277,7 +277,7 @@ const NODES = [
  {id:"moe", c:"adjacent", label:"MoE routing", url:"https://arxiv.org/abs/2202.09368",
   note:"Expert-choice routing (Zhou et al. 2022) and the mixture-of-experts gate generally: a linear map on the token's hidden state selects experts. The most deployed instance of routing on latent state, and almost entirely disconnected from this literature."},
  {id:"moespec", c:"adjacent", label:"\u22a5 Routing is geometry", url:"https://arxiv.org/abs/2604.09780",
-  note:"Wang, Hayou & Nalisnick 2026. Because the gate is linear, hidden-state similarity is necessary and sufficient for routing similarity. Expert overlap on the same question runs near 60%, indistinguishable from unrelated queries \u2014 routing tracks geometry, not reasoning semantics."},
+  note:"Wang, Hayou & Nalisnick 2026. Similar hidden states give similar routing logits, bounded via the router-relevant subspace; the converse fails and the mapping is many-to-one. Expert overlap across models on the same question runs near 60%, comparable to one model's overlap across different questions \u2014 routing tracks geometry, not reasoning semantics."},
  {id:"tarpo", c:"latent", label:"Latent/explicit routing", url:"https://arxiv.org/abs/2606.05859",
   note:"TARPO 2026. An action head reads the hidden state each step and decides: emit a token, or stay latent. The site's central dial, made a learned per-step decision."},
  {id:"probegate", c:"monitor", label:"Probes as live gates", url:"https://arxiv.org/abs/2504.05419",
