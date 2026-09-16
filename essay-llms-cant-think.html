@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Remind Me Again Why Large Language Models Can&rsquo;t Think</title>
+  <meta name="description" content="A 3.4-year retrospective on Peter Cotton's April 2023 essay arguing that the case against machine reasoning was weaker than the consensus held." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./essays.html">&larr; Essays</a></p>
+    <h1>Remind Me Again Why Large Language Models Can&rsquo;t Think</h1>
+    <p class="subtitle">Peter Cotton, 6 April 2023. Scored 3.4 years on.</p>
+
+    <p class="lead">
+      Original at
+      <a href="https://medium.com/the-modern-scientist/remind-me-again-why-large-language-models-cant-think-acab12da63de">The
+      Modern Scientist</a>. Retrospective written September 2026.
+    </p>
+
+      <h3>Remind Me Again Why Large Language Models Can&apos;t Think</h3>
+      <p class="meta">
+        Peter Cotton, 6 April 2023 &middot;
+        <a href="https://medium.com/the-modern-scientist/remind-me-again-why-large-language-models-cant-think-acab12da63de">The
+        Modern Scientist</a> &middot; retrospective written September 2026, 3.4 years on
+      </p>
+
+      <h4>The argument</h4>
+      <p>
+        Written four months after ChatGPT&apos;s release, the essay stages the reductionist case
+        against machine reasoning and declines to accept it on the available evidence. It works
+        through the objections of the period in turn: that reasoning cannot be learned from text
+        alone without sensory grounding, that pattern-matching is not understanding, that deep
+        networks cannot represent relations and propositions precisely, and that hallucination
+        betrays the absence of a world model. Marcus, LeCun, Mitchell, Davis and Edelman supply the
+        prosecution. The stated aim is not to show that models think, only to sow reasonable doubt.
+      </p>
+      <p>
+        Its mechanism is a two-stage observation model, and the detail matters. A map $f$ runs from
+        an unknown forest of representations in the brain to language processing; a second map $g$
+        gives the reflection in words on a page; the composition $h = g \circ f$ is what an
+        observer gets. Thought is structure in the first space, speech is a doubly noisy,
+        once-removed observation of it, and the essay&apos;s question is what that stream licenses
+        anyone to infer. It adds an identification caveat: a model need not recover the same
+        internal state, since some other set of representations &ldquo;conspiring to create mostly
+        similar observations, predictions and conclusions&rdquo; would serve.
+      </p>
+
+      <h4>What held up</h4>
+      <h4>Language does betray the representations underneath</h4>
+      <p>The essay declines to
+        accept what it calls the cloaking argument, holding it &ldquo;underdeveloped at best&rdquo;
+        and asking anyone certain that machines cannot learn through indirect observation to name
+        the cloaking mechanism they have in mind. Its stronger version: with sufficient evidence
+        that latent structure &ldquo;<em>must</em> eventually be revealed.&rdquo; The decoding work
+        runs that way. Intermediate values are recoverable from hidden states at filler positions
+        with 80&ndash;95% accuracy, and latent traces decode to a verified natural-language trace
+        65&ndash;93% of the time where they carry the computation. Neither reads thought off
+        utterances, which is the composition $h$ the essay was actually asking about.
+      </p>
+      <h4>It bet against a measured consensus, and the consensus moved</h4>
+      <p>The essay
+        records the baseline it was arguing with: Gary Lupyan polled 170 researchers and 80% were
+        strongly of the view that language models definitely cannot think, a group the author places
+        himself in until shortly before writing. Arguing the other side in April 2023 was the
+        minority position by a wide margin. It is not the minority position now. Frontier systems
+        are built, sold and evaluated as reasoning systems, and the research questions in this field
+        take the capacity as given: where the computation sits, how much of it survives between
+        steps, whether any of it can be read. The confident negative that the essay set out to
+        puncture is no longer the default, and the essay was early to say so.
+      </p>
+
+      <h4>Internalised speech became a training method</h4>
+      <p>The essay traces private
+        speech to inner speech by way of Vygotsky and Dennett, then asks why, if one such transition
+        is possible, another could not run deeper &mdash; concluding that learning deep things from
+        language looks like &ldquo;a practical challenge (a. la. vanishing gradients) not a profound
+        roadblock.&rdquo; Stepwise internalisation is that challenge, met by construction: delete the
+        rationale on a schedule until the same forward pass does the work unaided. GPT-2 Small
+        reaches 99% on nine-by-nine multiplication that way.
+      </p>
+      <h4>A less pruned search can be useful</h4>
+      <p>Listed as the first reason hallucination
+        might persist rather than be cured. Continuous thoughts do something close to it: they carry
+        a frontier of candidate paths instead of committing to one, and the gains on ProsQA come
+        from exactly that breadth. The essay reaches the same place from Dennett&apos;s Multiple
+        Drafts and from chess, where it notes that a fuzzy network found 8.d5 because it had not
+        pruned the way a human would.
+      </p>
+      <h4>Reasoning happens where the words are not</h4>
+      <p>The essay insists the interesting
+        structure is non-verbal, and that nobody can say from outputs whether a concept was learned.
+        Models resolve intermediate entities internally without verbalising them, plan several
+        tokens ahead, and verbalise a hint they demonstrably used well under a fifth of the time.
+      </p>
+      <h4>The grounding objection did fade</h4>
+      <p>The essay reports that text-only models
+        form much the same representations as multimodal ones, and that gaps can be closed after the
+        fact. Multimodal training arrived and grounding stopped being the live objection.
+      </p>
+
+      <h4>What it did not anticipate</h4>
+      <h4>Three years of scaling the opposite thing</h4>
+      <p>The essay&apos;s emphasis falls
+        on internal representation. What followed was a period in which the dominant method for
+        improving reasoning was making models write far more of it down, in natural language, at
+        length. Latent reasoning is partly a reaction to the cost of that detour, so the essay&apos;s
+        direction was right and its timing inverted.
+      </p>
+      <h4>The limits of a single pass were formalised</h4>
+      <p>Where the essay treats the
+        capacity of a statistical machine as an open question and warns against extrapolating from
+        small ones, the bounds arrived within two years: a log-precision transformer in one forward
+        pass sits inside uniform $\mathsf{TC}^0$, and serial steps convert token count into circuit
+        size. That is a sharper account of what one pass cannot do than the essay expected to be
+        available.
+      </p>
+      <h4>Net</h4>
+      <p>
+        The essay won the argument it picked, and the mechanism it proposed while winning has worn
+        better than the verdict. Separating $f$ from $g$, and asking what the
+        composition licenses, is the distinction most claims about reading a model&apos;s mind get
+        wrong. A theorem about $f$ &mdash; that the input-to-state map is almost surely injective,
+        so a prompt can be recovered from activations &mdash; establishes nothing about $g$, and the
+        two are routinely conflated. The essay had the structure right three years earlier.
+      </p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

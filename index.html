@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -38,7 +40,7 @@
     <p class="lead">
       A language model that reasons step by step writes each step down. The step is rounded to the
       nearest token, emitted, and read back in. That rounding is not incidental &mdash; it is a
-      <strong>quantiser</strong> sitting in the middle of the reasoning loop, and it throws away
+      <em>quantiser</em> sitting in the middle of the reasoning loop, and it throws away
       almost everything the model computed. Latent reasoning is the study of what happens when you
       take it out.
     </p>
@@ -118,9 +120,8 @@
       the answer has arrived is a different matter, and it depends on which claim is being made.
     </p>
 
-    <p>
-      <strong>The efficiency claims mostly hold up, but "efficiency" needs splitting.</strong>
-      Depth-recurrent and latent methods beat token-matched explicit chain of thought on reported
+    <h4>The efficiency claims mostly hold up, but "efficiency" needs splitting</h4>
+      <p>Depth-recurrent and latent methods beat token-matched explicit chain of thought on reported
       accuracy per inference FLOP and on thought-phase latency, and open weights exist at 1.4B to
       3.5B parameters. But parameter savings, training compute, inference compute and wall-clock
       latency are four different ledgers, and a win in one is not a win in the others: the iso-depth
@@ -129,9 +130,8 @@
       which ledger they are drawn on.
     </p>
 
-    <p>
-      <strong>The claims about <em>how</em> the model reasons are contested, and weakening.</strong>
-      The theoretical selling point of continuous thoughts is superposition &mdash; holding several
+    <h4>The claims about <em>how</em> the model reasons are contested, and weakening</h4>
+      <p>The theoretical selling point of continuous thoughts is superposition &mdash; holding several
       reasoning paths at once rather than committing to one. That mechanism is proven for a specific
       construction and demonstrated in models trained from scratch. It was also shown not to occur
       in one prominent method that claimed it, and shown to collapse under the fine-tuning regimes
@@ -139,16 +139,16 @@
       peaks and then falls with further looping.
     </p>
 
-    <p>
-      <strong>One theorem separates the endpoints.</strong> Continuous latent steps reach
+    <h4>One theorem separates the endpoints</h4>
+      <p>Continuous latent steps reach
       $\mathsf{TC}^k$ where discrete steps at matched depth reach only $\mathsf{TC}^{k-1}$ &mdash;
       under deterministic decoding. Under stochastic decoding, discrete chains win back counting and
       sampling power. They are complementary resources rather than a ranking, which is an
       unsatisfying answer and appears to be the true one. The <a href="./theory.html">theory</a> page has the statements and their premises.
     </p>
 
-    <p>
-      <strong>The interesting region is nearly empty.</strong> Almost all work sits at one endpoint
+    <h4>The interesting region is nearly empty</h4>
+      <p>Almost all work sits at one endpoint
       or the other. Hybrids that interleave latent and textual steps are the thinnest part of the
       literature and the part where the efficiency and oversight arguments could actually be traded
       against each other rather than asserted.
@@ -203,7 +203,7 @@
     </ul>
 
     <div class="next-steps">
-      <p><strong>The full annotated bibliography now lives on its own page</strong> &mdash;
+      <p>The full annotated bibliography now lives on its own page &mdash;
       roughly seventy entries across theory, continuous thoughts, recurrent depth, contentless
       tokens, rebuttals and monitorability, each with a note on why it matters. The <a href="./bibliography.html">bibliography</a> has them all, and
       <a href="./reviews.html">reviews</a> gives a handful a closer reading.</p>

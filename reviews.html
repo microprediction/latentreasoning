@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -42,8 +44,8 @@
     </p>
 
     <div class="caveat">
-      <p>
-        <strong>On what these assessments rest.</strong> They are based on abstracts, reported
+      <h4>On what these assessments rest</h4>
+      <p>They are based on abstracts, reported
         figures, the rebuttal literature, and cross-checking between papers &mdash; not on a
         full reading of every PDF. Where an assessment turns on a specific number, that number was
         verified. Where it turns on judgement, it is a judgement and should be argued with. Corrections
@@ -69,10 +71,10 @@
         useful work.
       </p>
       <p class="line">
-        <strong>Holds up:</strong> the mechanism. Zhu et al. Later proved a two-layer transformer
+        <em>Holds up:</em> the mechanism. Zhu et al. Later proved a two-layer transformer
         with $D$ continuous steps solves graph reachability at diameter $D$ where the best discrete
         construction needs $O(n^2)$, and that the superposition emerges from training rather than
-        being built in. <strong>Does not:</strong> any reading of this as a general improvement over
+        being built in. <em>Does not:</em> any reading of this as a general improvement over
         chain of thought.
       </p>
     </div>
@@ -94,7 +96,7 @@
         Vennam et al. Later confirmed the pessimistic reading for naive implementations.
       </p>
       <p class="line">
-        <strong>The reason it matters most:</strong> filler tokens are a transcript that fully
+        <em>The reason it matters most:</em> filler tokens are a transcript that fully
         determines the model&apos;s state while revealing nothing about the computation underneath.
         That is a direct counterexample to the comfortable assumption that a readable transcript
         implies readable reasoning &mdash; and the 2026 follow-up recovering those hidden values from
@@ -118,7 +120,7 @@
         it only works if the diagnosis is right.
       </p>
       <p class="line">
-        <strong>Why it is here:</strong> not to single out one paper, but because this is the field's
+        <em>Why it is here:</em> not to single out one paper, but because this is the field's
         characteristic failure mode. A method produces a real gain. The gain is attributed to
         superposition. Nobody checks whether superposition occurred. Parallel-exploration claims are per-method burdens of proof, not a property of continuous
         representations.
@@ -136,7 +138,7 @@
         all practitioners work, it collapses to token commitment or shortcuts.
       </p>
       <p class="line">
-        <strong>Consequence:</strong> the theoretical case for continuous thoughts and the practical
+        <em>Consequence:</em> the theoretical case for continuous thoughts and the practical
         recipes for producing them are not yet connected. The theorems are about a regime most of the
         applied work does not operate in. That gap is arguably the most important open problem here,
         and it is not primarily a theory problem.
@@ -162,7 +164,7 @@
         omitted the qualification. They did not.
       </p>
       <p class="line">
-        <strong>Alongside:</strong> the memory-budget separation, which bounds it from the other
+        <em>Alongside:</em> the memory-budget separation, which bounds it from the other
         side &mdash; a fixed-size recurrent state cannot match polynomial-length chain of thought on
         $\mathsf P$-complete problems, because the transcript's working memory grows and the loop's
         does not. Depth and memory are different currencies.
@@ -185,7 +187,7 @@
         loop count and tokens. The paper is more careful about this than its citations are.
       </p>
       <p class="line">
-        <strong>Complicated by:</strong> the 2026 finding that looped performance peaks at some
+        <em>Complicated by:</em> the 2026 finding that looped performance peaks at some
         recurrence depth and then collapses, which means "unroll further at test time" is not a free
         dial and the useful range has to be found empirically.
       </p>
@@ -201,7 +203,7 @@
         auxiliary losses whose necessity was never quite explained &mdash; and SIM-CoT names it.
       </p>
       <p class="line">
-        <strong>What it implies:</strong> that end-to-end latent training under-constrains the
+        <em>What it implies:</em> that end-to-end latent training under-constrains the
         representation, and that much of the apparatus in this literature exists to compensate. A fix
         requiring step-level supervision from explicit reasoning is also a quiet admission that the
         explicit trace is still doing the teaching.
@@ -218,8 +220,8 @@
         laboratory finding about obfuscation appearing in a deployment document.
       </p>
       <p>
-        The critique is of the surrounding discourse rather than the card. <strong>The card never
-        names an architecture.</strong> Recurrent depth, looped transformers, opaque recurrence
+        The critique is of the surrounding discourse rather than the card. <em>The card never
+        names an architecture.</em> Recurrent depth, looped transformers, opaque recurrence
         &mdash; none of it appears. That attribution comes from reporting. So there are two claims
         with different evidentiary standing, and they are being welded together: the monitorability
         loss is OpenAI's own documented measurement. The mechanism behind it is journalism. Both may
@@ -227,14 +229,14 @@
         several mechanism claims fail replication should be the last to blur that line.
       </p>
       <p class="line">
-        <strong>Mitigation:</strong> the card commits to "investigating alternatives to CoT
+        <em>Mitigation:</em> the card commits to "investigating alternatives to CoT
         monitoring (such as methods based on activation monitoring)" &mdash; which is this
         literature's open research problem restated as a deployment roadmap.
       </p>
     </div>
 
     <div class="next-steps">
-      <p><strong>Suggest a review.</strong> Papers whose headline mechanism is worth checking, or
+      <p><em>Suggest a review.</em> Papers whose headline mechanism is worth checking, or
       whose careful qualifications are getting lost in citation, are the best candidates. Open an
       <a href="https://github.com/microprediction/latentreasoning/issues">issue</a>.</p>
     </div>

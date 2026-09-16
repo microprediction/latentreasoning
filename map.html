@@ -30,7 +30,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -67,7 +69,7 @@
 
   <div class="caveat">
     <p>
-      <strong>Five claimed gaps have been withdrawn or narrowed since 16 September 2026</strong> after a reader supplied
+      Five claimed gaps have been withdrawn or narrowed since 16 September 2026 after a reader supplied
       counterexamples, all of which checked out. A joint scaling law for looped models, a joint
       treatment of padding and looping, reinforcement learning over latent diffusion with verifiable
       rewards, and state-space operators inside a latent recursive scaffold all exist and now appear
@@ -78,19 +80,19 @@
 
   <ol class="gaps">
     <li>
-      <strong>Interpretability results have not reached the deployment question.</strong>
+      Interpretability results have not reached the deployment question.
       The finding that latent traces decode 65&ndash;93% of the time and the controversy over a
       production model whose card records reduced monitorability do not cite each other. Nobody has
       applied the decoding methods to the deployed case. <em>Confidence: high. The most
       policy-relevant gap here.</em>
     </li>
     <li>
-      <strong>No independent measurement of monitorability loss.</strong>
+      <em>No independent measurement of monitorability loss.</em>
       OpenAI has published its own finding. It is self-reported, not run against a shared public
       suite, and unreproduced. Open recurrent-depth checkpoints exist and such a suite exists. Nobody has run one on the other. <em>Confidence: high.</em>
     </li>
     <li>
-      <strong>No shared benchmark for latent computation.</strong>
+      <em>No shared benchmark for latent computation.</em>
       <em>Narrowed.</em> A purpose-built instrument does exist: a 4,000-item benchmark that forces
       internal inference by requiring the answer to be signalled through the language of the first
       response token, so it cannot be externalised as text. What is still missing is community
@@ -100,7 +102,7 @@
       <em>Confidence: moderate, for the narrowed claim.</em>
     </li>
     <li>
-      <strong>Which auxiliary objective, and why.</strong>
+      <em>Which auxiliary objective, and why.</em>
       <em>Revised.</em> This previously claimed that policy-gradient objectives assume single-step
       decisions and so cannot train latent recurrence. That is false: for a differentiable
       recurrence with gradients retained, a terminal reward's total derivative already includes
@@ -113,20 +115,20 @@
       absence.</em>
     </li>
     <li>
-      <strong>The superposition arguments still stand apart.</strong>
+      <em>The superposition arguments still stand apart.</em>
       <em>Narrowed.</em> Padding and looping are now analysed together with threshold-circuit
       characterisations, so the broad claim that the toolkits never meet was wrong. What has not
       been connected is the superposition-and-parallel-trace line of argument to either of them.
       <em>Confidence: moderate.</em>
     </li>
     <li>
-      <strong>Weights-as-memory and cache-as-scratchpad have never been compared head to head.</strong>
+      Weights-as-memory and cache-as-scratchpad have never been compared head to head.
       Test-time training compresses context into weights; KV-cache distillation compresses it into
       the cache. No paper evaluates them against each other on reasoning tasks.
       <em>Confidence: medium.</em>
     </li>
     <li>
-      <strong>State-space recursion is untested beyond tiny scale.</strong>
+      <em>State-space recursion is untested beyond tiny scale.</em>
       <em>Narrowed.</em> Mamba-2 hybrid operators have been placed inside a latent recursive
       scaffold, so the blanket claim was false. But that work is ~7M parameters on abstract
       reasoning tasks, and nothing establishes a linear-state model as the reasoning medium at

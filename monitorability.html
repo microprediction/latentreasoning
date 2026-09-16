@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -96,7 +98,7 @@
     <p>
       Chen et al. (2025) at Anthropic sharpened this on current reasoning models. Testing Claude
       3.7 Sonnet and DeepSeek R1 with six categories of hints planted in prompts, models verbalised
-      using a hint they demonstrably used <strong>often below 20% of the time</strong>. Outcome-based
+      using a hint they demonstrably used <em>often below 20% of the time</em>. Outcome-based
       RL improved faithfulness early in training and then plateaued without saturating. Where RL
       increased reward-hacking hint use, verbalisation of that use did not rise to match.
     </p>
@@ -184,9 +186,8 @@
 
     <h2>September 2026: the question stops being hypothetical</h2>
 
-    <p>
-      <strong>GPT-6 Astra was released on 3 September 2026, and OpenAI documented the loss
-      itself.</strong> Its
+    <h4>GPT-6 Astra was released on 3 September 2026, and OpenAI documented the loss itself</h4>
+      <p>Its
       <a href="https://deploymentsafety.openai.com/gpt-6-astra">system card</a> states that the
       model &ldquo;shows a substantial decrease in chain-of-thought monitorability compared to
       previous models.&rdquo; That appears to be the first time a frontier lab has recorded reduced monitorability as a
@@ -225,8 +226,8 @@
       a deployment commitment &mdash; see the filler-token decoding result above, which is
       roughly the research version of it.
     </p>
-    <p>
-      <strong>What the system card does not say is as important.</strong> It never names the
+    <h4>What the system card does not say is as important</h4>
+      <p>It never names the
       architecture. Recurrent depth, looped transformers, opaque recurrence &mdash; none of these
       appear in it. That attribution comes from reporting: The Information on 1 September,
       followed by
@@ -285,44 +286,44 @@
     <h2>Verified gaps</h2>
     <ul>
       <li>
-        <strong>No mature interpretability toolkit for continuous thought vectors at frontier
-        scale.</strong> Existing work is academic-scale and largely confined to logical-reasoning
+        No mature interpretability toolkit for continuous thought vectors at frontier
+        scale. Existing work is academic-scale and largely confined to logical-reasoning
         benchmarks, not open-domain or agentic tasks.
       </li>
       <li>
-        <strong>No <em>independent</em> measurement of monitorability loss.</strong> OpenAI has now
+        No <em>independent</em> measurement of monitorability loss. OpenAI has now
         published its own finding for Astra, which is a real advance on nothing. But it is
         self-reported, not run against a shared public benchmark such as the suite in Guan et al.
         (2025), and no outside party has reproduced it. Open recurrent-depth checkpoints exist and
         that suite exists. Nobody has run one on the other.
       </li>
       <li>
-        <strong>No consensus metric for monitorability.</strong> Guan et al. (2025) and the several
+        <em>No consensus metric for monitorability.</em> Guan et al. (2025) and the several
         2025&ndash;2026 measurement proposals are not obviously commensurable, and none has been
         shown to predict real catch rates for held-out classes of misbehaviour.
       </li>
       <li>
-        <strong>No demonstration of activation-level monitoring in production.</strong> The
+        No demonstration of activation-level monitoring in production. The
         filler-token decoding result is offline, unsupervised, on two open-weight models, over four
         narrow task families. OpenAI now states it is investigating activation monitoring as a
         successor to reading the chain of thought. As of this writing that is a stated research
         direction, not a demonstrated capability at deployment scale.
       </li>
       <li>
-        <strong>The interpretability results and the safety-policy literature do not engage each
-        other.</strong> "65&ndash;93% of latent traces are recoverable" has not been brought to bear
+        The interpretability results and the safety-policy literature do not engage each
+        other. "65&ndash;93% of latent traces are recoverable" has not been brought to bear
         on the deployment question in any paper found. This is the most policy-relevant disconnect
         on the <a href="./map.html">map</a>.
       </li>
       <li>
-        <strong>No binding cross-lab commitment exists.</strong> There are stated research-programme
+        <em>No binding cross-lab commitment exists.</em> There are stated research-programme
         intentions and think-tank recommendations. Anyone claiming labs have committed to preserving
         monitorability is over-reading the record.
       </li>
     </ul>
 
     <div class="next-steps">
-      <p><strong>Next:</strong> the <a href="./map.html">literature map</a> draws these gaps as
+      <p><em>Next:</em> the <a href="./map.html">literature map</a> draws these gaps as
       dashed edges, and the <a href="./bibliography.html">bibliography</a> has the full
       citations.</p>
     </div>

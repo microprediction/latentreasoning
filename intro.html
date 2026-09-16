@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -49,7 +51,7 @@
     </div>
 
     <p>
-      The middle step is a <strong>discretisation</strong>. The composite map
+      The middle step is a <em>discretisation</em>. The composite map
       $q = E \circ \mathrm{sample} \circ \mathrm{softmax} \circ W$ sends $\mathbb{R}^d$ to
       $\mathbb{R}^d$, but its image is the finite set of $|V|$ rows of the embedding table. Two
       things it is <em>not</em>: it is not nearest-neighbour rounding in embedding space &mdash; it
@@ -87,7 +89,7 @@
     </div>
 
     <p>
-      So there are <strong>two paths</strong> from one step to the next, and they behave differently.
+      So there are <em>two paths</em> from one step to the next, and they behave differently.
       The <em>feedback path</em> runs from the top layer back to the next input embedding, and that
       is the one the discretisation narrows. The <em>cached-activation path</em> carries retained
       intermediate activations at every layer and position, and attention at later positions reads
@@ -106,7 +108,7 @@
     <h3>Three claims worth keeping apart</h3>
 
     <p>
-      <strong>Replayability.</strong> Given the model, the full prompt, a fixed execution schedule
+      <em>Replayability.</em> Given the model, the full prompt, a fixed execution schedule
       and deterministic forward operations, the cache can be recomputed from the token history, so
       the run can be reproduced. But a deterministic latent recurrence $z_k = F_\theta^{(k)}(z_0)$
       satisfies the same property &mdash; its state is fixed by the input and the iteration count.
@@ -114,15 +116,15 @@
 
     </p>
 
-    <p>
-      <strong>Computational resources.</strong> How much serial depth and parallel width a scheme
+    <h4>Computational resources</h4>
+      <p>How much serial depth and parallel width a scheme
       makes available is an architectural question &mdash; the subject of
       <a href="./theory.html">the theory page</a> &mdash; and it is where the real differences
       between token-space and latent schemes live.
     </p>
 
     <p>
-      <strong>Monitorability.</strong> Whether a human or an automated monitor can <em>read</em> what
+      <em>Monitorability.</em> Whether a human or an automated monitor can <em>read</em> what
       the model is doing. This does not follow from either of the above. Determinacy is not
       legibility: a transcript can fix a computation completely while telling you nothing you can
       read off it, which is precisely what filler tokens demonstrate &mdash; recovering that hidden
@@ -145,8 +147,8 @@
       field comes from conflating them.
     </p>
 
-    <p>
-      <strong>Where the loop closes.</strong> A reasoning step can be a new sequence position
+    <h4>Where the loop closes</h4>
+      <p>A reasoning step can be a new sequence position
       &mdash; the loop runs around the outside of the forward pass, one token of context consumed
       per step &mdash; or it can be a new pass through the same layers, the loop running inside
       the stack with no sequence position spent. The first buys serial computation at the cost of
@@ -154,8 +156,8 @@
       recurrent-depth architectures live.
     </p>
 
-    <p>
-      <strong>What survives the loop.</strong> A token, a continuous vector, or nothing at all.
+    <h4>What survives the loop</h4>
+      <p>A token, a continuous vector, or nothing at all.
       The third case is not a joke: filler and pause tokens add sequence positions and compute
       while passing essentially no task content through the channel, which makes them the cleanest
       experiment anyone has run on what intermediate tokens are actually for.
@@ -221,7 +223,7 @@
     </p>
 
     <p>
-      <strong>Bandwidth.</strong> A reasoning step that must be rounded to a token cannot carry a
+      <em>Bandwidth.</em> A reasoning step that must be rounded to a token cannot carry a
       probability distribution, a partial ordering, or a superposition of candidate answers to the
       next step. It must commit. A continuous state can carry all of them, so search that would
       require backtracking in token space can in principle proceed in parallel. This is the
@@ -230,21 +232,21 @@
     </p>
 
     <p>
-      <strong>Expressivity.</strong> Serial steps add computational power to a transformer in a
+      <em>Expressivity.</em> Serial steps add computational power to a transformer in a
       way that width and parameters do not. The theory here is about token-space steps and is
       genuinely settled in outline. Whether continuous steps add strictly more is a separate and
       much less settled question. The <a href="./theory.html">theory</a> page has the bounds.
     </p>
 
     <p>
-      <strong>Cost.</strong> Natural language is a wasteful encoding of intermediate arithmetic.
+      <em>Cost.</em> Natural language is a wasteful encoding of intermediate arithmetic.
       If the same computation can be done in fewer, denser steps, inference gets cheaper. This is
       the argument that motivates most of the compression work, and it is the one where claimed
       gains are most sensitive to how the baseline was tuned.
     </p>
 
     <div class="next-steps">
-      <p><strong>Next:</strong> the <a href="./families.html">families of methods</a> organised by
+      <p><em>Next:</em> the <a href="./families.html">families of methods</a> organised by
       the two axes above, what the <a href="./theory.html">theory</a> actually proves, and the
       <a href="./monitorability.html">monitorability</a> question that the bandwidth argument
       raises in its sharpest form.</p>

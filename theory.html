@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -62,8 +64,8 @@
       caps what one pass can do.
     </p>
 
-    <p>
-      <strong>What this does not say.</strong> It is an asymptotic statement about families of
+    <h4>What this does not say</h4>
+      <p>It is an asymptotic statement about families of
       circuits over arbitrarily growing inputs, within a polynomial-size regime. It is not a
       prohibition on a particular model solving a particular finite benchmark instance, and it
       does not say that growing the model never helps in practice. Arguments of the form
@@ -122,7 +124,7 @@
 
     <p>
       Feng et al. (2023) give the applied complement, and their premise matters.
-      <strong>Assuming $\mathsf{TC}^0 \neq \mathsf{NC}^1$</strong>, their Theorems 3.1 and 3.2
+      <em>Assuming $\mathsf{TC}^0 \neq \mathsf{NC}^1$</em>, their Theorems 3.1 and 3.2
       state that for any prime $p$, any fixed depth $L$ and any polynomial $Q$, there is a problem
       size at which no log-precision autoregressive transformer of depth $L$ and hidden dimension
       $d \leq Q(n)$ solves arithmetic-expression evaluation, or linear-equation solving, over the
@@ -160,12 +162,12 @@
             <td class="nowrap">Cor 4.2</td>
             <td>Strict separation: without pause tokens $\subsetneq$ with polynomial pause
             tokens.</td>
-            <td class="mode"><strong>Non-uniform</strong>, via a circuit-size hierarchy.</td>
+            <td class="mode"><em>Non-uniform</em>, via a circuit-size hierarchy.</td>
           </tr>
           <tr>
             <td class="nowrap">Thm 4.3</td>
             <td>The corresponding fixed-depth separation in the uniform setting.</td>
-            <td class="mode">Requires <strong>quasi-polynomial</strong> padding, not
+            <td class="mode">Requires <em>quasi-polynomial</em> padding, not
             polynomial.</td>
           </tr>
           <tr>
@@ -186,8 +188,8 @@
     </p>
 
     <div class="caveat">
-      <p>
-        <strong>PARITY is not the witness for this separation.</strong> Full-input PARITY lies outside
+      <h4>PARITY is not the witness for this separation</h4>
+      <p>Full-input PARITY lies outside
         $\mathsf{AC}^0$, so it cannot witness a strict containment <em>within</em> $\mathsf{AC}^0$.
         PARITY appears in the paper's Section 5 as a finite-size <em>learning experiment</em> on a
         2-layer, 4-head GPT-2-style model, motivated by the logarithmic-precision regime, and it
@@ -227,20 +229,20 @@
 
     <ul>
       <li>
-        <strong>The separation is conditional.</strong> Theorem 3.15 gives
+        <em>The separation is conditional.</em> Theorem 3.15 gives
         $\mathsf{CoT} \subsetneq \mathsf{Loop}$ at $\log^k n$ iterations <em>assuming</em>
         $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. Deterministic decoding alone is not
         sufficient. A believed but unproven circuit-class separation is doing real work.
       </li>
       <li>
-        <strong>The latent side is a characterisation. The CoT side is only an upper bound.</strong>
+        The latent side is a characterisation. The CoT side is only an upper bound.
         Theorem 3.12 characterises the looped/continuous classes exactly at polylogarithmic
         iterations, polynomial width, and constant precision (or $\mathsf{TC}^k$ at logarithmic
         precision). Lemma 3.13 gives $\mathsf{CoT} \subseteq \mathsf{TC}^{k-1}$ &mdash; an upper
         bound. Treating that containment as an exact characterisation overstates it.
       </li>
       <li>
-        <strong>The stochastic comparison has its own premise.</strong> The counting and sampling
+        <em>The stochastic comparison has its own premise.</em> The counting and sampling
         advantage assumes $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ for self-reducible
         relations. It compares intermediate-token sampling against <em>deterministic</em> latent
         updates, and is not a general impossibility result for stochastic latent computation
@@ -259,7 +261,7 @@
 
     <p>
       Two results bound the enthusiasm. Zhang (2026) proves a memory-budget separation,
-      <strong>under a standard complexity assumption</strong> (the paper's simulation runs in
+      <em>under a standard complexity assumption</em> (the paper's simulation runs in
       $O(sdp + \log n + \log T)$ space, with the separation resting on
       $\mathsf P \not\subseteq \mathsf{DSPACE}(\mathrm{polylog}\, n)$): a
       <em>compressed</em>-state looped transformer, carrying polylogarithmic persistent memory with
@@ -328,7 +330,7 @@
     </ul>
 
     <div class="next-steps">
-      <p><strong>Next:</strong> if the theory says extra serial steps are computation slots rather
+      <p><em>Next:</em> if the theory says extra serial steps are computation slots rather
       than reasoning, the natural question is whether reading them tells you anything &mdash;
       see <a href="./monitorability.html">monitorability</a>.</p>
     </div>

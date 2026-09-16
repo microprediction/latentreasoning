@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -185,20 +187,20 @@
     <h2>Papers with no public implementation</h2>
     <ul>
       <li>
-        <strong>Pause tokens</strong> (Goyal et al., arXiv:2310.02226) &mdash; never released by
+        <em>Pause tokens</em> (Goyal et al., arXiv:2310.02226) &mdash; never released by
         Google Research. The only related public repo is an independent toy that predates the paper
         and does not reproduce its pretraining setup.
       </li>
       <li>
-        <strong>Compressed Chain of Thought</strong> (Cheng &amp; Van Durme, arXiv:2412.13171)
+        <em>Compressed Chain of Thought</em> (Cheng &amp; Van Durme, arXiv:2412.13171)
         &mdash; no release found anywhere. An unrelated multimodal-prompting repository shares the CCoT acronym.
       </li>
       <li>
-        <strong>CoTFormer</strong> (arXiv:2310.10845) &mdash; no official repository; only a later
+        <em>CoTFormer</em> (arXiv:2310.10845) &mdash; no official repository; only a later
         independent reproduction paper.
       </li>
       <li>
-        <strong>Loop the Loopies!</strong> (arXiv:2607.16051) &mdash; the largest looped model
+        <em>Loop the Loopies!</em> (arXiv:2607.16051) &mdash; the largest looped model
         reported, with no public code or checkpoint.
       </li>
     </ul>
@@ -206,8 +208,8 @@
     <h2>Benchmarks and data</h2>
 
     <div class="caveat">
-      <p>
-        <strong>There is no shared benchmark for this field.</strong> ProsQA &mdash; a synthetic
+      <h4>There is no shared benchmark for this field</h4>
+      <p>ProsQA &mdash; a synthetic
         DAG-shaped multi-hop task, roughly 17.9k train and 300 validation examples at 3&ndash;6 hops
         &mdash; is the only benchmark purpose-built for latent reasoning, and it ships as JSON
         inside the Coconut repository rather than as an independent dataset. Everything else is
@@ -257,7 +259,7 @@
     </ul>
 
     <div class="next-steps">
-      <p><strong>Working on something that belongs here?</strong> Open an issue on
+      <p><em>Working on something that belongs here?</em> Open an issue on
       <a href="https://github.com/microprediction/latentreasoning">the repository</a>.</p>
     </div>
   </main>

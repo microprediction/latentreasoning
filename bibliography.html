@@ -21,7 +21,9 @@
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
         <a href="./reviews.html">Reviews</a>
-        <a href="./essays.html">Essays</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+        </span></span>
         <a href="./implementations.html">Implementations</a>
         <a href="./bibliography.html">Bibliography</a>
         <a href="./map.html">Map</a>
@@ -71,7 +73,7 @@
           $\mathsf{TC}^{k-1}$ (Lem 3.13). The strict separation (Thm 3.15) assumes
           $\mathsf{TC}^{k-1} \subsetneq \mathsf{TC}^k$. The countervailing stochastic result
           assumes $\mathsf{FPTAS} \subsetneq \mathsf{FPRAS}$ for self-reducible relations and
-          compares against <strong>deterministic</strong> latent updates only.</em>
+          compares against <em>deterministic</em> latent updates only.</em>
         </li>
         <li>
           Korbak, T., Balesni, M., Barnes, E., Bengio, Y., Benton, J., et al. (2025).
@@ -420,9 +422,9 @@
           Yu, G. (2024).
           <a href="https://arxiv.org/abs/2411.15862"><em>Do LLMs Really Think Step-by-step In
           Implicit Reasoning?</em></a> arXiv:2411.15862.
-          <em>Models merely <strong>prompted</strong> to reason implicitly barely compute genuine
+          <em>Models merely <em>prompted</em> to reason implicitly barely compute genuine
           intermediate steps and lean on memorised shortcuts; models specifically
-          <strong>trained</strong> for it do show real internal computation. Both are brittle to
+          <em>trained</em> for it do show real internal computation. Both are brittle to
           reformatting.</em>
         </li>
         <li>
@@ -447,7 +449,7 @@
           Depth-Accuracy Paradox in Latent Reasoning</em></a>. arXiv:2603.03475.
           <em>Reports 18.4% of correct predictions as stable and faithful against 81.6%
           &ldquo;computationally inconsistent&rdquo;, 8.8% silent failures, and $r = -0.21$ between
-          reasoning quality and correctness. <strong>This is a contested diagnostic proposal.</strong>
+          reasoning quality and correctness. <em>This is a contested diagnostic proposal.</em>
           The reported correlation is hard to reconcile with the conditional means given alongside
           it, and the headline rates are threshold-based operational definitions rather than
           independent verification of reasoning errors &mdash; see
@@ -643,7 +645,7 @@
           representations despite non-injective activations and normalisation. Assumes real-analytic
           activations, which excludes ReLU. The recovery algorithm needs all per-position states at
           a layer; doing it from the final embedding alone is possible in principle and left open in
-          practice. This concerns <strong>recovering the prompt from accessible activations</strong>
+          practice. This concerns <em>recovering the prompt from accessible activations</em>
           &mdash; not recovering intermediate reasoning, and not recovering anything from the
           model&apos;s emitted text. Note also that the theorem is real-valued: a $d$-coordinate
           representation at $p$ bits per coordinate has at most $2^{dp}$ states, so injectivity over
@@ -776,7 +778,7 @@
           <em>Reports that standard objectives such as GRPO have underperformed on looped models
           and that per-loop auxiliary credit helps. Note what this does and does not show: the
           paper&apos;s own account has the terminal signal backpropagating through the latent
-          refinements, so this is an <strong>optimisation</strong> finding, not a demonstration that
+          refinements, so this is an <em>optimisation</em> finding, not a demonstration that
           policy gradients cannot train recurrence. For a differentiable recurrence with gradients
           retained, a terminal reward&apos;s total derivative already includes every unrolled
           update.</em>

@@ -95,6 +95,10 @@ Prose follows `microprediction/style`. The rules that bite most often here:
 - Avoid the assistant lexicon: delve, leverage (verb), showcase, underscore, realm, tapestry,
   pivotal, robust/powerful/elegant as praise, "Think of it as", "boils down to", "Enter X".
 - Semicolons are rare in the corpus (3.3 per 10k). Prefer a full stop.
+- **Bold is for package and product names only — never for a claim.** Italics carry the word or
+  clause bearing a sentence's weight. A bolded claim as a paragraph lead-in is the assistant habit
+  the corpus never uses; if the claim deserves prominence it is a heading, otherwise it is prose.
+  Bold-lead-in bullets are allowed only for parameter or term definitions.
 
 Verify before pushing: extract page text and run the corpus audit from the style repo
 (`analysis/ai_pattern_audit.py`) against its baseline (`analysis/audit_results.txt`). Anything in
