@@ -121,7 +121,7 @@
     </p>
 
     <h4>The efficiency claims mostly hold up, but "efficiency" needs splitting</h4>
-      <p>Depth-recurrent and latent methods beat token-matched explicit chain of thought on reported
+    <p>Depth-recurrent and latent methods beat token-matched explicit chain of thought on reported
       accuracy per inference FLOP and on thought-phase latency, and open weights exist at 1.4B to
       3.5B parameters. But parameter savings, training compute, inference compute and wall-clock
       latency are four different ledgers, and a win in one is not a win in the others: the iso-depth
@@ -131,7 +131,7 @@
     </p>
 
     <h4>The claims about <em>how</em> the model reasons are contested, and weakening</h4>
-      <p>The theoretical selling point of continuous thoughts is superposition &mdash; holding several
+    <p>The theoretical selling point of continuous thoughts is superposition &mdash; holding several
       reasoning paths at once rather than committing to one. That mechanism is proven for a specific
       construction and demonstrated in models trained from scratch. It was also shown not to occur
       in one prominent method that claimed it, and shown to collapse under the fine-tuning regimes
@@ -140,7 +140,7 @@
     </p>
 
     <h4>One theorem separates the endpoints</h4>
-      <p>Continuous latent steps reach
+    <p>Continuous latent steps reach
       $\mathsf{TC}^k$ where discrete steps at matched depth reach only $\mathsf{TC}^{k-1}$ &mdash;
       under deterministic decoding. Under stochastic decoding, discrete chains win back counting and
       sampling power. They are complementary resources rather than a ranking, which is an
@@ -148,7 +148,7 @@
     </p>
 
     <h4>The interesting region is nearly empty</h4>
-      <p>Almost all work sits at one endpoint
+    <p>Almost all work sits at one endpoint
       or the other. Hybrids that interleave latent and textual steps are the thinnest part of the
       literature and the part where the efficiency and oversight arguments could actually be traded
       against each other rather than asserted.

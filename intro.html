@@ -117,7 +117,7 @@
     </p>
 
     <h4>Computational resources</h4>
-      <p>How much serial depth and parallel width a scheme
+    <p>How much serial depth and parallel width a scheme
       makes available is an architectural question &mdash; the subject of
       <a href="./theory.html">the theory page</a> &mdash; and it is where the real differences
       between token-space and latent schemes live.
@@ -148,7 +148,7 @@
     </p>
 
     <h4>Where the loop closes</h4>
-      <p>A reasoning step can be a new sequence position
+    <p>A reasoning step can be a new sequence position
       &mdash; the loop runs around the outside of the forward pass, one token of context consumed
       per step &mdash; or it can be a new pass through the same layers, the loop running inside
       the stack with no sequence position spent. The first buys serial computation at the cost of
@@ -157,7 +157,7 @@
     </p>
 
     <h4>What survives the loop</h4>
-      <p>A token, a continuous vector, or nothing at all.
+    <p>A token, a continuous vector, or nothing at all.
       The third case is not a joke: filler and pause tokens add sequence positions and compute
       while passing essentially no task content through the channel, which makes them the cleanest
       experiment anyone has run on what intermediate tokens are actually for.
