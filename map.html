@@ -68,7 +68,7 @@
 
   <div class="caveat">
     <p>
-      Five claimed gaps have been withdrawn or narrowed since 16 September 2026 after a reader supplied
+      Four claimed gaps have been withdrawn or narrowed after a reader supplied
       counterexamples, all of which checked out. A joint scaling law for looped models, a joint
       treatment of padding and looping, reinforcement learning over latent diffusion with verifiable
       rewards, and state-space operators inside a latent recursive scaffold all exist and now appear
@@ -142,6 +142,31 @@
       scaffold, so the blanket claim was false. But that work is ~7M parameters on abstract
       reasoning tasks, and nothing establishes a linear-state model as the reasoning medium at
       language-model scale. <em>Confidence: medium, for the narrowed claim only.</em>
+    </li>
+    <li>
+      <em>No agreed compute-matched protocol for comparing latent reasoners against chain of thought.</em>
+      Every paper picks its own basis. One scaling study compares at fixed nominal parameter count
+      with loop count varied, a retrofitting study compares a 6M adapter against a 180M block and
+      against a &ldquo;same-size&rdquo; scratchpad model, and a third compares against unconverted
+      baselines with no stated parameter or FLOP match. The clearest evidence is a 2025 efficiency
+      benchmark built, in its own words, because &ldquo;fair comparison of efficiency-oriented
+      approaches is hindered by fragmented evaluation practices.&rdquo;
+      <em>Confidence: high.</em>
+    </li>
+    <li>
+      <em>Latent multi-hop reasoning has not been measured past two hops.</em>
+      The compositionality-gap work and the latent-multi-hop probing work both stop at two, and the
+      second finds a clear scaling trend for the first hop but not the second. No study sweeps hop
+      count to see whether the failure compounds.
+      <em>Confidence: medium.</em>
+    </li>
+    <li>
+      <em>The headline continuous-thought result has no independent replication.</em>
+      Searches for a failed or matched-compute replication of the founding continuous-thought paper
+      return nothing in either direction, and the same holds for the recursion-depth routing method.
+      The nearest available substitute is a mechanistic study of a descendant method finding it does
+      not execute a full latent rollout at longer hop lengths.
+      <em>Confidence: medium, and an absence of checking rather than a failure of the result.</em>
     </li>
   </ol>
 

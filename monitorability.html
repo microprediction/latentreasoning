@@ -59,14 +59,19 @@
 
     <p>
       This is not a transparency feature anyone designed. It is a side effect of how transformers
-      compute. What it yields directly is a <em>bandwidth bound</em>, not legibility: a model cannot
-      carry hidden serial state across many steps without routing it through the visible channel.
-      Whether what it routes there is readable is a separate, empirical question, and the measured
-      answer is often that it is not. A model
-      carrying a hidden intermediate result across many serial steps has, by the
-      <a href="./intro.html">alphabet-capacity bound</a> $H(x_t) \leq \log_2|V|$, roughly seventeen
-      bits per step of token-space channel to do it in, and must otherwise re-derive the result inside each
-      forward pass.
+      compute. What the argument yields directly is a <em>bandwidth bound</em> rather than
+      legibility, and whether what gets routed there is readable is a separate, empirical question
+      whose measured answer is often that it is not.
+    </p>
+
+    <p>
+      The bound applies to the feedback path. By the
+      <a href="./intro.html">alphabet-capacity bound</a> $H(x_t) \leq \log_2|V|$, an emitted token
+      carries roughly seventeen bits. That is not a bound on everything crossing between steps: a
+      cached decoder also retains activations at every layer and position, and attention at later
+      positions reads them directly, so the emitted token is not a seventeen-bit bottleneck on all
+      persistent computation. The <a href="./intro.html">introduction</a> separates the two paths.
+      How much serial work the cached path can carry on its own is not settled.
     </p>
 
     <p>

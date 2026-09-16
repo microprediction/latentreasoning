@@ -209,7 +209,57 @@
           logspace reductions that polynomial-length chain of thought can. Explicitly does not cover
           full sequence-state loops carrying $ndp$ bits. Recurrence buys depth, not memory.</em>
         </li>
-      </ul>
+              <li>
+          Sanford, C., Hsu, D., and Telgarsky, M. (2024).
+          <a href="https://arxiv.org/abs/2402.09268"><em>Transformers, Parallel Computation, and Logarithmic Depth</em></a>. arXiv:2402.09268.
+          <em>A constant number of self-attention layers is equivalent, in both directions, to a constant number of rounds of massively parallel computation, so logarithmic depth suffices for tasks other sequence models cannot solve efficiently. Stated as an MPC-round simulation, not a circuit-class placement.</em>
+        </li>
+        <li>
+          Sanford, C., Hsu, D., and Telgarsky, M. (2023).
+          <a href="https://arxiv.org/abs/2306.02896"><em>Representational Strengths and Limitations of Transformers</em></a>. arXiv:2306.02896.
+          <em>A sparse-averaging task separates transformers from recurrent and feedforward networks, while a triple-detection task, structurally a two-hop composition, costs attention complexity linear in input size. The authors flag the negative case as unusual in practice.</em>
+        </li>
+        <li>
+          Peng, B., Narayanan, S., and Papadimitriou, C. (2024).
+          <a href="https://arxiv.org/abs/2402.08164"><em>On Limitations of the Transformer Architecture</em></a>. arXiv:2402.08164.
+          <em>A communication-complexity argument that one transformer layer cannot compose two functions once their domains are large enough. The impossibility is conditional on domain size, and a second family of claims in the same paper rests on unproven complexity conjectures.</em>
+        </li>
+        <li>
+          de Luca, A. B., and Fountoulakis, K. (2024).
+          <a href="https://arxiv.org/abs/2402.01107"><em>Simulation of Graph Algorithms with Looped Transformers</em></a>. arXiv:2402.01107.
+          <em>A looped transformer with graph-reading attention heads simulates Dijkstra, breadth- and depth-first search and Kosaraju's algorithm with parameter count independent of graph size, and iteration count that grows with the graph. Turing completeness at constant width requires those extra heads.</em>
+        </li>
+        <li>
+          Amiri, A., Huang, X., Rofin, M., and Hahn, M. (2025).
+          <a href="https://arxiv.org/abs/2502.02393"><em>Lower Bounds for Chain-of-Thought Reasoning in Hard-Attention Transformers</em></a>. arXiv:2502.02393.
+          <em>Lower bounds, tight up to logarithmic factors, on how many chain-of-thought steps a hard-attention transformer needs per problem. The authors note models empirically need scratchpads even for problems already inside TC0.</em>
+        </li>
+        <li>
+          Li, Z., Svete, A., Sabharwal, A., and Merrill, W. (2026).
+          <a href="https://arxiv.org/abs/2606.19697"><em>Efficiently Representing Algorithms With Chain-of-Thought Transformers</em></a>. arXiv:2606.19697.
+          <em>Chain-of-thought transformers simulate arbitrary Word-RAM algorithms with only polylogarithmic overhead, against the quadratic overhead of Turing-machine simulations. Proved in three settings with different precision and attention preconditions, including one for continuous chain of thought.</em>
+        </li>
+        <li>
+          Svete, A., Merrill, W., Cotterell, R., and Sabharwal, A. (2026).
+          <a href="https://arxiv.org/abs/2605.30523"><em>Revisiting Padded Transformer Expressivity: Which Architectural Choices Matter and Which Don&rsquo;t</em></a>. arXiv:2605.30523.
+          <em>Precision and depth change padded-transformer expressivity; attention type and width above logarithmic do not. Polynomially padded constant-precision transformers equal L-uniform AC0, growing precision reaches TC0 regardless of width, and the results hold for both softmax and average-hard attention.</em>
+        </li>
+        <li>
+          Kraus, M., Sarrof, Y., Yao, Y., Koller, A., and Hahn, M. (2026).
+          <a href="https://arxiv.org/abs/2604.25800"><em>Barriers to Universal Reasoning With Transformers (And How to Overcome Them)</em></a>. arXiv:2604.25800.
+          <em>Under standard positional encodings and a finite alphabet, chain-of-thought transformers cannot solve problems beyond TC0 once length-generalizable learnability is required, so the Turing-completeness result does not survive that stricter demand. A vocabulary growing with problem size recovers it.</em>
+        </li>
+        <li>
+          Jiang, Y., Hahn, M., Zetzsche, G., and Lin, A. W. (2025).
+          <a href="https://arxiv.org/abs/2511.20038"><em>Softmax Transformers are Turing-Complete</em></a>. arXiv:2511.20038.
+          <em>Extends Turing completeness from hard attention to softmax attention through a length-generalizable counting-RASP construction, for causal masking over letter-bounded alphabets.</em>
+        </li>
+        <li>
+          Liu, Z., Baraniuk, R., and Sonkar, S. (2026).
+          <a href="https://arxiv.org/abs/2603.23823"><em>Circuit Complexity of Hierarchical Knowledge Tracing and Implications for Log-Precision Transformers</em></a>. arXiv:2603.23823.
+          <em>Recursive-majority prerequisite propagation lies unconditionally in NC1, and separating it from TC0 would need progress on open lower bounds. Empirically, transformers trained on these trees converge to permutation-invariant shortcuts even when handed explicit structure.</em>
+        </li>
+</ul>
 
       <h3>Continuous and internalised chain of thought</h3>
       <ul>
@@ -376,7 +426,102 @@
           into a stable cyclic trajectory. Convergence is not automatic. It is the stability
           condition the training recipes are all implicitly chasing.</em>
         </li>
-      </ul>
+              <li>
+          Wang, Y., Li, S., Zhang, Y., Huang, F., Yan, J., and Li, W. (2026).
+          <a href="https://arxiv.org/abs/2606.18524"><em>On the Residual Scaling of Looped Transformers: Stability and Transferability</em></a>. arXiv:2606.18524.
+          <em>Weight sharing correlates residual updates across loops, so the standard depth-scaling rule is insufficient for looped models. Derives a replacement giving hyperparameter transfer across loop counts.</em>
+        </li>
+        <li>
+          Li, S., Zhang, Y., Guo, J., Gu, Q., and Wang, M. (2026).
+          <a href="https://arxiv.org/abs/2607.13491"><em>DeepLoop: Depth Scaling for Looped Transformers</em></a>. arXiv:2607.13491.
+          <em>One shared parameter update aggregates gradients from repeated visits within a forward pass, so the initialisation exponent must rise with loop count in the worst-case aligned regime.</em>
+        </li>
+        <li>
+          Fu, R., Yang, Z., Zhang, J., Ma, J., Chen, H., Li, Y., and Chang, Y. (2026).
+          <a href="https://arxiv.org/abs/2605.18797"><em>Simply Stabilizing the Loop via Fully Looped Transformer</em></a>. arXiv:2605.18797.
+          <em>Traces looped-training instability to gradient oscillation and residual explosion separately, and fixes both with parameter-free changes, training stably to twelve iterations where baselines collapse.</em>
+        </li>
+        <li>
+          Buehlmaier, M. M. M. (2026).
+          <a href="https://arxiv.org/abs/2607.10681"><em>LayerNorm as Implicit Gain Control in Looped Transformers</em></a>. arXiv:2607.10681.
+          <em>Pre-norm LayerNorm makes the recurrence Jacobian asymptotically contractive at fixed points even where its operator norm exceeds one, so a diagonal-carry constraint is necessary but not sufficient for convergence. Verified only at small scale, as the author states.</em>
+        </li>
+        <li>
+          Wu, Y., Zhang, R., and Cao, Y. (2026).
+          <a href="https://arxiv.org/abs/2606.00605"><em>Looped Transformers with Layer Normalization Provably Learn the Power Method</em></a>. arXiv:2606.00605.
+          <em>A looped linear transformer with LayerNorm, trained by gradient descent, provably converges to power-method iteration on a synthetic testbed.</em>
+        </li>
+        <li>
+          Lin, Y., Guo, Y., Zhu, R.-J., Ye, Z., and Eshraghian, J. (2026).
+          <a href="https://arxiv.org/abs/2608.18230"><em>Allocating Recurrent Compute in Looped Language Models</em></a>. arXiv:2608.18230.
+          <em>Looping the whole stack is wasteful: looping only the mixer and applying the feedforward block once keeps most of the benefit at 45.9% lower recurrent-backbone cost.</em>
+        </li>
+        <li>
+          Wang, Y., Zhang, Y., Luo, S., Wu, Y., Liu, Z., Liu, J., Huang, F., Yan, J., and Li, W. (2026).
+          <a href="https://arxiv.org/abs/2609.01343"><em>SMELT: Scaling Laws for Compute-Matched MoE Looped Transformers</em></a>. arXiv:2609.01343.
+          <em>A budget-matched scaling study holding FLOPs, parameters and cache fixed, reporting 6.8 to 18.0% training-FLOP savings at the compute-optimal frontier.</em>
+        </li>
+        <li>
+          Wang, C., and Reid, M. (2026).
+          <a href="https://arxiv.org/abs/2609.01924"><em>Looped Transformers under the Jacobian Lens: Does the Global Workspace Survive Recurrence?</em></a>. arXiv:2609.01924.
+          <em>A workspace forms under recurrence but access differs sharply by architecture: Ouro cannot linearly transport content across loop boundaries and Huginn only within a roughly two-loop window.</em>
+        </li>
+        <li>
+          Shapiro, M. (2026).
+          <a href="https://arxiv.org/abs/2608.11233"><em>Retrofitting Recurrent Depth into a Pretrained Language Model: Installation, Extrapolation, Transfer, and Retention at Two Parameter Budgets</em></a>. arXiv:2608.11233.
+          <em>Retrofits recurrent depth onto a pretrained model at two budgets, with a 6M adapter matching a 180M full block and extrapolating to about 1.5 times its supervised depth. A reversed-rule task exposes a catastrophic-interference boundary the retrofit cannot cross.</em>
+        </li>
+        <li>
+          Park, T., Lee, Y., Kim, D., and Bae, H. (2026).
+          <a href="https://arxiv.org/abs/2605.11011"><em>LoopUS: Recasting Pretrained LLMs into Looped Latent Refinement Models</em></a>. arXiv:2605.11011.
+          <em>A second retrofitting recipe using staged block decomposition, an input-dependent gate against hidden-state drift and random deep supervision. The abstract asserts improvement without itemised figures.</em>
+        </li>
+        <li>
+          Hegazy, M., Alanwar, A., and Elhoushi, M. (2026).
+          <a href="https://arxiv.org/abs/2608.15062"><em>Gated Recurrent Transformer: Bracketing a Shared Recurrent Core</em></a>. arXiv:2608.15062.
+          <em>Uses gating to counter the representational collapse of naive depth sharing, with fixed prelude and coda around a single shared recurrent core.</em>
+        </li>
+        <li>
+          Viakhirev, M., Borodin, D., Almutairi, F., Barannikov, S., Abramov, A., and Mkrtchian, G. (2026).
+          <a href="https://arxiv.org/abs/2608.18222"><em>Dynamical Regimes of a Trained Recurrent Operator</em></a>. arXiv:2608.18222.
+          <em>Identifies a measurable settling, marginal or drifting regime that predicts whether more test-time iterations help, hurt or do nothing, with a sufficient depth-safety condition.</em>
+        </li>
+        <li>
+          Kim, S., Hayashi, H., Kamiya, T., Koyama, M., Iwasawa, Y., and Matsuo, Y. (2026).
+          <a href="https://arxiv.org/abs/2607.27656"><em>Source-Centred State Evolution in Looped Transformers</em></a>. arXiv:2607.27656.
+          <em>Additive-injection looped models can still drift from their reference state despite reintroducing the input at every step.</em>
+        </li>
+        <li>
+          Chen, J., Shi, W., Liu, Y., Wang, H., Wang, Z., Xu, R., Wang, T., and Ding, N. (2026).
+          <a href="https://arxiv.org/abs/2607.25915"><em>Penelope: Localizing Recurrent Computation to a Decoder Interval</em></a>. arXiv:2607.25915.
+          <em>Loops a chosen interval of the decoder rather than the whole stack.</em>
+        </li>
+        <li>
+          Popescu, A. C., S&aacute;ez de Oc&aacute;riz Borde, H., and Li&ograve;, P. (2026).
+          <a href="https://arxiv.org/abs/2608.18171"><em>Looped Language Models Improve Compositional Tool Calling</em></a>. arXiv:2608.18171.
+          <em>Native and retrofitted looped models against non-looped baselines under matched supervised recipes on three tool-calling benchmarks: recurrence generally helps compositional, dependency-aware multi-step calls more than isolated ones.</em>
+        </li>
+        <li>
+          Frey, M., Shomali, B., Bashir, A. H., Berghaus, D., Koehler, J., and Ali, M. (2026).
+          <a href="https://arxiv.org/abs/2603.08391"><em>Adaptive Loops and Memory in Transformers: Think Harder or Know More?</em></a>. arXiv:2603.08391.
+          <em>Looping helps mathematical reasoning while gated memory banks recover the commonsense performance parameter-matched looped models lose.</em>
+        </li>
+        <li>
+          Koriagin, N., Aksenov, Y., Bredis, N., Gerasimov, D., Balagansky, N., and Gavrilov, D. (2026).
+          <a href="https://arxiv.org/abs/2608.31069"><em>A Model with No Head and Many Thoughts</em></a>. arXiv:2608.31069.
+          <em>Replaces the language-model head during reasoning with a lightweight projector, so rollout happens in embedding space with no discrete tokenisation at all.</em>
+        </li>
+        <li>
+          Lam-Muir, A. (2026).
+          <a href="https://arxiv.org/abs/2608.03263"><em>The Ignition Is Real, and It Lives at the Readout</em></a>. arXiv:2608.03263.
+          <em>A pre-registered study of a 30M recurrent-depth reasoner confirming a readout-localised transition, and explicitly withdrawing an earlier claim of its own under normalisation controls.</em>
+        </li>
+        <li>
+          Lam-Muir, A. (2026).
+          <a href="https://arxiv.org/abs/2608.16085"><em>Behaviour Is an Incomplete Measure of Reasoning Development</em></a>. arXiv:2608.16085.
+          <em>Behavioural competence, probe accessibility and training-time development are three distinct observables in the same reasoner, with a large gap in epochs-to-competence between training surfaces.</em>
+        </li>
+</ul>
 
       <h3>Contentless tokens</h3>
       <ul>
@@ -464,7 +609,72 @@
           collapses with further looping; spectral-radius regularisation is proposed as the fix.
           Directly against the infinite-depth framing.</em>
         </li>
-      </ul>
+              <li>
+          Kshirsagar, A. (2026).
+          <a href="https://arxiv.org/abs/2607.20952"><em>The Weight of Silence: A Causal Case for Weights Over the Scratchpad in Latent Chess Reasoning</em></a>. arXiv:2607.20952.
+          <em>A causal test finds the latent states are not consulted as a scratchpad: substitution and noise leave performance unchanged, and only exact-zero ablation bites. The paper reports that multiple groups have seen the same latent-reasoning-plus-RL recipe fail to beat supervised fine-tuning.</em>
+        </li>
+        <li>
+          Jin, H., Yang, S., and Wang, D. (2026).
+          <a href="https://arxiv.org/abs/2607.06648"><em>Final Checkpoints Are Not Enough: Analyzing Latent Reasoning Faithfulness Along Training Trajectories</em></a>. arXiv:2607.06648.
+          <em>Faithfulness is not monotonic during training: task accuracy can rise while the counterfactual responsiveness of the latent states falls. Endpoint-only faithfulness checks, which is what most of this literature runs, can therefore miss the trajectory.</em>
+        </li>
+        <li>
+          Sharma, A., and Vu, T. (2026).
+          <a href="https://arxiv.org/abs/2606.24898"><em>Dense Supervision Is Not Enough: The Readout Blind Spot in Looped Language Models</em></a>. arXiv:2606.24898.
+          <em>Per-loop cross-entropy constrains only what the readout exposes, leaving the rest of the recurrent state unsupervised; hidden-state norms grow into the thousands under naive scale-invariant readouts.</em>
+        </li>
+        <li>
+          Kuo, C.-C., Chayti, E. M., Reizinger, P., Brendel, W., and Jaggi, M. (2026).
+          <a href="https://arxiv.org/abs/2606.29983"><em>Stabilizing Extrapolation in Looped Transformers via Learned Stochastic Stopping</em></a>. arXiv:2606.29983.
+          <em>Length generalisation in looped transformers is brittle, with high out-of-distribution variance traced to a spurious correlation between input length and loop count that survives in otherwise well-performing solutions.</em>
+        </li>
+        <li>
+          Larson, S. (2026).
+          <a href="https://arxiv.org/abs/2609.03090"><em>The Gradient Does Not See Rank: Rank-Indifference in Matrix-CODI on ProsQA</em></a>. arXiv:2609.03090.
+          <em>Tests the superposition reading of matrix-valued CODI by ablating the latent matrix to low rank; accuracy is flat to within 0.6 points across three regimes, three seeds and four readouts. A matched control on vanilla GPT-2 reproduces the flat curve, so the paradigm cannot separate rank-blindness from position-irrelevance.</em>
+        </li>
+        <li>
+          Ding, Y., Huang, Z., and Yang, L. (2026).
+          <a href="https://arxiv.org/abs/2608.27265"><em>SCIT: Testing Causal Cache Carriers in Latent Chain-of-Thought Models</em></a>. arXiv:2608.27265.
+          <em>A causal cache-interchange protocol finds no universal latent-tail mechanism: the causal object differs by checkpoint and model competence, being a value-cache suffix in some models and the full key-value cache in others.</em>
+        </li>
+        <li>
+          Roye-Azar, N., Vargas-Naranjo, D., Ghai, S., Balamurugan, S., and Amir, S. (2025).
+          <a href="https://arxiv.org/abs/2512.11847"><em>Tiny Recursive Models on ARC-AGI-1: Inductive Biases, Identity Conditioning, and Test-Time Compute</em></a>. arXiv:2512.11847.
+          <em>An ablation on the released checkpoint: replacing the puzzle-identifier token with a blank or random token yields zero accuracy, roughly eleven points of Pass@1 come from majority-vote test-time augmentation, and accuracy saturates after a few recursion steps.</em>
+        </li>
+        <li>
+          Liang, Y., and Pan, X. (2026).
+          <a href="https://arxiv.org/abs/2602.00449"><em>Do Latent-CoT Models Think Step-by-Step? A Mechanistic Study on Sequential Reasoning Tasks</em></a>. arXiv:2602.00449.
+          <em>On longer hop-lengths CODI does not execute a full latent rollout, instead using a partial pathway concentrated on late intermediates that fuses with the final input position, and that pathway collapses under regime shift.</em>
+        </li>
+        <li>
+          Kim, S., Kim, J., Lee, S., Kim, D., Seo, M., Lee, K., and Lee, J. (2026).
+          <a href="https://arxiv.org/abs/2609.04489"><em>Towards Understanding Pause Token Fine-Tuning Dynamics: A Mode Retention Perspective</em></a>. arXiv:2609.04489.
+          <em>Offers a training-dynamics account of pause-token gains as a rival to the expressivity explanation: masked pauses overwrite previously learned distributions about four times less at matched adaptation.</em>
+        </li>
+        <li>
+          Tang, J., Fang, Y., Sun, W., Liu, Z., Wang, S., Zhao, X., Zhang, J., Liu, Y., Liu, Q., Zhang, M., and Chen, Z. (2026).
+          <a href="https://arxiv.org/abs/2608.23256"><em>Is Next-Chunk Reasoning RL Really Better than SFT? Revisiting Training Strategies under no-CoT Data</em></a>. arXiv:2608.23256.
+          <em>A mixed supervised baseline, trained jointly on no-CoT and long-CoT data, beats next-chunk reasoning RL using over sixty times less training compute, in and out of domain.</em>
+        </li>
+        <li>
+          Sirivella, N., Newaz, A., and Melo, G. (2026).
+          <a href="https://arxiv.org/abs/2608.29376"><em>Evaluating Tiny Recursive Models Across Training for Code Generation</em></a>. arXiv:2608.29376.
+          <em>On free-running code generation the fit ranking between a recursive model and a depth-matched control reverses twice across training, so a single-checkpoint comparison is not stable evidence in either direction.</em>
+        </li>
+        <li>
+          Park, J., Jung, S., and Kang, M. (2026).
+          <a href="https://arxiv.org/abs/2609.06746"><em>Reason Through the Latent! Making Latent Visual Reasoning Necessary</em></a>. arXiv:2609.06746.
+          <em>A causal test finds most latent visual-reasoning methods carry visual information in the latent state without using it to produce the answer.</em>
+        </li>
+        <li>
+          Kim, J. (2026).
+          <a href="https://arxiv.org/abs/2608.26556"><em>Dynamical phase selection controls compute scaling in looped transformers</em></a>. arXiv:2608.26556.
+          <em>Identically trained, identically accurate looped transformers fall into distinct dynamical phases depending on initialisation, and the phase rather than the architecture sets the test-time compute scaling law.</em>
+        </li>
+</ul>
 
       <h3>Faithfulness, monitorability and interpretability</h3>
       <ul>
@@ -724,7 +934,117 @@
           that recursively added layers trail one-pass models of the same feed-forward
           capacity.</em>
         </li>
-      </ul>
+              <li>
+          Yang, J., Chen, C., Wu, S., Liu, Y., Fan, Y., Li, L., Lai, S., Qin, C., and Guo, Z. (2026).
+          <a href="https://arxiv.org/abs/2606.13106"><em>Demystifying Hidden-State Recurrence: Switchable Latent Reasoning with On-Policy Reinforcement Learning</em></a>. arXiv:2606.13106.
+          <em>The policy ratio is undefined inside a latent block, so this wraps the block in two ordinary tokens to make entry and exit legible to on-policy reinforcement learning while the interior stays continuous.</em>
+        </li>
+        <li>
+          You, R., Liu, Z., Li, Y., and Li, W. (2026).
+          <a href="https://arxiv.org/abs/2607.19691"><em>SLPO: Scaling Latent Reasoning via a Surrogate Policy</em></a>. arXiv:2607.19691.
+          <em>Names the obstacle directly: latent trajectories lack a tractable per-step likelihood and a stopping interface, so outcome-reward reinforcement learning cannot elicit latent test-time scaling as it does for explicit chains.</em>
+        </li>
+        <li>
+          Jung, W. (2026).
+          <a href="https://arxiv.org/abs/2606.10184"><em>Dropout-GRPO: Variational Stochasticity for Continuous Latent Reasoning</em></a>. arXiv:2606.10184.
+          <em>The sharpest diagnosis of the same problem: group-relative advantage needs rollout diversity, but a deterministic latent phase makes the rollouts identical and the advantage collapses to zero. The proposed fix yields a modest gain on one benchmark.</em>
+        </li>
+        <li>
+          Yu, Z., Shen, Q., Li, H., Zhang, Z., Zhu, S.-C., Zhang, C., and Zheng, Z. (2026).
+          <a href="https://arxiv.org/abs/2608.02585"><em>GradCuit: Credit-Assigned Gradient Flow Enables Robust and Interpretable Test-Time Latent Reasoning</em></a>. arXiv:2608.02585.
+          <em>Optimises instance-specific latent states inserted mid-stack at test time, giving every later token a differentiable path back to each latent. A gradient-based rather than policy-gradient answer to the same credit-assignment problem.</em>
+        </li>
+        <li>
+          Zou, J., Xiong, Y., and Liu, Y. (2026).
+          <a href="https://arxiv.org/abs/2602.01148"><em>Capabilities and Fundamental Limits of Latent Chain-of-Thought</em></a>. arXiv:2602.01148.
+          <em>Argues direct non-curriculum training of latent chain of thought fails from distributional mismatch, making curriculum learning necessary rather than merely helpful, and introduces a measure of decisional commitment governing an exploration-execution trade-off.</em>
+        </li>
+        <li>
+          Chen, S., Leong, C. T., Guo, Y., Wang, J., Li, X., and Shen, Z. (2026).
+          <a href="https://arxiv.org/abs/2606.20075"><em>What Makes Effective Supervision in Latent Chain-of-Thought: An Information-Theoretic Analysis</em></a>. arXiv:2606.20075.
+          <em>Identifies a dual collapse, gradient attenuation together with representational drift, as why outcome-only supervision of latent chains is weak.</em>
+        </li>
+        <li>
+          Solgi, R., Tian, Y., and Zhang, Z. (2026).
+          <a href="https://arxiv.org/abs/2606.05315"><em>LoRi: Low-Rank Distillation for Implicit Reasoning</em></a>. arXiv:2606.05315.
+          <em>Implicit chain-of-thought hidden trajectories are low-rank, so teacher reasoning is distilled into a compact shared subspace.</em>
+        </li>
+        <li>
+          Hao, Y., and Yang, Z. (2026).
+          <a href="https://arxiv.org/abs/2609.07406"><em>Latent Rank Collapse in Implicit Chain of Thought</em></a>. arXiv:2609.07406.
+          <em>Successive latent states become overly similar during implicit chain-of-thought training, an instability distinct from ordinary representational drift.</em>
+        </li>
+        <li>
+          Li, Y., Chen, Z., Ju, W., Yao, S., Li, Y., Lan, T., Zhu, Y., Zheng, D., and Wang, S. (2026).
+          <a href="https://arxiv.org/abs/2609.09928"><em>PMPS: Prototype-Anchored Process Supervision for Latent Reasoning</em></a>. arXiv:2609.09928.
+          <em>Learnable reasoning prototypes as anchors for process-level supervision of latent embeddings, aimed at representation collapse.</em>
+        </li>
+        <li>
+          Zou, Y., Huang, S., Li, Z., and Zhou, W. (2026).
+          <a href="https://arxiv.org/abs/2606.16222"><em>Latent Thought Flow: Efficient Latent Reasoning in Large Language Models</em></a>. arXiv:2606.16222.
+          <em>Models latent reasoning as variable-length continuous trajectories with a trained sampler over correctness and cost, rather than one deterministic path.</em>
+        </li>
+        <li>
+          Tu, S., Fu, Y., Yu, X., Tang, J., Kang, Y., Qin, Z., Zhang, M., and Gu, Q. (2026).
+          <a href="https://arxiv.org/abs/2606.06447"><em>Latent Reasoning with Normalizing Flows</em></a>. arXiv:2606.06447.
+          <em>A probabilistic treatment of continuous thought, modelling latent trajectories with normalizing flows.</em>
+        </li>
+        <li>
+          Lin, Z., Cai, Y., Wen, J., and Zhang, M. (2026).
+          <a href="https://arxiv.org/abs/2606.16360"><em>Tyler: Typed Latent Reasoning for Language Models</em></a>. arXiv:2606.16360.
+          <em>Learns when to invoke latent computation, which kind, and how much budget to allocate, rather than fixing those by design.</em>
+        </li>
+        <li>
+          Yuan, H., Jin, B., Yu, S., Kuang, K., Yu, P., Dong, Y., and Wang, S. (2026).
+          <a href="https://arxiv.org/abs/2606.06252"><em>Closing the Loop on Latent Reasoning via Test-Time Reconstruction</em></a>. arXiv:2606.06252.
+          <em>Adds a test-time reconstruction check so latent states can be verified against the original query instead of running open-loop.</em>
+        </li>
+        <li>
+          Li, Y., Li, Z., and Zhou, D. (2026).
+          <a href="https://arxiv.org/abs/2606.06574"><em>Skip a Layer or Loop It? Learning Program-of-Layers in LLMs</em></a>. arXiv:2606.06574.
+          <em>Pretrained models admit many valid programs of layers, skipping or looping per input without retraining, some cheaper and more accurate than the default pass.</em>
+        </li>
+        <li>
+          Duraipandian, S. I., Boyane, A., Nagesh, S., Francis, J., Vaidheeswaran, A., and Zhu, S. (2026).
+          <a href="https://arxiv.org/abs/2607.09698"><em>Interpreting Latent CoT Reasoning as Dynamical Systems</em></a>. arXiv:2607.09698.
+          <em>Treats CODI and Coconut latent-token sequences as dynamical trajectories to characterise superposition and compression mechanistically.</em>
+        </li>
+        <li>
+          Fu, R., Guo, W., Wang, Y., Zhu, B., Lee, J. D., Jiao, J., Russell, S., and Mei, S. (2026).
+          <a href="https://arxiv.org/abs/2607.00341"><em>DiscoLoop: Looping Discrete Embeddings and Continuous Hidden States for Multi-hop Reasoning</em></a>. arXiv:2607.00341.
+          <em>A depth-local storage problem in non-recurrent transformers for two-hop reasoning, motivating looped discrete-continuous hybrids.</em>
+        </li>
+        <li>
+          Zhang, C., Ding, N., Fang, Y., Liao, S., Ye, Q., Zhao, X., and Wang, S. (2026).
+          <a href="https://arxiv.org/abs/2606.06188"><em>The Tell-Tale Norm: $\ell_2$ Magnitude as a Signal for Reasoning Dynamics in Large Language Models</em></a>. arXiv:2606.06188.
+          <em>Hidden-state norm is an endogenous signal of reasoning intensity, concentrated in late layers and validated against sparse-autoencoder features.</em>
+        </li>
+        <li>
+          Malarkkan, A., Choudhury, R., Byahut, S., Charde, M., Gupta, S., and Fu, Y. (2026).
+          <a href="https://arxiv.org/abs/2606.29164"><em>Invariant Reasoning Directions in Latent Trajectories of Language Models</em></a>. arXiv:2606.29164.
+          <em>A low-rank invariant reasoning direction mixed with unstable instance-specific variation in latent trajectories.</em>
+        </li>
+        <li>
+          Chang, R., Liu, Y., Wang, S., Gao, J., Ma, X., Zhao, Y., Miao, C., Sun, M., Peng, H., Li, J., and Niu, C. (2026).
+          <a href="https://arxiv.org/abs/2606.29712"><em>Why Struggle with Continuous Latents? Interpretable Discrete Latent Reasoning via Rendered Compression</em></a>. arXiv:2606.29712.
+          <em>Attributes continuous-latent training instability to a mismatch with discrete symbolic supervision and proposes a discrete, interpretable alternative.</em>
+        </li>
+        <li>
+          Jung, D., Shi, P., Zhang, Y., Zhang, J., and Chen, M. (2026).
+          <a href="https://arxiv.org/abs/2606.02871"><em>Adaptive Latent Agentic Reasoning</em></a>. arXiv:2606.02871.
+          <em>A dual-mode agent using compact latent reasoning for routine multi-turn decisions and escalating to explicit chain of thought for harder ones.</em>
+        </li>
+        <li>
+          Cho, J., Cui, Y., Kim, S., Han, D., and Han, B. (2026).
+          <a href="https://arxiv.org/abs/2609.17184"><em>LoopSpec: Self-Speculative Decoding for Looped Transformers</em></a>. arXiv:2609.17184.
+          <em>Uses intermediate recurrent states as speculative drafts, with no auxiliary draft model.</em>
+        </li>
+        <li>
+          Huang, J., Wu, H., Gao, Y., Yan, Y., Zhang, J., Hei, Y., Dai, S., Zhang, J., Tan, P. S., and Hu, X. (2025).
+          <a href="https://arxiv.org/abs/2511.10201"><em>EffiReason-Bench: A Unified Benchmark for Evaluating and Advancing Efficient Reasoning in Large Language Models</em></a>. arXiv:2511.10201.
+          <em>Built because &ldquo;fair comparison of efficiency-oriented approaches is hindered by fragmented evaluation practices&rdquo;, and finds no method dominates across backbone scale, task complexity or architecture. Covers efficient reasoning broadly rather than latent reasoning alone.</em>
+        </li>
+</ul>
 
       <h3>Routing and control on latent state</h3>
       <ul>
@@ -1090,6 +1410,290 @@
           <a href="https://arxiv.org/abs/2510.13117">arXiv:2510.13117</a>.
           <em>Extends the circuit-complexity programme to masked diffusion models, characterising
           what they can solve and at what cost.</em>
+        </li>
+      </ul>
+
+      <h3>Fixed points, implicit differentiation and algorithmic reasoning</h3>
+      <p class="muted" style="font-size:0.92rem;">A loop that settles can be differentiated
+      without unrolling it, and a loop can be trained so each iteration advances one step of an
+      algorithm. Both literatures predate latent reasoning and are largely uncited by it.</p>
+      <ul>
+        <li>
+          Bai, S., Kolter, J. Z., and Koltun, V. (2019).
+          <a href="https://arxiv.org/abs/1909.01377"><em>Deep Equilibrium Models</em></a>. arXiv:1909.01377.
+          <em>Finds a hidden-layer fixed point by root-finding and backpropagates through it by implicit differentiation, giving memory constant in effective depth. The backward pass a converged latent reasoner would use.</em>
+        </li>
+        <li>
+          Bai, S., Koltun, V., and Kolter, J. Z. (2020).
+          <a href="https://arxiv.org/abs/2006.08656"><em>Multiscale Deep Equilibrium Models</em></a>. arXiv:2006.08656.
+          <em>Extends the equilibrium formulation to a multi-resolution hidden state solved jointly.</em>
+        </li>
+        <li>
+          Chen, R. T. Q., Rubanova, Y., Bettencourt, J., and Duvenaud, D. (2018).
+          <a href="https://arxiv.org/abs/1806.07366"><em>Neural Ordinary Differential Equations</em></a>. arXiv:1806.07366.
+          <em>The adjoint sensitivity method for continuous-depth networks: backpropagate by solving a second ODE backwards in time, at constant memory. The continuous-time sibling of the equilibrium backward pass.</em>
+        </li>
+        <li>
+          Geng, Z., Zhang, X.-Y., Bai, S., Wang, Y., and Lin, Z. (2021).
+          <a href="https://arxiv.org/abs/2111.05177"><em>On Training Implicit Models</em></a>. arXiv:2111.05177.
+          <em>Introduces the phantom gradient, a deliberately inexact approximation to the implicit gradient, on the argument that the exact solve is expensive and not necessary for a good update direction.</em>
+        </li>
+        <li>
+          Fung, S. W., Heaton, H., Li, Q., McKenzie, D., Osher, S., and Yin, W. (2021).
+          <a href="https://arxiv.org/abs/2103.12803"><em>JFB: Jacobian-Free Backpropagation for Implicit Networks</em></a>. arXiv:2103.12803.
+          <em>Drops the Jacobian term entirely and proves the resulting update is still a descent direction under stated conditions.</em>
+        </li>
+        <li>
+          Fein-Ashley, J., and Rashidinejad, P. (2026).
+          <a href="https://arxiv.org/abs/2605.12466"><em>Solve the Loop: Attractor Models for Language and Reasoning</em></a>. arXiv:2605.12466.
+          <em>Treats a looped model&apos;s output embedding as a fixed point solved by root-finding rather than unrolling, and differentiates through it by the implicit function theorem. Positioned explicitly against Coconut, Huginn and Ouro, whose unrolling makes training memory grow with depth.</em>
+        </li>
+        <li>
+          Labovich, A. (2026).
+          <a href="https://arxiv.org/abs/2604.15259"><em>Stability and Generalization in Looped Transformers</em></a>. arXiv:2604.15259.
+          <em>A fixed-point framework along reachability, input-dependence and geometry. Autonomous looped networks cannot achieve strong input-dependence at any spectral regime; recall combined with outer normalisation produces fixed points that are reachable, locally smooth in the input, and support stable backpropagation.</em>
+        </li>
+        <li>
+          Zhang, T., Hu, J., Peng, Y., and Xie, T. (2026).
+          <a href="https://arxiv.org/abs/2607.20594"><em>When Does Recurrence Become an Algorithm? Convergence Selection in Weight-Tied Looped Transformers</em></a>. arXiv:2607.20594.
+          <em>A budget law: free training installs a frontier solving $v$ positions per loop, priced by the training contract as $v \sim n_{\text{train}}/T_{\text{train}}$ and exactly unity when the two match. Weight tying, not expressivity, selects a serial rather than parallel algorithm, and imposing seriality through the input schedule fails where free training succeeds.</em>
+        </li>
+        <li>
+          Veli&#269;kovi&#263;, P., and Blundell, C. (2021).
+          <a href="https://arxiv.org/abs/2105.02761"><em>Neural Algorithmic Reasoning</em></a>. arXiv:2105.02761.
+          <em>The position paper for aligning neural computation with algorithmic structure.</em>
+        </li>
+        <li>
+          Veli&#269;kovi&#263;, P., Ying, R., Padovano, M., Hadsell, R., and Blundell, C. (2019).
+          <a href="https://arxiv.org/abs/1910.10593"><em>Neural Execution of Graph Algorithms</em></a>. arXiv:1910.10593.
+          <em>Trains networks to imitate individual steps of classical graph algorithms, establishing step-wise supervision as the norm in this line.</em>
+        </li>
+        <li>
+          Veli&#269;kovi&#263;, P., Badia, A. P., Budden, D., Pascanu, R., Banino, A., et al. (2022).
+          <a href="https://arxiv.org/abs/2205.15659"><em>The CLRS Algorithmic Reasoning Benchmark</em></a>. arXiv:2205.15659.
+          <em>Packages classical algorithms with per-step hints, the full trajectory of intermediate states, as an optional supervision signal alongside input-output pairs.</em>
+        </li>
+        <li>
+          Ibarz, B., Kurin, V., Papamakarios, G., Nikiforou, K., Bennani, M., et al. (2022).
+          <a href="https://arxiv.org/abs/2209.11142"><em>A Generalist Neural Algorithmic Learner</em></a>. arXiv:2209.11142.
+          <em>Improvements to input representation, training regime and processor architecture over the benchmark baselines.</em>
+        </li>
+        <li>
+          Rodionov, G., and Prokhorenkova, L. (2023).
+          <a href="https://arxiv.org/abs/2306.13411"><em>Neural Algorithmic Reasoning Without Intermediate Supervision</em></a>. arXiv:2306.13411.
+          <em>Trains from input-output pairs alone, replacing ground-truth step hints with a self-supervised regulariser on intermediate computations, and reports results competitive with trajectory supervision. Per-step ground truth is not the gate it is often taken to be.</em>
+        </li>
+        <li>
+          Bansal, A., Schwarzschild, A., Borgnia, E., Emam, Z., Huang, F., Goldblum, M., and Goldstein, T. (2022).
+          <a href="https://arxiv.org/abs/2202.05826"><em>End-to-end Algorithm Synthesis with Recurrent Networks: Logical Extrapolation Without Overthinking</em></a>. arXiv:2202.05826.
+          <em>Names overthinking, the degeneration that appears when a recurrent model is run for many more iterations than it was trained for, and fixes it with a recall architecture keeping an explicit copy of the problem in memory plus progressive training over iteration counts.</em>
+        </li>
+        <li>
+          Schwarzschild, A., Borgnia, E., Gupta, A., Huang, F., Vishkin, U., Goldblum, M., and Goldstein, T. (2021).
+          <a href="https://arxiv.org/abs/2106.04537"><em>Can You Learn an Algorithm? Generalizing from Easy to Hard Problems with Recurrent Networks</em></a>. arXiv:2106.04537.
+          <em>The original easy-to-hard result: recurrent networks trained on simple instances solve harder ones by running more recurrences at inference.</em>
+        </li>
+        <li>
+          Anil, C., Pokle, A., Liang, K., Treutlein, J., Wu, Y., Bai, S., Kolter, J. Z., and Grosse, R. (2022).
+          <a href="https://arxiv.org/abs/2211.09961"><em>Path Independent Equilibrium Models Can Better Exploit Test-Time Computation</em></a>. arXiv:2211.09961.
+          <em>Identifies path independence, converging to the same steady state regardless of initialisation, as the property correlating with whether extra test-time iterations help, and shows interventions promoting it improve upward generalisation.</em>
+        </li>
+        <li>
+          Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., and Dahl, G. E. (2017).
+          <a href="https://arxiv.org/abs/1704.01212"><em>Neural Message Passing for Quantum Chemistry</em></a>. arXiv:1704.01212.
+          <em>The message-passing formulation in which $k$ rounds propagate information exactly $k$ hops. The precedent for reading one iteration as one hop.</em>
+        </li>
+        <li>
+          Xu, K., Hu, W., Leskovec, J., and Jegelka, S. (2018).
+          <a href="https://arxiv.org/abs/1810.00826"><em>How Powerful are Graph Neural Networks?</em></a>. arXiv:1810.00826.
+          <em>Ties $k$ message-passing layers to $k$ iterations of the Weisfeiler-Lehman test, with the expressiveness limits that follow.</em>
+        </li>
+        <li>
+          Li, Q., Han, Z., and Wu, X.-M. (2018).
+          <a href="https://arxiv.org/abs/1801.07606"><em>Deeper Insights into Graph Convolutional Networks for Semi-Supervised Learning</em></a>. arXiv:1801.07606.
+          <em>Oversmoothing: stacking many propagation layers drives node representations toward a common fixed point and destroys discriminative power. A ceiling on how many hops a stacked propagator can carry.</em>
+        </li>
+        <li>
+          Alon, U., and Yahav, E. (2020).
+          <a href="https://arxiv.org/abs/2006.05205"><em>On the Bottleneck of Graph Neural Networks and its Practical Implications</em></a>. arXiv:2006.05205.
+          <em>Oversquashing: exponentially many messages compressed into fixed-size vectors as receptive fields grow, bounding effective long-range propagation.</em>
+        </li>
+        <li>
+          Topping, J., Di Giovanni, F., Chamberlain, B. P., Dong, X., and Bronstein, M. M. (2021).
+          <a href="https://arxiv.org/abs/2111.14522"><em>Understanding over-squashing and bottlenecks on graphs via curvature</em></a>. arXiv:2111.14522.
+          <em>A curvature account of when oversquashing occurs, with a rewiring remedy.</em>
+        </li>
+      </ul>
+
+      <h3>Belief state, evidence and attribution</h3>
+      <p class="muted" style="font-size:0.92rem;">What a model&apos;s internal credence is, and
+      how a change in it can be traced back to the evidence that moved it. Largely disjoint from the
+      latent-reasoning literature proper, and relevant to it.</p>
+      <ul>
+        <li>
+          Balcells, D., Lee, A. J., Rastogi, C., Riechers, P. M., Shai, A., and Poncini, X. (2026).
+          <a href="https://arxiv.org/abs/2609.17376"><em>Large Language Models Develop Belief State Geometry In-Context</em></a>. arXiv:2609.17376.
+          <em>Six open-source models prompted with hidden-Markov data carry the posterior over hidden states linearly in the residual stream, at peak probe $R^2$ of 0.83 to 0.99, with patching and steering on that subspace preserving prediction quality where controls degrade it.</em>
+        </li>
+        <li>
+          Shai, A., Marzen, S., Teixeira, L., Gietelink Oldenziel, A., and Riechers, P. (2024).
+          <a href="https://arxiv.org/abs/2405.15943"><em>Transformers represent belief state geometry in their residual stream</em></a>. arXiv:2405.15943.
+          <em>The small-model antecedent: transformers trained on hidden-Markov data encode the belief simplex linearly, with the fractal structure computational mechanics predicts.</em>
+        </li>
+        <li>
+          Zhu, J.-Q., and Griffiths, T. L. (2024).
+          <a href="https://arxiv.org/abs/2401.16646"><em>Incoherent Probability Judgments in Large Language Models</em></a>. arXiv:2401.16646.
+          <em>Elicited probability judgments violate the probability calculus in human-like ways, with the same inverted-U mean-variance signature. A model's stated credence and its internal belief state are different objects.</em>
+        </li>
+        <li>
+          Xie, S. M., Raghunathan, A., Liang, P., and Ma, T. (2021).
+          <a href="https://arxiv.org/abs/2111.02080"><em>An Explanation of In-context Learning as Implicit Bayesian Inference</em></a>. arXiv:2111.02080.
+          <em>In-context examples are treated as evidence for a latent document concept, formalised through a mixture of hidden Markov models and demonstrated on synthetic data.</em>
+        </li>
+        <li>
+          Panwar, M., Ahuja, K., and Goyal, N. (2023).
+          <a href="https://arxiv.org/abs/2306.04891"><em>In-Context Learning through the Bayesian Prism</em></a>. arXiv:2306.04891.
+          <em>High-capacity transformers track the Bayesian predictor where exact inference is tractable, and depart from Bayes-optimal behaviour when generalising to unseen function families.</em>
+        </li>
+        <li>
+          Zhang, Y., Zhang, F., Yang, Z., and Wang, Z. (2023).
+          <a href="https://arxiv.org/abs/2305.19420"><em>What and How does In-Context Learning Learn? Bayesian Model Averaging, Parameterization, and Generalization</em></a>. arXiv:2305.19420.
+          <em>Derives in-context learning as implicit Bayesian model averaging approximated by attention, with an $O(1/T)$ regret bound, under stated assumptions rather than against production models.</em>
+        </li>
+        <li>
+          Arora, A., Jurafsky, D., Potts, C., and Goodman, N. D. (2024).
+          <a href="https://arxiv.org/abs/2410.16531"><em>Bayesian scaling laws for in-context learning</em></a>. arXiv:2410.16531.
+          <em>A fitted functional form for accuracy against the number of in-context examples, with interpretable prior and learning-efficiency terms. The Bayesian reading is a fit, not a demonstration that the model updates as Bayes requires.</em>
+        </li>
+        <li>
+          von Oswald, J., Niklasson, E., Randazzo, E., Sacramento, J., Mordvintsev, A., Zhmoginov, A., and Vladymyrov, M. (2022).
+          <a href="https://arxiv.org/abs/2212.07677"><em>Transformers learn in-context by gradient descent</em></a>. arXiv:2212.07677.
+          <em>Constructs linear self-attention weights implementing one gradient step on a least-squares objective, and reports that trained models in the same restricted setting match the construction.</em>
+        </li>
+        <li>
+          Mahankali, A., Hashimoto, T., and Ma, T. (2023).
+          <a href="https://arxiv.org/abs/2307.03576"><em>One Step of Gradient Descent is Provably the Optimal In-Context Learner with One Layer of Linear Self-Attention</em></a>. arXiv:2307.03576.
+          <em>The tightest version of the equivalence and the narrowest: one layer, linear self-attention, Gaussian linear regression.</em>
+        </li>
+        <li>
+          Shen, L., Mishra, A., and Khashabi, D. (2023).
+          <a href="https://arxiv.org/abs/2310.08540"><em>Do pretrained Transformers Learn In-Context by Gradient Descent?</em></a>. arXiv:2310.08540.
+          <em>Tests the equivalence on an actually pretrained model and finds in-context learning and gradient descent move the output distribution differently, with different sensitivity to demonstration order. The counterweight to the constructive results above.</em>
+        </li>
+        <li>
+          Ak&uuml;rek, E., Schuurmans, D., Andreas, J., Ma, T., and Zhou, D. (2022).
+          <a href="https://arxiv.org/abs/2211.15661"><em>What learning algorithm is in-context learning? Investigations with linear models</em></a>. arXiv:2211.15661.
+          <em>Transformers can implement gradient descent and ridge regression for in-context linear regression, and trained models&apos; activations match those estimators.</em>
+        </li>
+        <li>
+          Olsson, C., Elhage, N., Nanda, N., Joseph, N., DasSarma, N., et al. (2022).
+          <a href="https://arxiv.org/abs/2209.11895"><em>In-context Learning and Induction Heads</em></a>. arXiv:2209.11895.
+          <em>Induction heads emerge in a sharp phase transition coinciding with a jump in in-context ability. A mechanistic substrate later work connects to the gradient-descent reading, though this paper claims no such equivalence.</em>
+        </li>
+        <li>
+          Cohen-Wang, B., Shah, H., Georgiev, K., and Madry, A. (2024).
+          <a href="https://arxiv.org/abs/2409.00729"><em>ContextCite: Attributing Model Generation to Context</em></a>. arXiv:2409.00729.
+          <em>Attributes a generated statement to context spans by ablating random subsets, re-running, and fitting a sparse linear surrogate. A sampled finite difference smoothed by regression, not a derivative.</em>
+        </li>
+        <li>
+          Kram&aacute;r, J., Lieberum, T., Shah, R., and Nanda, N. (2024).
+          <a href="https://arxiv.org/abs/2403.00745"><em>AtP*: An efficient and scalable method for localizing LLM behaviour to components</em></a>. arXiv:2403.00745.
+          <em>Uses a first-order expansion of the output around an activation as a cheap stand-in for the expensive activation-patching experiment, then patches two failure modes of that approximation. The clearest case of a gradient standing in for a discrete intervention.</em>
+        </li>
+        <li>
+          Syed, A., Rager, C., and Conmy, A. (2023).
+          <a href="https://arxiv.org/abs/2310.10348"><em>Attribution Patching Outperforms Automated Circuit Discovery</em></a>. arXiv:2310.10348.
+          <em>A two-forward, one-backward gradient approximation to activation patching beats automated circuit discovery on area under the curve.</em>
+        </li>
+        <li>
+          Marks, S., Rager, C., Michaud, E. J., Belinkov, Y., Bau, D., and Mueller, A. (2024).
+          <a href="https://arxiv.org/abs/2403.19647"><em>Sparse Feature Circuits: Discovering and Editing Interpretable Causal Graphs in Language Models</em></a>. arXiv:2403.19647.
+          <em>Approximates a feature&apos;s indirect effect on an output metric by a gradient dotted with a direction in the sparse-autoencoder basis. The construction for asking which interpretable feature, if nudged, moves a model&apos;s output.</em>
+        </li>
+        <li>
+          Grosse, R., Bae, J., Anil, C., Elhage, N., Tamkin, A., et al. (2023).
+          <a href="https://arxiv.org/abs/2308.03296"><em>Studying Large Language Model Generalization with Influence Functions</em></a>. arXiv:2308.03296.
+          <em>A genuine derivative, but with respect to a training example&apos;s weight rather than in-context evidence. The two are different objects and are often conflated.</em>
+        </li>
+        <li>
+          Sundararajan, M., Taly, A., and Yan, Q. (2017).
+          <a href="https://arxiv.org/abs/1703.01365"><em>Axiomatic Attribution for Deep Networks</em></a>. arXiv:1703.01365.
+          <em>Integrated gradients: attribution as a path integral of the gradient from a baseline to the input.</em>
+        </li>
+        <li>
+          Kim, B., Wattenberg, M., Gilmer, J., Cai, C., Wexler, J., Viegas, F., and Sayres, R. (2017).
+          <a href="https://arxiv.org/abs/1711.11279"><em>Interpretability Beyond Feature Attribution: Quantitative Testing with Concept Activation Vectors (TCAV)</em></a>. arXiv:1711.11279.
+          <em>Quantifies a prediction&apos;s sensitivity to a concept by the directional derivative of a class logit along a learned concept vector. The nearest named formalism for a derivative of an output with respect to a semantic direction, built for image classifiers.</em>
+        </li>
+        <li>
+          Sanyal, S., and Ren, X. (2021).
+          <a href="https://arxiv.org/abs/2108.13654"><em>Discretized Integrated Gradients for Explaining Language Models</em></a>. arXiv:2108.13654.
+          <em>Straight-line interpolation between token embeddings passes through points no token occupies, so this constructs word-anchored paths instead. The off-manifold problem is a consequence of discretisation.</em>
+        </li>
+        <li>
+          Roy, S., and Kundu, S. (2024).
+          <a href="https://arxiv.org/abs/2412.03886"><em>Uniform Discretized Integrated Gradients: An effective attribution based method for explaining large language models</em></a>. arXiv:2412.03886.
+          <em>A successor interpolation strategy for the same off-manifold problem.</em>
+        </li>
+        <li>
+          Meng, K., Bau, D., Andonian, A., and Belinkov, Y. (2022).
+          <a href="https://arxiv.org/abs/2202.05262"><em>Locating and Editing Factual Associations in GPT</em></a>. arXiv:2202.05262.
+          <em>Causal tracing: corrupt and restore individual hidden states and measure the change in output probability. A finite difference, and the origin of the method most of this literature uses.</em>
+        </li>
+        <li>
+          Wang, K., Variengien, A., Conmy, A., Shlegeris, B., and Steinhardt, J. (2022).
+          <a href="https://arxiv.org/abs/2211.00593"><em>Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small</em></a>. arXiv:2211.00593.
+          <em>The reference worked example of circuit identification by activation patching.</em>
+        </li>
+        <li>
+          Zhang, F., and Nanda, N. (2023).
+          <a href="https://arxiv.org/abs/2309.16042"><em>Towards Best Practices of Activation Patching in Language Models: Metrics and Methods</em></a>. arXiv:2309.16042.
+          <em>Methodological standardisation for activation patching: which metrics, which corruptions, and what each choice implies.</em>
+        </li>
+        <li>
+          Goldowsky-Dill, N., MacLeod, C., Sato, L., and Arora, A. (2023).
+          <a href="https://arxiv.org/abs/2304.05969"><em>Localizing Model Behavior with Path Patching</em></a>. arXiv:2304.05969.
+          <em>Patches specific edges between components rather than whole nodes.</em>
+        </li>
+        <li>
+          Cunningham, H., Ewart, A., Riggs, L., Huben, R., and Sharkey, L. (2023).
+          <a href="https://arxiv.org/abs/2309.08600"><em>Sparse Autoencoders Find Highly Interpretable Features in Language Models</em></a>. arXiv:2309.08600.
+          <em>Recovers monosemantic features from superposition and identifies ones causally responsible for a known behaviour.</em>
+        </li>
+        <li>
+          Gao, L., la Tour, T. D., Tillman, H., Goh, G., Troll, R., et al. (2024).
+          <a href="https://arxiv.org/abs/2406.04093"><em>Scaling and evaluating sparse autoencoders</em></a>. arXiv:2406.04093.
+          <em>k-sparse autoencoders and scaling laws, with a 16M-latent autoencoder trained on a frontier model.</em>
+        </li>
+        <li>
+          Lieberum, T., Rajamanoharan, S., Conmy, A., Smith, L., Sonnerat, N., et al. (2024).
+          <a href="https://arxiv.org/abs/2408.05147"><em>Gemma Scope: Open Sparse Autoencoders Everywhere All At Once on Gemma 2</em></a>. arXiv:2408.05147.
+          <em>An open suite of autoencoders across all layers and sublayers, which is what makes feature-direction work reproducible outside a frontier lab.</em>
+        </li>
+        <li>
+          Turner, A. M., Thiergart, L., Leech, G., Udell, D., Vazquez, J. J., Mini, U., and Pope, M. (2023).
+          <a href="https://arxiv.org/abs/2308.10248"><em>Steering Language Models With Activation Engineering</em></a>. arXiv:2308.10248.
+          <em>Computes a steering vector as the activation difference between a contrastive prompt pair and adds it at inference. Used at finite magnitude, never as the direction argument of a derivative.</em>
+        </li>
+        <li>
+          Rimsky, N., Gabrieli, N., Schulz, J., Tong, M., Hubinger, E., and Turner, A. M. (2023).
+          <a href="https://arxiv.org/abs/2312.06681"><em>Steering Llama 2 via Contrastive Activation Addition</em></a>. arXiv:2312.06681.
+          <em>Averages activation differences over positive and negative behaviour examples into a steering vector applied at all post-prompt positions.</em>
+        </li>
+        <li>
+          Zou, A., Phan, L., Chen, S., Campbell, J., Guo, P., et al. (2023).
+          <a href="https://arxiv.org/abs/2310.01405"><em>Representation Engineering: A Top-Down Approach to AI Transparency</em></a>. arXiv:2310.01405.
+          <em>Separates reading vectors, extracted as correlational probes, from control vectors added to activations. Neither is used as a derivative direction.</em>
+        </li>
+        <li>
+          Park, K., Choe, Y. J., and Veitch, V. (2023).
+          <a href="https://arxiv.org/abs/2311.03658"><em>The Linear Representation Hypothesis and the Geometry of Large Language Models</em></a>. arXiv:2311.03658.
+          <em>Formalises linear representation through counterfactual pairs in both output and input space, and introduces a causal inner product under which projection respects language structure.</em>
+        </li>
+        <li>
+          Kim, H., Papamakarios, G., and Mnih, A. (2020).
+          <a href="https://arxiv.org/abs/2006.04710"><em>The Lipschitz Constant of Self-Attention</em></a>. arXiv:2006.04710.
+          <em>Standard dot-product self-attention is not Lipschitz over unbounded inputs. There is no general guarantee that a small change in input produces a bounded change in output.</em>
         </li>
       </ul>
 
