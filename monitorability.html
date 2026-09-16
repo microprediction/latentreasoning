@@ -20,8 +20,10 @@
         <a href="./families.html">Families</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
         <a href="./implementations.html">Implementations</a>
-        <a href="./map.html">Literature map</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
         <a href="./timeline.html">Timeline</a>
         <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
       </nav>
@@ -53,8 +55,10 @@
 
     <p>
       This is not a transparency feature anyone designed. It is a side effect of how transformers
-      compute, and it happens to yield a legible trace of intent. The key point is that its value
-      does not depend on models being honest &mdash; it depends on the bandwidth bound. A model
+      compute. What it yields directly is a <em>bandwidth bound</em>, not legibility: a model cannot
+      carry hidden serial state across many steps without routing it through the visible channel.
+      Whether what it routes there is readable is a separate, empirical question &mdash; and the
+      rest of this page is largely about how often it is not. A model
       carrying a hidden intermediate result across many serial steps has roughly seventeen bits per
       step of token-space channel to do it in, and must otherwise re-derive the result inside each
       forward pass.
@@ -181,29 +185,73 @@
 
     <div class="caveat">
       <p>
-        <strong>Developing story; treat accordingly.</strong> On 2 September 2026
-        <a href="https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/">TechCrunch
-        reported</a> that OpenAI's Astra model uses <em>recurrent depth</em>, also called
-        <em>opaque recurrence</em> &mdash; passing information through the same layers repeatedly
-        before emitting a token &mdash; the production descendant of the architecture in Geiping et
-        al. (2025). Fortune corroborated the following day. The two outlets did not agree on
-        release status.
+        <strong>GPT-6 Astra was released on 3 September 2026, and OpenAI documented the loss
+        itself.</strong> Its
+        <a href="https://deploymentsafety.openai.com/gpt-6-astra">system card</a> states that the
+        model &ldquo;shows a substantial decrease in chain-of-thought monitorability compared to
+        previous models.&rdquo; So far as this site can tell, that is the first time a frontier lab
+        has recorded reduced monitorability as a measured property of a shipped model.
       </p>
       <p>
-        Named reactions, as quoted in that reporting: Buck Shlegeris of Redwood Research said he was
-        "extremely concerned by the reporting that Astra uses opaque recurrence"; his colleague Ryan
-        Greenblatt said his "biggest concern is that a natural progression from here would involve
-        scaling up the opaque reasoning to the point where the model reasons entirely or almost
-        entirely in latent space." OpenAI's position, per chief scientist Jakub Pachocki, is that
-        the technique's use in Astra is limited, that the model's chain of thought remains legible,
-        and that "OpenAI has worked to preserve and utilize chain-of-thought monitoring since our
-        very first reasoning models."
+        The card's specific findings, quoted:
+      </p>
+      <ul>
+        <li>
+          Astra is &ldquo;more capable of controlling its own CoT than GPT-5.6 Sol, and less likely
+          to include incriminating information in its CoT.&rdquo;
+        </li>
+        <li>
+          &ldquo;Simply informing the model that a CoT monitor is present can result in the model
+          disproportionately shortening its CoT.&rdquo; Note what this is: the obfuscation dynamic
+          that Baker et al. had to <em>induce</em> by optimising against a monitor, now appearing
+          from mere awareness of one.
+        </li>
+        <li>
+          With reasoning disabled, &ldquo;the set of tasks Astra is able to accomplish without the
+          use of CoT is greatly expanded&rdquo; &mdash; the capability no longer depends on the
+          legible trace.
+        </li>
+        <li>
+          It is OpenAI's first model to reach the Critical cybersecurity threshold under their
+          Preparedness Framework, meaning it &ldquo;can find previously unknown security flaws and
+          develop new ways to exploit them across many well-protected systems.&rdquo;
+        </li>
+      </ul>
+      <p>
+        Stated mitigations: misalignment monitoring added to all tool-using inference in the
+        external deployment, expanded internal safeguards, and a commitment to
+        &ldquo;investigating alternatives to CoT monitoring (such as methods based on activation
+        monitoring).&rdquo; That last phrase is this literature's central open problem appearing as
+        a deployment commitment &mdash; see the filler-token decoding result above, which is
+        roughly the research version of it.
       </p>
       <p>
-        What is <em>not</em> established: this site has not been able to verify a primary-source
-        system card quantifying any monitorability change for Astra, and no independent party has
-        published a measurement of it against a shared benchmark. Claims in either direction should
-        be treated as unverified until one appears.
+        <strong>What the system card does not say is as important.</strong> It never names the
+        architecture. Recurrent depth, looped transformers, opaque recurrence &mdash; none of these
+        appear in it. That attribution comes from reporting: The Information on 1 September,
+        followed by
+        <a href="https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/">TechCrunch</a>
+        and Fortune. So the two halves of the story have different standing. <em>The monitorability
+        loss is OpenAI's own documented claim. The mechanism behind it is journalism's.</em>
+        Anyone citing Astra as proof that latent reasoning destroys oversight is welding those two
+        together, and should say so.
+      </p>
+      <p>
+        The reactions followed the fault line. Buck Shlegeris of Redwood Research said he was
+        &ldquo;extremely concerned by the reporting that Astra uses opaque recurrence&rdquo;; his
+        colleague Ryan Greenblatt said his &ldquo;biggest concern is that a natural progression from
+        here would involve scaling up the opaque reasoning to the point where the model reasons
+        entirely or almost entirely in latent space.&rdquo; OpenAI chief scientist Jakub Pachocki
+        has said the company will need to strengthen monitoring &ldquo;either via extending
+        chain-of-thought monitoring, integrating other ideas like activation monitoring, or finding
+        more specific ways to get the models to be more verbose in their chain of thought.&rdquo;
+      </p>
+      <p>
+        One detail is hard to miss. Tomek Korbak, lead author of the monitorability position paper
+        above, is reported to have written that he is &ldquo;deeply worried by the trend of
+        decreasing CoT monitorability: CoT monitoring is a core part of our misalignment safety
+        strategy that has no good substitute now.&rdquo; He now works at OpenAI. Thirteen months
+        separate the paper from the system card.
       </p>
     </div>
 
@@ -243,9 +291,11 @@
         benchmarks, not open-domain or agentic tasks.
       </li>
       <li>
-        <strong>No independent measurement of monitorability loss for a shipped recurrent-depth
-        model.</strong> Nobody outside OpenAI has measured how much such a model actually loses
-        against a shared benchmark such as the suite in Guan et al. (2025).
+        <strong>No <em>independent</em> measurement of monitorability loss.</strong> OpenAI has now
+        published its own finding for Astra, which is a real advance on nothing. But it is
+        self-reported, not run against a shared public benchmark such as the suite in Guan et al.
+        (2025), and no outside party has reproduced it. Open recurrent-depth checkpoints exist and
+        that suite exists; nobody has run one on the other.
       </li>
       <li>
         <strong>No consensus metric for monitorability.</strong> Guan et al. (2025) and the several
@@ -255,7 +305,9 @@
       <li>
         <strong>No demonstration of activation-level monitoring in production.</strong> The
         filler-token decoding result is offline, unsupervised, on two open-weight models, over four
-        narrow task families. Whether it scales to real-time adversarial deployment is untested.
+        narrow task families. OpenAI now states it is investigating activation monitoring as a
+        successor to reading the chain of thought; as of this writing that is a stated research
+        direction, not a demonstrated capability at deployment scale.
       </li>
       <li>
         <strong>The interpretability results and the safety-policy literature do not engage each
@@ -272,7 +324,7 @@
 
     <div class="next-steps">
       <p><strong>Next:</strong> the <a href="./map.html">literature map</a> draws these gaps as
-      dashed edges, and the <a href="./index.html#bibliography">bibliography</a> has the full
+      dashed edges, and the <a href="./bibliography.html">bibliography</a> has the full
       citations.</p>
     </div>
   </main>

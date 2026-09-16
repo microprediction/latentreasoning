@@ -20,8 +20,10 @@
         <a href="./families.html">Families</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
         <a href="./implementations.html">Implementations</a>
-        <a href="./map.html">Literature map</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
         <a href="./timeline.html">Timeline</a>
         <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
       </nav>
@@ -70,7 +72,7 @@
       and the next.
     </p>
 
-    <h2>Why the transcript is the whole story, until it isn't</h2>
+    <h2>What the transcript does and does not give you</h2>
 
     <p>
       It is worth being careful about a tempting objection: surely information also flows forward
@@ -85,22 +87,48 @@
     </blockquote>
 
     <p>
-      This is the property that makes a chain of thought legible in principle, and it is exactly
-      the property that latent reasoning gives up. Once $e_{t+1} = h_t$, the state at step $t+1$
-      is no longer a function of anything that was written down, and no amount of reading the
-      output recovers it.
+      This is worth stating carefully, because it is routinely asked to do more work than it can.
     </p>
 
     <p>
-      Two cautions, in both directions. The sufficient-statistic property is about the channel
-      <em>between</em> steps, not about what happens inside one. A single forward pass computes a
-      great deal that never appears in the transcript, which is why a chain of thought can be
-      unfaithful to the computation that produced the answer even when it is the only channel
-      available &mdash; see <a href="./monitorability.html">monitorability</a>. Conversely, the
-      property does real work: a model that wants to carry a hidden intermediate result across
-      many serial steps has, in token space, about seventeen bits per step to do it in, and must
-      otherwise re-derive the result inside each pass. The strength of chain-of-thought monitoring
-      rests on that bottleneck, not on any assumption that models are honest.
+      <strong>What it establishes.</strong> The channel from one reasoning step to the next has a
+      capacity of about $\log_2 |V| \approx 17$ bits. A model cannot accumulate hidden serial
+      state across many steps without routing it through that channel; whatever it does not write
+      down, it must re-derive inside each forward pass from what it did. Once $e_{t+1} = h_t$, that
+      bound is gone &mdash; the state at step $t+1$ is no longer a function of anything written
+      down.
+    </p>
+
+    <p>
+      <strong>What it does not establish.</strong> It does not follow that the transcript
+      <em>reveals</em> the reasoning. Determinacy is not legibility. The transcript fixes the
+      computation the way a seed fixes a pseudorandom sequence: completely, and without telling you
+      anything you can read off it.
+    </p>
+
+    <p>
+      The counterexample is already in this literature. A row of filler dots is a transcript that
+      determines the model&apos;s state exactly while exposing nothing at all about the multi-step
+      computation running underneath it; recovering that took an unsupervised decoder operating on
+      hidden states, not a reader. So the case for monitoring does not rest on this property alone.
+      It rests on the bandwidth bound <em>plus</em> a contingent fact about how models are currently
+      trained &mdash; that they tend to put semantically meaningful content into the channel rather
+      than dots. The bound is structural; the legibility is a habit. Latent reasoning removes the
+      structural half, which is why it is worth watching, but the two should not be run together.
+    </p>
+
+    <p>
+      One further caution. The property concerns the channel <em>between</em> steps, not what
+      happens inside one. A single forward pass computes a great deal that never surfaces, which is
+      why a chain of thought can be unfaithful to the computation that produced the answer even when
+      it is the only channel available &mdash; see
+      <a href="./monitorability.html">monitorability</a>.
+    </p>
+
+    <p class="muted">
+      A note on the framing. The quantiser view below is a convenient way to arrange a scattered
+      literature, not a claim that the field sees itself this way or that the axis is the only one
+      that matters. Where it stops being useful, the papers are still the point.
     </p>
 
     <h2>Two axes</h2>

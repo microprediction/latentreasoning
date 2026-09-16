@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reviews</title>
+  <meta name="description" content="Close readings of individual papers in the latent reasoning literature, with an assessment of how well each claim has held up." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Reviews</h1>
+    <p class="subtitle">Closer readings of individual papers, and how well each claim has held up.</p>
+
+    <p class="lead">
+      The <a href="./bibliography.html">bibliography</a> says what each paper contains. This page
+      says what to make of it. The field moves fast enough that several headline mechanisms have
+      already failed replication, so the useful question about a latent-reasoning paper is usually
+      not whether the number is real but whether the <em>explanation</em> of the number is.
+    </p>
+
+    <div class="caveat">
+      <p>
+        <strong>On what these assessments rest.</strong> They are based on abstracts, reported
+        figures, the rebuttal literature, and cross-checking between papers &mdash; not on a
+        full reading of every PDF. Where an assessment turns on a specific number, that number was
+        verified; where it turns on judgement, it is a judgement and should be argued with. Corrections
+        are welcome as <a href="https://github.com/microprediction/latentreasoning/issues">issues</a>.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>Coconut <span class="verdict mixed">read both numbers</span></h3>
+      <p class="meta">Hao et al. (2024) &middot; <a href="https://arxiv.org/abs/2412.06769">arXiv:2412.06769</a></p>
+      <p>
+        The paper that defined the object, and it deserves that status: feeding the hidden state
+        back instead of a token is the cleanest possible statement of what latent reasoning is, and
+        the implementation is public and reproducible.
+      </p>
+      <p>
+        The difficulty is in how it gets cited. ProsQA 97.0% against 77.5% is the number everyone
+        repeats. GSM8K 34.1% against 42.9% &mdash; a <em>loss</em> to ordinary chain of thought
+        &mdash; is in the same paper and is repeated far less. Both are real, and together they say
+        something more interesting than either alone: continuous thoughts help on search and
+        planning, where carrying a frontier of candidates beats committing to one path, and hurt on
+        arithmetic, where the serial discipline of writing each step down is apparently doing
+        useful work.
+      </p>
+      <p class="line">
+        <strong>Holds up:</strong> the mechanism. Zhu et al. later proved a two-layer transformer
+        with $D$ continuous steps solves graph reachability at diameter $D$ where the best discrete
+        construction needs $O(n^2)$, and that the superposition emerges from training rather than
+        being built in. <strong>Does not:</strong> any reading of this as a general improvement over
+        chain of thought.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>Let&apos;s Think Dot by Dot <span class="verdict shines">shines</span></h3>
+      <p class="meta">Pfau, Merrill &amp; Bowman (2024) &middot; <a href="https://arxiv.org/abs/2404.15758">arXiv:2404.15758</a></p>
+      <p>
+        The best-designed experiment in the literature, because it is the one that could have come
+        out the other way. If intermediate tokens help by carrying reasoning content, meaningless
+        ones should not help. They do &mdash; transformers solve tasks unsolvable in a single pass
+        using nothing but repeated dots &mdash; which tells you the tokens are buying computation,
+        not communication.
+      </p>
+      <p>
+        The paper is also unusually honest about its own limits: the benefit only materialises under
+        dense, task-specific supervision, and does not emerge from ordinary training. That
+        qualification is what separates it from the weaker filler-token claims that followed, and
+        Vennam et al. later confirmed the pessimistic reading for naive implementations.
+      </p>
+      <p class="line">
+        <strong>The reason it matters most:</strong> filler tokens are a transcript that fully
+        determines the model&apos;s state while revealing nothing about the computation underneath.
+        That is a direct counterexample to the comfortable assumption that a readable transcript
+        implies readable reasoning &mdash; and the 2026 follow-up recovering those hidden values from
+        activations at 80&ndash;95% accuracy shows where the information actually was.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>Soft Thinking <span class="verdict critique">mechanism did not survive</span></h3>
+      <p class="meta">Zhang et al. (2025) &middot; <a href="https://arxiv.org/abs/2505.15778">arXiv:2505.15778</a>, and the rebuttal <a href="https://arxiv.org/abs/2508.03440">arXiv:2508.03440</a></p>
+      <p>
+        A training-free method: replace each sampled token with a probability-weighted mixture of
+        embeddings, so a single step can carry several candidate continuations at once. Reported
+        gains are modest but real &mdash; up to 2.48 points pass@1 with up to 22.4% fewer tokens.
+      </p>
+      <p>
+        The explanation did not hold. Wu et al. showed the model overwhelmingly follows the single
+        highest-probability component of the mixture, so the method largely reduces to greedy
+        decoding wearing a continuous costume. Their fix &mdash; inject noise to force the
+        exploration the original claimed was already happening &mdash; is an elegant diagnosis, since
+        it only works if the diagnosis is right.
+      </p>
+      <p class="line">
+        <strong>Why it is here:</strong> not to single out one paper, but because this is the field's
+        characteristic failure mode. A method produces a real gain; the gain is attributed to
+        superposition; nobody checks whether superposition occurred. Treat parallel-exploration
+        claims as per-method burdens of proof, never as a property of continuous representations.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>The Illusion of Superposition? <span class="verdict shines">shines</span></h3>
+      <p class="meta">Rizvi-Martel, Rabusseau &amp; Mosbach (2026) &middot; <a href="https://arxiv.org/abs/2604.06374">arXiv:2604.06374</a></p>
+      <p>
+        The paper that disciplines the subfield. It asks the obvious question nobody had asked
+        systematically &mdash; when models are trained with continuous latent chain of thought, does
+        the superposition everyone invokes actually appear? &mdash; and finds it does, but only in
+        models trained from scratch. Under fine-tuning or training-free regimes, which is how nearly
+        all practitioners work, it collapses to token commitment or shortcuts.
+      </p>
+      <p class="line">
+        <strong>Consequence:</strong> the theoretical case for continuous thoughts and the practical
+        recipes for producing them are not yet connected. The theorems are about a regime most of the
+        applied work does not operate in. That gap is arguably the most important open problem here,
+        and it is not primarily a theory problem.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>A Formal Comparison Between Chain of Thought and Latent Thought <span class="verdict shines">shines</span></h3>
+      <p class="meta">Xu &amp; Sato (2025) &middot; <a href="https://arxiv.org/abs/2509.25239">arXiv:2509.25239</a></p>
+      <p>
+        The one sharp separation in the area: continuous latent thought at polylog depth reaches
+        $\mathsf{TC}^k$; discrete chain of thought at the same depth budget reaches only
+        $\mathsf{TC}^{k-1}$. After years of informal argument that continuous states "carry more,"
+        this is an actual theorem.
+      </p>
+      <p>
+        What makes it a good paper rather than merely a useful one is that it supplies its own
+        counterweight. The separation holds under <em>deterministic</em> decoding; move to stochastic
+        decoding and discrete chains regain FPRAS-style approximate counting and sampling that
+        deterministic latent thought cannot match. The authors could have shipped the headline and
+        omitted the qualification. They did not.
+      </p>
+      <p class="line">
+        <strong>Read with:</strong> the memory-budget separation, which bounds it from the other
+        side &mdash; a fixed-size recurrent state cannot match polynomial-length chain of thought on
+        $\mathsf P$-complete problems, because the transcript's working memory grows and the loop's
+        does not. Depth and memory are different currencies.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>Recurrent depth, and Huginn-0125 <span class="verdict shines">shines</span></h3>
+      <p class="meta">Geiping et al. (2025) &middot; <a href="https://arxiv.org/abs/2502.05171">arXiv:2502.05171</a></p>
+      <p>
+        A 3.5B model over 800B tokens whose core block unrolls 4 to 64 times at test time, trained
+        with no chain-of-thought data at all &mdash; and the weights, the eight intermediate
+        checkpoints, and the full pretraining stack are public. Whatever one concludes about the
+        approach, this is how a result should be shipped.
+      </p>
+      <p>
+        One framing to handle carefully: the compute-equivalence figures, often relayed as "performs
+        like a 50B model." That is a compute-load comparison within one paper's setup, not a general
+        scaling claim, and there is still no scaling law fitting loss jointly against parameters,
+        loop count and tokens. The paper is more careful about this than its citations are.
+      </p>
+      <p class="line">
+        <strong>Complicated by:</strong> the 2026 finding that looped performance peaks at some
+        recurrence depth and then collapses, which means "unroll further at test time" is not a free
+        dial and the useful range has to be found empirically.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>SIM-CoT, and the instability nobody advertised <span class="verdict shines">shines</span></h3>
+      <p class="meta">Wei et al. (2025) &middot; <a href="https://arxiv.org/abs/2509.20317">arXiv:2509.20317</a></p>
+      <p>
+        Its contribution is less the method than the diagnosis. As latent reasoning tokens are added,
+        the latent vectors homogenise, lose semantic diversity, and training collapses. This had been
+        visible in scattered form across earlier work &mdash; in curricula, staged schedules, and
+        auxiliary losses whose necessity was never quite explained &mdash; and SIM-CoT names it.
+      </p>
+      <p class="line">
+        <strong>What it implies:</strong> that end-to-end latent training under-constrains the
+        representation, and that much of the apparatus in this literature exists to compensate. A fix
+        requiring step-level supervision from explicit reasoning is also a quiet admission that the
+        explicit trace is still doing the teaching.
+      </p>
+    </div>
+
+    <div class="review">
+      <h3>The GPT-6 Astra system card <span class="verdict critique">read it narrowly</span></h3>
+      <p class="meta">OpenAI (September 2026) &middot; <a href="https://deploymentsafety.openai.com/gpt-6-astra">system card</a></p>
+      <p>
+        Genuinely notable: a frontier lab documenting, in its own words, "a substantial decrease in
+        chain-of-thought monitorability compared to previous models," along with the observation that
+        merely telling the model a monitor is present can shorten its chain of thought. That is a
+        laboratory finding about obfuscation appearing in a deployment document.
+      </p>
+      <p>
+        The critique is of the surrounding discourse rather than the card. <strong>The card never
+        names an architecture.</strong> Recurrent depth, looped transformers, opaque recurrence
+        &mdash; none of it appears. That attribution comes from reporting. So there are two claims
+        with different evidentiary standing, and they are being welded together: the monitorability
+        loss is OpenAI's own documented measurement; the mechanism behind it is journalism. Both may
+        well be true. They are not equally established, and a literature that has just watched
+        several mechanism claims fail replication should be the last to blur that line.
+      </p>
+      <p class="line">
+        <strong>Also worth noting:</strong> the card commits to "investigating alternatives to CoT
+        monitoring (such as methods based on activation monitoring)" &mdash; which is this
+        literature's open research problem restated as a deployment roadmap.
+      </p>
+    </div>
+
+    <div class="next-steps">
+      <p><strong>Suggest a review.</strong> Papers whose headline mechanism is worth checking, or
+      whose careful qualifications are getting lost in citation, are the best candidates. Open an
+      <a href="https://github.com/microprediction/latentreasoning/issues">issue</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

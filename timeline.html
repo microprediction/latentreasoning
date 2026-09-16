@@ -29,8 +29,10 @@
         <a href="./families.html">Families</a>
         <a href="./theory.html">Theory</a>
         <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
         <a href="./implementations.html">Implementations</a>
-        <a href="./map.html">Literature map</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
         <a href="./timeline.html">Timeline</a>
         <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
       </nav>
@@ -176,9 +178,9 @@ const EVENTS = [
   note:"Filler-token computation defeats token-level monitoring outright, yet an unsupervised decoder on hidden states alone recovers intermediate values with 80–95% accuracy. Monitorability is a property of activations, not surface tokens."},
 
  // ---------------- deployment ----------------
- {d:"2026-09", lane:"deploy", label:"Recurrent depth reported in production", big:true,
-  url:"https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/",
-  note:"TechCrunch (2 Sep 2026), corroborated by Fortune: OpenAI's Astra reportedly uses recurrent depth / 'opaque recurrence'. Redwood Research researchers publicly object; OpenAI says use is limited and the chain of thought stays legible. No primary system card verified by this site."},
+ {d:"2026-09", lane:"deploy", label:"GPT-6 Astra", big:true,
+  url:"https://deploymentsafety.openai.com/gpt-6-astra",
+  note:"GPT-6 Astra, released 3 Sep 2026. OpenAI's system card records 'a substantial decrease in chain-of-thought monitorability compared to previous models', notes that telling the model a monitor is present shortens its CoT, and commits to investigating activation monitoring. It never names an architecture — recurrent depth comes from reporting."},
 ];
 
 const W = document.getElementById("timeline").clientWidth, H = 1010, M = {l: 34, r: 34};

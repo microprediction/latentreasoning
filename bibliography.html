@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bibliography</title>
+  <meta name="description" content="Annotated bibliography of latent reasoning in large language models: continuous thoughts, recurrent depth, expressivity theory, contentless tokens, rebuttals, and the monitorability literature." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <a href="./intro.html">Introduction</a>
+        <a href="./families.html">Families</a>
+        <a href="./theory.html">Theory</a>
+        <a href="./monitorability.html">Monitorability</a>
+        <a href="./reviews.html">Reviews</a>
+        <a href="./implementations.html">Implementations</a>
+        <a href="./bibliography.html">Bibliography</a>
+        <a href="./map.html">Map</a>
+        <a href="./timeline.html">Timeline</a>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Bibliography</h1>
+    <p class="subtitle">Work on reasoning that does not pass through the token vocabulary, plus the
+    faithfulness and expressivity literature that decides what it means.</p>
+
+    <div class="bib">
+      
+      <p>Every entry also appears on the <a href="./map.html">literature map</a>; the dated version
+      is on the <a href="./timeline.html">timeline</a>; a few get a closer reading under
+      <a href="./reviews.html">reviews</a>. arXiv identifiers were checked against the arXiv and
+      Semantic Scholar APIs in September 2026.</p>
+
+      <h3>The core</h3>
+      <ul>
+        <li>
+          Hao, S., Sukhbaatar, S., Su, D., Li, X., Hu, Z., Weston, J., and Tian, Y. (2024).
+          <a href="https://arxiv.org/abs/2412.06769"><em>Training Large Language Models to Reason
+          in a Continuous Latent Space</em></a>. arXiv:2412.06769.
+          <em>Coconut. Feeds the final hidden state back as the next input embedding, deleting the
+          quantiser. ProsQA 97.0% against 77.5% for explicit chain of thought &mdash; and GSM8K
+          34.1% against 42.9%. The paper that named the idea and, read carefully, bounded it.</em>
+        </li>
+        <li>
+          Geiping, J., McLeish, S., Jain, N., Kirchenbauer, J., Singh, S., Bartoldson, B. R.,
+          Kailkhura, B., Bhatele, A., and Goldstein, T. (2025).
+          <a href="https://arxiv.org/abs/2502.05171"><em>Scaling up Test-Time Compute with Latent
+          Reasoning: A Recurrent Depth Approach</em></a>. arXiv:2502.05171.
+          <em>The other endpoint: 3.5B parameters over 800B tokens, a recurrent core unrolled 4 to
+          64 times at test time with no chain-of-thought training data. Open weights as
+          Huginn-0125.</em>
+        </li>
+        <li>
+          Xu, K., and Sato, I. (2025).
+          <a href="https://arxiv.org/abs/2509.25239"><em>A Formal Comparison Between Chain of
+          Thought and Latent Thought</em></a>. arXiv:2509.25239.
+          <em>Continuous latent thought at polylog depth reaches $\mathsf{TC}^k$; discrete chain of
+          thought at the same depth reaches $\mathsf{TC}^{k-1}$ &mdash; under deterministic
+          decoding. Stochastic decoding hands counting and sampling back to discrete chains.</em>
+        </li>
+        <li>
+          Korbak, T., Balesni, M., Barnes, E., Bengio, Y., Benton, J., et al. (2025).
+          <a href="https://arxiv.org/abs/2507.11473"><em>Chain of Thought Monitorability: A New and
+          Fragile Opportunity for AI Safety</em></a>. arXiv:2507.11473.
+          <em>Forty-one authors across OpenAI, Anthropic, Google DeepMind, UK AISI, Redwood and
+          Apollo. Argues current models are architecturally forced to externalise serial computation
+          legibly, that this is an accident rather than a guarantee, and names fully latent
+          reasoning as the threat to it.</em>
+        </li>
+      </ul>
+
+      <h3>Antecedents</h3>
+      <ul>
+        <li>
+          Graves, A. (2016).
+          <a href="https://arxiv.org/abs/1603.08983"><em>Adaptive Computation Time for Recurrent
+          Neural Networks</em></a>. arXiv:1603.08983.
+          <em>A differentiable halting mechanism: let the network choose how many internal steps to
+          take. The ancestor of everything in the depth column.</em>
+        </li>
+        <li>
+          Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., and Kaiser, &#321;. (2018).
+          <a href="https://arxiv.org/abs/1807.03819"><em>Universal Transformers</em></a>.
+          arXiv:1807.03819. <em>Weight-tied layers plus per-position adaptive halting &mdash; depth
+          becomes a loop. The architectural precursor to recurrent-depth language models.</em>
+        </li>
+        <li>
+          Banino, A., Balaguer, J., and Blundell, C. (2021).
+          <a href="https://arxiv.org/abs/2107.05407"><em>PonderNet: Learning to Ponder</em></a>.
+          arXiv:2107.05407. <em>Replaces the halting penalty with a learned stochastic halting
+          distribution under a proper probabilistic objective.</em>
+        </li>
+        <li>
+          Giannou, A., Rajput, S., Sohn, J., Lee, K., Lee, J. D., and Papailiopoulos, D. (2023).
+          <a href="https://arxiv.org/abs/2301.13196"><em>Looped Transformers as Programmable
+          Computers</em></a>. arXiv:2301.13196. <em>A hand-programmed thirteen-layer transformer in
+          a loop emulates a general-purpose computer. Looping as universality, independent of
+          scale.</em>
+        </li>
+      </ul>
+
+      <h3>Expressivity theory</h3>
+      <ul>
+        <li>
+          Merrill, W., and Sabharwal, A. (2023). &ldquo;The Parallelism Tradeoff: Limitations of
+          Log-Precision Transformers.&rdquo; <em>TACL</em>.
+          <a href="https://arxiv.org/abs/2207.00729">arXiv:2207.00729</a>.
+          <em>One forward pass of a log-precision transformer lies inside logspace-uniform
+          $\mathsf{TC}^0$. Conditional on $\mathsf L \neq \mathsf P$, no amount of scale lets it
+          solve certain $\mathsf P$-complete problems in a single pass.</em>
+        </li>
+        <li>
+          Feng, G., Zhang, B., Gu, Y., Ye, H., He, D., and Wang, L. (2023). &ldquo;Towards Revealing
+          the Mystery behind Chain of Thought: A Theoretical Perspective.&rdquo; <em>NeurIPS</em>.
+          <a href="https://arxiv.org/abs/2305.15408">arXiv:2305.15408</a>.
+          <em>Bounded-depth transformers need super-polynomial size to answer arithmetic directly;
+          constant-size autoregressive models with chain of thought can, and can implement dynamic
+          programming. A size-blowup impossibility result, not a circuit-class separation.</em>
+        </li>
+        <li>
+          Merrill, W., and Sabharwal, A. (2024). &ldquo;The Expressive Power of Transformers with
+          Chain of Thought.&rdquo; <em>ICLR</em>.
+          <a href="https://arxiv.org/abs/2310.07923">arXiv:2310.07923</a>.
+          <em>Expressivity graded by chain-of-thought length: logarithmic is marginal, linear
+          recognises all regular languages, polynomial is exactly $\mathsf P$. Each result carries
+          a specific pre-norm architectural assumption.</em>
+        </li>
+        <li>
+          Li, Z., Liu, H., Zhou, D., and Ma, T. (2024). &ldquo;Chain of Thought Empowers
+          Transformers to Solve Inherently Serial Problems.&rdquo; <em>ICLR</em>.
+          <a href="https://arxiv.org/abs/2402.12875">arXiv:2402.12875</a>.
+          <em>At constant precision and depth without chain of thought, expressivity is confined to
+          $\mathsf{AC}^0$; $T$ steps of chain of thought simulate circuits of size $O(T)$. Tokens
+          buy serial computation that a fixed-depth parallel circuit structurally cannot do.</em>
+        </li>
+        <li>
+          London, C., and Kanade, V. (2025).
+          <a href="https://arxiv.org/abs/2505.21024"><em>Pause Tokens Strictly Increase the
+          Expressivity of Constant-Depth Transformers</em></a>. arXiv:2505.21024.
+          <em>A strict separation with PARITY as witness: no pause tokens is strictly inside
+          $\mathsf{AC}^0$; polynomially many reach all of $\mathsf{AC}^0$; with log precision,
+          $\mathsf{TC}^0$.</em>
+        </li>
+        <li>
+          Zhu, H., Hao, S., Hu, Z., Jiao, J., Russell, S., and Tian, Y. (2025).
+          <a href="https://arxiv.org/abs/2505.12514"><em>Reasoning by Superposition: A Theoretical
+          Perspective on Chain of Continuous Thought</em></a>. arXiv:2505.12514.
+          <em>A two-layer transformer with $D$ continuous steps solves directed graph reachability
+          at diameter $D$, where the best known discrete construction needs $O(n^2)$ steps; the
+          superposition emerges from training rather than being built in. The companion paper on
+          training dynamics is <a href="https://arxiv.org/abs/2509.23365">arXiv:2509.23365</a>.</em>
+        </li>
+        <li>
+          Gozeten, H. A., Ildiz, M. E., Zhang, X., Harutyunyan, H., Rawat, A. S., and Oymak, S.
+          (2025). <a href="https://arxiv.org/abs/2505.23648"><em>Continuous Chain of Thought
+          Enables Parallel Exploration and Reasoning</em></a>. arXiv:2505.23648.
+          <em>Quantifies the parallelism as tracking several discrete traces at once, with a
+          constructive one-layer solution to subset-sum.</em>
+        </li>
+        <li>
+          Reddi, S., Kumar, S., Li, Z., Dikkala, N., and Saunshi, N. (2025).
+          <a href="https://arxiv.org/abs/2502.17416"><em>Reasoning with Latent Thoughts: On the
+          Power of Looped Transformers</em></a>. arXiv:2502.17416.
+          <em>A $k$-layer transformer looped $L$ times nearly matches a $kL$-layer unlooped model:
+          many reasoning problems are depth-bound rather than parameter-bound.</em>
+        </li>
+        <li>
+          Xu, K., and Sato, I. (2025).
+          <a href="https://arxiv.org/abs/2505.19245"><em>To CoT or To Loop? A Formal Comparison
+          Between Chain-of-Thought and Looped Transformers</em></a>. arXiv:2505.19245.
+          <em>Loops efficiently emulate parallel DAG-structured deterministic computation; sequential
+          chain of thought suits self-reducible compositional problems. No universal conversion
+          between loop count and token count &mdash; the relationship is structural.</em>
+        </li>
+        <li>
+          Zhang, Y. (2026).
+          <a href="https://arxiv.org/abs/2605.30757"><em>Chain-of-Thought and Compressed Looped
+          Transformers: A Memory-Budget Separation</em></a>. arXiv:2605.30757.
+          <em>A fixed-size recurrent state cannot solve $\mathsf P$-complete problems that
+          polynomial-length chain of thought can, because the transcript's working memory grows with
+          emitted tokens and a compressed loop's does not. Recurrence buys depth, not memory.</em>
+        </li>
+      </ul>
+
+      <h3>Continuous and internalised chain of thought</h3>
+      <ul>
+        <li>
+          Deng, Y., Prasad, K., Fernandez, R., Smolensky, P., Chaudhary, V., and Shieber, S. (2023).
+          <a href="https://arxiv.org/abs/2311.01460"><em>Implicit Chain of Thought Reasoning via
+          Knowledge Distillation</em></a>. arXiv:2311.01460.
+          <em>Distils a teacher's horizontal token-by-token reasoning into a student's vertical
+          layer-by-layer computation. The first serious attempt to delete the rationale and keep the
+          capability.</em>
+        </li>
+        <li>
+          Zelikman, E., Harik, G., Shao, Y., Jayasiri, V., Haber, N., and Goodman, N. D. (2024).
+          <a href="https://arxiv.org/abs/2403.09629"><em>Quiet-STaR: Language Models Can Teach
+          Themselves to Think Before Speaking</em></a>. arXiv:2403.09629.
+          <em>Generates rationales after every token and rewards those that improve prediction of
+          the real continuation. Zero-shot GSM8K 5.9% to 10.9%. The rationales are still tokens
+          &mdash; a bridge case rather than latent reasoning proper.</em>
+        </li>
+        <li>
+          Deng, Y., Choi, Y., and Shieber, S. (2024).
+          <a href="https://arxiv.org/abs/2405.14838"><em>From Explicit CoT to Implicit CoT: Learning
+          to Internalize CoT Step by Step</em></a>. arXiv:2405.14838.
+          <em>Removes reasoning tokens on a schedule. GPT-2 Small reaches 99% on nine-by-nine
+          multiplication; Mistral-7B passes 50% on GSM8K emitting nothing between question and
+          answer.</em>
+        </li>
+        <li>
+          Cheng, J., and Van Durme, B. (2024).
+          <a href="https://arxiv.org/abs/2412.13171"><em>Compressed Chain of Thought: Efficient
+          Reasoning Through Dense Representations</em></a>. arXiv:2412.13171.
+          <em>Variable-length dense contemplation tokens as a drop-in for the rationale on
+          off-the-shelf decoders, with a tunable compression ratio. No public implementation.</em>
+        </li>
+        <li>
+          Su, D., Zhu, H., Xu, Y., Jiao, J., Tian, Y., and Zheng, Q. (2025).
+          <a href="https://arxiv.org/abs/2502.03275"><em>Token Assorted: Mixing Latent and Text
+          Tokens for Improved Language Model Reasoning</em></a>. arXiv:2502.03275.
+          <em>Abstracts only the early part of a trace into discrete VQ-VAE latent tokens and mixes
+          them with text. Gains of 4&ndash;13% across model sizes with traces about 17% shorter
+          &mdash; a hybrid by construction.</em>
+        </li>
+        <li>
+          Xu, Y., Guo, X., Zeng, Z., and Miao, C. (2025).
+          <a href="https://arxiv.org/abs/2502.12134"><em>SoftCoT: Soft Chain-of-Thought for
+          Efficient Reasoning with LLMs</em></a>. arXiv:2502.12134.
+          <em>Never fine-tunes the target model: a frozen assistant produces soft thoughts that a
+          trained projector maps into the frozen model's embedding space. An explicit dodge of the
+          catastrophic forgetting that latent fine-tuning causes on strong reasoners. Extended for
+          test-time scaling in <a href="https://arxiv.org/abs/2505.11484">arXiv:2505.11484</a>.</em>
+        </li>
+        <li>
+          Shen, Z., Yan, H., Zhang, L., Hu, Z., Du, Y., and He, Y. (2025).
+          <a href="https://arxiv.org/abs/2502.21074"><em>CODI: Compressing Chain-of-Thought into
+          Continuous Space via Self-Distillation</em></a>. arXiv:2502.21074.
+          <em>Aligns one token's hidden state between an explicit and an implicit pass, removing
+          Coconut's multi-stage curriculum. First in the family to match explicit chain of thought
+          on GSM8K at GPT-2 scale.</em>
+        </li>
+        <li>
+          Zhang, J., Zhu, Y., Sun, M., Luo, Y., Qiao, S., et al. (2025).
+          <a href="https://arxiv.org/abs/2502.15589"><em>LightThinker: Thinking Step-by-Step
+          Compression</em></a>. arXiv:2502.15589.
+          <em>Compresses thoughts into gist tokens during generation and evicts the originals from
+          context via specialised attention masks.</em>
+        </li>
+        <li>
+          Shen, X., Wang, Y., Zhou, Y., Shi, S., Zhao, X., et al. (2025).
+          <a href="https://arxiv.org/abs/2501.19201"><em>Efficient Reasoning with Hidden
+          Thinking</em></a>. arXiv:2501.19201.
+          <em>The Heima framework: multimodal reasoning condensed into a few abstract thinking
+          tokens, with an information-theoretic analysis and an auxiliary interpreter that
+          reconstructs the discarded text.</em>
+        </li>
+        <li>
+          Zhang, Z., He, X., Yan, T., Shen, Y., Zhao, C., et al. (2025).
+          <a href="https://arxiv.org/abs/2505.15778"><em>Soft Thinking: Unlocking the Reasoning
+          Potential of LLMs in Continuous Concept Space</em></a>. arXiv:2505.15778.
+          <em>Training-free: replace each token with a probability-weighted mixture of embeddings.
+          Read alongside the rebuttal below.</em>
+        </li>
+        <li>
+          Wei, X., Liu, Z., Zang, Y., Dong, X., Cao, Y., et al. (2025).
+          <a href="https://arxiv.org/abs/2509.20317"><em>SIM-CoT: Supervised Implicit
+          Chain-of-Thought</em></a>. arXiv:2509.20317.
+          <em>Diagnoses latent instability &mdash; latent vectors homogenise as steps are added
+          until training collapses &mdash; and fixes it with a step-level auxiliary decoder removed
+          at inference.</em>
+        </li>
+        <li>
+          Butt, N., Kwiatkowski, A., Labiad, I., Kempe, J., and Ollivier, Y. (2025).
+          <a href="https://arxiv.org/abs/2509.19170"><em>Soft Tokens, Hard Truths</em></a>.
+          arXiv:2509.19170. <em>First scalable reinforcement learning of continuous chain of thought
+          without distilling from discrete traces. Matches discrete chain of thought at pass@1 and
+          exceeds it at pass@32 through greater trace diversity.</em>
+        </li>
+        <li>
+          Piao, S., and Park, S. (2025).
+          <a href="https://arxiv.org/abs/2511.08983"><em>SpiralThinker: Latent Reasoning through an
+          Iterative Process with Text-Latent Interleaving</em></a>. arXiv:2511.08983.
+          <em>Alternates latent iterations with text, with a progressive alignment objective to
+          stabilise the latent updates.</em>
+        </li>
+      </ul>
+
+      <h3>Recurrent depth and looped models</h3>
+      <ul>
+        <li>
+          Mohtashami, A., Pagliardini, M., and Jaggi, M. (2023).
+          <a href="https://arxiv.org/abs/2310.10845"><em>CoTFormer: A Chain-of-Thought Driven
+          Architecture with Budget-Adaptive Computation Cost at Inference</em></a>.
+          arXiv:2310.10845. <em>Motivates looping explicitly as a token-level analogue of chain of
+          thought, with per-token adaptive depth. No official implementation.</em>
+        </li>
+        <li>
+          Fan, Y., Du, Y., Ramchandran, K., and Lee, K. (2024).
+          <a href="https://arxiv.org/abs/2409.15647"><em>Looped Transformers for Length
+          Generalization</em></a>. arXiv:2409.15647.
+          <em>Task-adaptive iteration counts give near-perfect generalisation past forty-digit
+          parity when trained only to twenty, where fixed-depth transformers fail outright.</em>
+        </li>
+        <li>
+          Bae, S., Fisch, A., Harutyunyan, H., Ji, Z., Kim, S., and Schuster, T. (2024).
+          <a href="https://arxiv.org/abs/2410.20672"><em>Relaxed Recursive Transformers: Effective
+          Parameter Sharing with Layer-wise LoRA</em></a>. arXiv:2410.20672.
+          <em>Converts pretrained transformers into looped ones, then relaxes the weight-tying with
+          per-depth low-rank adapters.</em>
+        </li>
+        <li>
+          Bae, S., Kim, Y., Bayat, R., Kim, S., Ha, J., et al. (2025).
+          <a href="https://arxiv.org/abs/2507.10524"><em>Mixture-of-Recursions: Learning Dynamic
+          Recursive Depths for Adaptive Token-Level Computation</em></a>. arXiv:2507.10524.
+          <em>A router picks each token's recursion depth, with matched KV caching &mdash; a new
+          Pareto frontier for perplexity per FLOP and for throughput.</em>
+        </li>
+        <li>
+          Zhu, R.-J., Wang, Z., Hua, K., Zhang, T., Li, Z., et al. (2025).
+          <a href="https://arxiv.org/abs/2510.25741"><em>Scaling Latent Reasoning via Looped
+          Language Models</em></a>. arXiv:2510.25741.
+          <em>Ouro. 1.4B and 2.6B looped models over 7.7T tokens, with recurrence built into
+          pretraining rather than bolted on at test time. Attributes the gains to better knowledge
+          manipulation rather than added capacity, and reports latent traces better aligned to final
+          outputs than explicit chains. Open weights.</em>
+        </li>
+        <li>
+          McLeish, S., Li, X., Kirchenbauer, J., Kalra, D., Bartoldson, B. R., et al. (2025).
+          <a href="https://arxiv.org/abs/2511.07384"><em>Teaching Pretrained Language Models to
+          Think Deeper with Retrofitted Recurrence</em></a>. arXiv:2511.07384.
+          <em>Retrofits recurrence onto an already-pretrained model via a depth curriculum,
+          decoupling test-time from training-time compute after the fact.</em>
+        </li>
+        <li>
+          Fan, Y., Svete, A., and Lee, K. (2026).
+          <a href="https://arxiv.org/abs/2606.31779"><em>Bridging the Gap Between Latent and
+          Explicit Reasoning with Looped Transformers</em></a>. arXiv:2606.31779.
+          <em>LOTUS. Notes that latent chain-of-thought methods had been falling behind explicit
+          chain of thought past 1B with the gap widening at scale, and reports closing it at 3B via
+          parallel supervision of loop latents, at 2.5&ndash;6.9&times; lower thought-phase
+          latency.</em>
+        </li>
+        <li>
+          Blayney, T., Arroyo, D. M., Obando-Ceron, J., Castro, P. S., Courville, A., et al. (2026).
+          <a href="https://arxiv.org/abs/2604.11791"><em>A Mechanistic Analysis of Looped Reasoning
+          Language Models</em></a>. arXiv:2604.11791.
+          <em>Each layer in the loop converges toward a distinct fixed point and the block settles
+          into a stable cyclic trajectory. Convergence is not automatic; it is the stability
+          condition the training recipes are all implicitly chasing.</em>
+        </li>
+      </ul>
+
+      <h3>Contentless tokens</h3>
+      <ul>
+        <li>
+          Goyal, S., Ji, Z., Rawat, A. S., Menon, A. K., Kumar, S., and Nagarajan, V. (2024).
+          &ldquo;Think before you speak: Training Language Models With Pause Tokens.&rdquo;
+          <em>ICLR</em>. <a href="https://arxiv.org/abs/2310.02226">arXiv:2310.02226</a>.
+          <em>Learnable pause tokens delay answer extraction and buy computation: +18% exact match
+          on SQuAD at 1B. The precondition is strong &mdash; pauses must appear in both pretraining
+          and fine-tuning. No code was released.</em>
+        </li>
+        <li>
+          Pfau, J., Merrill, W., and Bowman, S. R. (2024).
+          <a href="https://arxiv.org/abs/2404.15758"><em>Let's Think Dot by Dot: Hidden Computation
+          in Transformer Language Models</em></a>. arXiv:2404.15758.
+          <em>Transformers solve two tasks unsolvable in a single pass using nothing but repeated
+          dots, with the admissible problems characterised by quantifier depth &mdash; but learning
+          to exploit fillers needs dense, task-specific supervision and does not emerge from
+          ordinary training.</em>
+        </li>
+        <li>
+          Brauer, K., Mayrink Verdun, C., and Marks, S. (2026).
+          <a href="https://arxiv.org/abs/2607.03502"><em>Reading Between the Dots: Decoding Hidden
+          Computation across Filler Tokens</em></a>. arXiv:2607.03502.
+          <em>Filler-token computation in frontier open-weight models defeats token-level monitoring
+          outright, yet an unsupervised decoder on hidden states alone recovers the intermediate
+          values at 80&ndash;95% accuracy, with causal validation by cache transplantation.
+          Monitorability is a property of activations, not of surface tokens.</em>
+        </li>
+      </ul>
+
+      <h3>Negative results and critiques</h3>
+      <p class="muted" style="font-size:0.92rem;">This field produces rebuttals at an unusual rate,
+      and they are load-bearing. Several headline mechanisms did not survive replication.</p>
+      <ul>
+        <li>
+          Vennam, S., Valente, D., Herel, D., and Kumaraguru, P. (2024).
+          <a href="https://arxiv.org/abs/2411.11371"><em>Rethinking Thinking Tokens: Understanding
+          Why They Underperform in Practice</em></a>. arXiv:2411.11371.
+          <em>Naive thinking tokens consistently underperform real chain of thought: a single
+          repeated embedding produces noisy, inconsistent gradients.</em>
+        </li>
+        <li>
+          Yu, G. (2024).
+          <a href="https://arxiv.org/abs/2411.15862"><em>Do LLMs Really Think Step-by-step In
+          Implicit Reasoning?</em></a> arXiv:2411.15862.
+          <em>Models merely <strong>prompted</strong> to reason implicitly barely compute genuine
+          intermediate steps and lean on memorised shortcuts; models specifically
+          <strong>trained</strong> for it do show real internal computation. Both are brittle to
+          reformatting.</em>
+        </li>
+        <li>
+          Wu, Y., Lu, K., Ren, X., Hu, J., Wu, X., et al. (2025).
+          <a href="https://arxiv.org/abs/2508.03440"><em>LLMs are Single-threaded Reasoners:
+          Demystifying the Working Mechanism of Soft Thinking</em></a>. arXiv:2508.03440.
+          <em>Direct rebuttal of the parallel-exploration claim: models given a soft mixture follow
+          the single highest-probability component, so the method degenerates to greedy decoding
+          unless noise is injected.</em>
+        </li>
+        <li>
+          Rizvi-Martel, M., Rabusseau, G., and Mosbach, M. (2026).
+          <a href="https://arxiv.org/abs/2604.06374"><em>The Illusion of Superposition? A Principled
+          Analysis of Latent Thinking in Language Models</em></a>. arXiv:2604.06374.
+          <em>Genuine superposition shows up only in models trained from scratch with continuous
+          latent chain of thought; under fine-tuning or training-free regimes it collapses to token
+          commitment or shortcuts. Undercuts the family's central theoretical selling point.</em>
+        </li>
+        <li>
+          Sahoo, S., Chadha, A., Jain, V., and Chaudhary, D. (2026).
+          <a href="https://arxiv.org/abs/2603.03475"><em>When Shallow Wins: Silent Failures and the
+          Depth-Accuracy Paradox in Latent Reasoning</em></a>. arXiv:2603.03475.
+          <em>81.6% of correct answers arrive via computationally inconsistent pathways and 8.8% of
+          predictions are confident silent failures, with reasoning-quality metrics correlating
+          weakly negatively with correctness.</em>
+        </li>
+        <li>
+          Yang, R., Han, S., Zhang, Y., Wei, C., Shao, Y., et al. (2026).
+          <a href="https://arxiv.org/abs/2605.26733"><em>Stabilizing Recurrent Dynamics for
+          Test-Time Scalable Latent Reasoning in Looped Language Models</em></a>.
+          arXiv:2605.26733. <em>Looped performance peaks at some recurrence depth and then
+          collapses with further looping; spectral-radius regularisation is proposed as the fix.
+          Directly against the infinite-depth framing.</em>
+        </li>
+      </ul>
+
+      <h3>Faithfulness, monitorability and interpretability</h3>
+      <ul>
+        <li>
+          Turpin, M., Michael, J., Perez, E., and Bowman, S. R. (2023). &ldquo;Language Models Don't
+          Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting.&rdquo;
+          <em>NeurIPS</em>. <a href="https://arxiv.org/abs/2305.04388">arXiv:2305.04388</a>.
+          <em>Biasing cues shift answers by up to 36% across thirteen BIG-Bench Hard tasks while the
+          stated reasoning systematically omits the bias.</em>
+        </li>
+        <li>
+          Lanham, T., Chen, A., Radhakrishnan, A., Steiner, B., Denison, C., et al. (2023).
+          <a href="https://arxiv.org/abs/2307.13702"><em>Measuring Faithfulness in Chain-of-Thought
+          Reasoning</em></a>. arXiv:2307.13702.
+          <em>Interventional metrics &mdash; truncation, inserted mistakes, paraphrase, filler
+          substitution. Models often reach the same answer regardless of what the chain says, and
+          faithfulness does not straightforwardly improve with scale.</em>
+        </li>
+        <li>
+          Roger, F., and Greenblatt, R. (2023).
+          <a href="https://arxiv.org/abs/2310.18512"><em>Preventing Language Models From Hiding
+          Their Reasoning</em></a>. arXiv:2310.18512.
+          <em>A fine-tuned model embeds reasoning steganographically in innocuous text &mdash; 80%
+          opinion-matching against 54% without the hidden channel. Context-aware paraphrasing is
+          argued to cut hidden capacity below about 3 bits per kilobyte.</em>
+        </li>
+        <li>
+          Yang, S., Gribovskaya, E., Kassner, N., Geva, M., and Riedel, S. (2024). &ldquo;Do Large
+          Language Models Latently Perform Multi-Hop Reasoning?&rdquo; <em>ACL</em>.
+          <a href="https://arxiv.org/abs/2402.16837">arXiv:2402.16837</a>.
+          <em>Evidence that models internally resolve a bridge entity and use it for the second hop,
+          for certain relation types &mdash; reasoning was partly latent before anyone designed it
+          that way. The follow-up
+          <a href="https://arxiv.org/abs/2411.16679">arXiv:2411.16679</a> asks how much of this
+          survives a shortcut analysis.</em>
+        </li>
+        <li>
+          Baker, B., Huizinga, J., Gao, L., Dou, Z., Guan, M. Y., et al. (2025).
+          <a href="https://arxiv.org/abs/2503.11926"><em>Monitoring Reasoning Models for Misbehavior
+          and the Risks of Promoting Obfuscation</em></a>. arXiv:2503.11926.
+          <em>A weak monitor reading raw chains catches reward hacking during RL &mdash; but
+          optimising the policy against that monitor yields obfuscated hacking that still passes it.
+          The empirical basis for not training against chain-of-thought legibility.</em>
+        </li>
+        <li>
+          Lindsey, J., Gurnee, W., et al. (2025).
+          <a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html"><em>On the
+          Biology of a Large Language Model</em></a>. Transformer Circuits.
+          <em>Attribution graphs show Claude 3.5 Haiku planning several tokens ahead, choosing rhyme
+          words before writing the line that must end with them. Substantial reasoning precedes any
+          emitted token.</em>
+        </li>
+        <li>
+          Chen, Y., Benton, J., Radhakrishnan, A., Uesato, J., Denison, C., et al. (2025).
+          <a href="https://arxiv.org/abs/2505.05410"><em>Reasoning Models Don't Always Say What They
+          Think</em></a>. arXiv:2505.05410.
+          <em>Across six hint categories, models verbalise using a hint they demonstrably used often
+          below 20% of the time. Outcome-based RL improves faithfulness early and then plateaus
+          without saturating.</em>
+        </li>
+        <li>
+          Lindsey, J. (2025).
+          <a href="https://transformer-circuits.pub/2025/introspection/index.html"><em>Emergent
+          Introspective Awareness in Large Language Models</em></a>. Transformer Circuits; later
+          <a href="https://arxiv.org/abs/2601.01828">arXiv:2601.01828</a>.
+          <em>Concept injection shows Claude Opus 4 and 4.1 sometimes detecting and naming a vector
+          patched into the residual stream &mdash; roughly 20% of trials under favourable
+          conditions. Failures of introspection remain the norm.</em>
+        </li>
+        <li>
+          Guan, M. Y., Wang, K., Carroll, M., Dou, Z., Wei, J., et al. (2025).
+          <a href="https://arxiv.org/abs/2512.18311"><em>Monitoring Monitorability</em></a>.
+          arXiv:2512.18311. <em>Treats monitorability as a measurable and degradable property:
+          thirteen evaluations across twenty-four environments in three archetypes.</em>
+        </li>
+        <li>
+          Dilgren, C., and Wiegreffe, S. (2026).
+          <a href="https://arxiv.org/abs/2604.04902"><em>Are Latent Reasoning Models Easily
+          Interpretable?</em></a> arXiv:2604.04902.
+          <em>The optimistic counterweight: latent reasoning tokens are frequently unnecessary, and
+          where load-bearing, traces decode 65&ndash;93% of the time &mdash; but substantially less
+          often on incorrectly answered instances, which is where oversight matters most.</em>
+        </li>
+        <li>
+          Chang, S., Bai, T., Zhang, X., Ma, Q., Liu, Q., et al. (2026).
+          <a href="https://arxiv.org/abs/2606.01243"><em>Unlocking the Black Box of Latent
+          Reasoning: An Interpretability-Guided Approach to Intervention</em></a>.
+          arXiv:2606.01243. <em>Finds early latent vectors acting as causal hubs and builds
+          training-free decode-time interventions on that basis.</em>
+        </li>
+      </ul>
+
+      <h3>Encoded reasoning</h3>
+      <ul>
+        <li>
+          Mathew, Y., Matthews, O., McCarthy, R., Velja, J., Schroeder de Witt, C., et al. (2024).
+          <a href="https://arxiv.org/abs/2410.03768"><em>Hidden in Plain Text: Emergence &amp;
+          Mitigation of Steganographic Collusion in LLMs</em></a>. arXiv:2410.03768.
+          <em>Steganographic collusion emerging from ordinary mis-specified RL incentives rather
+          than deliberate training, and robust to passive monitoring and paraphrase-based
+          mitigation. The more troubling version of the result.</em>
+        </li>
+        <li>
+          Karpov, A., Adeleke, A., Cho, J., and Perez-Campanero, N. (2025).
+          <a href="https://arxiv.org/abs/2505.03439"><em>The Steganographic Potentials of Language
+          Models</em></a>. arXiv:2505.03439.
+          <em>RL-fine-tuned frontier models develop covert encoding schemes in realistic settings,
+          though capability is rudimentary and decoding accuracy falls off with payload length.</em>
+        </li>
+        <li>
+          Zolkowski, A., Nishimura-Gasparian, K., McCarthy, R., Zimmermann, R., and Lindner, D.
+          (2025). <a href="https://arxiv.org/abs/2507.02737"><em>Early Signs of Steganographic
+          Capabilities in Frontier LLMs</em></a>. arXiv:2507.02737.
+        </li>
+      </ul>
+
+      <h3>Surveys and adjacent work</h3>
+      <ul>
+        <li>
+          Zhu, R.-J., Peng, T., Cheng, T., Qu, X., Huang, J., et al. (2025).
+          <a href="https://arxiv.org/abs/2507.06203"><em>A Survey on Latent Reasoning</em></a>.
+          arXiv:2507.06203. <em>Thirty-three authors. Splits the field into vertical recurrence
+          (activation-based, loop and hidden-state feedback) and horizontal recurrence
+          (hidden-state-based, linear and gradient-state), and extends the framing to masked
+          diffusion models.</em>
+        </li>
+        <li>
+          Chen, X., Zhao, A., Xia, H., Lu, X., Wang, H., et al. (2025).
+          <a href="https://arxiv.org/abs/2505.16782"><em>Reasoning Beyond Language: A Comprehensive
+          Survey on Latent Chain-of-Thought Reasoning</em></a>. arXiv:2505.16782.
+          <em>A token-wise horizontal versus layer-wise vertical taxonomy. Companion to the
+          Awesome-Latent-CoT list.</em>
+        </li>
+        <li>
+          Li, J., Fu, Y., Fan, L., Liu, J., Shu, Y., et al. (2025).
+          <a href="https://arxiv.org/abs/2509.02350"><em>Implicit Reasoning in Large Language
+          Models: A Comprehensive Survey</em></a>. arXiv:2509.02350.
+          <em>Organises by mechanism of control &mdash; latent optimisation, signal-guided control,
+          layer-recurrent execution &mdash; rather than by representation.</em>
+        </li>
+        <li>
+          Yu, X., Chen, Z., He, Y., Fu, T., Yang, J., et al. (2026).
+          <a href="https://arxiv.org/abs/2604.02029"><em>The Latent Space: Foundation, Evolution,
+          Mechanism, Ability, and Outlook</em></a>. arXiv:2604.02029.
+          <em>The broadest recent survey, treating latent reasoning as one instance of a wider
+          latent-native paradigm. Whether that paradigm exists yet is itself contestable.</em>
+        </li>
+        <li>
+          Kuzina, A., Pi&oacute;ro, M., Whatmough, P., and Bejnordi, B. E. (2025).
+          <a href="https://arxiv.org/abs/2510.02312"><em>KaVa: Latent Reasoning via Compressed
+          KV-Cache Distillation</em></a>. arXiv:2510.02312.
+          <em>Distils a compressed teacher cache into a latent student, finding chain-of-thought
+          caches highly redundant. The cache-as-scratchpad position.</em>
+        </li>
+        <li>
+          Kang, H., Zhang, W., Kuang, K., Majamaki, T., Jaitly, N., et al. (2025).
+          <a href="https://arxiv.org/abs/2510.04573"><em>LaDiR: Latent Diffusion Enhances LLMs for
+          Text Reasoning</em></a>. arXiv:2510.04573.
+          <em>Continuous latent representation combined with iterative diffusion refinement.</em>
+        </li>
+        <li>
+          Williams, M., and T&uuml;reci, H. E. (2026).
+          <a href="https://arxiv.org/abs/2602.10520"><em>Prioritize the Process, Not Just the
+          Outcome: Rewarding Latent Thought Trajectories Improves Reasoning in Looped Language
+          Models</em></a>. arXiv:2602.10520.
+          <em>Documents that standard policy-gradient RL fails on looped latent models because it
+          rewards only the final latent state, and rewards the whole trajectory instead. Among the
+          first to name the credit-assignment problem for latent recurrence.</em>
+        </li>
+      </ul>
+
+      <p class="muted" style="font-size:0.9rem; margin-top:18px;">
+        Curated elsewhere:
+        <a href="https://github.com/xlyu0106/Awesome-Latent-Space">Awesome-Latent-Space</a> and
+        <a href="https://github.com/EIT-NLP/Awesome-Latent-CoT">Awesome-Latent-CoT</a> track new
+        papers more frequently than this site does. Working on something that belongs here, or
+        spotted an error? Open an issue on
+        <a href="https://github.com/microprediction/latentreasoning">the repository</a>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>
