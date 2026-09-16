@@ -1,6 +1,6 @@
 # CLAUDE.md — latentreasoning
 
-This repository builds a **public website** (latentreasoning.microprediction.org). Everything
+This repository builds a **public website** (latentreasoning.net). Everything
 committed here is world-readable once pushed. Treat every file as published.
 
 ---

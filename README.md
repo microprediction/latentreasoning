@@ -1,6 +1,6 @@
 # latentreasoning
 
-Source for **[latentreasoning.microprediction.org](https://latentreasoning.microprediction.org)** —
+Source for **[latentreasoning.net](https://latentreasoning.net)** —
 a curated map of research on language models that reason in continuous latent space instead of
 emitted tokens.
 
@@ -59,7 +59,7 @@ maintenance status has changed.
 ## Deployment
 
 GitHub Pages from the default branch, root directory. `CNAME` points at
-`latentreasoning.microprediction.org`.
+`latentreasoning.net`.
 
 ## License
 
