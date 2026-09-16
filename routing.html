@@ -281,9 +281,18 @@
     <h4>Much probe accuracy is surface reading</h4>
     <p>
       <a href="https://arxiv.org/abs/2509.21344">Boxó, Neelappa and Raval (2025)</a> filter out tokens carrying explicit textual evidence of the
-      target behaviour and probe performance drops by 10 to 30 AUROC points: sandbagging detection
-      falls from 0.94 to 0.57, bias detection from 0.74 to 0.57. Much of what looks like reading a
-      latent belief state is reading the same surface signal a text monitor would already have seen.
+      target behaviour and probe performance drops by 10 to 30 AUROC points. Bias detection falls
+      from 0.74 to 0.57. Sandbagging detection falls from 0.94 to 0.57 by the paper&apos;s abstract,
+      though its results and conclusion sections both give 0.50, which they call chance. Much of
+      what looks like reading a latent belief state is reading the same surface signal a text
+      monitor would already have seen.
+    </p>
+
+    <p>
+      The paper limits that conclusion to <em>linear probes</em> and says so directly: sparse
+      autoencoders, activation oracles and other white-box monitors were not tested and may not
+      share the dependence. Reading it as a result about activation monitoring in general goes
+      further than the evidence does.
       That bears directly on <a href="./monitorability.html">monitorability</a>, where
       activation-level oversight is offered as the successor to reading the transcript. Part of its
       apparent independence is illusory.

@@ -254,7 +254,17 @@
       <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> characterise which problems admit a filler-token benefit
       via the quantifier depth of a first-order formula describing the problem: within the right
       quantifier-depth class, the intermediate tokens need carry no information about intermediate
-      steps at all.
+      steps at all. A problem of quantifier depth $k$ is expressible with $n^k$ filler tokens, and
+      their two tasks, 3SUM and 2SUM-Transform, sit above depth two while remaining parallelisable.
+    </p>
+
+    <p>
+      Their own conclusion is more restrained than the result is usually taken to be. The
+      experiments train a small transformer from scratch under dense supervision on synthetic
+      tasks, and the authors judge that current language models are &ldquo;unlikely to benefit from
+      filler tokens,&rdquo; while holding that this is not an in-principle limitation of the
+      architecture. The paper is evidence about what transformers can be made to do, not about what
+      deployed models are doing.
     </p>
 
     <details class="defn">
@@ -371,8 +381,8 @@
 
     <p>
       On the empirical side, <a href="https://arxiv.org/abs/2505.12514">Zhu et al. (2025)</a> prove a two-layer transformer with $D$ continuous
-      steps solves directed graph reachability for diameter $D$ where the best known discrete
-      construction needs $O(n^2)$ steps, and show the superposition that makes this work emerges
+      steps solves directed graph reachability for diameter $D$, where the best known
+      <em>constant-depth</em> discrete-CoT construction needs $O(n^2)$ steps, and show the superposition that makes this work emerges
       from training rather than being built in. <a href="https://arxiv.org/abs/2505.23648">Gozeten et al. (2025)</a> quantify the parallelism as
       tracking several discrete traces at once, with a constructive one-layer solution to
       subset-sum.

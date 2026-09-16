@@ -182,8 +182,13 @@
       </p>
       <p>
         One framing to handle carefully: the compute-equivalence figures, often relayed as "performs
-        like a 50B model." That is a compute-load comparison within one paper's setup, not a general
-        scaling law. The paper is more careful about this than its citations are.
+        like a 50B model." The paper gives two distinct numbers and neither is a capability claim.
+        Pretraining consumes raw FLOPs close to what a 32B transformer would use; the 50B figure is
+        the <em>test-time</em> FLOP budget the model can keep improving through as recurrence is
+        scaled up. The paper is more careful about this than its citations are, and is equally frank
+        about the model itself: 47,000 training steps on an untested mixture, a learning rate never
+        cooled from its peak, and 800B tokens that the authors call small next to modern open
+        efforts.
       </p>
       <p>
         A general law arrived later.

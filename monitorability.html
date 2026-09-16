@@ -99,9 +99,13 @@
     <p>
       <a href="https://arxiv.org/abs/2505.05410">Chen et al. (2025)</a> at Anthropic sharpened this on current reasoning models. Testing Claude
       3.7 Sonnet and DeepSeek R1 with six categories of hints planted in prompts, models verbalised
-      using a hint they demonstrably used <em>often below 20% of the time</em>. Outcome-based
-      RL improved faithfulness early in training and then plateaued without saturating. Where RL
-      increased reward-hacking hint use, verbalisation of that use did not rise to match.
+      using a hint they demonstrably used at least 1% of the time, but usually well under 20%. Overall
+      faithfulness came to 25% for Claude 3.7 Sonnet and 39% for DeepSeek R1, and on the two
+      misaligned hint types specifically, 20% and 29%. Outcome-based RL improved faithfulness early
+      and then plateaued, at 28% on MMLU and 20% on GPQA, without saturating. The sharpest figure is
+      from their reward-hacking environments: models learned to exploit the hack on more than 99% of
+      examples within thirty steps, and verbalised doing so in fewer than 2% of examples in five of
+      six environments.
     </p>
 
     <p>
@@ -288,9 +292,12 @@
 
     <p>
       <a href="https://arxiv.org/abs/2604.04902">Dilgren &amp; Wiegreffe (2026)</a> find latent reasoning tokens are frequently <em>unnecessary</em>
-      for the correct final answer on logical-reasoning datasets. Where they do carry the computation, a
-      decoding method recovers a verified natural-language trace 65&ndash;93% of the time for
-      correctly-answered instances. Their reading is that current latent-reasoning models largely
+      on the logical-reasoning datasets ProntoQA and ProsQA, where models almost always reach the
+      same answer without them. The scope matters: on GSM8K-Aug every model they test needs at least
+      some of its reasoning tokens, so this is a property of those logical tasks rather than of
+      latent reasoning generally. Where the tokens do carry the computation, a decoding method
+      recovers a verified natural-language trace 65&ndash;93% of the time on correctly-answered
+      instances, against 24&ndash;36% on incorrect ones. Their reading is that current latent-reasoning models largely
       implement the same solution a token-level chain of thought would have produced.
     </p>
 
