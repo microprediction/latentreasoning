@@ -469,8 +469,8 @@
     </p>
 
     <p>
-      The part that matters for this essay is not the input but the output. Two people who learn the
-      same skill each have to practise it. Boston Dynamics&apos; own Atlas specification sheet says:
+      The output does more work than the input. Two people who learn the same skill each have to
+      practise it. Boston Dynamics&apos; own Atlas specification sheet says:
       &ldquo;Once one Atlas learns a new skill, that task can easily be deployed across your entire
       Atlas fleet.&rdquo; The Open X-Embodiment collaboration went further, assembling data from 22
       physically different robots across 21 institutions and demonstrating positive transfer between
@@ -616,12 +616,34 @@
     </p>
 
     <p>
-      That is the only proposal anywhere in this essay that does not require anyone to follow a
+      That is the only proposal here that does not require anyone to follow a
       chain of reasoning. It watches the step that has to happen in the physical world, and it works
       whether or not the reasoning behind the order is legible to anybody. The synthesis consortium
       has been screening voluntarily since 2004, which is both the reason it exists and the reason
       it can stop.
     </p>
+    <p>
+      A second group goes further upstream, to the training data. Bloomfield, Berke, Pannu and
+      colleagues propose
+      <a href="https://arxiv.org/abs/2602.08061">five tiers of pathogen data</a> with escalating
+      access controls, and their case does not rest on argument. Excluding viral proteins from ESM3
+      cut its performance on virus benchmarks. Excluding the genomes of viruses that infect
+      eukaryotes from Evo 2 left it poor at fitness prediction for viruses that infect humans.
+      Fine-tuning Evo 2 back on those sequences lowered its perplexity on withheld human viral
+      sequences and improved its prediction of SARS-CoV-2 immune escape variants. Removed, the
+      capability fell. Restored, it came back. Of everything proposed in this area, that is the one
+      intervention with a controlled demonstration behind it.
+    </p>
+
+    <p>
+      It also carries an expiry date, which the authors state themselves. The scheme assumes a
+      dangerous capability needs the specific dangerous data, and they note that if models
+      &ldquo;can sufficiently generalize using large volumes of limited data types (such as sequence
+      data), our proposed BDL framework would require revision.&rdquo; Reaching a capability from
+      cheap generic data that never contained it is not a hypothetical failure mode. It is the
+      thing everything else here turns on.
+    </p>
+
     <p>
       Containment arguments assume a laboratory is a place. That chokepoint works because it is
       one: a machine, in a building, owned by a company that can be made to keep records.
@@ -945,6 +967,14 @@
       in print the argument that participation in a networked ecosystem becomes economically
       compulsory and isolation-based security therefore stops being affordable.
     </p>
+    <p>
+      The authors of the data-control proposal have named theirs exactly: a systematic evaluation of
+      how including or excluding particular datasets changes what a model can do. They are asking
+      for the measurement that would tell them whether their own scheme survives contact with a
+      model that generalises. It has the same shape as the one I want on monitorability, and both
+      are cheap beside what is being spent on the capability they would measure.
+    </p>
+
 
     <p>
       I got the direction right in 2023 and the timing wrong, and the reason was that I reasoned from
