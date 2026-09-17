@@ -230,16 +230,33 @@
         above. And the scale sits far below the recurrent-depth language models: HRM&apos;s 27M
         parameters are about 96&times; smaller than Ouro at 2.6B and 130&times; smaller than Huginn
         at 3.5B, and TRM&apos;s 7M about 370&ndash;500&times; smaller &mdash; two to nearly three
-        orders of magnitude, depending on which pair one takes. The systems differ in architecture,
+        orders of magnitude, depending on which pair one takes. Those headline counts are the recurrent
+        network alone. On ARC both models also carry a per-puzzle embedding table, roughly 876,000
+        puzzles by 512 dimensions in TRM&apos;s case, registered as a buffer and so excluded from the
+        reported figure. Whether it belongs in the count is disputed in both projects&apos; issue
+        trackers and unanswered by their maintainers. The systems differ in architecture,
         training regime, data and task, so the ratio does not isolate depth as the cause. What it
         supports is narrower: small recurrent networks report strong results on these puzzle
         benchmarks.
       </p>
       <p class="muted">
-        A mechanistic critique cuts against it. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
+        Several results cut against the reading. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
         al. (2026)</a> probe HRM and find it fails on trivially simple puzzles and appears to rely
-        on pattern matching rather than the hierarchical process claimed for it. The architecture
-        works on the benchmarks. What it is doing to get there is contested.
+        on pattern matching rather than the hierarchical process claimed for it. The team that runs
+        the benchmark reached a similar place earlier: in
+        <a href="https://arcprize.org/blog/hrm-analysis">their own ablations</a> the hierarchical
+        architecture &ldquo;had minimal performance impact when compared to a similarly sized
+        transformer,&rdquo; while the under-documented outer refinement loop drove most of the gain,
+        and &ldquo;most of the performance comes from memorizing solutions to the specific tasks
+        used at evaluation time.&rdquo; They also note that the model can only be applied to puzzle
+        identifiers seen during training, so the inference data has to be part of the training set.
+      </p>
+      <p class="muted">
+        The per-puzzle identifier carries more of the result than the architecture description
+        suggests. <a href="https://arxiv.org/abs/2512.11847">Roye-Azar et al. (2025)</a> report that
+        replacing it with a blank or random token drops ARC accuracy to zero, and an independent
+        ablation in the project&apos;s issue tracker reproduces that figure. The architecture works
+        on the benchmarks. What it is doing to get there is contested.
       </p>
     </div>
 
