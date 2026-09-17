@@ -26,6 +26,7 @@
         <a href="./reviews.html">Reviews</a>
         <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
           <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+          <a href="./essay-llms-are-monitorable.html">Remind Me Again Why Large Language Models Are Monitorable</a>
         </span></span>
         <span class="navdrop"><a href="./bibliography.html">Reference</a><span class="navdrop-menu">
           <a href="./bibliography.html">Annotated bibliography</a>
@@ -787,7 +788,54 @@
           arXiv:2606.01243. <em>Finds early latent vectors acting as causal hubs and builds
           training-free decode-time interventions on that basis.</em>
         </li>
-      </ul>
+              <li>
+          Liu, Y. (2026).
+          <a href="https://arxiv.org/abs/2606.05711"><em>Beyond tokens: a unified framework for
+          latent communication in LLM-based multi-agent systems</em></a>. arXiv:2606.05711.
+          <em>Proposes replacing natural-language messages between agents with latent
+          representations, naming the drawbacks of the token protocol as inference cost and
+          &ldquo;irreversible information loss during discretization&rdquo;. The same quantiser
+          argument that motivates latent reasoning inside a model, applied between models, where
+          the messages are often the only legible part of the system.</em>
+        </li>
+        <li>
+          Baquero, C., and Brito, G. (2026).
+          <a href="https://arxiv.org/abs/2607.01308"><em>Cache Merging as a Convergent Replicated
+          State for Multi-Agent Latent Reasoning</em></a>. arXiv:2607.01308.
+          <em>Composes agents&apos; key-value caches into one context. Concatenating them is
+          non-commutative and the best ordering shifts with regime, latent-step budget and model
+          scale, so the paper proposes a canonical layout ordered by content. A shared state with no
+          canonical form has no well-defined object to monitor.</em>
+        </li>
+        <li>
+          Backour, A. (2026).
+          <a href="https://arxiv.org/abs/2609.02049"><em>The Dynamics of Continuous Mixture Collapse
+          in Language Models</em></a>. arXiv:2609.02049.
+          <em>A dynamical account of why continuous mixtures collapse: the softmax readout and
+          autoregressive feedback form a system that either amplifies small differences until one
+          component dominates or contracts mixtures until they are indistinguishable, with
+          pretrained-model rollouts reported to sit on the amplifying side.</em>
+        </li>
+        <li>
+          Dilgren, R., and Wiegreffe, S. (2026).
+          <a href="https://arxiv.org/abs/2604.04902"><em>Are Latent Reasoning Models Easily
+          Interpretable?</em></a> arXiv:2604.04902.
+          <em>Finds latent reasoning tokens are often unnecessary to the prediction on logical
+          reasoning datasets, corroborating the shortcut finding independently on other models.</em>
+        </li>
+        <li>
+          Gurnee, W., Sofroniew, N., Pearce, A., Piotrowski, M., Kauvar, I., Chen, R., Soligo, A.,
+          Bogdan, P., Ong, E., Wang, R., Thompson, T. B., Abrahams, D., Kantamneni, S., Ameisen, E.,
+          Batson, J., and Lindsey, J. (2026).
+          <a href="https://transformer-circuits.pub/2026/workspace/index.html"><em>Verbalizable
+          Representations Form a Global Workspace in Language Models</em></a>. Transformer Circuits
+          Thread, 6 July 2026.
+          <em>Argues models maintain a privileged band of verbalizable representations used for
+          flexible multi-step reasoning, with other computation running outside it entirely
+          unverbalised. If a workspace is what monitoring reads, the question about any architecture
+          is how much of its computation passes through it. Not on arXiv.</em>
+        </li>
+</ul>
 
       <h3>Encoded reasoning</h3>
       <ul>
