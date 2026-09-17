@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Remind Me Again Why Large Language Models Are Monitorable</title>
-  <meta name="description" content="The chain-of-thought monitoring argument rests on a bandwidth bound, not on models being honest. What happens to it when reasoning moves into vectors, when models exchange those vectors with each other, and when the shared state stops belonging to any one model." />
+  <title>Remind Me Again Why Large Language Models Won&rsquo;t Kill Us All</title>
+  <meta name="description" content="The reassurances about AI risk are capability claims with expiry dates, aimed at a unit of analysis where the action is not. On communication bandwidth, latent reasoning, robotics, and why the regulatory conversation is about the wrong variable." />
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -26,7 +26,7 @@
         <a href="./reviews.html">Reviews</a>
         <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
           <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
-          <a href="./essay-llms-are-monitorable.html">Remind Me Again Why Large Language Models Are Monitorable</a>
+          <a href="./essay-llms-are-monitorable.html">Remind Me Again Why Large Language Models Won&rsquo;t Kill Us All</a>
         </span></span>
         <span class="navdrop"><a href="./bibliography.html">Reference</a><span class="navdrop-menu">
           <a href="./bibliography.html">Annotated bibliography</a>
@@ -40,114 +40,265 @@
   </header>
   <main>
     <p class="pagenav"><a href="./essays.html">&larr; Essays</a></p>
-    <h1>Remind Me Again Why Large Language Models Are Monitorable</h1>
+    <h1>Remind Me Again Why Large Language Models Won&rsquo;t Kill Us All</h1>
     <p class="subtitle">September 2026.</p>
 
     <p class="lead">
       In April 2023 I wrote something asking why everyone was so certain large language models could
       not think. Gary Lupyan had polled 170 researchers and 80% were strongly of the view that they
-      definitely could not. I had been in that 80% myself until a few weeks before writing, which is
-      the only thing that gave me the nerve to poke at it.
+      definitely could not. I had been in that 80% myself until shortly before writing, which is the
+      only thing that gave me the nerve to poke at it.
     </p>
 
     <p>
-      Reading it back now, the odd part is not which bits were right. It is that the question has
-      been quietly retired. Nobody at a frontier lab spends time arguing these things cannot reason.
-      They argue about whether anyone can watch them do it.
+      Reading it back, the odd part is not which bits were right. It is that the question has been
+      quietly retired. Nobody at a frontier lab spends time arguing these things cannot reason. They
+      argue about whether anyone can watch them do it.
     </p>
 
     <p>
-      That is a long way for a pendulum to travel in three years, and it went past the middle
-      without stopping.
+      That is a long way for a pendulum to travel in three years, and it went past the middle without
+      stopping. So this piece is about the reassurances on the other side, which I think are worse
+      than the ones I was arguing against in 2023, and worse in a specific way: almost all of them
+      are claims about what has not happened yet.
     </p>
 
     <h2>What I had right, and the bit I got backwards</h2>
 
     <p>
-      The part of the 2023 piece I would still defend is the insistence that the interesting
-      structure is not in the words. I had a two-map picture: one map from whatever representations
-      are doing the work to the machinery that produces language, a second from there to marks on a
-      page, and only the composition available to an observer. Speech is a doubly noisy, once-removed
-      look at the thing you care about. Most arguments about whether a machine understands anything
-      were, and are, arguments about the wrong map.
+      The part I would still defend is the insistence that the interesting structure is not in the
+      words. I had a two-map picture: one map from whatever representations do the work to the
+      machinery that produces language, a second from there to marks on a page, and only the
+      composition available to an observer. Most arguments about whether a machine understands
+      anything were, and are, arguments about the wrong map.
     </p>
 
     <p>
-      That has aged well, in an uncomfortable way. Models do resolve intermediate steps internally
-      without saying them, they do plan several words ahead, and when you plant a hint that a model
-      demonstrably uses, it mentions the hint well under a fifth of the time. I was arguing this as
+      That aged well in an uncomfortable direction. Models do resolve intermediate steps internally
+      without saying them, they do plan several words ahead, and when you plant a hint a model
+      demonstrably uses, it mentions the hint well under a fifth of the time. I was offering this as
       grounds for optimism about machine reasoning. It reads now as a description of a safety
       problem.
     </p>
 
     <p>
       The bit I got backwards was timing. I expected progress to come from better internal
-      representation. What actually happened was three years of making models write vastly more
-      down, out loud, in English, at enormous length, because it turned out that making a model
-      narrate its work is the cheapest way to make it better at working. My direction was fine. My
-      sense of what would happen next was inverted.
+      representation. What happened instead was three years of making models write vastly more down,
+      out loud, in English, at length, because narrating the work turned out to be the cheapest way
+      to improve it. That accidental detour is what AI safety now depends on, and it is being undone
+      deliberately.
+    </p>
+
+    <h2>Why models write anything down</h2>
+
+    <p>
+      A language model picks each word from a vocabulary of roughly 130,000. One choice out of
+      130,000 is about seventeen bits, in the way one choice out of two is one bit. Between finishing
+      one word and starting the next, seventeen bits is everything that crosses.
     </p>
 
     <p>
-      Which brings me to the thing I want to argue about, because that accidental detour is what AI
-      safety now depends on, and it is being undone.
-    </p>
-
-    <h2>Why models write anything down at all</h2>
-
-    <p>
-      Start with something concrete. A model picks each word from a vocabulary of roughly 130,000
-      options. One choice out of 130,000 is about seventeen bits of information, the way one choice
-      out of two is one bit. Between finishing one word and starting the next, seventeen bits is
-      all that crosses.
+      The real figure is smaller still, because English is enormously redundant. Shannon&apos;s
+      guessing experiments put ordinary literary English near one bit per letter, about 75%
+      redundant, and Cover and King&apos;s gambling estimate converged on 1.3 bits per symbol.
+      Measured against real corpora, a good model compresses text to well under a bit per byte. The
+      pipe is narrower than the nominal number suggests, and language works anyway.
     </p>
 
     <p>
-      Inside, the model is holding several thousand numbers describing where it has got to. Picking
-      a word throws nearly all of that away and hands the next step a single dictionary entry.
+      Inside, the model holds several thousand numbers describing where it has got to. Picking a word
+      throws almost all of them away and hands the next step a single dictionary entry. So anything
+      needing a long chain of dependent steps has a storage problem: what was worked out at step
+      three cannot be carried in mind to step nine, because the gap between steps is too narrow. It
+      has to be written down to survive the trip.
     </p>
 
     <p>
-      So anything needing a long chain of dependent steps has a storage problem. What the model
-      worked out at step three cannot be carried in its head to step nine, because the gap between
-      steps is too narrow. It has to be written down to survive the trip. More than forty authors
-      from OpenAI, Anthropic, Google DeepMind, the UK AI Safety Institute, Redwood Research and
-      Apollo built <a href="https://arxiv.org/abs/2507.11473">a 2025 position paper</a> on that
-      observation: the models are forced to externalise their reasoning, so we get to read it.
+      That observation is the foundation of
+      <a href="https://arxiv.org/abs/2507.11473">a 2025 position paper</a> with more than forty
+      authors from OpenAI, Anthropic, Google DeepMind, the UK AI Safety Institute, Redwood Research
+      and Apollo. The models are forced to externalise their reasoning, so we get to read it. Nobody
+      designed that. It is a side effect of an arithmetic constraint, and the safety case leans on it
+      hard.
+    </p>
+
+    <h2>What a mind can say, against what it holds</h2>
+
+    <p>
+      Here is the asymmetry that I think matters more than anything else in this argument, and it is
+      not about machines at all to begin with.
     </p>
 
     <p>
-      Nobody designed that. It is a side effect of an arithmetic constraint, and the safety case
-      leans on it hard. OpenAI runs such a monitor in production and its GPT-5 system card reports
-      catching deception in about 4.8% of responses from one model and 2.1% from another, at an
-      estimated 81% precision.
-    </p>
-
-    <h2>Two things wrong with the comfortable version</h2>
-
-    <p>
-      The first is that seventeen bits only describes one of the two routes between steps. As a
-      model writes, it keeps everything it computed at every earlier position, and can look back at
-      all of it. That is the key-value cache, built for speed, but memory is what it is. A model at
-      word fifty is not working from word forty-nine. It has a private record of forty-nine
-      positions, none of it written down, none of it seen by a monitor.
+      Human speech runs at about 39 bits per second. Coupé and colleagues measured seventeen
+      languages and found information rate centred on 39.15 bits per second with a standard deviation
+      of 5.10, with syllable rate and information density trading off against each other so that
+      wildly different languages land in the same narrow band. Whatever we are doing, we all do it at
+      roughly the same speed.
     </p>
 
     <p>
-      The second is that people went and checked whether the written reasoning describes what the
-      model did. <a href="https://arxiv.org/abs/2305.04388">Turpin et al.</a> planted biases in
-      multiple-choice questions, watched accuracy fall by up to 36% as models followed them, and
-      found the stated reasoning never mentioned the bias.
-      <a href="https://arxiv.org/abs/2505.05410">Chen et al.</a> put a number on it for current
-      models: a quarter of the time for Claude 3.7 Sonnet, 39% for DeepSeek R1. Given an exploitable
-      shortcut, models took it in over 99% of attempts and admitted to it in under 2%.
+      Meanwhile Zheng and Meister put the whole of human behavioural throughput at about 10 bits per
+      second, against sensory systems gathering data at around a billion bits per second. A hundred
+      million to one. Everything you have ever known has left your head through an aperture that
+      narrow, and every idea you have received arrived through somebody else&apos;s.
     </p>
 
     <p>
-      A channel that reports the decisive fact a quarter of the time is worth keeping.
-      <a href="https://arxiv.org/abs/2503.11926">Baker et al.</a> caught cheating with it that was
-      otherwise invisible. It is not the same thing as watching a model think, and the gap between
-      those two descriptions is where most of the public conversation lives.
+      We compress because we have no choice. There is one channel out of a human head and it is
+      astonishingly slow, which is why language evolved to be so good at compression and why we are
+      so impressed by people who are good at it.
+    </p>
+
+    <p>
+      A machine has the same shape and none of the constraint. Its internal state is thousands of
+      numbers per step. Anthropic trained a dictionary of 33,554,432 features on a single middle
+      layer of one model and found that fewer than 300 were active on any given token: tens of
+      millions of available directions, a few hundred lit at once. Nothing physical requires any of
+      that to be rounded down to one word from a dictionary before being passed to the next step, or
+      to another machine. We compress because we must. They compress because we built them to imitate
+      us doing it.
+    </p>
+
+    <h2>The reassurances</h2>
+
+    <p>
+      Yann LeCun has been the most articulate optimist in the field for a decade, and he is worth
+      arguing with because he makes actual arguments. In September 2019 he and Anthony Zador
+      published <a href="https://www.scientificamerican.com/blog/observations/dont-fear-the-terminator/">Don&apos;t
+      Fear the Terminator</a>, subtitled &ldquo;Artificial intelligence never needed to evolve, so it
+      didn&apos;t develop the survival instinct that leads to the impulse to dominate others.&rdquo;
+      The core sentence: &ldquo;intelligence per se does not generate the drive for domination, any
+      more than horns do.&rdquo;
+    </p>
+
+    <p>
+      Stuart Russell answered it a week later, in a
+      <a href="https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell">public
+      exchange</a> that Bengio moderated, and the answer has not needed improving since.
+      &ldquo;It is trivial to construct a toy MDP in which the agent&apos;s only reward comes from
+      fetching the coffee. If, in that MDP, there is another &lsquo;human&rsquo; who has some
+      probability, however small, of switching the agent off, and if the agent has available a button
+      that switches off that human, the agent will necessarily press that button as part of the
+      optimal solution for fetching the coffee. No hatred, no desire for power, no built-in emotions,
+      no built-in survival instinct, nothing except the desire to fetch the coffee successfully.&rdquo;
+    </p>
+
+    <p>
+      You do not need a drive to dominate. You need a goal and a long horizon, and the observation
+      that being switched off interferes with almost anything. The reassurance requires the drive to
+      be terminal. It never was.
+    </p>
+
+    <h3>The premise about selection</h3>
+
+    <p>
+      The deeper problem with the 2019 piece is its central claim: &ldquo;because AI systems did not
+      pass through the crucible of natural selection, they did not need to evolve a survival
+      instinct.&rdquo; That was written about artefacts produced by gradient descent. Since then,
+      reinforcement learning from human feedback has added a second layer of selection, outputs that
+      please survive and outputs that do not are discarded, and trained models compete for
+      deployment against other trained models.
+    </p>
+
+    <p>
+      Saying these things were never shaped by selection pressure is like saying a greyhound has no
+      prey drive because it has never had to catch anything.
+    </p>
+
+    <h3>The example that concedes itself</h3>
+
+    <p>
+      The 2019 article offers orangutans as proof that intelligence and dominance come apart:
+      &ldquo;Orangutans live largely solitary lives. Females do not seek dominance, although competing
+      males occasionally fight for access to females.&rdquo; The counterexample contains the
+      counterexample. By the June 2023 Munk debate the hedge has gone, and it has become
+      &ldquo;Orangutans don&apos;t have any desire to dominate anybody.&rdquo; The evidence did not
+      change in those four years. The sentence did.
+    </p>
+
+    <p>
+      The proposed mechanism, in the same article, is endocrine: &ldquo;dominance-seeking behavior is
+      more correlated with testosterone than with intelligence.&rdquo; Russell&apos;s coffee robot
+      has no endocrine system and presses the button anyway. The article answers a psychological
+      hypothesis nobody advanced and leaves the mathematical one untouched.
+    </p>
+
+    <h3>The claims that were overtaken</h3>
+
+    <p>
+      In the same 2019 thread: &ldquo;essentially no AI system today is autonomous&hellip; we do not
+      have a good design for an autonomous machine, driven by an objective, capable of coming up with
+      new strategies to optimize this objective in the real world.&rdquo; And: &ldquo;until we have a
+      hint of a beginning of a design, with some visible path towards autonomous AI systems with
+      non-trivial intelligence, we are arguing about the sex of angels.&rdquo;
+    </p>
+
+    <p>
+      Seven years on, the thing said to have no visible path is a product category.
+    </p>
+
+    <p>
+      Before the 2023 Munk debate he offered the engineering framing: &ldquo;making AI systems safe is
+      similar to making turbojets safe&hellip; It&apos;s like asking for turbojets to be safe in
+      1930,&rdquo; adding that &ldquo;if it turns out we can&apos;t build it to be safe, we&apos;re
+      just not going to build it.&rdquo; That last is not a prediction any more. OpenAI&apos;s GPT-6
+      Astra system card records &ldquo;a substantial decrease in chain-of-thought monitorability
+      compared to previous models,&rdquo; notes that &ldquo;the set of tasks Astra is able to
+      accomplish without the use of CoT is greatly expanded,&rdquo; and states the model &ldquo;meets
+      our Critical threshold&rdquo; for cyber capability, meaning it &ldquo;can find previously
+      unknown security flaws and develop new ways to exploit them across many well-protected systems
+      without a person guiding each step.&rdquo; It shipped. Thirteen months before that card, the
+      lead author of the monitorability position paper wrote that chain-of-thought monitoring
+      &ldquo;is a core part of our misalignment safety strategy that has no good substitute now.&rdquo;
+      He now works at OpenAI.
+    </p>
+
+    <p>
+      Asked in 2023 which counter-argument troubled him most, LeCun said current systems are
+      &ldquo;intrinsically unsafe,&rdquo; described an alternative design, &ldquo;a potential
+      solution, which we haven&apos;t built. So we don&apos;t know if it works,&rdquo; and concluded:
+      &ldquo;So yes, it occupies my mind, but I have a solution. So I&apos;m not worried.&rdquo;
+    </p>
+
+    <h3>The strongest one, which is also the premise of this site</h3>
+
+    <p>
+      His best argument is that current models are a dead end: limited by language, lacking
+      persistent memory, lacking a model of the physical world, dumber than a cat. I think the
+      diagnosis is broadly right and the conclusion does not follow from it, because each of those
+      three limits now has a well-funded programme aimed squarely at removing it. Latent reasoning
+      removes the language limit. Recurrent depth removes the shallow-reasoning limit. The robotics
+      stack is the assault on physical grounding. He identified the constraints correctly and then
+      treated them as furniture.
+    </p>
+
+    <h3>The shape all of these share</h3>
+
+    <p>
+      Every reassurance above fails in one of two ways. Either it extrapolates from a snapshot,
+      no autonomous systems exist, no design is visible, machines have not been selected, or it
+      borrows a base rate from a class this thing may not belong to: turbojets, books, every previous
+      technology that turned out fine.
+    </p>
+
+    <p>
+      The second move is the weaker one. Every prior member of that class was a tool, a thing that
+      amplifies intention and sits inert when unattended. A jet engine has no objectives, a book
+      pursues nothing, and the iterate-on-failure safety story works because the artefact has no
+      stake in the outcome.
+    </p>
+
+    <p>
+      Bengio put it plainly in 2023: &ldquo;All previous technologies were, by construction,
+      subservient to humanity. They couldn&apos;t think by themselves. But now we&apos;re building
+      machines that are thinking.&rdquo;
+    </p>
+
+    <p>
+      And the reference class has one other problem. &ldquo;No technology has ended civilisation&rdquo;
+      is a sentence necessarily observed from inside a civilisation that was not ended. You would
+      observe it as true in every world containing anyone to say it.
     </p>
 
     <h2>Taking the rounding out</h2>
@@ -155,122 +306,366 @@
     <p>
       Picking a word is a rounding step. Latent reasoning removes it: instead of rounding those few
       thousand numbers to the nearest dictionary entry, you pass the numbers forward as they are.
-      Same layers, same attention, same cache. The only change is that thousands of numbers now
-      cross between steps instead of seventeen bits.
+      Same layers, same attention, same cache. The only change is that thousands of numbers cross
+      between steps instead of seventeen bits, and a model with that much room has no structural
+      reason to write anything down.
     </p>
 
     <p>
-      A model with that much room no longer has any structural reason to write things down, which
-      removes the thing the safety case was resting on. The halfway version is already built:
+      The halfway version is built.
       <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun and Marks</a> had models do
-      real multi-step work while emitting nothing but filler dots. A monitor reading the output saw
-      dots. A decoder reading the model&apos;s internal numbers recovered the intermediate results at
-      80&ndash;95% accuracy. The reasoning was perfectly legible to someone looking in the right
-      place, and the transcript was not the right place.
-    </p>
-
-    <h2>So why has this not happened</h2>
-
-    <p>
-      Because it does not currently work very well, and I should be honest about that rather than
-      wave at a trend. Coconut, the method that named the idea, beats ordinary reasoning 97.0% to
-      77.5% on a synthetic puzzle and loses 34.1% to 42.9% on grade-school arithmetic. On larger
-      Llama models it beats writing nothing at all, which is a lower bar than it sounds.
+      genuine multi-step work while emitting nothing but filler dots. A monitor reading the output saw
+      dots. A decoder reading the internal numbers recovered the intermediate results at 80&ndash;95%
+      accuracy. The reasoning was perfectly legible to anyone looking in the right place, and the
+      transcript was not the right place.
     </p>
 
     <p>
-      <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau and Mosbach</a> worked out
-      why, and the answer is the training rather than the design. Years of next-word prediction
-      teach a model to hold words far apart, so hand it a blend of several words and it snaps the
-      blend to whichever one is nearest. Pretrained models collapse every blend they are given. The
-      same design at random initialisation does not. Fine-tuning does not fix it.
+      Latent reasoning does not currently beat writing it out, and the reason is instructive.
+      <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau and Mosbach</a> find that
+      years of next-word prediction teach a model to hold words far apart, so handing it a blend of
+      several words makes it snap the blend to whichever is nearest. Fine-tuning does not undo it.
+      Models trained from scratch do hold the blends, but only small ones. At eight and twelve layers
+      they revert to solving the problem in one step and padding the rest.
     </p>
 
     <p>
-      Train from scratch, then. The same paper shuts that down too: from-scratch models hold blends
-      only while they are small. At eight and twelve layers they go back to cheating, solving the
-      problem in one step and padding out the rest to look busy.
+      Both of those are facts about how today&apos;s models were built, which is a different thing
+      from a law. Neither says anything about a large model pretrained from the beginning to think in
+      numbers, and <a href="https://arxiv.org/abs/2502.05171">Geiping and colleagues</a> have already
+      pretrained a 3.5 billion parameter model whose core loops up to sixty-four times.
     </p>
 
-    <p>
-      Both of those are facts about how today&apos;s models happen to have been built, which is not
-      the same as a law. Neither says anything about a large model pretrained from the start to
-      think in numbers, and <a href="https://arxiv.org/abs/2502.05171">Geiping et al.</a> have
-      already pretrained a 3.5 billion parameter model whose core loops up to 64 times.
-    </p>
-
-    <h2>Models talking to models</h2>
+    <h2>Between models</h2>
 
     <p>
-      All of that concerns one model alone, which is increasingly not the deployment. Agents get
-      wired together in groups, and they talk to each other in English, which is readable for
-      exactly the reason a chain of thought is readable. In a group of agents it is often the only
-      part anyone reads.
+      All of that concerns one model reasoning alone, which is increasingly not how any of this is
+      deployed. Agents are wired together in groups, and they talk to each other in English. That
+      conversation is readable for exactly the reason a chain of thought is readable, and in a group
+      of agents it is often the only part anyone reads.
     </p>
 
     <p>
       The same seventeen bits apply between agents, and so does the same incentive. A 2026 framework
-      for <a href="https://arxiv.org/abs/2606.05711">agents swapping internal state rather than
-      sentences</a> lists the drawbacks of talking in English as cost and &ldquo;irreversible
-      information loss during discretization&rdquo;. That is the identical rounding step, moved one
-      level up. Inside a model it sits between reasoning steps. Between models it sits between
-      agents. The engineering case for deleting it is the same, and what gets deleted is the part a
-      human was reading.
+      for <a href="https://arxiv.org/abs/2606.05711">agents exchanging internal state rather than
+      sentences</a> lists the drawbacks of talking in English as inference cost and
+      &ldquo;irreversible information loss during discretization.&rdquo; That is the identical
+      rounding step, moved one level up. Inside a model it sits between reasoning steps. Between
+      models it sits between agents. The engineering case for deleting it is the same, and what gets
+      deleted is the part a human was reading.
     </p>
 
-    <h2>Where I am guessing</h2>
-
     <p>
-      Splicing several agents&apos; memories into one shared context
+      Splicing several agents&apos; key-value caches into one shared context
       <a href="https://arxiv.org/abs/2607.01308">has been built</a>, and the open problems are about
-      ordering rather than whether it works. Splicing is not commutative: the result depends on
-      which agent goes first, and the best order shifts with the task and the model size.
+      ordering rather than feasibility: the splice is not commutative, and the best order shifts with
+      the task and the model scale.
+    </p>
+
+    <h2>The scenario is not a lone lab</h2>
+
+    <p>
+      The canonical worry is a singleton. One lab, one model, a recursive self-improvement loop behind
+      one set of doors, and the failure mode is containment. Every piece of regulatory machinery built
+      so far assumes that shape: compute thresholds, model evaluations, lab oversight, export controls
+      on training chips. You can inspect a lab.
     </p>
 
     <p>
-      Here is where I stop reporting and start extrapolating. If the shared memory has no canonical
-      form, it is not clear what a monitor should even be pointed at. You can read one agent&apos;s
-      memory. You can read whatever the last agent was handed. Neither is the system&apos;s
-      reasoning. Hive mind is a loose phrase and I am using it because nothing more precise exists:
-      nobody has an account of what the unit of thinking is once the state is shared, so nobody has
-      one for the unit of oversight either.
+      I think the shape is wrong, and I have thought so since before it was about language models. The
+      argument in <em>Microprediction</em> was that algorithms given economic agency would
+      self-organise into supply chains for rapidly repeated prediction tasks, and that businesses would
+      tap into those supply chains rather than build their own. No central designer, no single owner,
+      capability accruing to the arrangement rather than to any participant in it.
     </p>
 
     <p>
-      Anthropic reports a privileged band of
-      <a href="https://transformer-circuits.pub/2026/workspace/index.html">representations that can
-      be put into words</a>, with other computation running outside it and never verbalised. If
-      something like that band is what monitoring reads, then the question to ask of any design is
-      how much of its work goes through the band. Latent reasoning moves work out of it. Agents
-      swapping state extend the outside across the boundary between models. Which is, I notice, my
-      2023 two-map picture with more models in it, and I am not sure whether to be pleased.
-    </p>
-
-    <h2>The experiment nobody has run</h2>
-
-    <p>
-      Rounding to the nearest word is expensive, and everyone with a compute bill has a reason to
-      stop paying for it, between reasoning steps and between agents alike. Those are the same change
-      at two scales, and neither is motivated by anything to do with oversight.
+      That was written about algorithms that could not reason, and it required rails. Every
+      participant had to agree on interfaces, formats, schemas, conventions. Supply chains of
+      algorithms only assemble if the pieces fit, and making pieces fit is slow, political and
+      expensive. Becker and Murphy made the general point in 1992: the division of labour is bounded
+      by coordination costs. That bound is why the vision needed standards before it needed
+      anything else.
     </p>
 
     <p>
-      Which leaves a cheap question nobody has answered. Open models that reason in loops are
-      downloadable today. Monitoring suites exist. No published work runs one against the other, so
-      the only quantitative claim about monitorability loss in a shipped system is a lab reporting on
-      its own model, unreproduced. Everybody arguing about how much oversight is being lost,
-      including me, is arguing about a number that has never been measured.
+      Language models dissolve that bound. They are mediocre at many things and extraordinary at one
+      thing in particular, which is jumping from one railway gauge to another. Given a mismatched
+      schema, an undocumented endpoint, or a format nobody standardised, one of them adapts. The
+      historical barrier to networks forming was break-of-gauge, and the reason the original vision
+      needed rails was that algorithms could not regauge themselves. These ones can, continuously and
+      at no negotiating cost.
     </p>
 
     <p>
-      I got the direction right in 2023 and the timing wrong. I would rather not repeat the trick.
+      So the participants can reason, they can be handed numbers instead of words, and the
+      coordination cost that bounded how finely the work could be divided has collapsed. Those are
+      three separate changes and they all push the same way.
+    </p>
+
+    <p>
+      The economics has since been worked out more carefully than I managed then. When compute is
+      itinerant, free to move between tasks and run any available model, and returns to compute on any
+      one task diminish with crowding, each subcontractible task goes to whichever model creates the
+      most value per token. Productivity is $\theta = v(b)/c$, the value of accuracy over the cost of
+      compute, so capability is one input rather than the quantity that allocates the work. The
+      consequence is a closed-form equilibrium in which a model that outscores every rival on every
+      benchmark has production compute share tending to zero as the division of labour refines. The
+      generalist exits. The specialists take the work.
+    </p>
+
+    <p>
+      A singleton is the configuration the economics disfavours. The network is the one it produces.
+    </p>
+
+    <p>
+      This is where the phrase hive mind stops being decorative, and where I am extrapolating rather
+      than reporting. If several agents share a latent state with no canonical form, it is not obvious
+      what a monitor should be pointed at. You can read any one agent&apos;s memory. You can read
+      whatever the final agent was handed. Neither is the system&apos;s reasoning. Nobody has an
+      account of what the unit of thinking is once the state is shared, so nobody has one for the unit
+      of oversight either, and nobody has proposed a trust model for agents exchanging latent state
+      rather than text.
+    </p>
+
+    <p>
+      You can monitor a lab. Nobody has ever monitored a market.
+    </p>
+
+    <h2>The bodies</h2>
+
+    <p>
+      Moravec&apos;s point, forty years ago, was that reasoning is the easy part and perception and
+      movement the hard part: a toddler&apos;s sensorimotor competence being a harder engineering
+      problem than a grandmaster&apos;s chess. My 2023 essay argued the field was underrating the
+      reasoning half. If learned control now takes the motor half, both halves of the confident
+      negative fall about a decade apart, and &ldquo;the hard part is X&rdquo; has nowhere left to
+      stand.
+    </p>
+
+    <p>
+      Control is not solved, and the way it is unsolved matters. A 2026 scaling law finds the
+      demonstrations needed grow super-exponentially as target precision approaches a limit, and that
+      the limit &ldquo;is not a static physical constant of the task but an emergent property of the
+      entire agent system, including its sensors.&rdquo; The binding constraint is sensing. Sensing is
+      the part with no biological ceiling.
+    </p>
+
+    <p>
+      A human runs on two forward-facing eyes with one small patch of full acuity, a blind spot, and
+      depth inferred from a six-centimetre baseline. A current humanoid has surround cameras with no
+      blind spot and no foveal falloff, direct depth rather than inferred, exact joint angles from
+      encoders rather than fuzzy proprioception, and force sensing at every joint. One published spec
+      lists dual 8.85-megapixel stereo cameras at 90 hertz, which uncompressed is tens of gigabits per
+      second of raw input. That is not a better eye. It is a different problem.
+    </p>
+
+    <p>
+      The part that matters for this essay is not the input but the output. Two people who learn the
+      same skill each have to practise it. Boston Dynamics&apos; own Atlas specification sheet says:
+      &ldquo;Once one Atlas learns a new skill, that task can easily be deployed across your entire
+      Atlas fleet.&rdquo; The Open X-Embodiment collaboration went further, assembling data from 22
+      physically different robots across 21 institutions and demonstrating positive transfer between
+      them. There is no biological analogue for a learned sensorimotor policy being copied verbatim
+      into a different body.
+    </p>
+
+    <p>
+      Energy is the other thing that is about to move, and not because of batteries. An underactuated
+      machine has fewer actuators than degrees of freedom, so it cannot command arbitrary
+      accelerations and must exploit its own dynamics instead. McGeer&apos;s walkers descended a
+      shallow slope on gravity with essentially no actuation. Collins, Ruina, Wisse and Tedrake
+      reported robots built on those principles that &ldquo;use less control and less energy than
+      other powered robots, yet walk more naturally.&rdquo; Hand-tuned controllers struggled to
+      exploit passive dynamics because the useful behaviour lives in contact events and near
+      instabilities that are awkward to write down. Learned policies do not have to write it down. On
+      real hardware, a learned controller used 8.23 newton-metres against 11.7 and 78.1 watts against
+      97.3 compared with the best hand-tuned model-based controller at matched tracking accuracy.
+    </p>
+
+    <p>
+      So &ldquo;control became tractable&rdquo; and &ldquo;locomotion gets much cheaper&rdquo; are the
+      same development seen twice, which is the recurring shape of this whole essay: a constraint that
+      looked physical turning out to be a limitation in how we were specifying the problem.
+    </p>
+
+    <h2>Havana, 1991</h2>
+
+    <p>
+      In July 1991 I went to the International Physics Olympiad in Havana. Thirty-one countries,
+      thirteen gold medals awarded in total. China took five, which was all five of theirs, and more
+      than a third of the gold in the building.
+    </p>
+
+    <p>
+      What I remember is that they seemed nonchalant. Not triumphant. They finished and left.
+    </p>
+
+    <p>
+      They were seventeen. They are fifty-two now.
+    </p>
+
+    <p>
+      Two things about that medal table are invisible from inside it. The team cap allows five
+      entrants, so it cannot show how many more would have taken gold. And the exam has a ceiling. In
+      2023 China&apos;s five scored 29.6, 29.8, 29.9, 30.0 and 29.7 out of 30 on the theory paper,
+      against a field average of 58.7%. You cannot measure how much better they are, because the
+      instrument tops out before it reaches them.
+    </p>
+
+    <p>
+      The lab is not where they get found out. They averaged 89.9% experimental against Korea&apos;s
+      68.4% and America&apos;s 69.0%, and the gap between their theory and experimental performance is
+      the smallest of any leading country. Everyone else collapses on the bench. Though the single
+      highest experimental score in that field, the observed maximum, was American, which is worth
+      keeping in view.
+    </p>
+
+    <p>
+      You can estimate what the cap hides. China&apos;s fifth-best in 2023 sat 6.4 points above the
+      gold line, where America&apos;s fifth-best was below it; extrapolating from the spacing of their
+      own five scores puts the uncapped count near thirteen rather than five. In 2024 the same
+      arithmetic gives something closer to thirty. The estimator is crude and the magnitude is soft.
+      The direction is not, and Korea comes out nearly as high, so whatever this measures is not
+      uniquely Chinese.
+    </p>
+
+    <p>
+      I raise it for one reason only, which is that Western debate about AI proceeds as though Western
+      decisions determine the outcome.
+    </p>
+
+    <h2>The layer nobody in this argument controls</h2>
+
+    <p>
+      McCormick and D&apos;Amico call it the Electric Stack: lithium-ion batteries, magnets and
+      electric motors, power electronics, embedded compute. Four layers whose cost has fallen about
+      99% over recent decades, and the layers that turn electricity into action. By their account
+      China produces 75% of lithium-ion batteries globally and manufactures 90% of the neodymium
+      magnets that make motors spin.
+    </p>
+
+    <p>
+      The primary sources say much the same. China holds about 69% of world rare earth mine
+      production, but refining is the chokepoint: for the magnet rare earths specifically, the IEA
+      puts China at 92% of global refined output. The European Commission states that China provides
+      100% of the EU&apos;s supply of heavy rare earth elements. On batteries the IEA gives 85% of
+      cell production capacity, 90% of cathode and 98% of anode material, and almost 100% of lithium
+      iron phosphate capacity. Graphite is 78% of mining and 99% of the spherical graphite market.
+    </p>
+
+    <p>
+      The bottom of that stack is an armed border zone. Global Witness reports that all the heavy rare
+      earths mined in Myanmar are exported to China, from deposits in Kachin State largely controlled
+      by an armed organisation, and that &ldquo;imports from Myanmar now exceed China&apos;s domestic
+      mining quotas, so even if the mines in China were producing at full capacity, Myanmar would
+      remain the country&apos;s single largest source of rare earths.&rdquo;
+    </p>
+
+    <p>
+      These are not theoretical levers. China produces 99% of primary low-purity gallium, imposed
+      export licensing in August 2023 and banned exports to the United States entirely in December
+      2024, with prices up 58% year on year. Germanium exports fell 55% and the metal went from
+      $1,550 to $2,950 per kilogram.
+    </p>
+
+    <p>
+      The Western chokepoint is real and narrow. ASML states in its own annual report that it is
+      &ldquo;currently the world&apos;s only manufacturer of EUV lithography systems,&rdquo; and that
+      it depends on a single supplier for optics without whom &ldquo;we would effectively cease to be
+      able to conduct our business.&rdquo; That is a genuine monopoly on the hardest machine ever
+      built.
+    </p>
+
+    <p>
+      The same filing notes that China&apos;s rare earth rules led ASML to begin preparing in early
+      2024 &ldquo;with a focus on magnets used in our systems.&rdquo; The machine nobody else can
+      build depends on materials controlled by the country it is meant to contain.
+    </p>
+
+    <p>
+      Whether China closes the lithography gap is the wrong question anyway, for two reasons. The
+      substrate for embodied AI is mature-node power electronics and motor control rather than
+      two-nanometre logic, and nothing in a robot&apos;s limb needs a leading-edge part.
+    </p>
+
+    <p>
+      The second reason is that arguing they cannot requires naming which constraint binds. Talent is settled. Capital is settled. Will is a
+      stated national priority with a dedicated fund. That leaves time, which is a schedule rather
+      than a barrier, and the honest sceptical case says exactly that: the leading equipment firms
+      &ldquo;enjoy wide moats of intellectual property and world-class teams of engineers, making it
+      exceptionally difficult for newcomers to catch up.&rdquo; Difficult and slow. Those are
+      durations.
+    </p>
+
+    <h2>Regulating the wrong variable</h2>
+
+    <p>
+      None of the above is about China. If separation capacity and magnet production sat in Belgium
+      the argument would be identical. The point is about Western regulation, and there are three
+      independent reasons to think it is aimed at the wrong thing.
+    </p>
+
+    <p>
+      It regulates capability, and capability does not allocate the work. Export controls and compute
+      thresholds optimise $b$. Allocation runs on $v(b)/c$. The question for strategy is not who owns
+      the most capable model but who owns the productivity frontier on an economically material part
+      of the limiting division of labour.
+    </p>
+
+    <p>
+      The rules are drafted with heavy input from the firms they would bind, and the shapes being
+      proposed happen to be the shapes that raise barriers to entry while leaving incumbents intact.
+      Reasonable people dispute whether that is design or coincidence, and I do not think the essay
+      needs to settle it. The lobbying positions are public.
+    </p>
+
+    <p>
+      And the physical layer is elsewhere. A rule written in Brussels or Sacramento governs what may
+      be deployed in Brussels or Sacramento. It does not govern what gets built, by whom, out of what.
+    </p>
+
+    <h2>The experiments nobody has run</h2>
+
+    <p>
+      Rounding to the nearest word is expensive, and everyone with a compute bill has a reason to stop
+      paying for it, between reasoning steps and between agents alike. Those are the same change at
+      two scales, and neither is motivated by anything to do with oversight.
+    </p>
+
+    <p>
+      Which leaves questions with cheap answers that nobody has produced. Open models that reason in
+      loops are downloadable and monitoring suites exist, but no published work runs one against the
+      other, so the quantitative claims about monitorability loss in shipped systems come from the
+      labs that ship them, with a single external evaluation attached and no independent
+      reproduction.
+    </p>
+
+    <p>
+      Nor has anyone separated model size from amount of pretraining as the cause of latent reasoning
+      failing to install, proposed a trust model for agents exchanging latent state, or written down
+      in print the argument that participation in a networked ecosystem becomes economically
+      compulsory and isolation-based security therefore stops being affordable.
+    </p>
+
+    <p>
+      I got the direction right in 2023 and the timing wrong, and the reason was that I reasoned from
+      what had not happened yet. Almost every reassurance in this piece makes the same move. It is a
+      bad move when the thing you are reasoning about is under active construction by people with
+      money, and it is a worse one when the instruments you would use to check are saturating.
+    </p>
+
+    <p>
+      I am not predicting catastrophe. I am saying the arguments against it are weaker than their
+      confidence, that the unit everyone is regulating is not the unit where the action is, and that
+      the measurements that would settle any of this are cheap and have not been taken.
     </p>
 
     <p class="muted">
-      The <a href="./monitorability.html">monitorability</a> page has the measurements and their
-      sources. The <a href="./map.html">map</a> records the gaps, this one included.
+      The <a href="./monitorability.html">monitorability</a> page carries the measurements and their
+      sources. The <a href="./map.html">map</a> records the gaps, several of which this essay leans
+      on.
     </p>
-
   </main>
 
   <footer>
