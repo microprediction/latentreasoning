@@ -172,7 +172,7 @@
       <h3>5. Contentless tokens <span class="tag">extra compute, no channel</span></h3>
       <p>
         The control experiment for the whole field. If intermediate tokens help because they carry
-        reasoning content, then meaningless tokens should not help; if they help because they buy
+        reasoning content, then meaningless tokens should not help. If they help because they buy
         serial positions and computation, meaningless tokens should help too.
       </p>
       <p>
@@ -230,15 +230,19 @@
         recursion in a continuous state with no emitted intermediate tokens, matching the definition
         above. And the scale sits far below the recurrent-depth language models: HRM&apos;s 27M
         parameters are about 96&times; smaller than Ouro at 2.6B and 130&times; smaller than Huginn
-        at 3.5B, and TRM&apos;s 7M about 370&ndash;500&times; smaller &mdash; two to nearly three
-        orders of magnitude, depending on which pair one takes. Those headline counts are the recurrent
-        network alone. On ARC both models also carry a per-puzzle embedding table, roughly 876,000
-        puzzles by 512 dimensions in TRM&apos;s case, registered as a buffer and so excluded from the
-        reported figure. Whether it belongs in the count is disputed in both projects&apos; issue
-        trackers and unanswered by their maintainers. The systems differ in architecture,
-        training regime, data and task, so the ratio does not isolate depth as the cause. What it
-        supports is narrower: small recurrent networks report strong results on these puzzle
-        benchmarks.
+        at 3.5B, and TRM&apos;s 7M about 370&ndash;500&times; smaller, two to nearly three orders of
+        magnitude depending on which pair one takes.
+      </p>
+      <p>
+        Those headline counts are the recurrent network alone. On ARC both models also carry a
+        per-puzzle embedding table, roughly 876,000 puzzles by 512 dimensions in TRM&apos;s case,
+        registered as a buffer and so excluded from the reported figure. Whether it belongs in the
+        count is disputed in both projects&apos; issue trackers and unanswered by their maintainers.
+      </p>
+      <p>
+        The systems differ in architecture, training regime, data and task, so the ratio does not
+        isolate depth as the cause. What it supports is narrower: small recurrent networks report
+        strong results on these puzzle benchmarks.
       </p>
       <p class="muted">
         Several results cut against the reading. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
@@ -304,7 +308,7 @@
     <h3>Prompted implicit reasoning is mostly shortcuts</h3>
     <p>
       <a href="https://arxiv.org/abs/2411.15862">Yu (2024)</a> finds that models merely <em>prompted</em> to reason implicitly barely compute
-      genuine intermediate steps and lean on memorised shortcuts; models specifically
+      genuine intermediate steps and lean on memorised shortcuts. Models specifically
       <em>trained</em> for implicit CoT do show evidence of real internal stepwise computation.
       Both are brittle to superficial reformatting. Claims that "the model is reasoning
       internally" need to say which of these two situations they are in.

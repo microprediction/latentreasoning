@@ -134,7 +134,7 @@
           <a href="https://arxiv.org/abs/2305.15408">arXiv:2305.15408</a>.
           <em>Assuming $\mathsf{TC}^0 \neq \mathsf{NC}^1$, no fixed-depth log-precision
           transformer of polynomial width solves arithmetic-expression evaluation or linear-equation
-          solving over $\mathbb{Z}_p$ at all sizes; constant-size autoregressive models with chain
+          solving over $\mathbb{Z}_p$ at all sizes. Constant-size autoregressive models with chain
           of thought can, and can implement dynamic programming. Conditional, and scoped to those
           two problem families: not &ldquo;arithmetic&rdquo; generally.</em>
         </li>
@@ -195,7 +195,7 @@
           Xu, K., and Sato, I. (2025).
           <a href="https://arxiv.org/abs/2505.19245"><em>To CoT or To Loop? A Formal Comparison
           Between Chain-of-Thought and Looped Transformers</em></a>. arXiv:2505.19245.
-          <em>Loops efficiently emulate parallel DAG-structured deterministic computation; sequential
+          <em>Loops efficiently emulate parallel DAG-structured deterministic computation. Sequential
           chain of thought suits self-reducible compositional problems. No universal conversion
           between loop count and token count: the relationship is structural.</em>
         </li>
@@ -251,7 +251,7 @@
         <li>
           Svete, A., Merrill, W., Cotterell, R., and Sabharwal, A. (2026).
           <a href="https://arxiv.org/abs/2605.30523"><em>Revisiting Padded Transformer Expressivity: Which Architectural Choices Matter and Which Don&rsquo;t</em></a>. arXiv:2605.30523.
-          <em>Precision and depth change padded-transformer expressivity; attention type and width above logarithmic do not. Polynomially padded constant-precision transformers equal L-uniform AC0, growing precision reaches TC0 regardless of width, and the results hold for both softmax and average-hard attention.</em>
+          <em>Precision and depth change padded-transformer expressivity. Attention type and width above logarithmic do not. Polynomially padded constant-precision transformers equal L-uniform AC0, growing precision reaches TC0 regardless of width, and the results hold for both softmax and average-hard attention.</em>
         </li>
         <li>
           Kraus, M., Sarrof, Y., Yao, Y., Koller, A., and Hahn, M. (2026).
@@ -583,7 +583,7 @@
           <a href="https://arxiv.org/abs/2411.15862"><em>Do LLMs Really Think Step-by-step In
           Implicit Reasoning?</em></a> arXiv:2411.15862.
           <em>Models merely <em>prompted</em> to reason implicitly barely compute genuine
-          intermediate steps and lean on memorised shortcuts; models specifically
+          intermediate steps and lean on memorised shortcuts. Models specifically
           <em>trained</em> for it do show real internal computation. Both are brittle to
           reformatting.</em>
         </li>
@@ -620,7 +620,7 @@
           <a href="https://arxiv.org/abs/2605.26733"><em>Stabilizing Recurrent Dynamics for
           Test-Time Scalable Latent Reasoning in Looped Language Models</em></a>.
           arXiv:2605.26733. <em>Looped performance peaks at some recurrence depth and then
-          collapses with further looping; spectral-radius regularisation is proposed as the fix.
+          collapses with further looping. Spectral-radius regularisation is proposed as the fix.
           Directly against the infinite-depth framing.</em>
         </li>
               <li>
@@ -636,7 +636,7 @@
         <li>
           Sharma, A., and Vu, T. (2026).
           <a href="https://arxiv.org/abs/2606.24898"><em>Dense Supervision Is Not Enough: The Readout Blind Spot in Looped Language Models</em></a>. arXiv:2606.24898.
-          <em>Per-loop cross-entropy constrains only what the readout exposes, leaving the rest of the recurrent state unsupervised; hidden-state norms grow into the thousands under naive scale-invariant readouts.</em>
+          <em>Per-loop cross-entropy constrains only what the readout exposes, leaving the rest of the recurrent state unsupervised. Hidden-state norms grow into the thousands under naive scale-invariant readouts.</em>
         </li>
         <li>
           Kuo, C.-C., Chayti, E. M., Reizinger, P., Brendel, W., and Jaggi, M. (2026).
@@ -646,7 +646,7 @@
         <li>
           Larson, S. (2026).
           <a href="https://arxiv.org/abs/2609.03090"><em>The Gradient Does Not See Rank: Rank-Indifference in Matrix-CODI on ProsQA</em></a>. arXiv:2609.03090.
-          <em>Tests the superposition reading of matrix-valued CODI by ablating the latent matrix to low rank; accuracy is flat to within 0.6 points across three regimes, three seeds and four readouts. A matched control on vanilla GPT-2 reproduces the flat curve, so the paradigm cannot separate rank-blindness from position-irrelevance.</em>
+          <em>Tests the superposition reading of matrix-valued CODI by ablating the latent matrix to low rank. Accuracy is flat to within 0.6 points across three regimes, three seeds and four readouts. A matched control on vanilla GPT-2 reproduces the flat curve, so the paradigm cannot separate rank-blindness from position-irrelevance.</em>
         </li>
         <li>
           Ding, Y., Huang, Z., and Yang, L. (2026).
@@ -1223,6 +1223,43 @@
           under-documented outer refinement loop drove most of the gain, and that &ldquo;most of the
           performance comes from memorizing solutions to the specific tasks used at evaluation
           time.&rdquo; Not on arXiv.</em>
+        </li>
+        <li>
+          Wang, G., Liu, C., Wang, C., Zhou, C., Sun, Y., Wu, Y., Zhen, S., Scimeca, L., and Abbasi
+          Yadkori, Y. (2026).
+          <a href="https://arxiv.org/abs/2605.20613"><em>HRM-Text: Efficient Pretraining Beyond
+          Scaling</em></a>. arXiv:2605.20613.
+          <em>Takes the hierarchical recurrent architecture to language-model pretraining. A 1B model
+          trained from scratch on 40B unique tokens, repeated to 60B, for a stated $1,500 reports
+          60.7% MMLU, 84.5% GSM8K and 56.2% MATH, which the paper places &ldquo;roughly
+          100&ndash;900&times; fewer training tokens and 96&ndash;432&times; less estimated
+          compute&rdquo; than the open baselines it lists. Several things qualify that comparison,
+          and they pull in different directions.</em>
+        </li>
+        <li>
+          <em>HRM-Text, the ablations.</em>
+          <em>The architecture claim has a FLOPs-matched ablation behind it, which is more than most
+          such claims carry: at equal compute the recurrent model reaches 60.73 MMLU against 56.51
+          for a looped transformer, 56.09 for RINS, 53.15 for a plain 1B transformer and 56.67 for a
+          3B one, and the plain transformer saw 0.17T tokens to the recurrent model&apos;s 0.06T. The
+          same tables also show the training recipe carrying more of the total than the architecture:
+          a transformer goes 40.55 to 47.72 to 53.15 as the task-completion objective and PrefixLM
+          masking are added, before the architecture swap adds 53.15 to 60.73. The architecture
+          contribution is larger in combination with the objective than alone.</em>
+        </li>
+        <li>
+          <em>HRM-Text, the comparison.</em>
+          <em>The baselines in the headline table are pretrained on raw web text at trillions of
+          tokens; HRM-Text trains on instruction-response pairs with response-only loss and is
+          evaluated on instruction-shaped benchmarks, so the two are not doing the same task. The
+          corpus includes LLM-rewritten Wikipedia and reasoning-model distillation sets, with
+          <code>&lt;think&gt;</code> spans stripped, and the cost of generating that upstream data is
+          not counted in the $1,500. The paper runs an n-gram contamination test and finds DROP
+          significant at n=13 but not n=20. It does not address whether training on instruction pairs
+          brings the training distribution closer to the benchmark format. Two open reports on the
+          project&apos;s own tracker are unanswered: that the evaluation harness credits
+          $1/|\text{options}|$ when the model emits no parseable answer, and that rebuilding the
+          corpus from the released pipeline yields about 0.73&times; the stated token count.</em>
         </li>
 </ul>
 

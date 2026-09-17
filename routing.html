@@ -103,7 +103,7 @@
     <p>
       Confident Adaptive Language Modeling (<a href="https://arxiv.org/abs/2207.07061">Schuster et al. 2022</a>) is the antecedent for the
       exit-classifier form, reporting up to threefold speedups with calibrated sequence-level
-      guarantees. A 2026 alternative dispenses with the learned gate entirely: halt a token&apos;s
+      guarantees. A 2026 alternative dispenses with the learned gate entirely. One halts a token&apos;s
       recursion once successive loop outputs stop changing, measured by a divergence threshold,
       giving a 38% average depth reduction at quality parity on a 135M model without training a
       router at all.
@@ -167,7 +167,7 @@
       Two 2026 results caution against reading much into what those routers decide. Wang, Hayou and
       Nalisnick bound the distance between two tokens&apos; routing logits by their distance in the
       router-relevant subspace of hidden-state space, plus a residual. Similar hidden states
-      therefore give similar logits. The converse fails, and the paper says so: different hidden
+      therefore give similar logits. The converse fails, and the paper says so. Different hidden
       states can produce either similar or different logits, a relationship it calls many-to-one.
     </p>
 

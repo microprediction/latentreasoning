@@ -40,7 +40,7 @@
 
     <p class="lead">
       A language model that reasons step by step writes each step down. The step is rounded to the
-      nearest token, emitted, and read back in. That rounding is not incidental: it is a
+      nearest token, emitted, and read back in. That rounding is not incidental. It is a
       <em>quantiser</em> sitting in the middle of the reasoning loop, and it throws away
       almost everything the model computed. Latent reasoning is the study of what happens when you
       take it out.
@@ -126,14 +126,14 @@
     <p>Depth-recurrent and latent methods beat token-matched explicit chain of thought on reported
       accuracy per inference FLOP and on thought-phase latency, and open weights exist at 1.4B to
       3.5B parameters. But parameter savings, training compute, inference compute and wall-clock
-      latency are four different ledgers, and a win in one is not a win in the others: the iso-depth
+      latency are four different ledgers, and a win in one is not a win in the others. The iso-depth
       scaling study prices a recurrence at roughly $r^{0.46}$ equivalent unique parameters and finds
       a <em>training</em>-compute cost to parameter sharing in its setup. Claims here should say
       which ledger they are drawn on.
     </p>
 
     <h4>The mechanism claims are contested</h4>
-    <p>The theoretical selling point of continuous thoughts is superposition: holding several
+    <p>The theoretical selling point of continuous thoughts is superposition, holding several
       reasoning paths at once rather than committing to one. That mechanism is proven for a specific
       construction and demonstrated in models trained from scratch. It was also shown not to occur
       in one prominent method that claimed it, and shown to collapse under the fine-tuning regimes

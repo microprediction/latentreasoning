@@ -67,7 +67,7 @@
     <p>
       The bound applies to the feedback path. By the
       <a href="./intro.html">alphabet-capacity bound</a> $H(x_t) \leq \log_2|V|$, an emitted token
-      carries roughly seventeen bits. That is not a bound on everything crossing between steps: a
+      carries roughly seventeen bits. That is not a bound on everything crossing between steps. A
       cached decoder also retains activations at every layer and position, and attention at later
       positions reads them directly, so the emitted token is not a seventeen-bit bottleneck on all
       persistent computation. The <a href="./intro.html">introduction</a> separates the two paths.
@@ -99,7 +99,7 @@
       failing to mention the biasing feature in their stated reasoning. <a href="https://arxiv.org/abs/2307.13702">Lanham et al. (2023)</a>
       introduced interventional metrics, truncation, inserted mistakes, paraphrasing, filler
       substitution, and found models often reach the same answer regardless of what the
-      chain of thought says. The scale finding is stronger than a null result: as models become larger
+      chain of thought says. The scale finding is stronger than a null result. As models become larger
       and more capable they produce <em>less</em> faithful reasoning on most tasks studied.
     </p>
 
@@ -153,7 +153,7 @@
       an implicit bias, and unfaithful illogical shortcuts, where subtly flawed reasoning makes a
       speculative answer look proven. The phenomenon is not an artefact of injecting a cue.
       <a href="https://arxiv.org/abs/2603.05488">Boppana et al. (2026)</a> report what they call
-      performative chain of thought on DeepSeek-R1 and GPT-OSS-120B: the model becomes internally
+      performative chain of thought on DeepSeek-R1 and GPT-OSS-120B. The model becomes internally
       confident in an answer and carries on emitting tokens that do not reveal that belief.
     </p>
 
@@ -254,9 +254,9 @@
     <h2>Encoded reasoning</h2>
 
     <p>
-      A model does not need a latent architecture to hide reasoning: it can hide it in
+      A model does not need a latent architecture to hide reasoning. It can hide it in
       innocuous text. <a href="https://arxiv.org/abs/2310.18512">Roger &amp; Greenblatt (2023)</a> fine-tuned GPT-3.5-Turbo to embed intermediate
-      reasoning steganographically in ordinary-looking output: it expressed opinions matching the
+      reasoning steganographically in ordinary-looking output. It expressed opinions matching the
       user's stated beliefs 80% of the time with the hidden channel against 54% without. They also
       test a defence: context-aware paraphrasing of the chain of thought, combined with penalties
       for abnormal generations. Across the encoding schemes they built, on one instruction dataset
@@ -338,8 +338,8 @@
     </p>
     <h4>The card does not name an architecture</h4>
     <p>It never names the
-      architecture. Recurrent depth, looped transformers, opaque recurrence: none of these
-      appear in it. That attribution comes from reporting: The Information on 1 September,
+      architecture. Recurrent depth, looped transformers, opaque recurrence, none of these
+      appear in it. That attribution comes from reporting. The Information on 1 September,
       followed by
       <a href="https://techcrunch.com/2026/09/02/openais-new-reasoning-technique-alarms-ai-safety-experts/">TechCrunch</a>
       and Fortune. </p>
