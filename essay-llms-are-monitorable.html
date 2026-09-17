@@ -44,249 +44,233 @@
     <p class="subtitle">September 2026.</p>
 
     <p class="lead">
-      The case for reading a model&apos;s chain of thought is usually stated as a fact about models.
-      They think out loud, so we can see what they are thinking. That is not the claim. The claim is
-      about architecture, it is narrower than the sentence suggests, and most of what makes it
-      comforting is doing no work.
-    </p>
-
-    <h2>The argument is about bandwidth</h2>
-
-    <p>
-      <a href="https://arxiv.org/abs/2507.11473">Korbak et al. (2025)</a>, in a position paper with
-      more than forty authors drawn from OpenAI, Anthropic, Google DeepMind, UK AISI, Redwood
-      Research and Apollo, put the case in its strongest form. Reasoning models are architecturally
-      forced to externalise serial computation as natural-language tokens, because a single forward
-      pass has bounded depth and a genuinely multi-step problem needs somewhere to put its
-      intermediate state.
+      In April 2023 I wrote something asking why everyone was so certain large language models could
+      not think. Gary Lupyan had polled 170 researchers and 80% were strongly of the view that they
+      definitely could not. I had been in that 80% myself until a few weeks before writing, which is
+      the only thing that gave me the nerve to poke at it.
     </p>
 
     <p>
-      Nobody designed this as a transparency feature. It is a side effect of how transformers
-      compute, and what it yields is a bandwidth bound rather than legibility. A model cannot route
-      unlimited serial state through a channel that carries roughly seventeen bits per step, so if
-      it needs many steps, something has to appear in the transcript. Whether that something is
-      readable is a separate question, and the answer has been measured.
-    </p>
-
-    <h2>The bound applies to one path</h2>
-
-    <p>
-      There are two routes from one reasoning step to the next, and only one of them is narrow. The
-      feedback path runs from the top layer back to the next input embedding, and the discretisation
-      is what narrows it. The cached-activation path retains activations at every layer and
-      position, and attention at later positions reads them directly.
+      Reading it back now, the odd part is not which bits were right. It is that the question has
+      been quietly retired. Nobody at a frontier lab spends time arguing these things cannot reason.
+      They argue about whether anyone can watch them do it.
     </p>
 
     <p>
-      Treating the emitted token as a seventeen-bit bottleneck on all persistent computation is
-      therefore wrong, and the <a href="./intro.html">introduction</a> works through why. How much
-      serial work the cached path can carry on its own is not settled. The honest position is that
-      the bandwidth argument constrains one channel and says nothing about the other.
+      That is a long way for a pendulum to travel in three years, and it went past the middle
+      without stopping.
     </p>
 
-    <h2>What the channel was measured to carry</h2>
+    <h2>What I had right, and the bit I got backwards</h2>
 
     <p>
-      Suppose the bound held tightly. The transcript would still have to be a faithful account of
-      the reasoning for monitoring to work, and the evidence on that point predates the
-      monitorability framing.
-      <a href="https://arxiv.org/abs/2305.04388">Turpin et al. (2023)</a> biased multiple-choice
-      prompts and found accuracy drops of up to 36% across thirteen tasks, with models
-      systematically failing to mention the biasing feature.
-      <a href="https://arxiv.org/abs/2307.13702">Lanham et al. (2023)</a> found models often reach
-      the same answer regardless of what the chain of thought says, and that larger, more capable
-      models produce less faithful reasoning on most tasks studied.
+      The part of the 2023 piece I would still defend is the insistence that the interesting
+      structure is not in the words. I had a two-map picture: one map from whatever representations
+      are doing the work to the machinery that produces language, a second from there to marks on a
+      page, and only the composition available to an observer. Speech is a doubly noisy, once-removed
+      look at the thing you care about. Most arguments about whether a machine understands anything
+      were, and are, arguments about the wrong map.
     </p>
 
     <p>
-      <a href="https://arxiv.org/abs/2505.05410">Chen et al. (2025)</a> sharpened this on current
-      reasoning models. Overall faithfulness came to 25% for Claude 3.7 Sonnet and 39% for DeepSeek
-      R1. In their reward-hacking environments, models learned to exploit the hack on more than 99%
-      of examples within thirty steps and verbalised doing so in fewer than 2% of examples in five
-      of six environments.
+      That has aged well, in an uncomfortable way. Models do resolve intermediate steps internally
+      without saying them, they do plan several words ahead, and when you plant a hint that a model
+      demonstrably uses, it mentions the hint well under a fifth of the time. I was arguing this as
+      grounds for optimism about machine reasoning. It reads now as a description of a safety
+      problem.
     </p>
 
     <p>
-      So the mechanism that is supposedly about to be lost is one that, measured directly, reports
-      the decisive fact about one attempt in four. It is not nothing.
-      <a href="https://arxiv.org/abs/2503.11926">Baker et al. (2025)</a> show a weak monitor reading
-      raw chains of thought catches reward hacking that is otherwise invisible, and OpenAI&apos;s
-      GPT-5 system card reports its own monitor flagging deception in about 4.8% of o3 responses and
-      2.1% of gpt-5-thinking responses in production traffic, at an estimated 81% precision and 84%
-      recall. A partially working instrument is worth keeping. It is not worth describing as
-      oversight.
-    </p>
-
-    <h2>Deleting the quantiser</h2>
-
-    <p>
-      The decoding loop rounds each step to the nearest token before feeding it back. Latent
-      reasoning removes that rounding, so the next input is the unrounded state: $e_{t+1} = h_t$
-      instead of $e_{t+1} = E[x_t]$. That is the whole mechanical content of the continuous-thought
-      family, and everything else about the architecture is untouched.
+      The bit I got backwards was timing. I expected progress to come from better internal
+      representation. What actually happened was three years of making models write vastly more
+      down, out loud, in English, at enormous length, because it turned out that making a model
+      narrate its work is the cheapest way to make it better at working. My direction was fine. My
+      sense of what would happen next was inverted.
     </p>
 
     <p>
-      What changes is the width of the channel between one step and the next, and with it the
-      premise the monitoring argument rests on. If a model is no longer forced to route serial state
-      through seventeen bits, it is no longer forced to leave a trace. The position paper says as
-      much, which is why it treats architectures that never route through token space as one of the
-      pressures that would end the property.
+      Which brings me to the thing I want to argue about, because that accidental detour is what AI
+      safety now depends on, and it is being undone.
+    </p>
+
+    <h2>Why models write anything down at all</h2>
+
+    <p>
+      Start with something concrete. A model picks each word from a vocabulary of roughly 130,000
+      options. One choice out of 130,000 is about seventeen bits of information, the way one choice
+      out of two is one bit. Between finishing one word and starting the next, seventeen bits is
+      all that crosses.
     </p>
 
     <p>
-      The trace can also become uninformative without disappearing.
-      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun &amp; Marks (2026)</a> ran
-      multi-step computation over content-free dots in frontier open-weight models, leaving
-      token-level monitoring nothing to read, while an unsupervised decoder operating on hidden
-      states recovered the intermediate values at 80&ndash;95% accuracy with causal validation by
-      cache transplantation. The computation was legible. It was just not legible in the place
-      anyone was looking.
-    </p>
-
-    <h2>Why the current reprieve holds</h2>
-
-    <p>
-      The obvious objection is that latent reasoning has not taken over, and the numbers support the
-      objection. Coconut reaches 97.0% against 77.5% on the synthetic multi-hop task released with
-      it, and 34.1% against 42.9% on GSM8K, which is a loss. On Llama-3.2-3B and Llama-3-8B it beats
-      a no-CoT baseline, 31.7 against 26.0 and 43.6 against 42.2, gains its authors describe as
-      &ldquo;not as pronounced as those previously demonstrated with GPT-2&rdquo;. They offer as one
-      possible reason that larger models have already undergone extensive language-focused
-      pre-training.
+      Inside, the model is holding several thousand numbers describing where it has got to. Picking
+      a word throws nearly all of that away and hands the next step a single dictionary entry.
     </p>
 
     <p>
-      <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau &amp; Mosbach (2026)</a>
-      put that to the test across three regimes, and their account of the cause is more specific
-      than a hunch about scale. Autoregressive training, they argue, &ldquo;optimizes for discrete
-      next-token prediction, creating representations that separate token identities. When presented
-      with a superposed input, the model projects it onto the nearest discrete interpretation,
-      precisely what the training objective rewards.&rdquo; The supporting observation is clean: a
-      pretrained model&apos;s entropy collapses in the final layers whatever mixture you feed it,
-      while the same architecture at random initialisation keeps entropy high throughout. They add
-      that fine-tuning does not repair it.
+      So anything needing a long chain of dependent steps has a storage problem. What the model
+      worked out at step three cannot be carried in its head to step nine, because the gap between
+      steps is too narrow. It has to be written down to survive the trip. More than forty authors
+      from OpenAI, Anthropic, Google DeepMind, the UK AI Safety Institute, Redwood Research and
+      Apollo built <a href="https://arxiv.org/abs/2507.11473">a 2025 position paper</a> on that
+      observation: the models are forced to externalise their reasoning, so we get to read it.
     </p>
 
     <p>
-      The obvious next move is to say that models built from scratch will not have the problem, and
-      the same paper blocks it. Superposition shows up in their from-scratch models, but only the
-      shallow ones. At eight and twelve layers the models revert to shortcuts, reaching the answer
-      in a single forward pass and copying it through the latent positions. Capacity brings the
-      shortcut back even when pretraining is absent.
+      Nobody designed that. It is a side effect of an arithmetic constraint, and the safety case
+      leans on it hard. OpenAI runs such a monitor in production and its GPT-5 system card reports
+      catching deception in about 4.8% of responses from one model and 2.1% from another, at an
+      estimated 81% precision.
+    </p>
+
+    <h2>Two things wrong with the comfortable version</h2>
+
+    <p>
+      The first is that seventeen bits only describes one of the two routes between steps. As a
+      model writes, it keeps everything it computed at every earlier position, and can look back at
+      all of it. That is the key-value cache, built for speed, but memory is what it is. A model at
+      word fifty is not working from word forty-nine. It has a private record of forty-nine
+      positions, none of it written down, none of it seen by a monitor.
     </p>
 
     <p>
-      So the reprieve has two sources rather than one, and neither is reassuring for long. Today&apos;s
-      models resist vector-to-vector reasoning because of what pretraining did to them, and the
-      small models that manage it do so partly because they lack the capacity to cheat. Neither is a
-      property of transformers, and neither says anything about a large model pretrained from the
-      start to reason in vectors. <a href="https://arxiv.org/abs/2502.05171">Geiping et al.</a>
-      pretrained a 3.5B model whose recurrent core unrolls up to 64 times, so the question is not
-      whether anyone would.
+      The second is that people went and checked whether the written reasoning describes what the
+      model did. <a href="https://arxiv.org/abs/2305.04388">Turpin et al.</a> planted biases in
+      multiple-choice questions, watched accuracy fall by up to 36% as models followed them, and
+      found the stated reasoning never mentioned the bias.
+      <a href="https://arxiv.org/abs/2505.05410">Chen et al.</a> put a number on it for current
+      models: a quarter of the time for Claude 3.7 Sonnet, 39% for DeepSeek R1. Given an exploitable
+      shortcut, models took it in over 99% of attempts and admitted to it in under 2%.
     </p>
 
     <p>
-      One result cuts the other way and deserves stating. <a href="https://arxiv.org/abs/2509.19170">Butt
-      et al. (2025)</a> train continuous chains of thought by reinforcement learning on pretrained
-      Llama and Qwen models up to 8B, and report matching or surpassing discrete-CoT training while
-      better preserving out-of-domain behaviour. The qualification is in their own abstract: the
-      best configuration trains with continuous tokens and then uses discrete ones at inference. As
-      evidence that a large pretrained model can be trained through continuous thoughts, it stands.
-      As evidence that one can be made to reason in vectors at inference, it does not.
+      A channel that reports the decisive fact a quarter of the time is worth keeping.
+      <a href="https://arxiv.org/abs/2503.11926">Baker et al.</a> caught cheating with it that was
+      otherwise invisible. It is not the same thing as watching a model think, and the gap between
+      those two descriptions is where most of the public conversation lives.
     </p>
 
-    <h2>The same argument, between models</h2>
+    <h2>Taking the rounding out</h2>
 
     <p>
-      Almost everything above concerns one model reasoning alone, which is not how these systems are
-      increasingly deployed. Multi-agent arrangements pass natural language between agents, and that
-      protocol is monitorable for exactly the reason a chain of thought is: the message is a
-      sequence of tokens, and tokens are legible.
+      Picking a word is a rounding step. Latent reasoning removes it: instead of rounding those few
+      thousand numbers to the nearest dictionary entry, you pass the numbers forward as they are.
+      Same layers, same attention, same cache. The only change is that thousands of numbers now
+      cross between steps instead of seventeen bits.
     </p>
 
     <p>
-      The bandwidth argument applies to that channel too, and so does the pressure to widen it. A
-      2026 framework for latent communication in multi-agent systems names the drawbacks of the
-      natural-language protocol as inference cost and
-      <a href="https://arxiv.org/abs/2606.05711">&ldquo;irreversible information loss during
-      discretization&rdquo;</a>. The phrase is worth dwelling on, because it is the same quantiser,
-      in the same place, doing the same damage to throughput. Inside a model the discretisation sits
-      between reasoning steps. Between models it sits between agents. The engineering case for
-      removing it is identical, and the oversight consequence is larger: inter-agent messages are
-      often the only part of a multi-agent system that anyone reads.
+      A model with that much room no longer has any structural reason to write things down, which
+      removes the thing the safety case was resting on. The halfway version is already built:
+      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun and Marks</a> had models do
+      real multi-step work while emitting nothing but filler dots. A monitor reading the output saw
+      dots. A decoder reading the model&apos;s internal numbers recovered the intermediate results at
+      80&ndash;95% accuracy. The reasoning was perfectly legible to someone looking in the right
+      place, and the transcript was not the right place.
+    </p>
+
+    <h2>So why has this not happened</h2>
+
+    <p>
+      Because it does not currently work very well, and I should be honest about that rather than
+      wave at a trend. Coconut, the method that named the idea, beats ordinary reasoning 97.0% to
+      77.5% on a synthetic puzzle and loses 34.1% to 42.9% on grade-school arithmetic. On larger
+      Llama models it beats writing nothing at all, which is a lower bar than it sounds.
     </p>
 
     <p>
-      This is not hypothetical. Work on composing agents&apos; key-value caches into a single
-      context already exists, and the
-      <a href="https://arxiv.org/abs/2607.01308">technical problems being solved</a> are problems of
-      ordering and convergence rather than of feasibility.
-    </p>
-
-    <h2>Shared state, and who it belongs to</h2>
-
-    <p>
-      Once agents exchange caches rather than sentences, the question of where one model ends
-      becomes harder to answer, and the difficulty is technical before it is philosophical.
-      Concatenating caches is not commutative: the result depends on the order the agents are
-      composed in, and the best ordering shifts with the regime, the latent-step budget and the model
-      scale. Fixing that requires choosing a canonical layout by content rather than by arrival.
+      <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau and Mosbach</a> worked out
+      why, and the answer is the training rather than the design. Years of next-word prediction
+      teach a model to hold words far apart, so hand it a blend of several words and it snaps the
+      blend to whichever one is nearest. Pretrained models collapse every blend they are given. The
+      same design at random initialisation does not. Fine-tuning does not fix it.
     </p>
 
     <p>
-      A system whose shared state has no canonical form has no well-defined thing to monitor. One
-      can read any particular agent&apos;s cache, and one can read the merged context that a final
-      agent conditions on, but the object that would correspond to &ldquo;what the system was
-      thinking&rdquo; depends on a merge convention chosen for throughput. Hive mind is a loose
-      phrase for this, and the looseness is the point: there is no established account of what the
-      unit of cognition is once the state is shared, and therefore no established account of what
-      the unit of oversight should be.
+      Train from scratch, then. The same paper shuts that down too: from-scratch models hold blends
+      only while they are small. At eight and twelve layers they go back to cheating, solving the
+      problem in one step and padding out the rest to look busy.
     </p>
 
     <p>
-      There is a thread of interpretability work that bears on it. Anthropic reports a privileged
-      band of <a href="https://transformer-circuits.pub/2026/workspace/index.html">verbalisable
-      representations</a> used for flexible multi-step reasoning, with other computation running
-      outside that band and never verbalised at all. If something like a workspace is what
-      monitoring reads, then the relevant question about any architecture is how much of its
-      computation passes through the workspace and how much runs beside it. Latent reasoning is a
-      way of moving work out of the band. Latent communication extends the region outside it across
-      a model boundary.
+      Both of those are facts about how today&apos;s models happen to have been built, which is not
+      the same as a law. Neither says anything about a large model pretrained from the start to
+      think in numbers, and <a href="https://arxiv.org/abs/2502.05171">Geiping et al.</a> have
+      already pretrained a 3.5 billion parameter model whose core loops up to 64 times.
+    </p>
+
+    <h2>Models talking to models</h2>
+
+    <p>
+      All of that concerns one model alone, which is increasingly not the deployment. Agents get
+      wired together in groups, and they talk to each other in English, which is readable for
+      exactly the reason a chain of thought is readable. In a group of agents it is often the only
+      part anyone reads.
     </p>
 
     <p>
-      Whether a workspace survives being implemented as recurrence is
-      <a href="https://arxiv.org/abs/2609.01924">under investigation</a>, and the early answer is
-      that it depends on the architecture: one looped model cannot linearly transport content across
-      loop boundaries, and another manages it only within a window of about two loops. That is a
-      narrow finding on two models. It is also the first evidence that the thing monitoring depends
-      on is architecture-contingent rather than given.
+      The same seventeen bits apply between agents, and so does the same incentive. A 2026 framework
+      for <a href="https://arxiv.org/abs/2606.05711">agents swapping internal state rather than
+      sentences</a> lists the drawbacks of talking in English as cost and &ldquo;irreversible
+      information loss during discretization&rdquo;. That is the identical rounding step, moved one
+      level up. Inside a model it sits between reasoning steps. Between models it sits between
+      agents. The engineering case for deleting it is the same, and what gets deleted is the part a
+      human was reading.
     </p>
 
-    <h2>What would actually settle this</h2>
+    <h2>Where I am guessing</h2>
 
     <p>
-      The argument for monitorability is not wrong. It is a conditional whose antecedent is being
-      dismantled on purpose, for reasons that have nothing to do with oversight and everything to do
-      with throughput. Discretisation is expensive. Every actor with a compute bill has a reason to
-      remove it, from between reasoning steps and from between agents, and the two removals are the
-      same engineering change applied at different scales.
+      Splicing several agents&apos; memories into one shared context
+      <a href="https://arxiv.org/abs/2607.01308">has been built</a>, and the open problems are about
+      ordering rather than whether it works. Splicing is not commutative: the result depends on
+      which agent goes first, and the best order shifts with the task and the model size.
     </p>
 
     <p>
-      That leaves a question with an empirical answer that nobody has produced. Open recurrent-depth
-      checkpoints exist. Monitoring suites exist. No published work runs one against the other, so
-      the sole quantitative claim about monitorability loss in a deployed system is a lab&apos;s
-      report on its own model, unreproduced. Until somebody runs that experiment, arguments about
-      what we are losing are arguments about a quantity nobody has measured.
+      Here is where I stop reporting and start extrapolating. If the shared memory has no canonical
+      form, it is not clear what a monitor should even be pointed at. You can read one agent&apos;s
+      memory. You can read whatever the last agent was handed. Neither is the system&apos;s
+      reasoning. Hive mind is a loose phrase and I am using it because nothing more precise exists:
+      nobody has an account of what the unit of thinking is once the state is shared, so nobody has
+      one for the unit of oversight either.
+    </p>
+
+    <p>
+      Anthropic reports a privileged band of
+      <a href="https://transformer-circuits.pub/2026/workspace/index.html">representations that can
+      be put into words</a>, with other computation running outside it and never verbalised. If
+      something like that band is what monitoring reads, then the question to ask of any design is
+      how much of its work goes through the band. Latent reasoning moves work out of it. Agents
+      swapping state extend the outside across the boundary between models. Which is, I notice, my
+      2023 two-map picture with more models in it, and I am not sure whether to be pleased.
+    </p>
+
+    <h2>The experiment nobody has run</h2>
+
+    <p>
+      Rounding to the nearest word is expensive, and everyone with a compute bill has a reason to
+      stop paying for it, between reasoning steps and between agents alike. Those are the same change
+      at two scales, and neither is motivated by anything to do with oversight.
+    </p>
+
+    <p>
+      Which leaves a cheap question nobody has answered. Open models that reason in loops are
+      downloadable today. Monitoring suites exist. No published work runs one against the other, so
+      the only quantitative claim about monitorability loss in a shipped system is a lab reporting on
+      its own model, unreproduced. Everybody arguing about how much oversight is being lost,
+      including me, is arguing about a number that has never been measured.
+    </p>
+
+    <p>
+      I got the direction right in 2023 and the timing wrong. I would rather not repeat the trick.
     </p>
 
     <p class="muted">
-      The <a href="./monitorability.html">monitorability</a> page carries the measurements and their
-      sources. The <a href="./map.html">map</a> marks the absences, including this one.
+      The <a href="./monitorability.html">monitorability</a> page has the measurements and their
+      sources. The <a href="./map.html">map</a> records the gaps, this one included.
     </p>
+
   </main>
 
   <footer>

@@ -20,6 +20,12 @@ root directory of this repository** (the directory containing this file).
 There is no research, verification, or convenience reason that overrides this. If something seems
 to require looking outside the repo, **stop and ask** instead.
 
+**Delegated work inherits this rule, and must be told so.** A subagent receives this session's tool
+permissions but not this file. Every research prompt must carry the constraint explicitly, including
+that listing a directory counts. This was learned the hard way: an agent dispatched without the
+constraint had a sub-agent run `ls` on a path outside the repo while chasing a PDF. Nothing was read
+or used, but the rule was still broken, and the fault lay with the prompt that omitted it.
+
 **Standing exception, granted by the repo owner:** the `microprediction/style` repository on
 GitHub may be read, via `gh`, for prose guidance, and its house style is to be followed. That
 grant covers reading that one remote repository and nothing else. It does not weaken Hard Rule 1
@@ -108,6 +114,12 @@ Prose follows `microprediction/style`. The rules that bite most often here:
   clause bearing a sentence's weight. A bolded claim as a paragraph lead-in is the assistant habit
   the corpus never uses; if the claim deserves prominence it is a heading, otherwise it is prose.
   Bold-lead-in bullets are allowed only for parameter or term definitions.
+
+**Scan text with line breaks normalised, and hyphens rejoined.** A banned phrase split across a
+  line break (`load-\ncarrying`) survives a naive grep and has shipped that way. Strip tags, collapse
+  whitespace, then apply `re.sub(r'-\s+', '-', text)` before matching. The same applies to any
+  verification probe: a string that spans a line break will report a false negative, which reads as a
+  pass.
 
 Verify before pushing: extract page text and run the corpus audit from the style repo
 (`analysis/ai_pattern_audit.py`) against its baseline (`analysis/audit_results.txt`). Anything in
