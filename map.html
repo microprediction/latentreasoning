@@ -154,11 +154,14 @@
       <em>Confidence: high.</em>
     </li>
     <li>
-      <em>Latent multi-hop reasoning has not been measured past two hops.</em>
-      The compositionality-gap work and the latent-multi-hop probing work both stop at two, and the
-      second finds a clear scaling trend for the first hop but not the second. No study sweeps hop
-      count to see whether the failure compounds.
-      <em>Confidence: medium.</em>
+      <em>No hop-count sweep on naturalistic tasks at frontier scale.</em>
+      Controlled studies do sweep hop count: Yao et al. train GPT-2-scale models from scratch on
+      $k$-hop datasets for $k = 2, 3, 4$ and find data requirements growing exponentially and depth
+      linearly in $k$. Those use synthetic templated data and models up to 770M. The work on
+      pretrained frontier models stops at two hops, where it finds a scaling trend for the first hop
+      but not the second. What is missing is the sweep on naturalistic knowledge tasks in pretrained
+      models, with matched shortcut controls and mechanistic interventions.
+      <em>Confidence: moderate, for the narrowed claim.</em>
     </li>
     <li>
       <em>The headline continuous-thought result has no independent replication.</em>

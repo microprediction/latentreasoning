@@ -161,9 +161,10 @@
         by a depth curriculum rather than requiring a fresh pretrain.
       </p>
       <p>
-        <a href="https://arxiv.org/abs/2502.17416">Saunshi et al. (2025)</a> give the cleanest statement of why this works: a $k$-layer transformer
-        looped $L$ times nearly matches a non-looped $kL$-layer model on reasoning tasks, so many
-        reasoning problems are bound by depth rather than by parameters.
+        <a href="https://arxiv.org/abs/2502.17416">Saunshi et al. (2025)</a> give the clearest
+        statement of why this might work: a $k$-layer transformer looped $L$ times comes close to a
+        non-looped $kL$-layer model on the reasoning tasks they measure, which points to many
+        reasoning problems being bound by depth rather than by parameters.
       </p>
     </div>
 
@@ -175,11 +176,11 @@
         serial positions and computation, meaningless tokens should help too.
       </p>
       <p>
-        They help, conditionally. <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> show transformers solve two
-        algorithmic tasks unsolvable in a single pass using nothing but repeated dots, and
-        characterise which problems admit the benefit via the quantifier depth of a first-order
-        description, but learning to exploit fillers requires dense, task-specific
-        supervision and does not emerge from ordinary training. <a href="https://arxiv.org/abs/2310.02226">Goyal et al. (2024)</a> get real
+        They help, conditionally. <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> show transformers solving two
+        algorithmic tasks using nothing but repeated dots where the same models do not solve them
+        without the fillers, and give a quantifier-depth condition under which the benefit is
+        available. Learning to exploit fillers requires dense, task-specific supervision and does
+        not emerge from ordinary training. <a href="https://arxiv.org/abs/2310.02226">Goyal et al. (2024)</a> get real
         downstream gains from learnable pause tokens on a 1B model, including +18% exact match on
         SQuAD, but only when pause tokens appear in <em>both</em> pretraining and fine-tuning.
       </p>

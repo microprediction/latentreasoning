@@ -251,10 +251,11 @@
     </div>
 
     <p>
-      <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> characterise which problems admit a filler-token benefit
+      <a href="https://arxiv.org/abs/2404.15758">Pfau, Merrill &amp; Bowman (2024)</a> give a sufficient condition for a filler-token benefit
       via the quantifier depth of a first-order formula describing the problem: within the right
       quantifier-depth class, the intermediate tokens need carry no information about intermediate
-      steps at all. A problem of quantifier depth $k$ is expressible with $n^k$ filler tokens, and
+      steps at all. It is a condition under which fillers suffice, not a characterisation of every
+      problem they help. A problem of quantifier depth $k$ is expressible with $n^k$ filler tokens, and
       their two tasks, 3SUM and 2SUM-Transform, sit above depth two while remaining parallelisable.
     </p>
 
@@ -374,9 +375,11 @@
       Recurrence buys depth. It does not, in the compressed regime, buy memory. </p>
 
     <p>
-      <a href="https://arxiv.org/abs/2502.17416">Saunshi et al. (2025)</a> establish the positive counterpart for depth specifically:
-      $k$ layers looped $L$ times nearly matches $kL$ unlooped layers, so problems that are
-      depth-bound rather than parameter-bound are exactly the ones loops help with.
+      <a href="https://arxiv.org/abs/2502.17416">Saunshi et al. (2025)</a> report the positive
+      counterpart for depth: on the reasoning tasks they study, $k$ layers looped $L$ times comes
+      close to $kL$ unlooped layers, which suggests looping helps where a problem is bound by depth
+      rather than by parameter count. The comparison is empirical on those tasks, not a general
+      equivalence.
     </p>
 
     <p>

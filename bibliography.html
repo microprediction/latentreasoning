@@ -212,7 +212,11 @@
               <li>
           Sanford, C., Hsu, D., and Telgarsky, M. (2024).
           <a href="https://arxiv.org/abs/2402.09268"><em>Transformers, Parallel Computation, and Logarithmic Depth</em></a>. arXiv:2402.09268.
-          <em>A constant number of self-attention layers is equivalent, in both directions, to a constant number of rounds of massively parallel computation, so logarithmic depth suffices for tasks other sequence models cannot solve efficiently. Stated as an MPC-round simulation, not a circuit-class placement.</em>
+          <em>Relates constant-depth self-attention to constant-round massively parallel computation in both
+          directions, though the two simulations carry different hypotheses and overheads and the
+          authors note they do not jointly give a sharp characterisation. Logarithmic depth suffices
+          for tasks other sequence models cannot solve efficiently. Stated as an MPC-round
+          simulation, not a circuit-class placement.</em>
         </li>
         <li>
           Sanford, C., Hsu, D., and Telgarsky, M. (2023).
@@ -227,7 +231,12 @@
         <li>
           de Luca, A. B., and Fountoulakis, K. (2024).
           <a href="https://arxiv.org/abs/2402.01107"><em>Simulation of Graph Algorithms with Looped Transformers</em></a>. arXiv:2402.01107.
-          <em>A looped transformer with graph-reading attention heads simulates Dijkstra, breadth- and depth-first search and Kosaraju's algorithm with parameter count independent of graph size, and iteration count that grows with the graph. Turing completeness at constant width requires those extra heads.</em>
+          <em>A looped transformer with graph-reading attention heads simulates Dijkstra, breadth-
+          and depth-first search and Kosaraju's algorithm with parameter count independent of graph
+          size, and iteration count that grows with the graph. The authors add their own ceiling:
+          &ldquo;we show a limit to simulation in our solution due to finite precision&rdquo;, since
+          the circular positional encoding that enumerates nodes is discretised. Turing completeness
+          at constant width requires those extra heads.</em>
         </li>
         <li>
           Amiri, A., Huang, X., Rofin, M., and Hahn, M. (2025).
@@ -422,9 +431,12 @@
           Blayney, T., Arroyo, D. M., Obando-Ceron, J., Castro, P. S., Courville, A., et al. (2026).
           <a href="https://arxiv.org/abs/2604.11791"><em>A Mechanistic Analysis of Looped Reasoning
           Language Models</em></a>. arXiv:2604.11791.
-          <em>Each layer in the loop converges toward a distinct fixed point and the block settles
-          into a stable cyclic trajectory. Convergence is not automatic. It is the stability
-          condition the training recipes are all implicitly chasing.</em>
+          <em>For many of the studied models each layer in the loop converges toward a distinct
+          fixed point and the block settles into a cyclic trajectory, with recurrent blocks
+          re-enacting the stages of inference seen in feedforward models rather than encoding a
+          distinct reasoning step per iteration. Not universal: Ouro does not reach the approximate
+          fixed point after 128 recurrences. Convergence is the stability condition the training
+          recipes are implicitly chasing, and it is not automatic.</em>
         </li>
               <li>
           Wang, Y., Li, S., Zhang, Y., Huang, F., Yan, J., and Li, W. (2026).
@@ -444,7 +456,9 @@
         <li>
           Buehlmaier, M. M. M. (2026).
           <a href="https://arxiv.org/abs/2607.10681"><em>LayerNorm as Implicit Gain Control in Looped Transformers</em></a>. arXiv:2607.10681.
-          <em>Pre-norm LayerNorm makes the recurrence Jacobian asymptotically contractive at fixed points even where its operator norm exceeds one, so a diagonal-carry constraint is necessary but not sufficient for convergence. Verified only at small scale, as the author states.</em>
+          <em>Pre-norm LayerNorm makes the recurrence Jacobian asymptotically contractive at fixed points even where its operator norm exceeds one, so a diagonal-carry constraint on its own does not guarantee convergence: local stability is
+          governed by the spectrum of the full Jacobian, not the carry term in isolation. Verified
+          only at small scale, as the author states.</em>
         </li>
         <li>
           Wu, Y., Zhang, R., and Cao, Y. (2026).
@@ -1405,8 +1419,9 @@
           Qin, T., Alvarez-Melis, D., Jelassi, S., and Malach, E. (2025). &ldquo;To Backtrack or Not
           to Backtrack: When Sequential Search Limits Model Reasoning.&rdquo; <em>COLM</em>.
           <a href="https://arxiv.org/abs/2504.07052">arXiv:2504.07052</a>.
-          <em>Explicit backtracking supervision can suppress a model&apos;s capacity for implicit
-          non-verbalised reasoning. More visible search is not always more capability.</em>
+          <em>Training on full search traces can do worse than shorter targets on the same task,
+          so more visible search is not always more capability. The experiment compares supervision
+          targets and does not itself measure an internal non-verbalised capacity.</em>
         </li>
         <li>
           Wu, H., Teng, Z., and Tu, K. (2025). &ldquo;Parallel Continuous Chain-of-Thought with
@@ -1425,14 +1440,17 @@
       </ul>
 
       <h3>Fixed points, implicit differentiation and algorithmic reasoning</h3>
-      <p class="muted" style="font-size:0.92rem;">A loop that settles can be differentiated
-      without unrolling it, and a loop can be trained so each iteration advances one step of an
-      algorithm. Both literatures predate latent reasoning and are largely uncited by it.</p>
+      <p class="muted" style="font-size:0.92rem;">A loop that settles can sometimes be
+      differentiated without unrolling it, and a loop can be trained so each iteration advances one
+      step of an algorithm. Both literatures predate latent reasoning and are largely uncited by it.</p>
       <ul>
         <li>
           Bai, S., Kolter, J. Z., and Koltun, V. (2019).
           <a href="https://arxiv.org/abs/1909.01377"><em>Deep Equilibrium Models</em></a>. arXiv:1909.01377.
-          <em>Finds a hidden-layer fixed point by root-finding and backpropagates through it by implicit differentiation, giving memory constant in effective depth. The backward pass a converged latent reasoner would use.</em>
+          <em>Finds a hidden-layer fixed point by root-finding and backpropagates through it by
+          implicit differentiation, giving memory constant in effective depth. Convergence alone is
+          not enough: the formula inverts $I - J_f$ at the equilibrium, so that Jacobian must be
+          nonsingular and the selected root must vary differentiably with the inputs.</em>
         </li>
         <li>
           Bai, S., Koltun, V., and Kolter, J. Z. (2020).
@@ -1442,7 +1460,11 @@
         <li>
           Chen, R. T. Q., Rubanova, Y., Bettencourt, J., and Duvenaud, D. (2018).
           <a href="https://arxiv.org/abs/1806.07366"><em>Neural Ordinary Differential Equations</em></a>. arXiv:1806.07366.
-          <em>The adjoint sensitivity method for continuous-depth networks: backpropagate by solving a second ODE backwards in time, at constant memory. The continuous-time sibling of the equilibrium backward pass.</em>
+          <em>The adjoint sensitivity method for continuous-depth networks: backpropagate by
+          solving a second ODE backwards in time, at memory constant in depth. The continuous-time
+          sibling of the equilibrium backward pass. The constant-memory version reconstructs the
+          forward trajectory by integrating backwards, so it is not in general an exact gradient of
+          the numerical forward solve.</em>
         </li>
         <li>
           Geng, Z., Zhang, X.-Y., Bai, S., Wang, Y., and Lin, Z. (2021).
@@ -1462,12 +1484,24 @@
         <li>
           Labovich, A. (2026).
           <a href="https://arxiv.org/abs/2604.15259"><em>Stability and Generalization in Looped Transformers</em></a>. arXiv:2604.15259.
-          <em>A fixed-point framework along reachability, input-dependence and geometry. Autonomous looped networks cannot achieve strong input-dependence at any spectral regime; recall combined with outer normalisation produces fixed points that are reachable, locally smooth in the input, and support stable backpropagation.</em>
+          <em>A fixed-point framework along reachability, input-dependence and geometry. For autonomous looped networks, those that do not re-inject the input, the paper proves the
+          fixed-point set is countable and strong input-dependence is unreachable at any spectral
+          regime. That result is generic rather than universal: it assumes a transversality condition
+          and holds for almost all parameter vectors. Recall combined with outer normalisation
+          produces fixed points that are reachable, locally smooth in the input, and support stable
+          backpropagation.</em>
         </li>
         <li>
           Zhang, T., Hu, J., Peng, Y., and Xie, T. (2026).
           <a href="https://arxiv.org/abs/2607.20594"><em>When Does Recurrence Become an Algorithm? Convergence Selection in Weight-Tied Looped Transformers</em></a>. arXiv:2607.20594.
-          <em>A budget law: free training installs a frontier solving $v$ positions per loop, priced by the training contract as $v \sim n_{\text{train}}/T_{\text{train}}$ and exactly unity when the two match. Weight tying, not expressivity, selects a serial rather than parallel algorithm, and imposing seriality through the input schedule fails where free training succeeds.</em>
+          <em>A budget law: free training installs a frontier solving $v$ positions per loop, priced
+          by the training contract as $v \sim n_{\text{train}}/T_{\text{train}}$. The authors state it
+          as &ldquo;a robust empirical regularity rather than a selection theorem&rdquo;, and their own
+          table shows exceptions under the $T=n$ contract that the abstract&apos;s &ldquo;exactly
+          unity&rdquo; does not convey: $v = 0.96$ over sixteen seeds on one group with range $[0.08,
+          1.03]$, and roughly $1.5$ on a parity benchmark. Weight tying rather than expressivity
+          selects a serial over a parallel algorithm, and imposing seriality through the input
+          schedule fails where free training succeeds.</em>
         </li>
         <li>
           Veli&#269;kovi&#263;, P., and Blundell, C. (2021).
@@ -1512,7 +1546,10 @@
         <li>
           Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., and Dahl, G. E. (2017).
           <a href="https://arxiv.org/abs/1704.01212"><em>Neural Message Passing for Quantum Chemistry</em></a>. arXiv:1704.01212.
-          <em>The message-passing formulation in which $k$ rounds propagate information exactly $k$ hops. The precedent for reading one iteration as one hop.</em>
+          <em>The message-passing formulation in which $k$ rounds bound a node&apos;s receptive
+          field to its radius-$k$ neighbourhood. That is an upper bound on what the state can depend
+          on, not a guarantee that each round advances exactly one hop of a computation, though it is
+          the precedent for reading one iteration as one hop.</em>
         </li>
         <li>
           Xu, K., Hu, W., Leskovec, J., and Jegelka, S. (2018).
@@ -1522,7 +1559,10 @@
         <li>
           Li, Q., Han, Z., and Wu, X.-M. (2018).
           <a href="https://arxiv.org/abs/1801.07606"><em>Deeper Insights into Graph Convolutional Networks for Semi-Supervised Learning</em></a>. arXiv:1801.07606.
-          <em>Oversmoothing: stacking many propagation layers drives node representations toward a common fixed point and destroys discriminative power. A ceiling on how many hops a stacked propagator can carry.</em>
+          <em>Oversmoothing: repeated graph-convolution layers act as Laplacian smoothing, driving
+          node representations within a connected component together and costing discriminative
+          power. The effect is shown for that architecture and regime rather than as a universal
+          ceiling on stacked propagation.</em>
         </li>
         <li>
           Alon, U., and Yahav, E. (2020).
@@ -1534,7 +1574,15 @@
           <a href="https://arxiv.org/abs/2111.14522"><em>Understanding over-squashing and bottlenecks on graphs via curvature</em></a>. arXiv:2111.14522.
           <em>A curvature account of when oversquashing occurs, with a rewiring remedy.</em>
         </li>
-      </ul>
+              <li>
+          Gholami, A., Keutzer, K., and Biros, G. (2019).
+          <a href="https://arxiv.org/abs/1902.10298"><em>ANODE: Unconditionally Accurate
+          Memory-Efficient Gradients for Neural ODEs</em></a>. arXiv:1902.10298.
+          <em>The correction to the constant-memory adjoint: reconstructing the forward trajectory by
+          integrating backwards can give inaccurate gradients, and this proposes a scheme that does
+          not.</em>
+        </li>
+</ul>
 
       <h3>Belief state, evidence and attribution</h3>
       <p class="muted" style="font-size:0.92rem;">What a model&apos;s internal credence is, and

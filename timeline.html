@@ -149,7 +149,7 @@ const EVENTS = [
  {d:"2025-11", lane:"depth", label:"Retrofitted recurrence", url:"https://arxiv.org/abs/2511.07384",
   note:"McLeish et al. Converts an already-pretrained non-recurrent model into a depth-recurrent one via a curriculum — test-time compute decoupled from training compute after the fact."},
  {d:"2026-04", lane:"depth", label:"Mechanistic analysis", url:"https://arxiv.org/abs/2604.11791",
-  note:"Each layer in the loop converges toward a distinct fixed point and the block settles into a stable cyclic trajectory. Convergence is not automatic — it is the key stability condition."},
+  note:"For many of the studied models each layer in the loop converges toward a distinct fixed point and the block settles into a cyclic trajectory. Not all: Ouro does not reach the approximate fixed point after 128 recurrences."},
  {d:"2026-05", lane:"depth", label:"⟂ STARS: depth collapse", url:"https://arxiv.org/abs/2605.26733",
   note:"Looped model performance peaks at some recurrence depth and then COLLAPSES with further looping. Spectral-radius regularisation proposed as the fix. Cuts against the 'infinite depth' framing."},
  {d:"2026-06", lane:"depth", label:"LOTUS", url:"https://arxiv.org/abs/2606.31779",

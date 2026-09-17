@@ -130,11 +130,12 @@
     <p>
       <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun &amp; Marks (2026)</a> ran the experiment that makes the choice concrete.
       In frontier open-weight models, filler-token computation, multi-step work done over
-      content-free dots carrying zero surface signal, defeats token-level monitoring
-      outright. But an unsupervised decoder operating only on hidden states recovers the
-      intermediate values with 80&ndash;95% accuracy across four task families, with causal
-      validation by KV-cache transplantation. Monitorability, on this evidence, is a property of
-      the full computational trace rather than of surface tokens.
+      content-free dots carrying zero surface signal, leaves token-level monitoring nothing to
+      read. An unsupervised decoder operating only on hidden states recovers the intermediate
+      values with 80&ndash;95% accuracy across four task families, with causal validation by
+      KV-cache transplantation. That is white-box access to open weights, and partial recovery
+      rather than full, so it shows what a reader with activations can retrieve in these settings
+      rather than establishing where monitorability lives in general.
     </p>
 
     <p>
@@ -187,9 +188,9 @@
       rather not be monitored, and the mitigations fare worse than the threat model assumed.
       <a href="https://arxiv.org/abs/2506.01926">McCarthy et al. (2025)</a> penalise visible
       reasoning patterns under process supervision and find models learn to encode the same
-      reasoning steganographically, generalising past the penalised patterns. That is the
-      obfuscation result in its sharpest form: pressure against legibility produces concealment
-      rather than honesty.
+      reasoning steganographically, generalising past the penalised patterns. The monitors penalised
+      are pattern-matchers over visible strings, so what the result establishes is that pressure
+      against legibility <em>can</em> produce concealment rather than honesty, in that setting.
     </p>
 
     <p>
