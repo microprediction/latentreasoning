@@ -97,8 +97,7 @@
 
     <p>
       So there are <em>two paths</em> from one step to the next, and they behave differently.
-      The <em>feedback path</em> runs from the top layer back to the next input embedding, and that
-      is the one the discretisation narrows. The <em>cached-activation path</em> carries retained
+      The <em>feedback path</em> runs from the top layer back to the next input embedding, and the discretisation narrows that one. The <em>cached-activation path</em> carries retained
       intermediate activations at every layer and position, and attention at later positions reads
       them directly. Calling the emitted token a seventeen-bit bottleneck on <em>all</em> persistent
       computation is therefore wrong.
@@ -130,8 +129,7 @@
       being served beside it. Conventional token-choice routing has the same property through a
       different mechanism: under a hard capacity factor, tokens arriving at a full expert are
       dropped, at reported over-capacity ratios of 20 to 40 per cent. For these models the token
-      prefix fixes the computation only once the batch is also fixed, which is a condition nobody
-      controls in deployment. The <a href="./routing.html">routing</a> page has the detail.
+      prefix fixes the computation only once the batch is also fixed, a condition nobody controls in deployment. The <a href="./routing.html">routing</a> page has the detail.
 
     </p>
 
@@ -146,7 +144,7 @@
       <em>Monitorability.</em> Whether a human or an automated monitor can <em>read</em> what
       the model is doing. This does not follow from either of the above. Determinacy is not
       legibility: a transcript can fix a computation completely while telling you nothing you can
-      read off it, which is precisely what filler tokens demonstrate: recovering that hidden
+      read off it, which is what filler tokens demonstrate: recovering that hidden
       computation took an unsupervised decoder operating on activations, not a reader. Monitorability
       is an empirical property of how models are currently trained, not a structural consequence of
       discretisation. <a href="./monitorability.html">Monitorability</a> has the measurements.
@@ -155,7 +153,7 @@
     <p class="muted">
       What deleting the discretisation does change is narrower than the older framing here claimed:
       it widens the feedback interface, so intermediate state need no longer be funnelled through a
-      token vocabulary on its way to the next step. That is a real change and worth studying. It is
+      token vocabulary on its way to the next step. That is a real change. It is
       not the removal of the only channel, and it is not by itself the removal of oversight.
     </p>
 
@@ -245,8 +243,7 @@
       probability distribution, a partial ordering, or a superposition of candidate answers to the
       next step. It must commit. A continuous state can carry all of them, so search that would
       require backtracking in token space can in principle proceed in parallel. This is the
-      argument that continuous thoughts encode a frontier rather than a path, and it is the one
-      with the most direct empirical support.
+      argument that continuous thoughts encode a frontier rather than a path, and it has the most direct empirical support.
     </p>
 
     <p>
@@ -259,8 +256,7 @@
     <p>
       <em>Cost.</em> Natural language is a wasteful encoding of intermediate arithmetic.
       If the same computation can be done in fewer, denser steps, inference gets cheaper. This is
-      the argument that motivates most of the compression work, and it is the one where claimed
-      gains are most sensitive to how the baseline was tuned.
+      the argument that motivates most of the compression work, and its claimed gains are the most sensitive to how the baseline was tuned.
     </p>
 
     <div class="next-steps">

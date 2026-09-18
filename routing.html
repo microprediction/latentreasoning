@@ -183,7 +183,7 @@
       representation is turned into a selection. A vector in the kernel of the gate leaves the
       logits untouched at any magnitude, and two states arbitrarily close together can still fall on
       opposite sides of a top-$k$ boundary and select different experts. What their empirical result
-      shows is narrower and still striking: expert overlap across models on the same question runs
+      shows is narrower: expert overlap across models on the same question runs
       near 60 per cent, comparable to the overlap between one model&apos;s answers to different
       questions. Routing tracks geometry, not domain expertise. Mohamud, Wagner and Ravanelli go further and show a fixed subspace of
       the raw hidden state routes competitively with no learned gate at all.
@@ -259,7 +259,7 @@
 
     <p>
       Most probing work reads internal state to analyse it. A smaller set uses the reading to decide
-      something while generation is still running, which is the case that matters here.
+      something while generation is still running, and that is the case at issue here.
     </p>
 
     <p>

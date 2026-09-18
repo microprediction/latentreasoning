@@ -375,7 +375,7 @@
       href="https://arxiv.org/abs/2606.13106">Yang et al. 2026</a>) makes the arrangement explicit. Two ordinary tokens open and close a latent block, so the GRPO ratio is defined at
       every text position including the boundaries. The latent positions between them contribute no
       policy-gradient term at all. Gradients still flow through them from the tokens on either side,
-      which is the pathwise route from the previous section, confined to the inside of a block.
+      the pathwise route from the previous section, confined to the inside of a block.
     </p>
 
     <h3>A generator that is stochastic by construction</h3>
@@ -535,8 +535,7 @@
 
     <h3>The looped-model result is one paper on one family</h3>
     <p>
-      RLTT's gains are on Ouro at two sizes with ten seeds, which is a larger seed count than most of
-      this literature uses. It has not been replicated on Huginn or on a retrofitted looped model, and the
+      RLTT's gains are on Ouro at two sizes with ten seeds, a larger seed count than most of this literature uses. It has not been replicated on Huginn or on a retrofitted looped model, and the
       length reduction and entropy decline it reports are the same signals that, in other settings, have
       been read as collapse rather than confidence.
     </p>
