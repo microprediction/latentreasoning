@@ -45,10 +45,21 @@
     <p class="subtitle">September 2026.</p>
 
     <p class="lead">
-      In April 2023 I wrote something asking why everyone was so certain large language models could
-      not think. Gary Lupyan had polled 170 researchers and 80% were strongly of the view that they
-      definitely could not. I had been in that 80% myself until shortly before writing, which is the
-      only thing that gave me the nerve to poke at it.
+      In April 2023, four months after ChatGPT arrived, I published an essay called
+      <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t
+      Think</a>. The title was a question rather than a position. It took the standard objections of
+      that moment &mdash; that reasoning cannot be learned from text without sensory grounding, that
+      pattern-matching is not understanding, that these networks cannot represent relations and
+      propositions precisely, that hallucination betrays the absence of a world model &mdash; and
+      argued that none of them closed the case. The aim was not to show that models think. It was to
+      sow reasonable doubt.
+    </p>
+
+    <p>
+      That was a minority position by a wide margin. Gary Lupyan had polled 170 researchers and 80%
+      were strongly of the view that language models definitely could not think. I had been in that
+      majority myself until shortly before writing, which is the only thing that gave me the nerve
+      to poke at it.
     </p>
 
     <p>
@@ -72,14 +83,15 @@
       failed once in living memory, on this exact subject, in front of me.
     </p>
 
-    <h2>What I had right, and the bit I got backwards</h2>
+    <h2>The two maps</h2>
 
     <p>
-      The part I would still defend is the insistence that the interesting structure is not in the
-      words. I had a two-map picture: one map from whatever representations do the work to the
-      machinery that produces language, a second from there to marks on a page, and only the
-      composition available to an observer. Most arguments about whether a machine understands
-      anything were, and are, arguments about the wrong map.
+      The part I would still defend is that the interesting structure is not in the words. The essay
+      ran on a two-stage picture. Call $f$ the map from whatever representations actually do the work
+      in a mind to the machinery that produces language, and $g$ the map from there to marks on a
+      page. What any observer ever gets is the composition $h = g \circ f$. Thought is structure in
+      the first space; speech is a twice-removed and noisy view of it. Most arguments about whether a
+      machine understands anything were, and are, arguments about the wrong map.
     </p>
 
     <p>
@@ -107,9 +119,10 @@
     </p>
 
     <p>
-      The real figure is smaller still, because English is enormously redundant. Shannon&apos;s
-      guessing experiments put ordinary literary English near one bit per letter, about 75%
-      redundant, and Cover and King&apos;s gambling estimate converged on 1.3 bits per symbol.
+      The real figure is smaller still, because English is enormously redundant. <a href="https://doi.org/10.1002/j.1538-7305.1951.tb01366.x">Shannon&apos;s guessing
+      experiments</a> put ordinary literary English near one bit per letter, about 75%
+      redundant, and <a href="https://doi.org/10.1109/TIT.1978.1055912">Cover and King&apos;s gambling estimate</a>
+      converged on 1.3 bits per symbol.
       Measured against real corpora, a good model compresses text to well under a bit per byte. The
       pipe is narrower than the nominal number suggests, and language works anyway.
     </p>
@@ -131,7 +144,7 @@
       hard.
     </p>
 
-    <h2>What a mind can say, against what it holds</h2>
+    <h2>The human channel</h2>
 
     <p>
       Here is the asymmetry that I think matters more than anything else in this argument, and it is
@@ -139,15 +152,16 @@
     </p>
 
     <p>
-      Human speech runs at about 39 bits per second. Coupé and colleagues measured seventeen
-      languages and found information rate centred on 39.15 bits per second with a standard deviation
-      of 5.10, with syllable rate and information density trading off against each other so that
+      <a href="https://doi.org/10.1126/sciadv.aaw2594">Coup&eacute; and colleagues</a> measured
+      seventeen languages and found human speech centred on
+      39.15 bits per second with a standard deviation of 5.10, with syllable rate and information density trading off against each other so that
       wildly different languages land in the same narrow band. Whatever we are doing, we all do it at
       roughly the same speed.
     </p>
 
     <p>
-      Meanwhile Zheng and Meister put the whole of human behavioural throughput at about 10 bits per
+      Meanwhile <a href="https://doi.org/10.1016/j.neuron.2024.11.008">Zheng and Meister</a> put the
+      whole of human behavioural throughput at about 10 bits per
       second, against sensory systems gathering data at around a billion bits per second. A hundred
       million to one. Everything you have ever known has left your head through an aperture that
       narrow, and every idea you have received arrived through somebody else&apos;s.
@@ -161,7 +175,8 @@
 
     <p>
       A machine has the same shape and none of the constraint. Its internal state is thousands of
-      numbers per step. Anthropic trained a dictionary of 33,554,432 features on a single middle
+      numbers per step. Anthropic <a href="https://transformer-circuits.pub/2024/scaling-monosemanticity/">trained a
+      dictionary of 33,554,432 features</a> on a single middle
       layer of one model and found that fewer than 300 were active on any given token: tens of
       millions of available directions, a few hundred lit at once. Nothing physical requires any of
       that to be rounded down to one word from a dictionary before being passed to the next step, or
@@ -781,7 +796,7 @@
     <h2>Havana, 1991</h2>
 
     <p>
-      In July 1991 I went to the International Physics Olympiad in Havana. Thirty-one countries,
+      That July I went to the International Physics Olympiad in Havana. Thirty-one countries,
       thirteen gold medals awarded in total. China took five, which was all five of theirs, and more
       than a third of the gold in the building.
     </p>
@@ -824,7 +839,7 @@
       decisions determine the outcome.
     </p>
 
-    <h2>The layer nobody in this argument controls</h2>
+    <h2>The physical layer</h2>
 
     <p>
       McCormick and D&apos;Amico call it the Electric Stack: lithium-ion batteries, magnets and
@@ -997,11 +1012,12 @@
     </p>
 
     <p>
-      Doll and Hill published on lung cancer on 30 September 1950. The Surgeon General&apos;s
+      <a href="https://doi.org/10.1136/bmj.2.4682.739">Doll and Hill</a> published on lung cancer on
+      30 September 1950. The Surgeon General&apos;s
       advisory committee reported on 11 January 1964. The first binding federal restriction, a
       mandatory warning label, was approved on 27 July 1965, and cigarette advertising stayed on
       American television until 1971. In 1969, in between, an executive at Brown and Williamson
-      wrote the strategy down: &ldquo;Doubt is our product since it is the best means of competing
+      <a href="https://www.industrydocuments.ucsf.edu/docs/xhvf0040">wrote the strategy down</a>: &ldquo;Doubt is our product since it is the best means of competing
       with the &lsquo;body of fact&rsquo; that exists in the mind of the general public. It is also
       the means of establishing a controversy.&rdquo;
     </p>
@@ -1020,7 +1036,7 @@
       1999, and the United States did not prohibit chrysotile until 2024, a court having vacated the
       1989 attempt. Climate: the Charney committee put equilibrium sensitivity at 3&thinsp;&deg;C
       &plusmn;&thinsp;1.5&thinsp;&deg;C in 1979 and the figure has barely moved since; the treaties
-      came in 1992 and 2015; fossil emissions in 2024 reached &ldquo;10.2 GtC (37.4
+      came in 1992 and 2015; <a href="https://essd.copernicus.org/articles/17/965/2025/essd-17-965-2025.html">fossil emissions in 2024</a> reached &ldquo;10.2 GtC (37.4
       GtCO<sub>2</sub>), a historical record high&rdquo; and were still growing. Forty-five years,
       and the curve has not bent. PFAS is the one still in motion, and not in a single direction: a
       binding drinking-water standard arrived in April 2024, and in May 2026 the Environmental
@@ -1029,8 +1045,8 @@
     </p>
 
     <p>
-      The quick cases show what buys speed. Farman&apos;s Antarctic ozone paper was published on 1
-      May 1985 and the Montreal Protocol was signed on 16 September 1987, twenty-eight months later,
+      The quick cases show what buys speed. <a href="https://doi.org/10.1038/315207a0">Farman&apos;s Antarctic ozone paper</a> was published
+      on 1 May 1985 and the Montreal Protocol was signed on 16 September 1987, twenty-eight months later,
       with DuPont holding patents on the replacement compounds. Thalidomide took under a year from
       McBride&apos;s letter to the Kefauver-Harris amendments, because withdrawing one product cost
       one company. The lag does not track how good the evidence was. It tracks what the remedy cost
@@ -1061,7 +1077,7 @@
       between a field&apos;s founding and its first documented external application is sixty-eight
       years, quartiles at thirty-seven and a hundred and seven. Boole&apos;s algebra waited
       eighty-three years for Shannon to notice that it described relay circuits. The sample is
-      survivor-selected by construction, being the fields the 1959 classification thought worth
+      survivor-selected by construction, being the fields that classification thought worth
       naming, and thirty-three points with one censored observation is a crude empirical sketch
       rather than a validated result. The direction is not in much doubt even so.
     </p>
