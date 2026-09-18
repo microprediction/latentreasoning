@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Prediction</title>
+  <meta name="description" content="Latent reasoning where the output is a probability or a number: training against proper scoring rules, probes against stated forecasts, calibration under chain of thought, and measured forecasting accuracy." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <span class="navdrop"><a href="./intro.html">Topics</a><span class="navdrop-menu">
+          <a href="./intro.html">Introduction</a>
+          <a href="./families.html">Families of methods</a>
+          <a href="./prediction.html">Prediction</a>
+          <a href="./training.html">Training</a>
+          <a href="./routing.html">Routing</a>
+          <a href="./theory.html">Expressivity theory</a>
+          <a href="./monitorability.html">Monitorability</a>
+        </span></span>
+        <a href="./reviews.html">Reviews</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+          <a href="./essay-llms-are-monitorable.html">Remind Me Again Why Large Language Models Won&rsquo;t Kill Us All</a>
+        </span></span>
+        <span class="navdrop"><a href="./bibliography.html">Reference</a><span class="navdrop-menu">
+          <a href="./bibliography.html">Annotated bibliography</a>
+          <a href="./implementations.html">Implementations</a>
+          <a href="./map.html">Literature map</a>
+          <a href="./timeline.html">Timeline</a>
+        </span></span>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Prediction</h1>
+    <p class="subtitle">Latent reasoning where the answer is a probability or a number.</p>
+
+    <p class="lead">
+      Most latent-reasoning work is evaluated on questions with a discrete correct answer: a
+      multiple-choice letter, an integer, a path through a graph. A forecast is not like that. The
+      output is a number in the unit interval, it is scored against an outcome that has not happened
+      yet, and the score is continuous in the answer.
+    </p>
+
+    <h2>Why a probability is a different case</h2>
+
+    <p>
+      A model emits one token at a time from a vocabulary of order $10^5$, which is about seventeen
+      bits per step. For a discrete answer that is a generous budget: the answer is one of a few
+      options, and seventeen bits carries it. For a probability it is not obvious that the budget is
+      the binding constraint either, since a forecast reported to two decimal places needs only
+      about seven bits. The question is what happens to the intermediate quantities.
+    </p>
+
+    <p>
+      A calculation that ends in a probability passes through odds ratios, base rates, weights on
+      conflicting evidence, and partial sums. Each is a real number. When reasoning is written out in
+      tokens, every one of those intermediates is rounded to whatever the model chose to print, and
+      the next step reads the rounded value rather than the one the model computed. Continuous latent
+      reasoning removes that rounding step. Whether this matters in practice is an empirical
+      question, and it has not been asked directly.
+    </p>
+
+    <h2>Training against a scoring rule</h2>
+
+    <p>
+      Reinforcement learning for reasoning almost always uses a binary correctness reward. Damani and
+      colleagues note the side effect: such rewards do not penalise a confident wrong answer, so they
+      degrade calibration. Their method,
+      <a href="https://arxiv.org/abs/2507.16806">RLCR</a>, has the model emit a numerical confidence
+      after its reasoning and adds a Brier score to the correctness reward. They prove that this, or
+      any reward built on a bounded proper scoring rule, yields models that are both accurate and
+      calibrated, and report that it &ldquo;substantially improves calibration with no loss in
+      accuracy&rdquo; in and out of domain. Their summary of the contrast is direct: &ldquo;while
+      ordinary RL hurts calibration, RLCR improves it.&rdquo;
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2505.17989">Turtel and colleagues</a> take the other route,
+      training a 14B model with outcome-based reinforcement learning on questions drawn from a
+      prediction market. Calibration improves as a side effect of training against real resolutions
+      rather than as an explicit objective. The reward is outcome verification, not a scoring rule.
+    </p>
+
+    <p>
+      Both operate on token-level reasoning with a verbalised number at the end. Neither trains a
+      continuous latent trace.
+    </p>
+
+    <h2>Probes against the stated forecast</h2>
+
+    <p>
+      <a href="https://arxiv.org/abs/2607.08046">Sarfati and colleagues</a> trained
+      representation-pooling probes on the intermediate activations of a forecasting model and
+      compared them with the model&apos;s own output. Three findings bear on latent reasoning
+      directly.
+    </p>
+
+    <p>
+      The probes are better calibrated than the stated forecast, on Eternis-Forecaster 8B and on two
+      GLM models. Removing an influential source from the prompt &ldquo;often changes the model&apos;s
+      forecast while leaving the reasoning trace untouched&rdquo;, and the probe activations track
+      that shift, predicting its direction in 84% of cases including where the written reasoning
+      conceals it. Forced answering shows that &ldquo;forecasts are largely fixed before reasoning
+      begins&rdquo;: a single pre-reasoning pass recovers the committed answer and confidence, and
+      routing on the spread of that pre-set distribution saves 30&ndash;47% of generated tokens with
+      no loss of accuracy.
+    </p>
+
+    <p>
+      This is a measurement of the gap between what the internal state carries and what the text
+      reports, taken on probabilities rather than on symbolic answers. It is one model family at 8B
+      on one benchmark, and has not been replicated.
+    </p>
+
+    <h2>Reasoning and calibration</h2>
+
+    <p>
+      Whether producing a chain of thought improves calibration is contested, and the published
+      results point both ways.
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2505.14489">Yoon and colleagues</a> compare six reasoning models
+      with their non-reasoning counterparts across six datasets and find better calibration in 33 of
+      36 settings, attributing the gain to backtracking and exploring alternatives rather than to the
+      presence of a chain as such.
+      <a href="https://arxiv.org/abs/2506.18183">Mei and colleagues</a> report the opposite for
+      o3-Mini, DeepSeek R1 and Claude 3.7 Sonnet: verbalised confidence above 85% on wrong answers,
+      with deeper reasoning making it worse, and introspection helping two of the three models and
+      hurting the third.
+      <a href="https://arxiv.org/abs/2606.11211">Hiremath and Hiremath</a> describe a threshold beyond
+      which additional reasoning budget induces overconfidence.
+      <a href="https://arxiv.org/abs/2504.06564">Zeng and colleagues</a> find that reasoning-oriented
+      training raises verbalised calibration while lowering abstention rates on factual questions, and
+      that within a trace, shorter reasoning correlates with higher confidence, which is the opposite
+      sign to Yoon.
+    </p>
+
+    <p>
+      The sign of the effect depends on the model family, on how much reasoning budget is spent, and
+      on whether calibration is measured from the text or from a probe. Sarfati and colleagues&apos;
+      forced-answering result is relevant to that last point: a calibration number read off the
+      chain of thought may be describing something the model had already decided.
+    </p>
+
+    <h2>Measured forecasting accuracy</h2>
+
+    <p>
+      <a href="https://arxiv.org/abs/2409.19839">ForecastBench</a> scores models against expert
+      forecasters and the general public on a rolling set of questions, and reports that expert
+      forecasters outperform the best model at $p &lt; 0.001$.
+      <a href="https://arxiv.org/abs/2604.14199">PolyBench</a> runs seven models against 38,666 live
+      prediction-market questions under timestamp-locked market state and finds two of the seven turn
+      a positive return, with the remaining five losing money despite uniformly high stated
+      confidence.
+    </p>
+
+    <p>
+      Earlier work is consistent with this.
+      <a href="https://arxiv.org/abs/2310.13014">Schoenegger and Park</a> entered GPT-4 in a live
+      Metaculus tournament against 843 participants and found it significantly less accurate than the
+      human median, and statistically indistinguishable from answering 50% to everything.
+      <a href="https://arxiv.org/abs/2402.19379">An ensemble of twelve models</a> did reach parity
+      with a 925-person crowd on 31 questions in a preregistered comparison, which is a result about
+      aggregation rather than about any single model.
+    </p>
+
+    <h2>Numbers through a token vocabulary</h2>
+
+    <p>
+      Separately from reasoning, there is a body of work on how numeric quantities survive
+      tokenisation, which bears on the same question one layer down.
+      <a href="https://arxiv.org/abs/2402.14903">Singh and Strouse</a> show that forcing right-to-left
+      digit tokenisation substantially improves arithmetic in frontier models and that the errors
+      under left-to-right tokenisation are systematic rather than noise.
+      <a href="https://arxiv.org/abs/2310.02989">xVal</a> replaces digit tokens with a single
+      embedding scaled by the value, and reports better out-of-distribution generalisation on
+      scientific data.
+      <a href="https://arxiv.org/abs/2411.02083">Number Token Loss</a> adds a proximity-aware term to
+      cross-entropy on the grounds that cross-entropy treats digits as unordered categories, and
+      matches a dedicated regression head while staying at token level.
+      <a href="https://arxiv.org/abs/2501.19383">Song and Bahri</a> compare decoding numbers as text
+      against pointwise regression heads and find the two match, with the decoder additionally able to
+      represent smooth densities.
+    </p>
+
+    <p>
+      All of it concerns the output layer of a single prediction. None of it concerns intermediate
+      reasoning steps.
+    </p>
+
+    <h2>Latent reasoning on structured data</h2>
+
+    <p>
+      <a href="https://arxiv.org/abs/2605.11262">Dudley and Oymak</a> apply latent chain of thought to
+      time-series and tabular prediction. A structured-data transformer compresses its query-position
+      hidden states into feedback tokens, appends them to the input, and reprocesses, giving several
+      rounds of latent computation before it predicts. Across 36 datasets this improves on the
+      baseline for 7 of 9 time-series datasets, averaging 12.63%, and 23 of 27 tabular datasets,
+      averaging 3.25%.
+    </p>
+
+    <p>
+      The comparisons are against a same-depth model without the chain, a deeper model matched on
+      effective depth, and a weight-tied looped transformer. There is no comparison against the same
+      reasoning written out in tokens, and the targets are point predictions rather than
+      distributions, so the result does not separate the benefit of extra computation from the
+      benefit of keeping that computation continuous.
+    </p>
+
+    <h2>What has not been done</h2>
+
+    <p>
+      Four things that would settle parts of this, none of which appears in the literature.
+    </p>
+
+    <p>
+      No one has run a latent chain of thought whose target is an explicit probability, quantile or
+      distribution and compared it against the same reasoning emitted as tokens. Dudley and Oymak
+      come closest and have neither the distributional target nor the token-reasoning baseline.
+    </p>
+
+    <p>
+      No one has trained a latent-reasoning architecture against a proper scoring rule. RLCR proves
+      the result that would motivate it and applies it to verbalised token-level confidence. The
+      latent-reasoning literature is motivated by search efficiency and does not cite calibration
+      work.
+    </p>
+
+    <p>
+      No one has measured how much numeric precision is lost per decoding step when a continuous
+      intermediate is written out. The argument that cross-entropy discards proximity between digits
+      is made in the Number Token Loss paper, without an information-theoretic figure attached.
+    </p>
+
+    <p>
+      No one has shown that a model&apos;s internal representation of a quantity is more precise than
+      the number it prints. Probes recover numeric value from hidden states, and Sarfati and
+      colleagues show probes are better calibrated than stated forecasts, but the specific comparison
+      of internal resolution against printed resolution has not been made.
+    </p>
+
+    <div class="next-steps">
+      <p><em>Related.</em> The <a href="./training.html">training</a> page covers the reinforcement
+      learning methods these results sit inside, <a href="./monitorability.html">monitorability</a>
+      covers what probes buy for oversight, and the <a href="./map.html">map</a> records the gaps
+      above.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>
