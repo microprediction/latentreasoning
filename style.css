@@ -154,6 +154,12 @@ footer {
   background: #fff; border: 1px solid var(--border); border-radius: 6px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.18);
 }
+/* Bridge the visual gap between trigger and menu. Without this the pointer
+   crosses dead space on the way down, :hover drops, and the menu vanishes
+   before it can be clicked. */
+.navdrop-menu::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px;
+}
 .navdrop:hover .navdrop-menu,
 .navdrop:focus-within .navdrop-menu { display: block; }
 header.site-header .navdrop-menu a {
