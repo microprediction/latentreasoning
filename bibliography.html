@@ -480,7 +480,13 @@
               <li>
           Wang, Y., Li, S., Zhang, Y., Huang, F., Yan, J., and Li, W. (2026).
           <a href="https://arxiv.org/abs/2606.18524"><em>On the Residual Scaling of Looped Transformers: Stability and Transferability</em></a>. arXiv:2606.18524.
-          <em>Weight sharing correlates residual updates across loops, so the standard depth-scaling rule is insufficient for looped models. Derives a replacement giving hyperparameter transfer across loop counts.</em>
+          <em>Weight sharing correlates residual updates across loops, so the standard depth-scaling
+          rule is insufficient for looped models, and a replacement gives hyperparameter transfer
+          across loop counts. The constructive-accumulation theorem assumes ReLU non-negativity for
+          its positive-cone argument, which the authors say does not directly apply to the SwiGLU
+          models they actually train, and the transfer result is stated informally with a formal
+          version requiring a weak-coupling condition. Single seed throughout; Post-Norm left
+          open.</em>
         </li>
         <li>
           Li, S., Zhang, Y., Guo, J., Gu, Q., and Wang, M. (2026).
@@ -490,7 +496,12 @@
         <li>
           Fu, R., Yang, Z., Zhang, J., Ma, J., Chen, H., Li, Y., and Chang, Y. (2026).
           <a href="https://arxiv.org/abs/2605.18797"><em>Simply Stabilizing the Loop via Fully Looped Transformer</em></a>. arXiv:2605.18797.
-          <em>Traces looped-training instability to gradient oscillation and residual explosion separately, and fixes both with parameter-free changes, training stably to twelve iterations where baselines collapse.</em>
+          <em>Identifies gradient oscillation and residual explosion as two instability patterns
+          <em>associated</em> with looped training, which is the paper&apos;s own wording: it says
+          oscillation &ldquo;may contribute&rdquo; and that residual amplification &ldquo;may not
+          fully explain early collapse by itself&rdquo;, and its ablation shows neither
+          parameter-free change is sufficient alone. Trains stably to twelve iterations at 318M
+          where baselines collapse, on a single run per configuration with no seed error bars.</em>
         </li>
         <li>
           Buehlmaier, M. M. M. (2026).
@@ -502,7 +513,11 @@
         <li>
           Wu, Y., Zhang, R., and Cao, Y. (2026).
           <a href="https://arxiv.org/abs/2606.00605"><em>Looped Transformers with Layer Normalization Provably Learn the Power Method</em></a>. arXiv:2606.00605.
-          <em>A looped linear transformer with LayerNorm, trained by gradient descent, provably converges to power-method iteration on a synthetic testbed.</em>
+          <em>A looped <em>linear</em> transformer &mdash; softmax removed, normalisation
+          structurally equivalent to RMSNorm rather than LayerNorm &mdash; provably converges to
+          power-method iteration under population gradient descent from a specific initialisation
+          with only one block set to the identity, on rotation-invariant unit-norm data with
+          $d \ge 3$. The loss converges to a strictly positive limit, not to zero.</em>
         </li>
         <li>
           Lin, Y., Guo, Y., Zhu, R.-J., Ye, Z., and Eshraghian, J. (2026).
@@ -668,8 +683,14 @@
           <a href="https://arxiv.org/abs/2605.26733"><em>Stabilizing Recurrent Dynamics for
           Test-Time Scalable Latent Reasoning in Looped Language Models</em></a>.
           arXiv:2605.26733. <em>Looped performance peaks at some recurrence depth and then
-          collapses with further looping. Spectral-radius regularisation is proposed as the fix.
-          Directly against the infinite-depth framing.</em>
+          collapses with further looping. Random-loop training plus a Jacobian-gain penalty improves
+          finite-depth robustness: on synthetic addition it stays stable across the tested range,
+          while on 1.4B mathematics benchmarks the average falls from 74.18% at four recurrences to
+          65.55% at eight, which the paper calls a slower decline rather than a cure. Motivated by
+          the fixed-point condition $\rho(J) &lt; 1$, but the released implementation takes one
+          vector-Jacobian product from a random direction and penalises $\lVert J^{\top}v\rVert^2$,
+          whose expectation is $\lVert J\rVert_F^2/D$ &mdash; a Frobenius-like surrogate rather than
+          a spectral-radius estimate. Directly against the infinite-depth framing.</em>
         </li>
               <li>
           Kshirsagar, A. (2026).
@@ -708,7 +729,14 @@
         <li>
           Kuo, C.-C., Chayti, E. M., Reizinger, P., Brendel, W., and Jaggi, M. (2026).
           <a href="https://arxiv.org/abs/2606.29983"><em>Stabilizing Extrapolation in Looped Transformers via Learned Stochastic Stopping</em></a>. arXiv:2606.29983.
-          <em>Length generalisation in looped transformers is brittle, with high out-of-distribution variance traced to a spurious correlation between input length and loop count that survives in otherwise well-performing solutions.</em>
+          <em>Length generalisation in looped transformers is brittle, with high out-of-distribution
+          variance that stochastic loop schedules reduce. The paper attributes the variance to a
+          spurious correlation between sequence length and loop count, though its own appendix
+          complicates that: a fixed budget with no length dependence still shows standard deviation
+          0.087, and randomising around that same fixed budget cuts run-to-run deviation from 7.4 to
+          4.7 at unchanged mean accuracy, which the authors say shows the effect &ldquo;is not
+          specific to length-matched schedules&rdquo;. The mechanisms are offered as hypotheses
+          rather than proved.</em>
         </li>
         <li>
           Larson, S. (2026).
