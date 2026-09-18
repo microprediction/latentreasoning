@@ -84,7 +84,18 @@
       failed once in living memory, on this exact subject, in front of me.
     </p>
 
-    <h2>The two maps</h2>
+    <p>
+      Four claims. The fact that we can read a model&apos;s reasoning at all is an accident of
+      arithmetic rather than a design decision, and the arithmetic is now being changed on purpose.
+      People compress what they know because there is one slow channel out of a head, and machines
+      have no equivalent constraint; they compress because we trained them to imitate us. The
+      reassurances that survive those two observations are all claims about physical limits &mdash;
+      bodies, laboratories, supply chains &mdash; and each has a well-funded programme aimed at
+      removing it. And the record of how quickly anyone responds to a hazard that is already clear to
+      the people who study it is worse than it is comfortable to assume.
+    </p>
+
+    <h2>What the 2023 essay argued</h2>
 
     <p>
       The part I would still defend is that the interesting structure is not in the words. The essay
@@ -114,7 +125,8 @@
     <h2>Why models write anything down</h2>
 
     <p>
-      A language model picks each word from a vocabulary of roughly 130,000. One choice out of
+      Start with why there is anything to read at all, because nobody chose it. A language model
+      picks each word from a vocabulary of roughly 130,000. One choice out of
       130,000 is about seventeen bits, in the way one choice out of two is one bit. Between finishing
       one word and starting the next, seventeen bits is everything that crosses.
     </p>
@@ -145,11 +157,11 @@
       hard.
     </p>
 
-    <h2>The human channel</h2>
+    <h2>How much a person can transmit</h2>
 
     <p>
-      Here is the asymmetry that I think matters more than anything else in this argument, and it is
-      not about machines at all to begin with.
+      The same constraint, in a far more severe form, is what shaped human language, and the
+      comparison is the reason the machine case is not business as usual.
     </p>
 
     <p>
@@ -188,25 +200,29 @@
     <h2>The reassurances</h2>
 
     <p>
-      Yann LeCun has been the most articulate optimist in the field for a decade, and he is worth
-      arguing with because he makes actual arguments. In September 2019 he and Anthony Zador
-      published <a href="https://www.scientificamerican.com/blog/observations/dont-fear-the-terminator/">Don&apos;t
-      Fear the Terminator</a>, subtitled &ldquo;Artificial intelligence never needed to evolve, so it
-      didn&apos;t develop the survival instinct that leads to the impulse to dominate others.&rdquo;
-      The core sentence: &ldquo;intelligence per se does not generate the drive for domination, any
-      more than horns do.&rdquo;
+      If the monitorability we have is an accident of the token bottleneck, the question is what
+      else is holding the risk down. Yann LeCun has made that case more clearly than anyone, for
+      longer, and with actual arguments rather than reassurance, which is why it is his version
+      worth taking apart.
     </p>
 
     <p>
-      Stuart Russell answered it a week later, in a
-      <a href="https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell">public
-      exchange</a> that Bengio moderated, and the answer has not needed improving since.
-      &ldquo;It is trivial to construct a toy MDP in which the agent&apos;s only reward comes from
-      fetching the coffee. If, in that MDP, there is another &lsquo;human&rsquo; who has some
-      probability, however small, of switching the agent off, and if the agent has available a button
-      that switches off that human, the agent will necessarily press that button as part of the
-      optimal solution for fetching the coffee. No hatred, no desire for power, no built-in emotions,
-      no built-in survival instinct, nothing except the desire to fetch the coffee successfully.&rdquo;
+      In September 2019 he and Anthony Zador published
+      <a href="https://www.scientificamerican.com/blog/observations/dont-fear-the-terminator/">Don&apos;t Fear the Terminator</a>, subtitled &ldquo;Artificial intelligence never
+      needed to evolve, so it didn&apos;t develop the survival instinct that leads to the impulse to
+      dominate others.&rdquo; The core sentence: &ldquo;intelligence per se does not generate the
+      drive for domination, any more than horns do.&rdquo;
+    </p>
+
+    <p>
+      Stuart Russell answered it a week later, in a <a href="https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell">public exchange</a> that Bengio
+      moderated, and the answer has not needed improving since. &ldquo;It is trivial to construct a
+      toy MDP in which the agent&apos;s only reward comes from fetching the coffee. If, in that MDP,
+      there is another &lsquo;human&rsquo; who has some probability, however small, of switching the
+      agent off, and if the agent has available a button that switches off that human, the agent will
+      necessarily press that button as part of the optimal solution for fetching the coffee. No
+      hatred, no desire for power, no built-in emotions, no built-in survival instinct, nothing except
+      the desire to fetch the coffee successfully.&rdquo;
     </p>
 
     <p>
@@ -215,109 +231,56 @@
       be terminal. It never was.
     </p>
 
-    <h3>The premise about selection</h3>
-
     <p>
-      The deeper problem with the 2019 piece is its central claim: &ldquo;because AI systems did not
-      pass through the crucible of natural selection, they did not need to evolve a survival
-      instinct.&rdquo; That was written about artefacts produced by gradient descent. Since then,
-      reinforcement learning from human feedback has added a second layer of selection, outputs that
-      please survive and outputs that do not are discarded, and trained models compete for
-      deployment against other trained models.
+      The 2019 thread also held that &ldquo;essentially no AI system today is autonomous&hellip; we do
+      not have a good design for an autonomous machine, driven by an objective, capable of coming up
+      with new strategies to optimize this objective in the real world,&rdquo; and that until such a
+      design appeared &ldquo;we are arguing about the sex of angels.&rdquo; Seven years on, the thing
+      said to have no visible path is a product category. Before the 2023 Munk debate the framing was
+      engineering: &ldquo;making AI systems safe is similar to making turbojets safe&hellip; It&apos;s
+      like asking for turbojets to be safe in 1930,&rdquo; with the assurance that &ldquo;if it turns
+      out we can&apos;t build it to be safe, we&apos;re just not going to build it.&rdquo;
     </p>
 
     <p>
-      Saying these things were never shaped by selection pressure is like saying a greyhound has no
-      prey drive because it has never had to catch anything.
+      That last one has been tested. OpenAI&apos;s GPT-6 Astra system card records &ldquo;a
+      substantial decrease in chain-of-thought monitorability compared to previous models,&rdquo;
+      notes that &ldquo;the set of tasks Astra is able to accomplish without the use of CoT is greatly
+      expanded,&rdquo; and states the model &ldquo;meets our Critical threshold&rdquo; for cyber
+      capability, meaning it &ldquo;can find previously unknown security flaws and develop new ways to
+      exploit them across many well-protected systems without a person guiding each step.&rdquo; It
+      shipped. Thirteen months before that card, the lead author of the monitorability position paper
+      wrote that chain-of-thought monitoring &ldquo;is a core part of our misalignment safety strategy
+      that has no good substitute now.&rdquo; He now works at OpenAI.
     </p>
 
-    <h3>The example that concedes itself</h3>
+    <h3>The strongest version</h3>
 
     <p>
-      The 2019 article offers orangutans as proof that intelligence and dominance come apart:
-      &ldquo;Orangutans live largely solitary lives. Females do not seek dominance, although competing
-      males occasionally fight for access to females.&rdquo; The counterexample contains the
-      counterexample. By the June 2023 Munk debate the hedge has gone, and it has become
-      &ldquo;Orangutans don&apos;t have any desire to dominate anybody.&rdquo; The evidence did not
-      change in those four years. The sentence did.
+      The best argument on that side is that current models are a dead end: limited by language,
+      lacking persistent memory, lacking a model of the physical world, dumber than a cat. I think
+      the diagnosis is broadly right and the conclusion does not follow, because each of those limits
+      now has a well-funded programme aimed squarely at removing it. Latent reasoning removes the
+      language limit. Recurrent depth removes the shallow-reasoning limit. The robotics stack is the
+      assault on physical grounding. The constraints were identified correctly and then treated as
+      furniture.
     </p>
 
-    <p>
-      The proposed mechanism, in the same article, is endocrine: &ldquo;dominance-seeking behavior is
-      more correlated with testosterone than with intelligence.&rdquo; Russell&apos;s coffee robot
-      has no endocrine system and presses the button anyway. The article answers a psychological
-      hypothesis nobody advanced and leaves the mathematical one untouched.
-    </p>
-
-    <h3>The claims that were overtaken</h3>
+    <h3>What the reassurances have in common</h3>
 
     <p>
-      In the same 2019 thread: &ldquo;essentially no AI system today is autonomous&hellip; we do not
-      have a good design for an autonomous machine, driven by an objective, capable of coming up with
-      new strategies to optimize this objective in the real world.&rdquo; And: &ldquo;until we have a
-      hint of a beginning of a design, with some visible path towards autonomous AI systems with
-      non-trivial intelligence, we are arguing about the sex of angels.&rdquo;
-    </p>
-
-    <p>
-      Seven years on, the thing said to have no visible path is a product category.
-    </p>
-
-    <p>
-      Before the 2023 Munk debate he offered the engineering framing: &ldquo;making AI systems safe is
-      similar to making turbojets safe&hellip; It&apos;s like asking for turbojets to be safe in
-      1930,&rdquo; adding that &ldquo;if it turns out we can&apos;t build it to be safe, we&apos;re
-      just not going to build it.&rdquo; That last is not a prediction any more. OpenAI&apos;s GPT-6
-      Astra system card records &ldquo;a substantial decrease in chain-of-thought monitorability
-      compared to previous models,&rdquo; notes that &ldquo;the set of tasks Astra is able to
-      accomplish without the use of CoT is greatly expanded,&rdquo; and states the model &ldquo;meets
-      our Critical threshold&rdquo; for cyber capability, meaning it &ldquo;can find previously
-      unknown security flaws and develop new ways to exploit them across many well-protected systems
-      without a person guiding each step.&rdquo; It shipped. Thirteen months before that card, the
-      lead author of the monitorability position paper wrote that chain-of-thought monitoring
-      &ldquo;is a core part of our misalignment safety strategy that has no good substitute now.&rdquo;
-      He now works at OpenAI.
-    </p>
-
-    <p>
-      Asked in 2023 which counter-argument troubled him most, LeCun said current systems are
-      &ldquo;intrinsically unsafe,&rdquo; described an alternative design, &ldquo;a potential
-      solution, which we haven&apos;t built. So we don&apos;t know if it works,&rdquo; and concluded:
-      &ldquo;So yes, it occupies my mind, but I have a solution. So I&apos;m not worried.&rdquo;
-    </p>
-
-    <h3>The strongest one, which is also the premise of this site</h3>
-
-    <p>
-      His best argument is that current models are a dead end: limited by language, lacking
-      persistent memory, lacking a model of the physical world, dumber than a cat. I think the
-      diagnosis is broadly right and the conclusion does not follow from it, because each of those
-      three limits now has a well-funded programme aimed squarely at removing it. Latent reasoning
-      removes the language limit. Recurrent depth removes the shallow-reasoning limit. The robotics
-      stack is the assault on physical grounding. He identified the constraints correctly and then
-      treated them as furniture.
-    </p>
-
-    <h3>The shape all of these share</h3>
-
-    <p>
-      Every reassurance above fails in one of two ways. Either it extrapolates from a snapshot,
-      no autonomous systems exist, no design is visible, machines have not been selected, or it
-      borrows a base rate from a class this thing may not belong to: turbojets, books, every previous
-      technology that turned out fine.
+      Each fails in one of two ways. Either it extrapolates from a snapshot &mdash; no autonomous
+      systems exist, no design is visible &mdash; or it borrows a base rate from a class this thing
+      may not belong to: turbojets, books, every previous technology that turned out fine.
     </p>
 
     <p>
       The second move is the weaker one. Every prior member of that class was a tool, a thing that
       amplifies intention and sits inert when unattended. A jet engine has no objectives, a book
-      pursues nothing, and the iterate-on-failure safety story works because the artefact has no
-      stake in the outcome.
-    </p>
-
-    <p>
-      Bengio put it plainly in 2023: &ldquo;All previous technologies were, by construction,
-      subservient to humanity. They couldn&apos;t think by themselves. But now we&apos;re building
-      machines that are thinking.&rdquo;
+      pursues nothing, and the iterate-on-failure safety story works because the artefact has no stake
+      in the outcome. Bengio put it plainly in 2023: &ldquo;All previous technologies were, by
+      construction, subservient to humanity. They couldn&apos;t think by themselves. But now
+      we&apos;re building machines that are thinking.&rdquo;
     </p>
 
     <p>
@@ -326,7 +289,7 @@
       observe it as true in every world containing anyone to say it.
     </p>
 
-    <h2>Taking the rounding out</h2>
+    <h2>Removing the rounding step</h2>
 
     <p>
       Picking a word is a rounding step. Latent reasoning removes it: instead of rounding those few
@@ -367,7 +330,7 @@
       pretrained a 3.5 billion parameter model whose core loops up to sixty-four times.
     </p>
 
-    <h2>Between models</h2>
+    <h2>Agents talking to agents</h2>
 
     <p>
       All of that concerns one model reasoning alone, which is increasingly not how any of this is
@@ -463,9 +426,12 @@
       You can monitor a lab. Nobody has ever monitored a market.
     </p>
 
-    <h2>The bodies</h2>
+    <h2>Robotics and physical capability</h2>
 
     <p>
+      A network of reasoning systems is still limited to what it can reach, which is the reassurance
+      of last resort: whatever they work out, they cannot act on it without us. That rests on
+      robotics being hard, and the reason robotics was hard is not the reason people assume.
       Moravec&apos;s point, forty years ago, was that reasoning is the easy part and perception and
       movement the hard part: a toddler&apos;s sensorimotor competence being a harder engineering
       problem than a grandmaster&apos;s chess. My 2023 essay argued the field was underrating the
@@ -525,10 +491,12 @@
       looked physical turning out to be a limitation in how we were specifying the problem.
     </p>
 
-    <h2>Stepnogorsk</h2>
+    <h2>Tacit knowledge and biological weapons</h2>
 
     <p>
-      I have no standing in biosecurity. What I can read is the shape of a disagreement, and the
+      Laboratory work is the version of that question with the highest stakes, and unlike robotics
+      it has a literature with genuine disagreement in it. I have no standing in biosecurity. What I
+      can read is the shape of a disagreement, and the
       live disagreement in that field turns out to be about the same quantity as the rest of this
       essay.
     </p>
@@ -701,11 +669,12 @@
     </p>
 
 
-    <h2>The price of one experiment</h2>
+    <h2>What makes a domain learnable</h2>
 
     <p>
-      Every domain that has fallen hard to machine learning shared one property, and it was not that
-      the domain was shallow. Chess, Go, competitive programming, contest mathematics: in each, an
+      Both sides of that disagreement are arguing about one quantity without naming it, and naming
+      it makes the rest of this legible. Every domain that has fallen hard to machine learning shared
+      one property, and it was not that the domain was shallow. Chess, Go, competitive programming, contest mathematics: in each, an
       answer can be checked automatically, cheaply, and in bulk. The safety report names the
       technique, reinforcement learning with verifiable rewards, applied to &ldquo;tasks that require
       factual correctness, such as maths or code generation.&rdquo; Give a system a fast verifier and
@@ -794,10 +763,12 @@
       a question-answering benchmark tells you nothing about either.
     </p>
 
-    <h2>Havana, 1991</h2>
+    <h2>Chinese technical education</h2>
 
     <p>
-      That July I went to the International Physics Olympiad in Havana. Thirty-one countries,
+      Everything above is about what gets built. Who builds it is a separate question, and the
+      answer has been in front of me since I was seventeen. That July I went to the International
+      Physics Olympiad in Havana. Thirty-one countries,
       thirteen gold medals awarded in total. China took five, which was all five of theirs, and more
       than a third of the gold in the building.
     </p>
@@ -840,9 +811,10 @@
       decisions determine the outcome.
     </p>
 
-    <h2>The physical layer</h2>
+    <h2>Who controls the electric stack</h2>
 
     <p>
+      Education is upstream of the thing that decides this, which is the stack itself.
       McCormick and D&apos;Amico call it the Electric Stack: lithium-ion batteries, magnets and
       electric motors, power electronics, embedded compute. Four layers whose cost has fallen about
       99% over recent decades, and the layers that turn electricity into action. By their account
@@ -1005,9 +977,10 @@
       be deployed in Brussels or Sacramento. It does not govern what gets built, by whom, out of what.
     </p>
 
-    <h2>Two clocks</h2>
+    <h2>How long societies take to react</h2>
 
     <p>
+      Suppose all of that is wrong and a rule does bind. There is still the question of when.
       The comfort in &ldquo;these things take time&rdquo; is that we have adapted before. How long
       adapting took is a matter of record, and the record is worse than the phrase suggests.
     </p>
