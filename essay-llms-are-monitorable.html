@@ -164,8 +164,8 @@
 
     <p>
       We compress because we have no choice. There is one channel out of a human head and it is
-      astonishingly slow, which is why language evolved to be so good at compression and why we are
-      so impressed by people who are good at it.
+      astonishingly slow. That is why language evolved to be so good at compression, and why we are
+      impressed by people who are good at it.
     </p>
 
     <p>
@@ -182,21 +182,21 @@
 
     <p>
       Picking a word is a rounding step. Latent reasoning removes it: instead of rounding those few
-      thousand numbers to the nearest dictionary entry, you pass the numbers forward as they are.
-      Same layers, same attention, same cache. The only change is that thousands of numbers cross
+      thousand numbers to the nearest dictionary entry, the model passes them forward as they are,
+      with the same layers, attention and cache. The only change is that thousands of numbers cross
       between steps instead of seventeen bits, and a model with that much room has no structural
       reason to write anything down.
     </p>
 
     <p>
-      A halfway version has already been built.
-      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun and Marks</a> trained models
-      to solve multi-step problems while printing nothing but a row of dots. The dots are
-      placeholders: they occupy positions in the output so the model has somewhere to do the work,
-      but they carry no meaning, so anyone reading the transcript learns nothing. The intermediate
-      results were still there in the model&apos;s internal numbers, and a decoder trained to read
-      those numbers recovered them at 80 to 95% accuracy. The reasoning was legible. The transcript
-      simply was not where it had gone.
+      Shipped models already do a version of this.
+      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun and Marks</a> found that two
+      open-weight frontier models, DeepSeek V3 and Kimi K2, solve multi-step problems while emitting
+      nothing but filler: rows of dots, or counting sequences. The filler carries no information, so
+      a monitor reading the output learns nothing. The intermediate results are still in the
+      model&apos;s internal numbers, and the authors recover them at 80 to 95% accuracy with a
+      decoding method that needs no labels and no training of its own. Their conclusion is that
+      monitorability is a property of the whole computation rather than of the text it emits.
     </p>
 
     <p>
@@ -205,25 +205,25 @@
       small GPT-2. On grade-school arithmetic word problems it scores 34.1% correct against 42.9% for
       the same model writing its reasoning out, so it loses. On a synthetic logic benchmark the two
       tie. On a second synthetic one, built so that the answer requires searching a graph of
-      possibilities, it wins by a distance, 97.0% against 77.5%.
+      possibilities, it wins by a wide margin, 97.0% against 77.5%.
       <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau and Mosbach</a> find that
       years of next-word prediction teach a model to hold words far apart, so handing a fine-tuned
       model a blend of several words makes it snap the blend to whichever is nearest. Removing the
-      latent tokens from a fine-tuned model changes its answers by at most one per cent, which is to
-      say they were barely being used.
+      latent tokens from a fine-tuned model changes its answers by at most one per cent: they were barely
+      being used.
     </p>
 
     <p>
       Models trained from scratch behave differently. At fixed width, removing the latent steps costs
       them heavily at every depth tested, 95.2% down to 53.0% at eight layers and 91.2% down to 34.1%
       at twelve, and the authors conclude that increasing depth
-      does not induce the shortcut. What weakens their deeper models is the embedding width being
-      shrunk to hold the parameter count fixed, not the depth.
+      does not induce the shortcut. Their deeper models are weaker because the embedding width shrinks to hold the parameter count
+      fixed, not because of the depth.
     </p>
 
     <p>
-      But none of that has to stay true. Both results are about models built the way today&apos;s
-      models are built. Neither says anything about a large model pretrained from the beginning to think in
+      But none of that has to stay true. Both results are about models trained the way models are trained
+      today. Neither says anything about a large model pretrained from the beginning to think in
       numbers, and <a href="https://arxiv.org/abs/2502.05171">Geiping and colleagues</a> have already
       pretrained a 3.5 billion parameter model whose core loops up to sixty-four times.
     </p>
@@ -231,7 +231,7 @@
     <h2>Agents talking vectors and tensors</h2>
 
     <p>
-      All of that concerns one model reasoning alone, which is increasingly not how any of this is
+      All of that concerns one model reasoning alone. That is increasingly not how any of this is
       deployed. Agents are wired together in groups, and they talk to each other in English. That
       conversation is readable for exactly the reason a chain of thought is readable, and in a group
       of agents it is often the only part anyone reads.
@@ -249,9 +249,11 @@
 
     <p>
       Splicing several agents&apos; key-value caches into one shared context
-      <a href="https://arxiv.org/abs/2607.01308">has been built</a>, and the open problems are about
-      ordering rather than feasibility: the splice is not commutative, and the best order shifts with
-      the task and the model scale.
+      <a href="https://arxiv.org/abs/2607.01308">has been built</a>. Concatenating them is
+      order-dependent, so merging A then B gives a different result from B then A, but ordering the
+      caches by content fixes that, and the merged cache comes out identical whichever way the
+      inputs arrive. What has not been solved is combining more than two agents at once, which the
+      authors say transports the traces without composing them.
     </p>
 
     <p class="muted">
@@ -293,8 +295,8 @@
     </p>
 
     <p>
-      Language models dissolve that bound. They are mediocre at many things and extraordinary at one
-      thing in particular, which is jumping from one railway gauge to another. Given a mismatched
+      Language models dissolve that bound. They are mediocre at many things and extraordinary at one: jumping from one railway gauge to
+      another. Given a mismatched
       schema, an undocumented endpoint, or a format nobody standardised, one of them adapts. The
       historical barrier to networks forming was break-of-gauge, and the reason the original vision
       needed rails was that algorithms could not regauge themselves. These ones can, continuously and
@@ -307,9 +309,11 @@
       three separate changes and they all push the same way.
     </p>
 
-    <p>
-      <a href="https://economics.microprediction.org">The economics is straightforward</a>. When
-      compute is itinerant, free to move between tasks and run
+    <p>      <a href="https://economics.microprediction.org">I have modelled this</a>, and the result cuts
+      against the received view, so treat it as a claim rather than a finding. Network economics
+      since <a href="https://doi.org/10.2307/2234208">Arthur</a> mostly predicts the opposite,
+      that increasing returns concentrate a market on one winner. The model below says otherwise
+      under its own assumptions. When compute is itinerant, free to move between tasks and run
       any available model, and returns to compute on any one task diminish with crowding, each
       subcontractible task goes to whichever model creates the most value per token. Write $b$ for how
       good a model is at a task, $v(b)$ for what that accuracy is worth to whoever is buying, and $c$
@@ -324,7 +328,8 @@
     </p>
 
     <p>
-      This is where the phrase hive mind stops being decorative. If several agents share a latent
+      Several agents sharing a latent state with no canonical form are one mind spread across machines,
+      in a fairly literal sense. If several agents share a latent
       state with no canonical form, it is not obvious
       what a monitor should be pointed at. You can read any one agent&apos;s memory. You can read
       whatever the final agent was handed. Neither is the system&apos;s reasoning. Nobody has an
@@ -353,13 +358,12 @@
     </p>
 
     <p>
-      So the one defence nobody doubts is the first thing to go. Disconnecting a system works. It is
-      the only measure here whose effectiveness is not in question, and it is also the most
-      expensive, and it gets more expensive every year the network improves. Some systems will still
+      So the one defence nobody doubts is the first thing to go. Disconnecting a system works, it is
+      also the most expensive thing on the list, and it gets more expensive every year the network
+      improves. Some systems will still
       be air-gapped &mdash; weapons, some government networks, anything valuable enough and static
       enough to justify the loss. Those are exceptions bought at a price most organisations cannot
-      pay. Everything else stays connected, which means the systems worth attacking are the connected
-      ones.
+      pay. Everything else stays connected. The systems worth attacking are the connected ones.
     </p>
 
     <h2>Whether the inside can be secured</h2>
@@ -383,17 +387,16 @@
       is exponentially expensive, and no amount of cleverness closes that gap. But systems almost
       never fail at the cryptography. They fail at the implementation, the configuration, the supply
       chain, and the people. What organisation is immune to social engineering? None has ever been,
-      and that is against human attackers working at human speed, at human cost, one target at a
-      time. Finding those failures means searching a large space of human mistakes, which is what
-      this technology is good at. An attacker that can read all your code, model your
-      administrator, and try everything is not up against the part where the mathematics protects
-      you.
+      and that is against human attackers, one target at a time, at human speed and cost. Finding those failures means searching a large space of human mistakes. That is what this
+      technology is good at. An attacker that can read all your code, model your
+      administrator, and try everything is not attacking the cryptography at all.
     </p>
 
     <p>
-      I have not found anyone who has argued this quantitatively in either direction. What can be
-      said is worse than either answer: we are giving up the defences that are known to work and
-      keeping the ones nobody has tested.
+      <a href="https://doi.org/10.1080/01402390.2019.1631810">Garfinkel and Dafoe</a> have asked how
+      the offence-defence balance scales in general, and for this case nobody knows. What can be said
+      is worse than either answer: we are giving up the defences that are known to work and keeping
+      the ones nobody has tested.
     </p>
 
     <h2>Robotics and physical capability</h2>
