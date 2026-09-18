@@ -330,12 +330,18 @@
     </p>
 
     <p>
-      Latent reasoning does not currently beat writing it out, and the reason is instructive.
+      Results are mixed rather than uniformly behind. In Coconut&apos;s GPT-2 experiments latent
+      reasoning loses to explicit chain of thought on GSM8K, 34.1 against 42.9, ties on ProntoQA, and
+      wins on the synthetic ProsQA task, 97.0 against 77.5.
       <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau and Mosbach</a> find that
-      years of next-word prediction teach a model to hold words far apart, so handing it a blend of
-      several words makes it snap the blend to whichever is nearest. Fine-tuning does not undo it.
-      Models trained from scratch do hold the blends, but only small ones. At eight and twelve layers
-      they revert to solving the problem in one step and padding the rest.
+      years of next-word prediction teach a model to hold words far apart, so handing a fine-tuned
+      model a blend of several words makes it snap the blend to whichever is nearest. Removing the
+      latent tokens from a fine-tuned model changes its answers by at most one per cent, which is to
+      say they were barely being used. Models trained from scratch behave differently: at fixed
+      width, ablating the latents costs them heavily at every depth tested, 95.2 down to 53.0 at
+      eight layers and 91.2 down to 34.1 at twelve, and the authors conclude that increasing depth
+      does not induce the shortcut. What weakens their deeper models is the embedding width being
+      shrunk to hold the parameter count fixed, not the depth.
     </p>
 
     <p>
@@ -456,8 +462,13 @@
       Control is not solved, and the way it is unsolved matters. A 2026 scaling law finds the
       demonstrations needed grow super-exponentially as target precision approaches a limit, and that
       the limit &ldquo;is not a static physical constant of the task but an emergent property of the
-      entire agent system, including its sensors.&rdquo; The binding constraint is sensing. Sensing is
-      the part with no biological ceiling.
+      entire agent system, including its sensors.&rdquo; Sensing is one of the levers they move.
+      Removing the wrist camera pushed the limit from 2.35&nbsp;mm to 3.85&nbsp;mm, but changing the
+      demonstration strategy brought it to 1.27&nbsp;mm and simplifying the task to 1.00&nbsp;mm, and
+      the scaling relation only appeared once the denoiser had the capacity for it. All of it in
+      simulation, with hardware validation left as future work. Sensing is the lever with no
+      biological ceiling, which is why it is the one to watch, rather than the one the paper
+      singles out.
     </p>
 
     <p>
@@ -595,8 +606,10 @@
       AI Safety Report 2026</a> lands on both sides of this, which is the correct place to land. It
       records that models &ldquo;can also provide some kinds of &lsquo;tacit knowledge&rsquo;, the
       practical expertise that is usually only built from hands-on laboratory experience,&rdquo;
-      that one study had OpenAI&apos;s o3 outperform 94 per cent of domain experts at troubleshooting
-      virology protocols, and that agents can now chain capabilities together &ldquo;including
+      that on a 322-question multimodal benchmark OpenAI&apos;s o3 scored 43.8 per cent against an
+      expert average of 22.1, outscoring 34 of the 36 experts who sat it on their own tailored
+      question sets &mdash; a Q&amp;A result whose authors say it does not assess anyone using a
+      model in real laboratory work, and leaves embodied and team skill untested &mdash; and that agents can now chain capabilities together &ldquo;including
       providing natural language interfaces to users and operating biological AI tools and
       laboratory equipment.&rdquo; It also states, forty pages earlier, that such systems
       &ldquo;cannot yet integrate with robotic components to perform basic physical tasks such as
@@ -627,13 +640,17 @@
       A second group goes further upstream, to the training data. Bloomfield, Berke, Pannu and
       colleagues propose
       <a href="https://arxiv.org/abs/2602.08061">five tiers of pathogen data</a> with escalating
-      access controls, and their case does not rest on argument. Excluding viral proteins from ESM3
-      cut its performance on virus benchmarks. Excluding the genomes of viruses that infect
-      eukaryotes from Evo 2 left it poor at fitness prediction for viruses that infect humans.
-      Fine-tuning Evo 2 back on those sequences lowered its perplexity on withheld human viral
-      sequences and improved its prediction of SARS-CoV-2 immune escape variants. Removed, the
-      capability fell. Restored, it came back. Of everything proposed in this area, that is the one
-      intervention with a controlled demonstration behind it.
+      access controls, and unlike most of this literature the premise has been measured rather than
+      argued. Excluding viral proteins from ESM3 cut its performance on virus benchmarks, and
+      excluding the genomes of viruses that infect eukaryotes from Evo 2 left it poor at fitness
+      prediction for viruses that infect humans &mdash; two different models and two different data
+      types, not one experiment. A separate study then fine-tuned a context-shortened Evo 2 back on
+      110 human-infecting viral genomes and got some of it back, though less than the summary
+      suggests: on twelve held-out genomes the perplexity advantage over a bacteriophage control was
+      not statistically significant, and immune-escape classification reached an AUROC of 0.59
+      against 0.8 for the purpose-built tool. What has been demonstrated is that training data moves
+      narrow predictive proxies, and that later fine-tuning can partly undo an exclusion. Nobody has
+      run the tiers and measured what happens, and the authors call their own scheme preliminary.
     </p>
 
     <p>
@@ -651,9 +668,12 @@
       similarity, rendering current homology-based screening blind to such designs,&rdquo; and they
       draw the constructive conclusion from it. Functional assays, which test what a protein does
       rather than what its sequence resembles, &ldquo;are more robust to challenges posed by designed
-      proteins, and consequently will become more important.&rdquo; Assay the behaviour, not the
-      string, which is the one check that does not degrade as the designs get further from anything
-      already in the database.
+      proteins, and consequently will become more important.&rdquo; The advantage is conditional,
+      and they state the condition: a functional assay helps &ldquo;provided the novel protein uses
+      a mode of action similar to a known toxin.&rdquo; Endopep-MS finds botulinum neurotoxin
+      because it looks for that protease activity. Assaying behaviour rather than sequence changes
+      which things a screen is blind to; it does not produce a screen that is blind to nothing,
+      which is why the same authors ask for untargeted characterisation alongside it.
     </p>
 
     <p>

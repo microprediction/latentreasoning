@@ -805,8 +805,10 @@
           State for Multi-Agent Latent Reasoning</em></a>. arXiv:2607.01308.
           <em>Composes agents&apos; key-value caches into one context. Concatenating them is
           non-commutative and the best ordering shifts with regime, latent-step budget and model
-          scale, so the paper proposes a canonical layout ordered by content. A shared state with no
-          canonical form has no well-defined object to monitor.</em>
+          scale. The answer offered is a representation-independent state: a set of content-addressed
+          unshifted fragments under set union, with a deterministic canonical render over it. Order
+          sensitivity is therefore a convergence problem rather than an absence of anything to
+          observe, and the paper evaluates merge quality rather than interpretability.</em>
         </li>
         <li>
           Backour, A. (2026).

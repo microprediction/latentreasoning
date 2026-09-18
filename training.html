@@ -185,7 +185,7 @@
     <h2>Why a deterministic rollout has no policy</h2>
 
     <aside class="note"><b>GRPO.</b> Group Relative Policy Optimization. Several answers are sampled per prompt, each is scored, and the advantage of each is its reward minus the group mean. No learned value function. <b>RLOO</b> is the same idea with a leave-one-out mean. An <b>outcome reward</b> scores only the final answer.</aside>
-    <aside class="note"><b>REINFORCE.</b> The basic policy-gradient estimator: sample an output, multiply the gradient of its log-probability by its reward minus a baseline, and average. Every method on this page is a variant of it.</aside>
+    <aside class="note"><b>REINFORCE.</b> The basic policy-gradient estimator: sample an output, multiply the gradient of its log-probability by its reward minus a baseline, and average. Every method named here is a variant of it.</aside>
     <p>
       Outcome-reward reinforcement learning of the GRPO family needs three things from the model:
       several distinct rollouts per prompt, a log-probability for each, and a gradient of that
