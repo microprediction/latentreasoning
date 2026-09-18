@@ -414,14 +414,15 @@
     </p>
 
     <p>
-      Control is not solved, and the way it is unsolved matters. A 2026 scaling law finds the
-      demonstrations needed grow super-exponentially as target precision approaches a limit, and that
-      the limit &ldquo;is not a static physical constant of the task but an emergent property of the
-      entire agent system, including its sensors.&rdquo; Sensing is one of the levers they move.
+      Control is not solved, and the way it is unsolved matters. <a href="https://arxiv.org/abs/2607.23108">A 2026 scaling law</a> finds
+      the demonstrations needed grow super-exponentially as target precision approaches a limit, and
+      that the limit &ldquo;is not a static physical constant of the task but an emergent property of
+      the entire agent system, including its sensors and expert policy.&rdquo; Sensing is one of the
+      levers they move.
       Removing the wrist camera pushed the limit from 2.35&nbsp;mm to 3.85&nbsp;mm, but changing the
       demonstration strategy brought it to 1.27&nbsp;mm and simplifying the task to 1.00&nbsp;mm, and
       the scaling relation only appeared once the denoiser had the capacity for it. All of it in
-      simulation, with hardware validation left as future work. Sensing has no biological ceiling, which is why I am watching it. The paper does not single it
+      simulation, with hardware validation left as future work. Sensing has no biological ceiling. That is why it is the one to watch. The paper does not single it
       out.
     </p>
 
@@ -437,7 +438,7 @@
     <p>
       The output does more work than the input. Two people who learn the same skill each have to
       practise it. Boston Dynamics&apos; own Atlas specification sheet says:
-      &ldquo;Once one Atlas learns a new skill, that task can easily be deployed across your entire
+      &ldquo;when one Atlas learns a new skill, that task can easily be deployed across your entire
       Atlas fleet.&rdquo; The Open X-Embodiment collaboration went further, assembling data from 22
       physically different robots across 21 institutions and demonstrating positive transfer between
       them. There is no biological analogue for a learned sensorimotor policy being copied verbatim
@@ -448,13 +449,11 @@
       Energy is the other thing that is about to move, and not because of batteries. An underactuated
       machine has fewer actuators than degrees of freedom, so it cannot command arbitrary
       accelerations and must exploit its own dynamics instead. McGeer&apos;s walkers descended a
-      shallow slope on gravity with essentially no actuation. Collins, Ruina, Wisse and Tedrake
+      shallow slope on gravity with essentially no actuation. Collins, Ruina, Tedrake and Wisse
       reported robots built on those principles that &ldquo;use less control and less energy than
       other powered robots, yet walk more naturally.&rdquo; Hand-tuned controllers struggled to
       exploit passive dynamics because the useful behaviour lives in contact events and near
-      instabilities that are awkward to write down. Learned policies do not have to write it down. On
-      real hardware, a learned controller used 8.23 newton-metres against 11.7 and 78.1 watts against
-      97.3 compared with the best hand-tuned model-based controller at matched tracking accuracy.
+      instabilities that are awkward to write down. Learned policies do not have to write it down.
     </p>
 
     <p>
@@ -521,11 +520,10 @@
     </p>
 
     <p>
-      Which is true, and is also not a fact about knowledge. Just enough but not too much, judged by
+      That is true, and it is also not a fact about knowledge. Just enough but not too much, judged by
       hand, on a deformable sample, with no measurable set point &mdash; that is a compliance
-      control problem. It is the same class of thing as a contact event in a walking gait: behaviour
-      that lives in forces rather than in propositions, which is exactly why it has never gone into
-      a protocol and why an operator has to be shown. Vogel is right that it cannot be said. The
+      control problem. It is the same class of thing as a contact event in a walking gait: behaviour that lives in forces rather than in propositions. That is why it has never gone into a
+      protocol, and why an operator has to be shown. Vogel is right that it cannot be said. The
       inference that it therefore cannot be transferred holds only while the recipient is a person,
       because for a person being shown is the only alternative to being told.
     </p>
@@ -651,13 +649,12 @@
     <p>
       That last obstacle is the honest form of the tacit-knowledge argument, and it puts Stepnogorsk
       in a different light. Eight years, with the protocols complete and the samples in hand, is
-      what credit assignment costs when each trial takes a month and the failures are mute. Not a
-      claim about what can be said. A claim about how many attempts it takes and what each one tells
-      you.
+      what credit assignment costs when each trial takes a month and the failures are mute. It is not a claim about what can be said. It is a claim about how many attempts it takes, and
+      what each one tells you.
     </p>
 
     <p>
-      Which is also why the current evaluations answer a question adjacent to the one that matters.
+      It also explains why the current evaluations answer a question next to the one that matters.
       The report is blunt about them: they suffer &ldquo;unrepresentative participants and small
       sample sizes,&rdquo; they &ldquo;have quickly become outdated as AI capabilities have
       improved,&rdquo; and the effect on risk &ldquo;particularly for novices versus those with
@@ -673,12 +670,12 @@
       <a href="https://doi.org/10.3389/fmicb.2026.1817535">&ldquo;still requires expertise, resources
       and the right equipment and infrastructure&rdquo;</a> &mdash; and then: &ldquo;However if this
       process is combined with an increase in automation of protein production, as seen in
-      biofoundries, it could open up a new level of risk.&rdquo; The skeptical position and the worry
-      in consecutive sentences, hinged on automation rather than on intelligence.
+      biofoundries, it could open up a new level of risk.&rdquo; The sceptical position and the worry appear in consecutive
+      sentences, and both hinge on automation rather than on intelligence.
     </p>
 
     <p>
-      The measurement I would want instead is cheap, harmless, and nobody runs it: take a benign
+      The measurement I would want is cheap and harmless, and nobody runs it: take a benign
       biological task, and test whether a machine-directed loop recovers from failures it was not
       told to expect, and whether a protocol it develops in one laboratory works in a different one.
       Those two target the obstacles that actually bind, and the second is the test the Soviet programme failed when it had to put its scientists on a plane to Kazakhstan. A score on
@@ -900,9 +897,9 @@
     <p>
       The quick cases show what buys speed. <a href="https://doi.org/10.1038/315207a0">Farman&apos;s Antarctic ozone paper</a> was published
       on 1 May 1985 and the Montreal Protocol was signed on 16 September 1987, twenty-eight months later,
-      with DuPont holding patents on the replacement compounds. Thalidomide took under a year from
-      McBride&apos;s letter to the Kefauver-Harris amendments, because withdrawing one product cost
-      one company. The lag does not track how good the evidence was. It tracks what the remedy cost
+      with DuPont holding patents on the replacement compounds. Thalidomide took under a year from McBride&apos;s letter to
+      the Kefauver-Harris amendments. The harm was visible, attributable to a single compound, and
+      concentrated in newborns, and in the United States the drug had never been approved at all. The lag does not track how good the evidence was. It tracks what the remedy cost
       and how concentrated the interest against it was.
     </p>
 
@@ -950,8 +947,7 @@
     <h2>But LeCun says not to worry</h2>
 
     <p>
-      Which leaves the objection that none of this matters, because a machine has no reason to want
-      anything. It is the most cited reassurance in the field, and Yann LeCun has made it most clearly and for
+      One objection remains: none of this matters, because a machine has no reason to want anything. It is the most cited reassurance in the field, and Yann LeCun has made it most clearly and for
       longest, so his version is the one to check.
     </p>
 
@@ -983,22 +979,20 @@
     </p>
 
     <p>
-      What was offered against it is thin enough to set out in full. The
+       The
       mechanism proposed in 2019 is endocrine: &ldquo;dominance-seeking behavior is more correlated
       with testosterone than with intelligence.&rdquo; The supporting example is orangutans, who
       &ldquo;live largely solitary lives. Females do not seek dominance, although competing males
-      occasionally fight for access to females&rdquo; &mdash; a sentence that gives the game away in
-      its own subordinate clause. By the 2023 Munk debate the clause had gone and it had become
+      occasionally fight for access to females&rdquo; &mdash; a sentence whose subordinate clause describes the dominance-seeking its main clause denies. By the 2023 Munk debate the clause had gone and it had become
       &ldquo;Orangutans don&apos;t have any desire to dominate anybody.&rdquo; The evidence did not
       change in those four years. The sentence did.
     </p>
 
     <p>
-      Russell&apos;s coffee robot has no endocrine system and presses the button anyway. A claim about
-      optimal policies under a terminal objective was answered with zoology, the answer has not been
+      Russell&apos;s coffee robot has no endocrine system and presses the button anyway. A mathematical claim about optimal policies was answered with an anecdote about animal
+      behaviour, the answer has not been
       improved since, and it is still being offered. That is not a disagreement between experts about
-      a hard question. It is a category error that has survived seven years because the people it
-      reassured wanted to be reassured.
+      a hard question. It is a category error, and it has survived seven years of repetition.
     </p>
 
     <p>
@@ -1018,10 +1012,7 @@
       notes that &ldquo;the set of tasks Astra is able to accomplish without the use of CoT is greatly
       expanded,&rdquo; and states the model &ldquo;meets our Critical threshold&rdquo; for cyber
       capability, meaning it &ldquo;can find previously unknown security flaws and develop new ways to
-      exploit them across many well-protected systems without a person guiding each step.&rdquo; It
-      shipped. Thirteen months before that card, the lead author of the monitorability position paper
-      wrote that chain-of-thought monitoring &ldquo;is a core part of our misalignment safety strategy
-      that has no good substitute now.&rdquo; He now works at OpenAI.
+      exploit them across many well-protected systems without a person guiding each step.&rdquo; It shipped.
     </p>
 
     <h3>The strongest version</h3>
@@ -1082,11 +1073,12 @@
     </p>
 
     <p>
-      The data-control group have named theirs: a systematic evaluation of how including or
+      Bloomfield, Berke, Pannu and colleagues, who would restrict training data rather than synthesis,
+      have named theirs: a systematic evaluation of how including or
       excluding particular datasets changes what a model can do. They want the measurement that would
       tell them whether their own scheme survives a model that generalises. None of these would decide anything.
-      They would tell you whether the arguments above are describing something real, and they cost
-      almost nothing beside what is being spent on the capability they would measure.
+      They would tell you whether the arguments above are describing something real, and they cost almost nothing compared with what is being spent on the capability they would
+      measure.
     </p>
 
     <p>
@@ -1103,11 +1095,10 @@
 
     <p>
       Each of them reasons from what has not happened yet: that no autonomous systems exist, that no
-      design for one is visible, that machines were never shaped by selection, that robots cannot
-      handle the physical world, that nobody has built a network of reasoning agents. Every one of
+      design for one is visible, that robots cannot handle the physical world, that nobody has built a network of reasoning agents. Every one of
       those was true when it was written, and several are false now. Reasoning from an absence is a bad way to argue about
-      something under active construction by people with money, and it is worse when the instruments
-      you would check it with are running out of range.
+      something under active construction by people with money, and worse still because the one instrument built to check it, reading a model&apos;s chain of
+      thought, is losing range by the labs&apos; own account.
     </p>
 
     <p>
@@ -1117,9 +1108,17 @@
       were.
     </p>
 
+    <p>      The obvious retort is that my own case has the same shape. No network of reasoning agents has
+      caused harm, nobody has shown such a network cannot be secured, and no deployed model has been
+      caught reasoning undetectably at scale. That is fair, and it is why the argument above is about
+      what is being built rather than what has been observed. The difference I would claim is
+      narrow: absence of a thing under construction is weaker evidence than absence of a thing nobody
+      is building.
+    </p>
+
     <p>
-      I have been on the wrong side of this once. I would rather not be on the right side of it for
-      the wrong reasons.
+      I was wrong about language models once. Being right about the danger this time, for arguments
+      that do not hold up, would not be much better.
     </p>
 
     <div class="next-steps">
