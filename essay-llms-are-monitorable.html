@@ -190,25 +190,34 @@
     </p>
 
     <p>
-      The halfway version is built.
-      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun and Marks</a> had models do
-      genuine multi-step work while emitting nothing but filler dots. A monitor reading the output saw
-      dots. A decoder reading the internal numbers recovered the intermediate results at 80&ndash;95%
-      accuracy. The reasoning was perfectly legible to anyone looking in the right place, and the
-      transcript was not the right place.
+      A halfway version has already been built, and it is worth being concrete about what it does.
+      <a href="https://arxiv.org/abs/2607.03502">Brauer, Mayrink Verdun and Marks</a> trained models
+      to solve multi-step problems while printing nothing but a row of dots. The dots are
+      placeholders: they occupy positions in the output so the model has somewhere to do the work,
+      but they carry no meaning, so anyone reading the transcript learns nothing. The intermediate
+      results were still there in the model&apos;s internal numbers, and a decoder trained to read
+      those numbers recovered them at 80 to 95% accuracy. The reasoning was legible. The transcript
+      simply was not where it had gone.
     </p>
 
     <p>
-      Results are mixed rather than uniformly behind. In Coconut&apos;s GPT-2 experiments latent
-      reasoning loses to explicit chain of thought on GSM8K, 34.1 against 42.9, ties on ProntoQA, and
-      wins on the synthetic ProsQA task, 97.0 against 77.5.
+      The results are mixed. The method to beat is Coconut, which fine-tunes
+      a model to take those numbers forward instead of a word, and its published experiments use a
+      small GPT-2. On grade-school arithmetic word problems it scores 34.1% correct against 42.9% for
+      the same model writing its reasoning out, so it loses. On a synthetic logic benchmark the two
+      tie. On a second synthetic one, built so that the answer requires searching a graph of
+      possibilities, it wins by a distance, 97.0% against 77.5%.
       <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel, Rabusseau and Mosbach</a> find that
       years of next-word prediction teach a model to hold words far apart, so handing a fine-tuned
       model a blend of several words makes it snap the blend to whichever is nearest. Removing the
       latent tokens from a fine-tuned model changes its answers by at most one per cent, which is to
-      say they were barely being used. Models trained from scratch behave differently: at fixed
-      width, ablating the latents costs them heavily at every depth tested, 95.2 down to 53.0 at
-      eight layers and 91.2 down to 34.1 at twelve, and the authors conclude that increasing depth
+      say they were barely being used.
+    </p>
+
+    <p>
+      Models trained from scratch behave differently. At fixed width, removing the latent steps costs
+      them heavily at every depth tested, 95.2% down to 53.0% at eight layers and 91.2% down to 34.1%
+      at twelve, and the authors conclude that increasing depth
       does not induce the shortcut. What weakens their deeper models is the embedding width being
       shrunk to hold the parameter count fixed, not the depth.
     </p>
@@ -1059,8 +1068,10 @@
 
     <p>
       Stuart Russell answered it a week later, in a <a href="https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell">public exchange</a> that Bengio
-      moderated, and the answer has not needed improving since. &ldquo;It is trivial to construct a
-      toy MDP in which the agent&apos;s only reward comes from fetching the coffee. If, in that MDP,
+      moderated, and the answer has not needed improving since. His counterexample is a toy problem
+      of the kind used to model an agent picking actions to maximise a reward, with one reward and
+      nothing else in it. &ldquo;It is trivial to construct a toy MDP in which the agent&apos;s only
+      reward comes from fetching the coffee. If, in that MDP,
       there is another &lsquo;human&rsquo; who has some probability, however small, of switching the
       agent off, and if the agent has available a button that switches off that human, the agent will
       necessarily press that button as part of the optimal solution for fetching the coffee. No
