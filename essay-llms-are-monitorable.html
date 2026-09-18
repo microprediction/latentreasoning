@@ -96,8 +96,8 @@
       <li>The reassurances that survive those observations are all claims about physical limits
         &mdash; bodies, laboratories, supply chains &mdash; and each has a well-funded programme
         aimed at removing it.</li>
-      <li>What the West decides probably will not matter, because it controls neither the people nor
-        the materials the outcome depends on.</li>
+      <li>What the West decides probably will not matter, because it does not control the materials
+        any of it is built from.</li>
       <li>Societies react slowly to hazards their own experts already understand. The historical lag
         runs from about thirteen years to a century, and in one case it has not happened yet.</li>
       <li>The experiments that would settle most of the above are cheap, and nobody is running
@@ -556,67 +556,21 @@
     </p>
 
     <p>
-      David Baker and George Church, who built much of the field they are writing about,
-      <a href="https://doi.org/10.1126/science.ado1671">made a move worth copying</a>. They did not
-      propose restricting the knowledge. They proposed watching the DNA: that &ldquo;all synthetic
-      gene sequence and synthesis data should be collected and stored in repositories that are only
-      queried in emergencies,&rdquo; with encryption to protect trade secrets and a
-      selective-revelation policy governing access. Their reason screening alone fails is the same
-      reason interpretability struggles &mdash; proteins from de novo design &ldquo;may have little
-      or no sequence similarity to any natural proteins, complicating homology detection,&rdquo; so
-      a filter trained on what has existed will not recognise what has not. Log it instead, and
-      trace it afterwards.
+      There are proposals worth having, and the better ones share a property: none of them requires
+      anyone to read a model&apos;s mind.
+      <a href="https://doi.org/10.1126/science.ado1671">Baker and Church</a> would log every
+      synthetic gene order rather than restrict the knowledge, so that a new threat can be traced
+      back to whoever ordered its parts. Bloomfield, Berke, Pannu and colleagues would
+      <a href="https://arxiv.org/abs/2602.08061">restrict the training data</a> instead, and unlike
+      most of this literature their premise has been measured: excluding viral genomes from Evo 2
+      made it worse at predicting how human-infecting viruses behave. Both watch a physical step
+      rather than a thought. Both also assume the dangerous capability needs the specific data or the
+      specific molecule, and the second group say themselves that this may not hold.
     </p>
 
     <p>
-      That is the only proposal here that does not require anyone to follow a
-      chain of reasoning. It watches the step that has to happen in the physical world, and it works
-      whether or not the reasoning behind the order is legible to anybody. The synthesis consortium
-      has been screening voluntarily since 2004. Voluntary is why it exists and why it can stop.
-    </p>
-    <p>
-      A second group goes further upstream, to the training data. Bloomfield, Berke, Pannu and
-      colleagues propose
-      <a href="https://arxiv.org/abs/2602.08061">five tiers of pathogen data</a> with escalating
-      access controls, and unlike most of this literature the premise has been measured rather than
-      argued. Excluding viral proteins from ESM3 cut its performance on virus benchmarks, and
-      excluding the genomes of viruses that infect eukaryotes from Evo 2 left it poor at fitness
-      prediction for viruses that infect humans &mdash; two different models and two different data
-      types, not one experiment. A separate study then fine-tuned a context-shortened Evo 2 back on
-      110 human-infecting viral genomes and got some of it back, though less than the summary
-      suggests: on twelve held-out genomes the perplexity advantage over a bacteriophage control was
-      not statistically significant, and immune-escape classification reached an AUROC of 0.59
-      against 0.8 for the purpose-built tool. What has been demonstrated is that training data moves
-      narrow predictive proxies, and that later fine-tuning can partly undo an exclusion. Nobody has
-      run the tiers and measured what happens, and the authors call their own scheme preliminary.
-    </p>
-
-    <p>
-      It also carries an expiry date, which the authors state themselves. The scheme assumes a
-      dangerous capability needs the specific dangerous data, and they note that if models
-      &ldquo;can sufficiently generalize using large volumes of limited data types (such as sequence
-      data), our proposed BDL framework would require revision.&rdquo; Reaching a capability from
-      cheap generic data that never contained it is not a hypothetical failure mode. It is the
-      thing everything else here turns on.
-    </p>
-
-    <p>
-      Brackmann and colleagues reach the same diagnosis from the defence side, finding that designed
-      proteins can be &ldquo;functionally equivalent to known toxins while sharing little sequence
-      similarity, rendering current homology-based screening blind to such designs,&rdquo; and they
-      draw the constructive conclusion from it. Functional assays, which test what a protein does
-      rather than what its sequence resembles, &ldquo;are more robust to challenges posed by designed
-      proteins, and consequently will become more important.&rdquo; The advantage is conditional,
-      and they state the condition: a functional assay helps &ldquo;provided the novel protein uses
-      a mode of action similar to a known toxin.&rdquo; Endopep-MS finds botulinum neurotoxin
-      because it looks for that protease activity. Assaying behaviour rather than sequence changes
-      which things a screen is blind to; it does not produce a screen that is blind to nothing,
-      which is why the same authors ask for untargeted characterisation alongside it.
-    </p>
-
-    <p>
-      Containment arguments assume a laboratory is a place. That chokepoint works because it is
-      one: a machine, in a building, owned by a company that can be made to keep records.
+      Containment arguments assume a laboratory is a place. Synthesis works as a chokepoint because
+      it is one: a machine, in a building, owned by a company that can be made to keep records.
       Everything else pushing on this problem &mdash; cheap sensing, learned manipulation, fleets
       where what one machine acquires the others have &mdash; runs the other way, toward apparatus
       that is ordinary and everywhere. The world is the lab.
@@ -626,14 +580,16 @@
     <h2>What makes a domain learnable</h2>
 
     <p>
-      Both sides of that disagreement are arguing about one quantity without naming it, and naming
-      it makes the rest of this legible. Every domain that has fallen hard to machine learning shared
-      one property, and it was not that the domain was shallow. Chess, Go, competitive programming, contest mathematics: in each, an
-      answer can be checked automatically, cheaply, and in bulk. The safety report names the
-      technique, reinforcement learning with verifiable rewards, applied to &ldquo;tasks that require
-      factual correctness, such as maths or code generation.&rdquo; Give a system a fast verifier and
-      enough attempts and it grinds the domain down. Capability follows the number of checked
-      attempts you can afford, which means the question for any field is what one experiment costs.
+      Machine learning takes over a field when the answers can be checked cheaply. Chess, Go,
+      competitive programming, contest mathematics: in every one of them a computer can score an
+      attempt in milliseconds, for nothing, so you can run millions and keep whatever worked. The
+      safety report calls this reinforcement learning with verifiable rewards, and notes it is used
+      on &ldquo;tasks that require factual correctness, such as maths or code generation.&rdquo;
+    </p>
+
+    <p>
+      So the question for a field is not how hard the problem is. It is what one attempt costs to
+      check.
     </p>
 
     <p>
@@ -717,50 +673,11 @@
       a question-answering benchmark tells you nothing about either.
     </p>
 
-    <h2>Why Western decisions may not matter</h2>
-
-    <p>
-      Everything above is about what gets built. Who builds it is a separate question, and Western
-      debate about AI proceeds as though Western decisions settle it. The evidence on where the
-      technical talent sits does not support that, and the clearest place to see it is a competition
-      designed to be comparable across countries.
-    </p>
-
-    <p>
-      Two things about an Olympiad medal table are invisible from inside it. The team cap allows five
-      entrants, so it cannot show how many more would have taken gold. And the exam has a ceiling. In
-      2023 China&apos;s five scored 29.6, 29.8, 29.9, 30.0 and 29.7 out of 30 on the theory paper,
-      against a field average of 58.7%, so there is no way to measure how much better they are: the
-      instrument tops out before it reaches them.
-    </p>
-
-    <p>
-      The laboratory paper is where that would normally show up, since theory rewards drilling and
-      the bench does not. They averaged 89.9% experimental against Korea&apos;s 68.4% and
-      America&apos;s 69.0%, and the gap between their theory and experimental performance is the
-      smallest of any leading country, where everyone else falls away on the bench. The single
-      highest experimental score in that field was American, which cuts the other way.
-    </p>
-
-    <p>
-      You can estimate what the cap hides. China&apos;s fifth-best in 2023 sat 6.4 points above the
-      gold line, where America&apos;s fifth-best was below it, and extrapolating from the spacing of
-      their own five scores puts the uncapped count near thirteen rather than five. In 2024 the same
-      arithmetic gives something closer to thirty. The estimator is crude and the magnitude is soft,
-      though the direction is not, and Korea comes out nearly as high, so whatever this measures is
-      not uniquely Chinese.
-    </p>
-
-    <aside class="note"><b>A note on why I trust this.</b> In July 1991 I went to the International
-    Physics Olympiad in Havana. Thirty-one countries, thirteen gold medals in total, and China took
-    five, which was all five of theirs and more than a third of the gold in the building. What I
-    remember is that they seemed nonchalant rather than triumphant. They finished and left. They were seventeen then and are fifty-two now, the age at
-    which people run things.</aside>
-
     <h2>Who controls the electric stack</h2>
 
     <p>
-      What actually decides this is the stack itself, and education is upstream of it.
+      Everything above is about what gets built. Who builds it is a separate question, and Western
+      debate proceeds as though Western decisions settle it.
       McCormick and D&apos;Amico call it the Electric Stack: lithium-ion batteries, magnets and
       electric motors, power electronics, embedded compute. Four layers whose cost has fallen about
       99% over recent decades, and the layers that turn electricity into action. By their account
