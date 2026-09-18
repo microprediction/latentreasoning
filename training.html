@@ -98,10 +98,14 @@
 
     <p>
       Whether the curriculum can be dispensed in general is contested. <a
-      href="https://arxiv.org/abs/2602.01148">Zou, Xiong &amp; Liu (2026)</a> prove, for the Coconut
-      setup, that direct training without a curriculum learns from a biased distribution of the
-      model's own latent states rather than from expert trajectories, and that the resulting gap
-      is permanent regardless of dataset size. The theorem covers training in which the only supervision is the final answer, so the
+      href="https://arxiv.org/abs/2602.01148">Zou, Xiong &amp; Liu (2026)</a> model non-curriculum
+      training as imitation of the model&apos;s own latent states, and show that if that distribution
+      is already worse than the expert by a fixed gap, more samples from it cannot close the gap.
+      The distributional bias is the theorem&apos;s hypothesis rather than its conclusion, so what
+      is established is a failure mode conditional on the mismatch, not that direct training must
+      produce one. Coconut&apos;s own ablation is the direct evidence that the curriculum mattered
+      in its setup: 14.4% against 34.1% on GSM8K, 52.4% against 99.8% on ProntoQA, 76.1% against
+      97.0% on ProsQA. The argument covers training in which the only supervision is the final answer, so the
       latent states are shaped by the model's own trajectories. CODI's distillation loss supervises
       the hidden state directly against the teacher's activations, so it falls outside that setting.
       Both agree that a final-answer loss alone does not determine what the latent states should
@@ -299,7 +303,7 @@
       up to 8B.
     </p>
 
-    <aside class="note"><b>pass@k.</b> The fraction of problems for which at least one of k sampled answers is correct. pass@1 is single-sample accuracy. A gap between pass@1 and pass@32 measures how much useful diversity the sampler has.</aside>
+    <aside class="note"><b>pass@k.</b> The fraction of problems for which at least one of k sampled answers is correct. pass@1 is single-sample accuracy. For a single problem with per-sample success probability $p$, pass@k is $1-(1-p)^k$, so the gap between pass@1 and pass@32 is fixed by $p$ and by how $p$ varies across problems. It measures success under repeated sampling, not how different the traces are.</aside>
     <p>
       On Llama 3.2 3B, soft-token training matches discrete-token training at
       pass@1 and beats it at pass@32 on all three mathematics benchmarks, and it leaves the base
@@ -335,8 +339,9 @@
       the difference between the perturbed and unperturbed logits, which gives GRPO a ratio and
       attributes credit to the underlying output distribution. Across 1.5B to 7B models the method beats
       discrete-token GRPO by 0.13 points at pass@1 and by 2.19 at pass@32. The first of those is within noise.
-      The supported claim is about diversity, not accuracy, consistent with the Wu et al. finding
-      that the model mostly follows one token. <a
+      What that supports is better coverage at a 32-sample budget rather than a better single answer.
+      Reading it as diversity is consistent with the Wu et al. finding that the model mostly follows
+      one token, but the metric does not separate the two: no semantic trace statistic is reported. <a
       href="https://arxiv.org/abs/2509.21482">Jain &amp; Rappazzo (2025)</a> arrive at a similar method from
       the discrete side, extending GRPO to mixture-of-token generation with Dirichlet weights, and report
       gains on seven of ten Reasoning-Gym tasks for a 1.5B model together with higher hidden-state
@@ -448,7 +453,9 @@
       model's from 14.7% to 26.8%. Responses get shorter with no brevity term in the reward, and
       entropy falls more steeply than under GRPO. The authors read the first as the model converging
       internally sooner once intermediate states are rewarded, and the second as confidence rather than
-      collapse, on the evidence that pass@k does not fall.
+      collapse, on the evidence that pass@k does not fall. Unchanged pass@k rules out losing the
+      chance of a correct answer within k samples; on its own it does not settle confidence against
+      trajectory collapse.
     </p>
 
     <p class="muted">
@@ -511,8 +518,8 @@
     <p>
       Butt et al.'s strongest configuration decodes hard tokens at inference. SofT-GRPO's
       pass@1 advantage over discrete GRPO is 0.13 points. HRPO, TARPO and SWITCH keep the vocabulary in
-      the loop by design. Across the noise-injection family, the demonstrated gains are in pass@k and in
-      preserved diversity, which are training-time properties, and the evidence that a continuous rollout at
+      the loop by design. Across the noise-injection family, the demonstrated gains are in multi-sample coverage and, where
+      it was measured separately, in token-distribution entropy, which are training-time properties, and the evidence that a continuous rollout at
       deployment beats a discrete one trained the same way is limited.
     </p>
 

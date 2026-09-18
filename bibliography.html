@@ -367,7 +367,9 @@
           <a href="https://arxiv.org/abs/2509.19170"><em>Soft Tokens, Hard Truths</em></a>.
           arXiv:2509.19170. <em>First scalable reinforcement learning of continuous chain of thought
           without distilling from discrete traces. Matches discrete chain of thought at pass@1 and
-          exceeds it at pass@32 through greater trace diversity.</em>
+          exceeds it at pass@32, which is better coverage under repeated sampling; the authors read
+          it as greater trace diversity and separately report a token-entropy analysis, which is the
+          part that measures diversity.</em>
         </li>
         <li>
           Piao, S., and Park, S. (2025).
@@ -1033,7 +1035,7 @@
         <li>
           Zheng, Z., Gu, Y., Liu, W., Teh, Y. W., and Lee, W. S. (2025).
           <a href="https://arxiv.org/abs/2511.06411"><em>SofT-GRPO: Surpassing Discrete-Token LLM Reinforcement Learning via Gumbel-Reparameterized Soft-Thinking Policy Optimization</em></a>. arXiv:2511.06411.
-          <em>Puts the exploration noise in the logits rather than on the embedding, so the perturbed soft token stays a mixture of real embeddings, and takes the policy density from the Gumbel noise. Against discrete-token GRPO on 1.5B to 7B models: +0.13 at pass@1, +2.19 at pass@32. The gain is diversity, not accuracy.</em>
+          <em>Puts the exploration noise in the logits rather than on the embedding, so the perturbed soft token stays a mixture of real embeddings, and takes the policy density from the Gumbel noise. Against discrete-token GRPO on 1.5B to 7B models: +0.13 at pass@1, +2.19 at pass@32, so the gain is in coverage at a 32-sample budget rather than in the single answer.</em>
         </li>
         <li>
           Yue, Z., Jin, B., Zeng, H., Zhuang, H., Qin, Z., Yoon, J., Shang, L., Han, J., and Wang, D. (2025).
@@ -1058,7 +1060,12 @@
         <li>
           Zou, J., Xiong, Y., and Liu, Y. (2026).
           <a href="https://arxiv.org/abs/2602.01148"><em>Capabilities and Fundamental Limits of Latent Chain-of-Thought</em></a>. arXiv:2602.01148.
-          <em>Argues direct non-curriculum training of latent chain of thought fails from distributional mismatch, making curriculum learning necessary rather than merely helpful, and introduces a measure of decisional commitment governing an exploration-execution trade-off.</em>
+          <em>Argues direct non-curriculum training of latent chain of thought fails from
+          distributional mismatch. The failure theorem assumes a training distribution already worse
+          than the expert by a fixed gap and concludes that more data from it cannot close the gap,
+          so the mismatch is its premise rather than its result, and the paper&apos;s own
+          &ldquo;theoretically necessary&rdquo; is stronger than what is proved. Also introduces a
+          measure of decisional commitment governing an exploration-execution trade-off.</em>
         </li>
         <li>
           Chen, S., Leong, C. T., Guo, Y., Wang, J., Li, X., and Shen, Z. (2026).
