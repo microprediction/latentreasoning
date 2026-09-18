@@ -85,14 +85,17 @@
     </p>
 
     <p>
-      Four claims. The fact that we can read a model&apos;s reasoning at all is an accident of
-      arithmetic rather than a design decision, and the arithmetic is now being changed on purpose.
-      People compress what they know because there is one slow channel out of a head, and machines
-      have no equivalent constraint; they compress because we trained them to imitate us. The
-      reassurances that survive those two observations are all claims about physical limits &mdash;
-      bodies, laboratories, supply chains &mdash; and each has a well-funded programme aimed at
-      removing it. And the record of how quickly anyone responds to a hazard that is already clear to
-      the people who study it is worse than it is comfortable to assume.
+      The argument runs in six steps. Machines are starting to communicate in vectors rather than
+      words, and that changes what an existential threat looks like, because the readability we
+      currently rely on is a side effect of the word bottleneck rather than a property of the
+      systems. The unit at risk is then not a lone model in a lab but a network of them. A network of
+      that kind is more productive than anything outside it, so there is economic pressure to join,
+      which means the assets worth attacking end up connected rather than isolated. Whether such a
+      system can be secured at all is an open question, and the measures that would certainly work
+      are the ones the economics prices out. What the West decides about any of this probably will
+      not matter, because it does not control the people or the materials the outcome depends on. And
+      the experiments that would settle the earlier steps are cheap, obvious, and nobody is running
+      them.
     </p>
 
     <h2>What the 2023 essay argued</h2>
@@ -232,6 +235,25 @@
     </p>
 
     <p>
+      What was offered against that is worth setting out, because the thinness is the point. The
+      mechanism proposed in 2019 is endocrine: &ldquo;dominance-seeking behavior is more correlated
+      with testosterone than with intelligence.&rdquo; The supporting example is orangutans, who
+      &ldquo;live largely solitary lives. Females do not seek dominance, although competing males
+      occasionally fight for access to females&rdquo; &mdash; a sentence that gives the game away in
+      its own subordinate clause. By the 2023 Munk debate the clause had gone and it had become
+      &ldquo;Orangutans don&apos;t have any desire to dominate anybody.&rdquo; The evidence did not
+      change in those four years. The sentence did.
+    </p>
+
+    <p>
+      Russell&apos;s coffee robot has no endocrine system and presses the button anyway. A claim about
+      optimal policies under a terminal objective was answered with zoology, the answer has not been
+      improved since, and it is still being offered. That is not a disagreement between experts about
+      a hard question. It is a category error that has survived seven years because the people it
+      reassured wanted to be reassured.
+    </p>
+
+    <p>
       The 2019 thread also held that &ldquo;essentially no AI system today is autonomous&hellip; we do
       not have a good design for an autonomous machine, driven by an objective, capable of coming up
       with new strategies to optimize this objective in the real world,&rdquo; and that until such a
@@ -263,7 +285,8 @@
       now has a well-funded programme aimed squarely at removing it. Latent reasoning removes the
       language limit. Recurrent depth removes the shallow-reasoning limit. The robotics stack is the
       assault on physical grounding. The constraints were identified correctly and then treated as
-      furniture.
+      permanent, which is the one move the argument cannot afford, since every one of them is a
+      research programme with a budget rather than a law.
     </p>
 
     <h3>What the reassurances have in common</h3>
@@ -405,7 +428,7 @@
       compute, so capability is one input rather than the quantity that allocates the work. The
       consequence is a closed-form equilibrium in which a model that outscores every rival on every
       benchmark has production compute share tending to zero as the division of labour refines. The
-      generalist exits. The specialists take the work.
+      generalist is competed out of the work it is best at, and the specialists take it.
     </p>
 
     <p>
@@ -423,7 +446,66 @@
     </p>
 
     <p>
-      You can monitor a lab. Nobody has ever monitored a market.
+      A lab can be monitored, and nobody has ever managed to monitor a market.
+    </p>
+
+    <h2>The price of staying out</h2>
+
+    <p>
+      If the network is where the productivity sits, staying out of it is not a neutral choice. It is
+      a tax, and the rate is set by how much better the network is, which by the argument above rises
+      as the division of labour refines. That matters for security because every hard containment
+      measure anyone actually trusts &mdash; isolation, air-gapping, not connecting the dangerous
+      system to anything &mdash; is a decision to pay that tax in full.
+    </p>
+
+    <p>
+      A single laboratory can afford it. A firm competing against firms that have not made the same
+      choice cannot, and neither can a state. The organisations that declined to join the last
+      dominant network did not stay safe and small; they stopped being competitors. There is no
+      reason to expect this one to behave differently, and several reasons to expect it to be worse,
+      since the coordination cost that used to make joining expensive is the thing that has
+      collapsed.
+    </p>
+
+    <p>
+      So the security posture that definitely works is the one that gets priced out first. That is
+      not an argument that nobody will air-gap anything. It is an argument that the systems worth
+      attacking will be the connected ones, because connection is where the value is, and that
+      isolation will increasingly be a thing done by organisations that have already lost.
+    </p>
+
+    <h2>Whether the inside can be secured</h2>
+
+    <p>
+      Which leaves security inside the network rather than at its edge, and here I am genuinely
+      uncertain rather than rhetorically uncertain. Both sides get the same tools. The hopeful case
+      is that defence gains more from them, because checking a proof is cheaper than finding one, and
+      because formal verification scales with compute in a way that manual auditing never did.
+    </p>
+
+    <p>
+      Against that, the same system card quoted earlier says its model &ldquo;meets our Critical
+      threshold&rdquo; for cyber capability, which it defines as finding previously unknown security
+      flaws and developing new ways to exploit them across many well-protected systems without a
+      person guiding each step. That is one side of the balance arriving first, in a shipped product.
+    </p>
+
+    <p>
+      The place the asymmetry genuinely favours defence is cryptography, where verifying is cheap and
+      breaking is not, and where the margin is exponential rather than a matter of effort. But
+      cryptographic primitives are not where systems fail. They fail at implementation, at
+      configuration, at the supply chain, and at the people, and every one of those is a search
+      problem over a large space of human-made mistakes, which is the kind of problem this technology
+      is best at. An adversary that can read all the code, model the administrator, and try
+      everything is not facing the part of the stack where the mathematics protects you.
+    </p>
+
+    <p>
+      I do not know which way that resolves, and I have not found anyone who has made the case
+      quantitatively in either direction. What can be said is narrower and worse: the measures whose
+      effectiveness is not in doubt are the ones the economics is removing, and the measures that
+      remain affordable are the ones whose effectiveness is unknown.
     </p>
 
     <h2>Robotics and physical capability</h2>
@@ -459,7 +541,7 @@
       blind spot and no foveal falloff, direct depth rather than inferred, exact joint angles from
       encoders rather than fuzzy proprioception, and force sensing at every joint. One published spec
       lists dual 8.85-megapixel stereo cameras at 90 hertz, which uncompressed is tens of gigabits per
-      second of raw input. That is not a better eye. It is a different problem.
+      second of raw input. That is not a better eye so much as a different problem.
     </p>
 
     <p>
@@ -762,53 +844,45 @@
       a question-answering benchmark tells you nothing about either.
     </p>
 
-    <h2>Chinese technical education</h2>
+    <h2>Why Western decisions may not matter</h2>
 
     <p>
-      Everything above is about what gets built. Who builds it is a separate question, and the
-      answer has been in front of me since I was seventeen. That July I went to the International
-      Physics Olympiad in Havana. Thirty-one countries,
-      thirteen gold medals awarded in total. China took five, which was all five of theirs, and more
-      than a third of the gold in the building.
+      Everything above is about what gets built. Who builds it is a separate question, and Western
+      debate about AI proceeds as though Western decisions settle it. The evidence on where the
+      technical talent sits does not support that, and the clearest place to see it is a competition
+      designed to be comparable across countries.
     </p>
 
     <p>
-      What I remember is that they seemed nonchalant. Not triumphant. They finished and left.
-    </p>
-
-    <p>
-      They were seventeen. They are fifty-two now.
-    </p>
-
-    <p>
-      Two things about that medal table are invisible from inside it. The team cap allows five
+      Two things about an Olympiad medal table are invisible from inside it. The team cap allows five
       entrants, so it cannot show how many more would have taken gold. And the exam has a ceiling. In
       2023 China&apos;s five scored 29.6, 29.8, 29.9, 30.0 and 29.7 out of 30 on the theory paper,
-      against a field average of 58.7%. You cannot measure how much better they are, because the
+      against a field average of 58.7%, so there is no way to measure how much better they are: the
       instrument tops out before it reaches them.
     </p>
 
     <p>
-      The lab is not where they get found out. They averaged 89.9% experimental against Korea&apos;s
-      68.4% and America&apos;s 69.0%, and the gap between their theory and experimental performance is
-      the smallest of any leading country. Everyone else collapses on the bench. Though the single
-      highest experimental score in that field, the observed maximum, was American, which is worth
-      keeping in view.
+      The laboratory paper is where that would normally show up, since theory rewards drilling and
+      the bench does not. They averaged 89.9% experimental against Korea&apos;s 68.4% and
+      America&apos;s 69.0%, and the gap between their theory and experimental performance is the
+      smallest of any leading country, where everyone else falls away on the bench. The single
+      highest experimental score in that field was American, which is worth keeping in view.
     </p>
 
     <p>
       You can estimate what the cap hides. China&apos;s fifth-best in 2023 sat 6.4 points above the
-      gold line, where America&apos;s fifth-best was below it; extrapolating from the spacing of their
-      own five scores puts the uncapped count near thirteen rather than five. In 2024 the same
-      arithmetic gives something closer to thirty. The estimator is crude and the magnitude is soft.
-      The direction is not, and Korea comes out nearly as high, so whatever this measures is not
-      uniquely Chinese.
+      gold line, where America&apos;s fifth-best was below it, and extrapolating from the spacing of
+      their own five scores puts the uncapped count near thirteen rather than five. In 2024 the same
+      arithmetic gives something closer to thirty. The estimator is crude and the magnitude is soft,
+      though the direction is not, and Korea comes out nearly as high, so whatever this measures is
+      not uniquely Chinese.
     </p>
 
-    <p>
-      I raise it for one reason only, which is that Western debate about AI proceeds as though Western
-      decisions determine the outcome.
-    </p>
+    <aside class="note"><b>A note on why I trust this.</b> In July 1991 I went to the International
+    Physics Olympiad in Havana. Thirty-one countries, thirteen gold medals in total, and China took
+    five, which was all five of theirs and more than a third of the gold in the building. What I
+    remember is that they seemed nonchalant rather than triumphant. They finished and left. They were
+    seventeen then and they are fifty-two now, which is the age at which people run things.</aside>
 
     <h2>Who controls the electric stack</h2>
 
@@ -866,12 +940,13 @@
     </p>
 
     <p>
-      The second reason is that arguing they cannot requires naming which constraint binds. Talent is settled. Capital is settled. Will is a
-      stated national priority with a dedicated fund. That leaves time, which is a schedule rather
-      than a barrier, and the honest sceptical case says exactly that: the leading equipment firms
-      &ldquo;enjoy wide moats of intellectual property and world-class teams of engineers, making it
-      exceptionally difficult for newcomers to catch up.&rdquo; Difficult and slow. Those are
-      durations.
+      The second reason is that arguing they cannot get there means saying which constraint stops
+      them, and the candidates are weak. It is not talent or capital, and it is not will, since this
+      is a stated national priority with a fund attached. What is left is time, and the sceptical
+      case makes that clear enough without meaning to: the leading equipment firms &ldquo;enjoy wide
+      moats of intellectual property and world-class teams of engineers, making it exceptionally
+      difficult for newcomers to catch up.&rdquo; Difficulty and slowness are how long something
+      takes, not whether it happens.
     </p>
 
     <h2>Regulating the wrong variable</h2>
