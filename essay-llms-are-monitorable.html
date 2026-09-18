@@ -328,58 +328,56 @@
     <h2>The price of staying out</h2>
 
     <p>
-      If the network is where the productivity sits, staying out of it is not a neutral choice. It is
-      a tax, and the rate is set by how much better the network is, which by the argument above rises
-      as the division of labour refines. That matters for security because every hard containment
-      measure anyone actually trusts &mdash; isolation, air-gapping, not connecting the dangerous
-      system to anything &mdash; is a decision to pay that tax in full.
+      Staying out of the network costs you something. How much depends on how far ahead the network
+      is, and that gap grows as the work gets divided more finely. This matters for security, because
+      the containment measures people actually trust &mdash; isolation, air-gapping, not connecting
+      the dangerous system to anything &mdash; all mean staying out.
     </p>
 
     <p>
-      A single laboratory can afford it. A firm competing against firms that have not made the same
-      choice cannot, and neither can a state. The organisations that declined to join the last
-      dominant network did not stay safe and small; they stopped being competitors. There is no
-      reason to expect this one to behave differently, and several reasons to expect it to be worse,
-      since the coordination cost that used to make joining expensive is the thing that has
+      One laboratory can afford that. A firm competing against firms that stayed connected cannot,
+      and neither can a country. The companies that refused to get on the internet did not stay safe
+      and small. They stopped being competitors. This time should be worse, because the thing that
+      used to make joining expensive was the cost of agreeing on standards, and that cost has
       collapsed.
     </p>
 
     <p>
-      So the defence that definitely works gets priced out first. Some things will still be
-      air-gapped. But the systems worth attacking will be the connected ones, because that is where
-      the value is, and isolation will increasingly be practised by organisations that have already
-      lost.
+      So the defence that definitely works is the first one people stop paying for. Some systems will
+      still be air-gapped. But the ones worth attacking will be connected, because that is where the
+      value is, and disconnection will mostly be practised by organisations that have already lost.
     </p>
 
     <h2>Whether the inside can be secured</h2>
 
     <p>
-      Which leaves security inside the network rather than at its edge, and here I am genuinely
-      uncertain rather than rhetorically uncertain. Both sides get the same tools. The hopeful case
-      is that defence gains more from them, because checking a proof is cheaper than finding one, and
-      because formal verification scales with compute in a way that manual auditing never did.
+      That leaves security inside the network instead of at its edge, and I do not know how it comes
+      out. Both sides get the same tools. The hopeful case is that defenders gain more, because
+      checking a proof is cheaper than finding one, and because formal verification gets better with
+      more compute while manual code review does not.
     </p>
 
     <p>
-      Against that, the same system card quoted earlier says its model &ldquo;meets our Critical
-      threshold&rdquo; for cyber capability, which it defines as finding previously unknown security
-      flaws and developing new ways to exploit them across many well-protected systems without a
-      person guiding each step. That is one side of the balance arriving first, in a shipped product.
+      Against that, the Astra system card says the model &ldquo;meets our Critical threshold&rdquo;
+      for cyber capability, meaning it can find unknown security flaws and work out how to exploit
+      them across many well-protected systems without anyone guiding it. The attacking side arrived
+      first, in a product you can buy.
     </p>
 
     <p>
-      The place the asymmetry genuinely favours defence is cryptography, where verifying is cheap and
-      breaking is not, and where the margin is exponential rather than a matter of effort. But
-      cryptographic primitives are not where systems fail. They fail at implementation, at
-      configuration, at the supply chain, and at the people, and every one of those is a search problem over a large space of human-made mistakes, and that is
-      the kind of problem this technology is best at. An adversary that can read all the code, model the administrator, and try
-      everything is not facing the part of the stack where the mathematics protects you.
+      Cryptography is the one place where defence has a real advantage: verifying is cheap, breaking
+      is exponentially expensive, and no amount of cleverness closes that gap. But systems almost
+      never fail at the cryptography. They fail at the implementation, the configuration, the supply
+      chain, and the people. Finding those failures means searching a large space of human mistakes,
+      which is what this technology is good at. An attacker that can read all your code, model your
+      administrator, and try everything is not up against the part where the mathematics protects
+      you.
     </p>
 
     <p>
-      I do not know which way that resolves, and I have not found anyone who has made the case
-      quantitatively in either direction. What can be said is narrower and worse. We are removing the
-      defences that are known to work and keeping the ones nobody has tested.
+      I have not found anyone who has argued this quantitatively in either direction. What can be
+      said is worse than either answer: we are giving up the defences that are known to work and
+      keeping the ones nobody has tested.
     </p>
 
     <h2>Robotics and physical capability</h2>
