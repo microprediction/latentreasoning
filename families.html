@@ -288,9 +288,10 @@
     <h3>The superposition story does not hold everywhere</h3>
     <p>
       Soft Thinking (Zhang et al. 2025) replaces each token with a probability-weighted mixture
-      of embeddings, claiming parallel exploration. <a href="https://arxiv.org/abs/2508.03440">Wu et al. (2025)</a> showed directly that the
-      model overwhelmingly follows the single highest-probability component: the method
-      degenerates to greedy decoding unless noise is deliberately injected. <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel,
+      of embeddings, claiming parallel exploration. <a href="https://arxiv.org/abs/2508.03440">Wu et al. (2025)</a> found that the model
+      predominantly follows the top component, so in that training-free setting the method behaves
+      much like greedy decoding, though the paper records partial mixture processing in the early
+      layers and steps that diverge from the greedy trace. <a href="https://arxiv.org/abs/2604.06374">Rizvi-Martel,
       Rabusseau &amp; Mosbach (2026)</a> sharpen this across three regimes. Only models
       trained from scratch with continuous latent CoT show signs of superposition. Training-free and
       fine-tuned models either collapse it or never use it, finding shortcut solutions instead.

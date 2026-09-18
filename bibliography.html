@@ -159,8 +159,14 @@
           Transformers to Solve Inherently Serial Problems.&rdquo; <em>ICLR</em>.
           <a href="https://arxiv.org/abs/2402.12875">arXiv:2402.12875</a>.
           <em>At constant precision and depth without chain of thought, expressivity is confined to
-          $\mathsf{AC}^0$; $T$ steps of chain of thought simulate circuits of size $O(T)$. Tokens
-          buy serial computation that a fixed-depth parallel circuit structurally cannot do.</em>
+          $\mathsf{AC}^0$ under their constant-bit floating-point and immediate-rounding model. With
+          chain of thought, a <em>non-uniform</em> family of constant-depth fixed-point transformers
+          simulates size-$T$ circuits in $T$ tokens: for each input length and target circuit a
+          separate $O(\log n)$-width transformer carries the circuit description in learned absolute
+          positional embeddings. A circuit-specific representability construction rather than one
+          trained model, and the authors note length generalisation &ldquo;does seem
+          impossible&rdquo; with trainable absolute positions. Tokens buy serial computation that a
+          fixed-depth parallel circuit structurally cannot do.</em>
         </li>
         <li>
           London, C., and Kanade, V. (2025).
@@ -187,8 +193,12 @@
           Gozeten, H. A., Ildiz, M. E., Zhang, X., Harutyunyan, H., Rawat, A. S., and Oymak, S.
           (2025). <a href="https://arxiv.org/abs/2505.23648"><em>Continuous Chain of Thought
           Enables Parallel Exploration and Reasoning</em></a>. arXiv:2505.23648.
-          <em>Quantifies the parallelism as tracking several discrete traces at once, with a
-          constructive one-layer solution to subset-sum.</em>
+          <em>Quantifies the parallelism as tracking several discrete traces at once. The
+          construction is one attention-plus-mixture-of-experts block run for $n$ autoregressive
+          steps, with width $d = 2^{n+1} + n + 2$ holding all $2^n$ signed partial sums, $n+1$
+          position-specific experts, and exact selection only in the $c \to \infty$ limit. A
+          representability result through superposition, not an efficient algorithm for
+          subset-sum.</em>
         </li>
         <li>
           Saunshi, N., Dikkala, N., Li, Z., Kumar, S., and Reddi, S. J. (2025).
@@ -227,7 +237,13 @@
         <li>
           Sanford, C., Hsu, D., and Telgarsky, M. (2023).
           <a href="https://arxiv.org/abs/2306.02896"><em>Representational Strengths and Limitations of Transformers</em></a>. arXiv:2306.02896.
-          <em>A sparse-averaging task separates transformers from recurrent and feedforward networks, while a triple-detection task, structurally a two-hop composition, costs attention complexity linear in input size. The authors flag the negative case as unusual in practice.</em>
+          <em>A sparse-averaging task separates transformers from recurrent and feedforward
+          networks. For exact unrestricted modular triple matching, a <em>single</em> softmax
+          attention layer needs embedding dimension, precision and head count whose product is
+          $\Omega(N/\log\log N)$ &mdash; a bound on the product, not on any one of them, and the
+          multi-layer version is explicitly a conjecture. Structured variants are easy: the bigram
+          form needs two layers at dimension 3, the local form one layer at $O(K\log N)$. The
+          authors flag the unrestricted negative case as unusual in practice.</em>
         </li>
         <li>
           Peng, B., Narayanan, S., and Papadimitriou, C. (2024).
@@ -262,12 +278,27 @@
         <li>
           Kraus, M., Sarrof, Y., Yao, Y., Koller, A., and Hahn, M. (2026).
           <a href="https://arxiv.org/abs/2604.25800"><em>Barriers to Universal Reasoning With Transformers (And How to Overcome Them)</em></a>. arXiv:2604.25800.
-          <em>Under standard positional encodings and a finite alphabet, chain-of-thought transformers cannot solve problems beyond TC0 once length-generalizable learnability is required, so the Turing-completeness result does not survive that stricter demand. A vocabulary growing with problem size recovers it.</em>
+          <em>In the idealised length-generalisation model they adopt &mdash; a restricted
+          finite-precision learner that perfectly fits every bounded training prefix and minimises a
+          complexity regulariser &mdash; a finite-alphabet chain of thought expressible in
+          C-RASP[Pos] has its decision in $\mathsf{TC}^0$. For a language outside
+          $\mathsf{TC}^0$, <em>some</em> train-to-test length scaling defeats the corresponding
+          learner infinitely often, which is weaker than failure at every rate. Not a bound on
+          ordinarily trained finite-vocabulary transformers. Their positive construction restores
+          Turing-machine simulation using an annotated input and an unbounded alphabet of unique
+          tape-position signposts, again under the idealised learner.</em>
         </li>
         <li>
           Jiang, Y., Hahn, M., Zetzsche, G., and Lin, A. W. (2025).
           <a href="https://arxiv.org/abs/2511.20038"><em>Softmax Transformers are Turing-Complete</em></a>. arXiv:2511.20038.
-          <em>Extends Turing completeness from hard attention to softmax attention through a length-generalizable counting-RASP construction, for causal masking over letter-bounded alphabets.</em>
+          <em>A chain-of-thought construction for a theoretical softmax transformer whose attention
+          logits are scaled by $\log n$ and whose feed-forward layer may use exact Heaviside
+          thresholds, both of which the paper argues are necessary. With causal masking and no
+          positional encoding it recognises arbitrary recursively enumerable unary and
+          letter-bounded languages; Proposition 4.1 shows it is <em>not</em> Turing-complete over a
+          general two-letter alphabet, and arbitrary alphabets need a specially constructed
+          relative-position relation. Length generalisation is stated for the same idealised learner,
+          not for finite-sample gradient training.</em>
         </li>
         <li>
           Liu, Z., Baraniuk, R., and Sonkar, S. (2026).
@@ -486,7 +517,13 @@
         <li>
           Wang, C., and Reid, M. (2026).
           <a href="https://arxiv.org/abs/2609.01924"><em>Looped Transformers under the Jacobian Lens: Does the Global Workspace Survive Recurrence?</em></a>. arXiv:2609.01924.
-          <em>A workspace forms under recurrence but access differs sharply by architecture: Ouro cannot linearly transport content across loop boundaries and Huginn only within a roughly two-loop window.</em>
+          <em>A workspace forms under recurrence, read through a mean-Jacobian lens fitted on 1,000
+          prompts. Under that instrument one tracked concept fails to cross an Ouro loop boundary,
+          and Huginn&apos;s reads and writes work only within about two recurrences of the lens&apos;s
+          own target. The authors note the average cancels when the response turns prompt-dependent,
+          and that the lens &ldquo;cannot distinguish &lsquo;not held&rsquo; from &lsquo;held but
+          idle&rsquo;&rdquo;, so this bounds what the instrument recovers rather than what the
+          architecture can carry.</em>
         </li>
         <li>
           Shapiro, M. (2026).
@@ -599,9 +636,12 @@
           Wu, Y., Lu, K., Ren, X., Hu, J., Wu, X., et al. (2025).
           <a href="https://arxiv.org/abs/2508.03440"><em>LLMs are Single-threaded Reasoners:
           Demystifying the Working Mechanism of Soft Thinking</em></a>. arXiv:2508.03440.
-          <em>Direct rebuttal of the parallel-exploration claim: models given a soft mixture follow
-          the single highest-probability component, so the method degenerates to greedy decoding
-          unless noise is injected.</em>
+          <em>Against the parallel-exploration claim: in a training-free mixture-of-embeddings
+          setup on QwQ-32B, behaviour is predominantly that of top-1 decoding, with output
+          distributions concentrated near the greedy ones. Not an identity. Both components&apos;
+          paths rise over the first two or three layers before the top one dominates, and some steps
+          diverge from the greedy trace. Stochastic variants improve on the vanilla method, which
+          shows exploration helps here rather than that noise is necessary.</em>
         </li>
         <li>
           Rizvi-Martel, M., Rabusseau, G., and Mosbach, M. (2026).
@@ -634,17 +674,36 @@
               <li>
           Kshirsagar, A. (2026).
           <a href="https://arxiv.org/abs/2607.20952"><em>The Weight of Silence: A Causal Case for Weights Over the Scratchpad in Latent Chess Reasoning</em></a>. arXiv:2607.20952.
-          <em>A causal test finds the latent states are not consulted as a scratchpad: substitution and noise leave performance unchanged, and only exact-zero ablation bites. The paper reports that multiple groups have seen the same latent-reasoning-plus-RL recipe fail to beat supervised fine-tuning.</em>
+          <em>In one Qwen3-14B LoRA chess run, replacing four latent positions with a held-out-board
+          average or matched-norm noise leaves aggregate legality unchanged, so board-specific latent
+          content is not necessary for that metric. Removal itself is a modest but resolved effect at
+          n=1000, &minus;2.0 points at p=0.021, while pad replacement and exact zeros cause much
+          larger out-of-distribution failures. RL lifts legality from 48% to 61% against a 52%
+          explicit-chain-of-thought baseline, with Stockfish top-move accuracy flat; the reported
+          failures of latent reasoning plus RL to beat supervised fine-tuning are from math and logic
+          settings, on accuracy rather than legality.</em>
         </li>
         <li>
           Jin, H., Yang, S., and Wang, D. (2026).
           <a href="https://arxiv.org/abs/2607.06648"><em>Final Checkpoints Are Not Enough: Analyzing Latent Reasoning Faithfulness Along Training Trajectories</em></a>. arXiv:2607.06648.
-          <em>Faithfulness is not monotonic during training: task accuracy can rise while the counterfactual responsiveness of the latent states falls. Endpoint-only faithfulness checks, which is what most of this literature runs, can therefore miss the trajectory.</em>
+          <em>Faithfulness proxies are not monotonic during training. On ProsQA, COCONUT accuracy
+          rises from 73.1% to 90.1% while output-level counterfactual responsiveness to a verified
+          graph edit falls from 71.3% to 27.4%. That measure edits the input and watches the answer,
+          so it is behavioural; the authors say high values do not establish faithful latent
+          reasoning. Latent-state interventions are reported separately and disagree with each other,
+          and separately trained GSM models move in opposite directions. Endpoint-only checks, which
+          is what most of this literature runs, can therefore miss the trajectory.</em>
         </li>
         <li>
           Sharma, A., and Vu, T. (2026).
           <a href="https://arxiv.org/abs/2606.24898"><em>Dense Supervision Is Not Enough: The Readout Blind Spot in Looped Language Models</em></a>. arXiv:2606.24898.
-          <em>Per-loop cross-entropy constrains only what the readout exposes, leaving the rest of the recurrent state unsupervised. Hidden-state norms grow into the thousands under naive scale-invariant readouts.</em>
+          <em>Per-loop cross-entropy directly constrains what each readout exposes and need not
+          control active variables hidden behind that interface. A scale-invariant readout removes
+          the immediate radial signal exactly; later losses still reach it through the recurrence,
+          attenuated rather than absent, which the authors state explicitly. Demonstrated for
+          hidden-state scale: in 44M and 129M pre-norm looped transformers with inter-loop
+          normalisation removed, final-loop norms reach 39,207 and 56,051. Other recurrent-state
+          variables are left as future work.</em>
         </li>
         <li>
           Kuo, C.-C., Chayti, E. M., Reizinger, P., Brendel, W., and Jaggi, M. (2026).

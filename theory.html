@@ -127,8 +127,11 @@
     <p>
     Chain of thought converts token count into a serial computation budget. Li et al. state it
     most directly: $T$ steps of chain of thought let a constant-depth, constant-precision
-    transformer simulate Boolean circuits of size $O(T)$. The extra tokens are not, in the
-    theory, meaningful reasoning: they are computation slots.
+    transformer simulate Boolean circuits of size $O(T)$. The construction is non-uniform, so a
+    separate $O(\log n)$-width transformer is built for each input length and target circuit, with
+    the circuit description carried in learned absolute positional embeddings. That makes it a
+    representability result rather than one model acquiring a general serial interpreter. The extra
+    tokens are not, in the theory, meaningful reasoning: they are computation slots.
     </p>
 
     <p>
@@ -393,8 +396,10 @@
       steps solves directed graph reachability for diameter $D$, where the best known
       <em>constant-depth</em> discrete-CoT construction needs $O(n^2)$ steps, and show the superposition that makes this work emerges
       from training rather than being built in. <a href="https://arxiv.org/abs/2505.23648">Gozeten et al. (2025)</a> quantify the parallelism as
-      tracking several discrete traces at once, with a constructive one-layer solution to
-      subset-sum.
+      tracking several discrete traces at once. Their construction is a single block run for $n$
+      autoregressive steps at width $2^{n+1}+n+2$, holding every one of the $2^n$ signed partial
+      sums, with $n+1$ position-specific experts and exact selection only in a hard-selection limit.
+      It demonstrates representability through superposition rather than an efficient algorithm.
     </p>
 
     <details class="defn">

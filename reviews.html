@@ -121,11 +121,13 @@
         gains are modest but real: up to 2.48 points pass@1 with up to 22.4% fewer tokens.
       </p>
       <p>
-        The explanation did not hold. Wu et al. showed the model overwhelmingly follows the single
-        highest-probability component of the mixture, so the method largely reduces to greedy
-        decoding wearing a continuous costume. Their fix, inject noise to force the
-        exploration the original claimed was already happening, is an elegant diagnosis, since
-        it only works if the diagnosis is right.
+        The explanation did not survive inspection. Wu et al. found that in this training-free
+        setup the model predominantly follows the top component of the mixture, with output
+        distributions concentrated near the greedy ones, so the method largely reduces to greedy
+        decoding wearing a continuous costume. Largely, not exactly: both components&apos; paths
+        rise over the first two or three layers before one wins, and some steps leave the greedy
+        trace. Injecting noise to force the exploration the original claimed was already happening
+        does improve matters, which shows exploration helps rather than proving the diagnosis.
       </p>
       <p class="line">
         <em>Why it is here:</em> not to single out one paper, but because this is the field's

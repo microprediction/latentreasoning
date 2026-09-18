@@ -209,7 +209,7 @@ const NODES = [
  {id:"cotexp", c:"theory", label:"CoT expressivity", url:"https://arxiv.org/abs/2310.07923",
   note:"Merrill & Sabharwal 2024. Expressivity climbs with CoT length: log — marginal; linear — all regular languages; polynomial — exactly P. Both constructions assume projected pre-norm and SATURATED attention (every score 0 or 1/v), not softmax."},
  {id:"serial", c:"theory", label:"CoT ⇒ serial computation", url:"https://arxiv.org/abs/2402.12875",
-  note:"Li, Liu, Zhou & Ma 2024. No CoT at constant precision confines you to AC⁰; T steps of CoT simulate circuits of size O(T). Intermediate tokens are computation slots, not reasoning."},
+  note:"Li, Liu, Zhou & Ma 2024. No CoT at constant precision confines you to AC⁰; T steps of CoT simulate circuits of size O(T), via a non-uniform family with the circuit programmed into positional embeddings. Intermediate tokens are computation slots, not reasoning."},
  {id:"pauseth", c:"theory", label:"Pause tokens = AC⁰", url:"https://arxiv.org/abs/2505.21024",
   note:"London & Kanade 2025. A strict separation, with PARITY as the witness: pause tokens lift constant-depth transformers from strictly-inside-AC⁰ to all of AC⁰, and to TC⁰ with log precision."},
  {id:"cotvlatent", c:"theory", label:"TC^k vs TC^(k-1)", big:true, url:"https://arxiv.org/abs/2509.25239",
@@ -233,7 +233,7 @@ const NODES = [
  {id:"softthink", c:"latent", label:"Soft Thinking", url:"https://arxiv.org/abs/2505.15778",
   note:"Training-free mixture-of-embeddings decoding, claiming parallel exploration."},
  {id:"singlethread", c:"latent", label:"⟂ Single-threaded", url:"https://arxiv.org/abs/2508.03440",
-  note:"Wu et al. 2025. The model follows the top component of the mixture; Soft Thinking degenerates to greedy decoding without injected noise."},
+  note:"Wu et al. 2025. In a training-free setup the model predominantly follows the top component, so Soft Thinking behaves much like greedy decoding; stochastic variants do better."},
  {id:"illusion", c:"latent", label:"⟂ Illusion of superposition", url:"https://arxiv.org/abs/2604.06374",
   note:"Rizvi-Martel, Rabusseau & Mosbach 2026. Superposition appears when training from scratch and collapses under the fine-tuning regimes actually used."},
 
