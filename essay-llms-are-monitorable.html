@@ -104,38 +104,41 @@
         them.</li>
     </ul>
 
-    <h2>Why models write anything down</h2>
+    <h2>The safety case rests on an accident</h2>
 
     <p>
-      A language model picks each word from a vocabulary of roughly 130,000. One choice out of
-      130,000 is about seventeen bits, in the way one choice out of two is one bit. Between finishing
-      one word and starting the next, seventeen bits is everything that crosses.
+      <a href="https://arxiv.org/abs/2507.11473">A 2025 position paper</a> with more than forty
+      authors from OpenAI, Anthropic, Google DeepMind, the UK AI Safety Institute, Redwood Research
+      and Apollo rests on a single observation: models are forced to externalise their reasoning, so
+      we get to read it. Nobody designed that. It is a side effect of arithmetic, and it is the
+      reason anyone can claim to be watching these systems at all.
     </p>
 
     <p>
-      The real figure is smaller still, because English is enormously redundant. <a href="https://doi.org/10.1002/j.1538-7305.1951.tb01366.x">Shannon&apos;s guessing
-      experiments</a> put ordinary literary English near one bit per letter, about 75%
-      redundant, and <a href="https://doi.org/10.1109/TIT.1978.1055912">Cover and King&apos;s gambling estimate</a>
-      converged on 1.3 bits per symbol.
-      Measured against real corpora, a good model compresses text to well under a bit per byte. The
-      pipe is narrower than the nominal number suggests, and language works anyway.
+      The arithmetic is this. A language model picks each word from a vocabulary of roughly 130,000.
+      One choice out of 130,000 is about seventeen bits, in the way one choice out of two is one bit.
+      Between finishing one word and starting the next, seventeen bits is everything that crosses.
+    </p>
+
+    <p>
+      The real figure is smaller still, because English is enormously redundant.
+      <a href="https://doi.org/10.1002/j.1538-7305.1951.tb01366.x">Shannon&apos;s guessing
+      experiments</a> put ordinary literary English near one bit per letter, about 75% redundant, and
+      <a href="https://doi.org/10.1109/TIT.1978.1055912">Cover and King&apos;s gambling estimate</a>
+      converged on 1.3 bits per symbol. Measured against real corpora, a good model compresses text
+      to well under a bit per byte. The pipe is narrower than the nominal number suggests, and
+      language works anyway.
     </p>
 
     <p>
       Inside, the model holds several thousand numbers describing where it has got to. Picking a word
       throws almost all of them away and hands the next step a single dictionary entry. So anything
       needing a long chain of dependent steps has a storage problem: what was worked out at step
-      three cannot be carried in mind to step nine, because the gap between steps is too narrow. It
-      has to be written down to survive the trip.
+      three cannot be carried in mind to step nine, because the gap between steps is too narrow.
     </p>
 
     <p>
-      That observation is the foundation of
-      <a href="https://arxiv.org/abs/2507.11473">a 2025 position paper</a> with more than forty
-      authors from OpenAI, Anthropic, Google DeepMind, the UK AI Safety Institute, Redwood Research
-      and Apollo. The models are forced to externalise their reasoning, so we get to read it. Nobody
-      designed that. It is a side effect of an arithmetic constraint, and the safety case leans on it
-      hard.
+      It has to be written down to survive the trip. That is the whole mechanism.
     </p>
 
     <h2>How much a person can transmit</h2>
