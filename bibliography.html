@@ -19,6 +19,7 @@
         <span class="navdrop"><a href="./intro.html">Topics</a><span class="navdrop-menu">
           <a href="./intro.html">Introduction</a>
           <a href="./families.html">Families of methods</a>
+          <a href="./training.html">Training</a>
           <a href="./routing.html">Routing</a>
           <a href="./theory.html">Expressivity theory</a>
           <a href="./monitorability.html">Monitorability</a>
@@ -1026,6 +1027,26 @@
           Jung, W. (2026).
           <a href="https://arxiv.org/abs/2606.10184"><em>Dropout-GRPO: Variational Stochasticity for Continuous Latent Reasoning</em></a>. arXiv:2606.10184.
           <em>The sharpest diagnosis of the same problem: group-relative advantage needs rollout diversity, but a deterministic latent phase makes the rollouts identical and the advantage collapses to zero. The proposed fix yields a modest gain on one benchmark.</em>
+        </li>
+        <li>
+          Zheng, Z., Gu, Y., Liu, W., Teh, Y. W., and Lee, W. S. (2025).
+          <a href="https://arxiv.org/abs/2511.06411"><em>SofT-GRPO: Surpassing Discrete-Token LLM Reinforcement Learning via Gumbel-Reparameterized Soft-Thinking Policy Optimization</em></a>. arXiv:2511.06411.
+          <em>Puts the exploration noise in the logits rather than on the embedding, so the perturbed soft token stays a mixture of real embeddings, and takes the policy density from the Gumbel noise. Against discrete-token GRPO on 1.5B to 7B models: +0.13 at pass@1, +2.19 at pass@32. The gain is diversity, not accuracy.</em>
+        </li>
+        <li>
+          Yue, Z., Jin, B., Zeng, H., Zhuang, H., Qin, Z., Yoon, J., Shang, L., Han, J., and Wang, D. (2025).
+          <a href="https://arxiv.org/abs/2505.18454"><em>Hybrid Latent Reasoning via Reinforcement Learning</em></a>. arXiv:2505.18454.
+          <em>HRPO. Samples discrete tokens as usual and gates the previous hidden state into the sampled embedding, so the token sampler supplies the stochasticity and no chain-of-thought traces are needed. A hybrid by construction: the loop still closes through the vocabulary.</em>
+        </li>
+        <li>
+          Jain, A., and Rappazzo, B. (2025).
+          <a href="https://arxiv.org/abs/2509.21482"><em>Learning to Reason with Mixture of Tokens</em></a>. arXiv:2509.21482.
+          <em>Extends GRPO to mixture-of-token generation with Dirichlet-weighted or multi-sampled mixtures. Gains on seven of ten Reasoning-Gym tasks at 1.5B, attributed to higher hidden-state entropy through the chain.</em>
+        </li>
+        <li>
+          Ren, H. (2025).
+          <a href="https://aclanthology.org/2025.findings-emnlp.669/"><em>LSRL: Process-Supervised GRPO on Latent Recurrent States Improves Mathematical Reasoning</em></a>. Findings of EMNLP 2025.
+          <em>Decodes each recurrent depth of Huginn-3.5B to text and grades it with GPT-4.1-nano for a dense per-depth reward. +4.27 on GSM8K from 500 problems. The decode-and-grade answer to process reward in a space nobody can read, and the overhead RLTT was built to avoid.</em>
         </li>
         <li>
           Yu, Z., Shen, Q., Li, H., Zhang, Z., Zhu, S.-C., Zhang, C., and Zheng, Z. (2026).

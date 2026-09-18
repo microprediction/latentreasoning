@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Training</title>
+  <meta name="description" content="How latent reasoning models are trained: distillation from explicit chains of thought, the curriculum problem, why a deterministic latent rollout has no policy, where each reinforcement learning method injects its noise, credit assignment in looped models, and process rewards without a readable trace." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <span class="navdrop"><a href="./intro.html">Topics</a><span class="navdrop-menu">
+          <a href="./intro.html">Introduction</a>
+          <a href="./families.html">Families of methods</a>
+          <a href="./training.html">Training</a>
+          <a href="./routing.html">Routing</a>
+          <a href="./theory.html">Expressivity theory</a>
+          <a href="./monitorability.html">Monitorability</a>
+        </span></span>
+        <a href="./reviews.html">Reviews</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+          <a href="./essay-llms-are-monitorable.html">Remind Me Again Why Large Language Models Won&rsquo;t Kill Us All</a>
+        </span></span>
+        <span class="navdrop"><a href="./bibliography.html">Reference</a><span class="navdrop-menu">
+          <a href="./bibliography.html">Annotated bibliography</a>
+          <a href="./implementations.html">Implementations</a>
+          <a href="./map.html">Literature map</a>
+          <a href="./timeline.html">Timeline</a>
+        </span></span>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Training</h1>
+    <p class="subtitle">Supervised and reinforcement recipes for latent reasoning, and what each one requires.</p>
+
+    <aside class="note"><b>SFT.</b> Supervised fine-tuning. Training on example input and output pairs with a likelihood loss, here on question, chain of thought and answer. Everything in the first section is SFT. <b>RL.</b> Reinforcement learning. Training from a reward on sampled outputs with no reference output required.</aside>
+    <p class="lead">
+      Two routes exist. Supervised fine-tuning teaches the model where a latent step should go by showing it an explicit chain of thought and removing the tokens. Reinforcement
+      learning scores the answer and lets the model find its own steps. The first route inherits the
+      teacher's trace. The second has to deal with a property of the reference architecture that the
+      supervised route does not: a deterministic latent rollout has no policy to optimize.
+      The reinforcement learning methods differ mainly in where they inject the noise that creates
+      one. Most of the methods that use reinforcement learning apply it on top of a supervised
+      warm-up rather than in place of one.
+    </p>
+
+    <h2>Distillation and the curriculum</h2>
+
+    <aside class="note"><b>Curriculum.</b> A training schedule that changes the task in stages, here by removing more of the written chain at each stage rather than all at once.</aside>
+    <p>
+      The supervised recipes all start from a model that can already write the chain of thought, and
+      differ in what replaces the chain once it is removed. Stepwise internalization (<a
+      href="https://arxiv.org/abs/2405.14838">Deng, Choi &amp; Shieber 2024</a>) replaces it with
+      nothing. Tokens are deleted from the front of the rationale on a schedule, a fixed number per
+      epoch, with the optimizer state reset at each deletion, until the model goes from question to
+      answer with no intermediate positions at all. Whatever computation the chain carried has to
+      move into the layer stack of the remaining positions. The paper's ablations show how sensitive
+      the procedure is. Without the smoothing that
+      randomizes the deletion point, accuracy drops to zero and does not recover. Without the optimizer
+      reset, the same thing happens within about a hundred steps.
+    </p>
+
+    <p>
+      Coconut (<a href="https://arxiv.org/abs/2412.06769">Hao et al. 2024</a>) keeps the positions
+      and changes what fills them. The schedule is the same, but at stage $k$ the first $k$ reasoning
+      steps of the written chain are replaced by $k \times c$ continuous thoughts, each the last
+      hidden state of the previous pass fed back as an input embedding. The chain still occupies
+      sequence positions and still runs left to right. It no longer passes through the vocabulary.
+      The loss is masked on the latent positions, and the optimizer is reset between stages. The curriculum is necessary. Trained directly at the final stage, with no
+      intermediate stages, Coconut falls from 34.1% to 14.4% on GSM8K, from 99.8% to 52.4% on ProntoQA,
+      and from 97.0% to 76.1% on ProsQA, below the no-chain-of-thought baseline on all three. The authors' summary is that the model "still needs guidance to learn latent
+      reasoning." Three costs come with that guidance: a ground-truth chain of thought for every
+      training example, a multi-stage schedule, and $n+1$ sequential forward passes to train $n$ latent
+      thoughts, because each thought is the previous pass's output.
+    </p>
+
+    <aside class="note"><b>Distillation.</b> Training a student to reproduce a teacher's outputs or internal activations instead of, or in addition to, the ground-truth labels. In self-distillation the teacher and student are the same network run on different tasks.</aside>
+    <p>
+      CODI (<a href="https://arxiv.org/abs/2502.21074">Shen et al. 2025</a>) removes the schedule. The
+      same model runs an explicit-chain task as teacher and a latent-chain task as student, and an L1
+      loss pulls the student's hidden activations, at every layer, toward the teacher's at a
+      single designated token, for example the colon in "The answer is:". Training happens in one stage,
+      and the paper attributes Coconut's shortfall to forgetting across curriculum stages. It is the
+      first latent method to match explicit chain of thought on GSM8K at GPT-2 scale, at a 3.1$\times$
+      compression rate. CODI still needs the written chain for every example, because the teacher task is trained on it.
+    </p>
+
+    <p>
+      Whether the curriculum can be dispensed in general is contested. <a
+      href="https://arxiv.org/abs/2602.01148">Zou, Xiong &amp; Liu (2026)</a> prove, for the Coconut
+      setup, that direct training without a curriculum learns from a biased distribution of the
+      model's own latent states rather than from expert trajectories, and that the resulting gap
+      is permanent regardless of dataset size. The theorem covers training in which the only supervision is the final answer, so the
+      latent states are shaped by the model's own trajectories. CODI's distillation loss supervises
+      the hidden state directly against the teacher's activations, so it falls outside that setting.
+      Both agree that a final-answer loss alone does not determine what the latent states should
+      contain.
+    </p>
+
+    <h3>What outcome supervision loses</h3>
+
+    <p>
+      <a href="https://arxiv.org/abs/2606.20075">Chen et al. (2026)</a> measure that directly. Under a
+      loss on the answer only, the gradient norm reaching each latent position decays along the chain
+      until positions two through six are effectively inactive, and the latent states drift out of the
+      region the token embeddings occupy. On GSM8K-Aug with GPT-2, outcome-only latent training lands
+      between 9.8% and 18.3%. Adding step-level supervision lifts that to 31.2%, and supervising each
+      latent by asking a decoder to reconstruct the corresponding written step lifts it to 39.1%,
+      against 43.1% for explicit chain of thought. SIM-CoT (<a
+      href="https://arxiv.org/abs/2509.20317">Wei et al. 2025</a>) is the same fix applied to Coconut
+      and CODI: an auxiliary decoder, discarded at inference, is trained to regenerate step $k$'s
+      text from latent $k$ alone, which stops the latents homogenizing as their number grows - it adds
+      8.2 points to Coconut on GPT-2. PMPS (<a href="https://arxiv.org/abs/2609.09928">Li et al.
+      2026</a>) gets a comparable result without a decoder, by soft-aligning latent and explicit-step
+      embeddings through a shared set of learned prototypes.
+    </p>
+
+    <h3>The teacher ceiling</h3>
+
+    <p>
+      A student trained to reproduce a written chain might be expected not to exceed it. The
+      evidence is mixed. Coconut's 97.0% on ProsQA against 77.5% for the chain it was distilled
+      from is a counterexample, and the same model loses to the chain on GSM8K. CoLaR's 8B model, after
+      reinforcement learning, reaches 37.5% on GPQA against 35.7% for the chain-of-thought teacher (<a
+      href="https://arxiv.org/abs/2505.16552">Tan et al. 2025</a>). Distillation bounds the <em>distribution</em> of traces the student imitates rather than its
+      accuracy, and SLPO (<a
+      href="https://arxiv.org/abs/2607.19691">You et al. 2026</a>) names the result: latent reasoners
+      "remain largely imitation-bound, while explicit CoT has already moved past imitation via
+      outcome-reward RL." A student inherits the teacher's errors along with its competence, and reinforcement
+      learning is the route taken to get past them.
+    </p>
+
+    <p class="muted">
+      <a href="https://arxiv.org/abs/2606.12689">Aswal et al. (2026)</a> train Coconut variants with
+      the recurrence removed or the curriculum disrupted and find the breadth-first-like frontier
+      structure, which had been read as evidence of latent search, in the controls as well. A
+      curriculum that produces decodable structure in the hidden states has not thereby been shown to
+      produce the computation that structure was taken to indicate.
+    </p>
+
+    <h2>The two routes combined</h2>
+
+    <p>
+      Few of the reinforcement learning methods below start from a base model. The usual arrangement
+      is a supervised warm-up that teaches the model to produce latent steps at all, followed by a
+      reinforcement stage that improves what those steps achieve. CoLaR trains its latent head by
+      supervised compression of written chains and then runs GRPO on the result. LaDiR (<a href="https://arxiv.org/abs/2510.04573">Kang et al. 2025</a>) fits its
+      autoencoder and diffusion model to written reasoning steps, and LaDi-RL (<a
+      href="https://arxiv.org/abs/2602.01705">Kang et al. 2026</a>) takes that checkpoint as
+      the starting point for reinforcement learning. SWITCH (<a href="https://arxiv.org/abs/2606.13106">Yang et al. 2026</a>) trains with a
+      visible-to-latent curriculum
+      before its GRPO variant, and reports the curriculum-only model at 66.7% on MATH-500 against 79.3%
+      after reinforcement. Dropout-GRPO (<a href="https://arxiv.org/abs/2606.10184">Jung 2026</a>) and SLPO both begin
+      from Coconut or CODI models that already
+      went through the supervised recipes above. RLTT (<a href="https://arxiv.org/abs/2602.10520">Williams &amp; T&uuml;reci 2026</a>) starts
+      from Ouro-Thinking, which is Ouro (<a href="https://arxiv.org/abs/2510.25741">Zhu et al.
+      2025</a>) after a reasoning SFT stage.
+    </p>
+
+    <p>
+      The division of labor is consistent across these systems. The supervised stage supplies the
+      latent representation and its position in the sequence, which outcome supervision alone does not
+      determine, and the reinforcement stage supplies the exploration that distillation cannot, moving
+      the model past the teacher's trace distribution. The methods that skip the supervised stage
+      are the ones whose latent step is built from ordinary token distributions. Soft Tokens, Hard Truths (<a
+      href="https://arxiv.org/abs/2509.19170">Butt et al. 2025</a>), HRPO (<a
+      href="https://arxiv.org/abs/2505.18454">Yue et al. 2025</a>) and TARPO (<a
+      href="https://arxiv.org/abs/2606.05859">Zhang et al. 2026</a>) all start from an instruction-tuned model and run reinforcement learning directly, because a
+      soft token or a gated hidden state needs no new representation to be learned first. HRPO makes
+      this a stated motivation, arguing that trace-dependent training fails to use the reasoning the
+      model already has.
+    </p>
+
+    <h2>Why a deterministic rollout has no policy</h2>
+
+    <aside class="note"><b>GRPO.</b> Group Relative Policy Optimization. Several answers are sampled per prompt, each is scored, and the advantage of each is its reward minus the group mean. No learned value function. <b>RLOO</b> is the same idea with a leave-one-out mean. An <b>outcome reward</b> scores only the final answer.</aside>
+    <aside class="note"><b>REINFORCE.</b> The basic policy-gradient estimator: sample an output, multiply the gradient of its log-probability by its reward minus a baseline, and average. Every method on this page is a variant of it.</aside>
+    <p>
+      Outcome-reward reinforcement learning of the GRPO family needs three things from the model:
+      several distinct rollouts per prompt, a log-probability for each, and a gradient of that
+      log-probability with respect to the parameters. A discrete decoder supplies all three,
+      because sampling a token from a softmax is a stochastic action with a tractable density. Coconut
+      supplies none. The latent step maps a hidden state to a hidden state, so given the prompt and
+      the weights every rollout is identical.
+    </p>
+
+    <p>
+      <a href="https://arxiv.org/abs/2606.10184">Jung (2026)</a> states the consequence for
+      group-relative methods: multiple rollouts of the same prompt yield identical latent trajectories,
+      so the group-mean advantage collapses to zero and training stalls. SLPO puts the same obstacle in
+      terms of the likelihood. Intermediate steps "bypass the vocabulary distribution" so
+      latent trajectories lack a tractable action likelihood, and a fixed thinking budget leaves nothing
+      for an outcome reward to lengthen or shorten. There is no distribution $\pi$, no log-probability,
+      and no score function, so a policy gradient has nothing to differentiate.
+    </p>
+
+    <aside class="note"><b>Score-function gradient.</b> Estimates the gradient of an expected reward from the gradient of the sample's log-probability times its reward. Needs a density, not a differentiable path. <b>Pathwise gradient.</b> Differentiates the reward through the sample itself, which needs the whole computation to be differentiable.</aside>
+    <p>
+      One could differentiate through the rollout instead. The latent chain is a composition of
+      differentiable forward passes, so the answer's log-likelihood has a pathwise gradient all the
+      way back to the first thought, and Coconut's own training already uses it. That route
+      reintroduces the cost the reinforcement learning route was meant to avoid: the backward pass runs
+      through the whole sequential chain, one pass per thought. The methods in the next section all make
+      the other choice. They inject noise so that a score-function estimator exists, and they accept its
+      higher variance in exchange for a gradient that touches only one step's computation.
+    </p>
+
+    <h3>Reinforcement learning restores teacher forcing</h3>
+
+    <aside class="note"><b>Teacher forcing.</b> Computing the loss on a whole sequence in one forward pass by feeding the recorded sequence as input, rather than generating it step by step.</aside>
+    <p>
+      The cost of the score-function route is lower than it first appears. During the rollout the noisy latent at each step is sampled
+      and recorded. At update time those recorded latents are data. The whole input sequence is known in
+      advance, so the log-probability forward pass runs over every position in parallel, as an ordinary
+      teacher-forced pass does, and the sequential dependence lives only in generation. The group-relative
+      baseline absorbs much of the variance the score-function estimator adds. The supervised route
+      costs $n+1$ sequential passes per example. The reinforcement route costs $G$ rollouts per
+      prompt, and the rollouts parallelize.
+    </p>
+
+    <h2>Where the noise goes</h2>
+
+    <p>
+      Every method below constructs a stochastic action from a deterministic latent step. They differ
+      in the space the noise is added to, which fixes the form of the log-probability and therefore
+      which parameters the gradient reaches.
+    </p>
+
+    <div class="table-wrap">
+      <table class="impl">
+        <thead>
+          <tr><th>Noise can live in</th><th>Method</th><th>The action and its density</th><th>Estimator</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="nowrap">Input embedding</td>
+            <td>Soft Tokens, Hard Truths (Butt et al. 2025)</td>
+            <td>Gaussian around the probability-weighted mixture of token embeddings. Log-density is a
+            scaled squared distance from the mixture.</td>
+            <td class="mode">REINFORCE with leave-one-out baseline</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Logits</td>
+            <td>SofT-GRPO (Zheng et al. 2025); Mixture of Tokens (Jain &amp; Rappazzo 2025)</td>
+            <td>Gumbel noise on the log-probabilities before the softmax, so the perturbed mixture stays
+            on the simplex. Density is the Gumbel density of the recovered noise.</td>
+            <td class="mode">GRPO with Gumbel reparameterization</td>
+          </tr>
+          <tr>
+            <td class="nowrap">Token sampling</td>
+            <td>HRPO (Yue et al. 2025); TARPO (Zhang et al. 2026); SWITCH (Yang et al. 2026)</td>
+            <td>Ordinary discrete sampling supplies the randomness. Hidden state rides along through a
+            gate, a router, or a bounded latent block that carries no policy-gradient term of its
+            own.</td>
+            <td class="mode">Standard GRPO or REINFORCE</td>
+          </tr>
+          <tr>
+            <td class="nowrap">A latent head</td>
+            <td>CoLaR (Tan et al. 2025); LaDi-RL (Kang et al. 2026)</td>
+            <td>The generator is stochastic by construction: a head predicting mean and variance of the
+            next latent, or a diffusion model whose denoising is run as a stochastic differential
+            equation.</td>
+            <td class="mode">GRPO over Gaussian transitions</td>
+          </tr>
+          <tr>
+            <td class="nowrap">The weights</td>
+            <td>Dropout-GRPO (Jung 2026); SLPO (You et al. 2026)</td>
+            <td>A dropout mask held fixed for the rollout makes each rollout a posterior sample. SLPO
+            fits a Gaussian to several dropout passes and scores the realized latent under it.</td>
+            <td class="mode">GRPO; RLOO or GRPO</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Gaussian noise on the embedding</h3>
+
+    <aside class="note"><b>Soft token.</b> An input embedding formed as a probability-weighted average of token embeddings rather than a single token's embedding. Soft Thinking is the training-free method that introduced it.</aside>
+    <p>
+      <a href="https://arxiv.org/abs/2509.19170">Butt et al. (2025)</a> begin from the input used by Soft Thinking (<a
+      href="https://arxiv.org/abs/2505.15778">Zhang et al. 2025</a>), the probability-weighted mixture of token embeddings at temperature $\tau$, and add
+      isotropic Gaussian noise to it, with scale set at a third of the root-mean-square embedding norm.
+      The noise defines a policy. The action at step $t$ is the noisy embedding, distributed as
+      $\mathcal{N}(\bar{x}_t, \sigma^2 I)$ around the deterministic mixture, so its log-probability is
+      $-\lVert \tilde{x}_t - \bar{x}_t \rVert^2 / 2\sigma^2$ up to a constant, and its gradient with
+      respect to the parameters touches only the computation that produced $\bar{x}_t$. Training uses
+      REINFORCE with a leave-one-out baseline and no reference chains at all, on Llama and Qwen models
+      up to 8B.
+    </p>
+
+    <aside class="note"><b>pass@k.</b> The fraction of problems for which at least one of k sampled answers is correct. pass@1 is single-sample accuracy. A gap between pass@1 and pass@32 measures how much useful diversity the sampler has.</aside>
+    <p>
+      On Llama 3.2 3B, soft-token training matches discrete-token training at
+      pass@1 and beats it at pass@32 on all three mathematics benchmarks, and it leaves the base
+      model's out-of-domain likelihoods intact where discrete training degrades them. The best
+      configuration in the paper trains with soft tokens and then <em>infers with ordinary discrete
+      tokens</em>. That is a recipe for a better discrete reasoner, obtained by exploring in a
+      continuous space during training, rather than a latent reasoner at deployment. SofT-GRPO's ablation adds a second qualification: on a 1.5B model, replacing its
+      Gumbel noise with Gaussian noise on the embedding costs 10.7 points of pass@1, which its authors
+      attribute to soft tokens landing outside the region of embedding space the pretrained model has
+      seen.
+    </p>
+
+    <h3>Gumbel noise in the logits</h3>
+
+    <p>
+      <a href="https://arxiv.org/abs/2508.03440">Wu et al. (2025)</a> diagnosed why untrained Soft
+      Thinking underperforms. Fed a mixture, the model follows the highest-probability component almost
+      exclusively, and the divergence between its next prediction and the prediction from that single
+      token alone sits near zero. The remedy they test is randomness at the mixture itself, by Dirichlet
+      resampling of the weights or by the Gumbel-softmax trick on the logits, and the Gumbel version
+      beats ordinary token sampling on average across eight benchmarks at 32B scale. They leave the
+      reinforcement learning to future work.
+    </p>
+
+    <p>
+      SofT-GRPO (<a href="https://arxiv.org/abs/2511.06411">Zheng et al. 2025</a>) builds that
+      algorithm. It reports that naive combinations of soft thinking with GRPO
+      gain at pass@32 while losing badly at average accuracy, because of the difficulty of injecting stochasticity into a soft token and updating the policy
+      accordingly. The method has two components. Gumbel
+      noise goes into the logits rather than onto the embedding, so the perturbed distribution still
+      lies on the simplex and the resulting input is a legitimate mixture of real token embeddings. And
+      the policy density is the Gumbel density of the noise, recovered under the current parameters as
+      the difference between the perturbed and unperturbed logits, which gives GRPO a ratio and
+      attributes credit to the underlying output distribution. Across 1.5B to 7B models the method beats
+      discrete-token GRPO by 0.13 points at pass@1 and by 2.19 at pass@32. The first of those is within noise.
+      The supported claim is about diversity, not accuracy, consistent with the Wu et al. finding
+      that the model mostly follows one token. <a
+      href="https://arxiv.org/abs/2509.21482">Jain &amp; Rappazzo (2025)</a> arrive at a similar method from
+      the discrete side, extending GRPO to mixture-of-token generation with Dirichlet weights, and report
+      gains on seven of ten Reasoning-Gym tasks for a 1.5B model together with higher hidden-state
+      entropy through the chain.
+    </p>
+
+    <h3>Stochasticity from the token sampler</h3>
+
+    <p>
+      HRPO (<a href="https://arxiv.org/abs/2505.18454">Yue et al. 2025</a>) observes that continuous
+      latent methods conflict with the discrete nature of autoregressive generation and that
+      trace-dependent training fails to exploit whatever reasoning the model already has. It therefore
+      samples discrete tokens as usual and mixes the previous step's final hidden state into the
+      sampled token's embedding through a learnable gate, initialized so that the input is almost
+      entirely the token embedding and allowed to admit more hidden state as training proceeds. The
+      randomness comes from the sampler, the update is REINFORCE with group-relative advantages and a
+      KL penalty, and the reward determines how much latent content the gate admits. A 3B model trained this way
+      beats the strongest 7B retrieval baseline on the knowledge suite and matches the best 7B model on
+      four of the STEM datasets.
+    </p>
+
+    <p>
+      Under the taxonomy on the <a href="./families.html">families page</a> this is a hybrid rather
+      than a latent method. Hidden state crosses between steps, but the loop still closes through the
+      vocabulary at every position, and the latent content is a side channel rather than the trajectory.
+      TARPO (<a href="https://arxiv.org/abs/2606.05859">Zhang et al. 2026</a>) makes the split a
+      decision: a small action head reads the hidden state and samples, at each step, whether to emit a
+      token or take a soft step, and the router's log-probability joins the token
+      log-probabilities under a shared group-relative advantage. SWITCH (<a
+      href="https://arxiv.org/abs/2606.13106">Yang et al. 2026</a>) makes the arrangement explicit. Two ordinary tokens open and close a latent block, so the GRPO ratio is defined at
+      every text position including the boundaries. The latent positions between them contribute no
+      policy-gradient term at all. Gradients still flow through them from the tokens on either side,
+      which is the pathwise route from the previous section, confined to the inside of a block.
+    </p>
+
+    <h3>A generator that is stochastic by construction</h3>
+
+    <p>
+      CoLaR (<a href="https://arxiv.org/abs/2505.16552">Tan et al. 2025</a>) adds a latent head that
+      predicts the mean and standard deviation of the next compressed embedding and samples from that
+      Gaussian, so the latent step has a density before any reinforcement learning begins. A supervised
+      first stage trains the head on embeddings compressed by a randomly drawn factor, and a second
+      stage runs GRPO with a correctness-only, group-normalized reward. The compression pressure is not
+      in the reward. It comes from exploration finding shorter chains that still score, and on MATH the
+      reinforcement stage adds up to 5.4% accuracy while cutting the latent chain by 82.8%.
+    </p>
+
+    <p>
+      LaDiR (<a href="https://arxiv.org/abs/2510.04573">Kang et al. 2025</a>) compresses each written
+      reasoning step into a block of latent tokens with a variational autoencoder and generates the
+      blocks by latent diffusion. Diffusion sampling is stochastic on its own account, and LaDi-RL (<a
+      href="https://arxiv.org/abs/2602.01705">Kang et al. 2026</a>) exploits that by running the
+      denoising as a stochastic differential equation whose Gaussian transitions give GRPO its ratios.
+      The paper's framing is entropy collapse: token-level GRPO on the same base improves pass@1
+      but never beats the base model at pass@128, while the latent-diffusion policy improves both. It
+      also faces a credit-assignment problem of its own. The policy acts in latent space and the reward
+      arrives after decoding to text, so a wrong answer could be a bad latent or a bad decode. The fix
+      is to sample several text completions per latent trajectory and average their rewards, which on
+      its own moves pass@1 from 60.0 to 77.1.
+    </p>
+
+    <h3>Noise in the weights</h3>
+
+    <p>
+      Dropout-GRPO (<a href="https://arxiv.org/abs/2606.10184">Jung 2026</a>) draws one Bernoulli mask
+      per rollout and holds it fixed across every latent step, so each rollout is a sample from a
+      variational distribution over parameters and the group has something to be relative to. On a
+      Coconut-style Qwen2.5-1.5B it moves GSM8K from 27.29% to 29.01%. SLPO uses the same source of
+      randomness to build a density rather than a sample: several dropout passes give an empirical mean
+      and variance for the next latent, the realized latent is scored under that Gaussian, and a
+      correctness-supervised stopping head gives the outcome reward a horizon to lengthen. On Coconut
+      with Llama-3.2-1B it adds 5.84 points at pass@8, and the paper reports longer latent computation
+      being allocated to harder instances.
+    </p>
+
+    <h2>Credit assignment in looped models</h2>
+
+    <aside class="note"><b>Looped model.</b> A transformer that applies the same block of layers several times to each position before emitting a token, so depth is spent by repetition rather than by extra parameters.</aside>
+    <p>
+      Looped language models apply a shared block of layers $T$ times per token, so the latent
+      reasoning is iterative refinement of a hidden state before each emission rather than a sequence
+      of latent positions. They sample tokens normally, so the determinism problem above does not
+      arise. A different one does. The authors of Ouro (<a
+      href="https://arxiv.org/abs/2510.25741">Zhu et al. 2025</a>), the largest looped models with open
+      weights, report that their reinforcement learning attempts "did not yield significant
+      performance gains over the final SFT checkpoint" and the released Thinking variants are
+      supervised only. Their stated primary obstacle was engineering: the dynamic early-exit gate does not
+      fit inference engines that assume a fixed execution path, and both the off-policy workaround and a
+      fixed-depth variant fell short of the supervised checkpoint.
+    </p>
+
+    <p>
+      RLTT (<a href="https://arxiv.org/abs/2602.10520">Williams &amp; T&uuml;reci 2026</a>) offers an
+      algorithmic diagnosis. Standard GRPO takes its log-probability from the terminal loop's
+      distribution alone, treating each token as a single-step decision when the model actually computed
+      a trajectory $h^{(1)} \to \cdots \to h^{(T)}$ to reach it, so all credit for the intermediate
+      states has to arrive through the final readout. The fix uses a property of looped models. Every intermediate loop's hidden state can be pushed through the existing language
+      model head to give a proper next-token distribution, so RLTT replaces the single terminal
+      log-probability with a weighted sum of per-loop log-probabilities of the sampled token, weighted
+      by exit probability, by a progressive schedule, or uniformly. The per-loop logits already exist, so
+      the overhead is negligible, and nothing is decoded and nothing external grades it.
+    </p>
+
+    <p>
+      Against compute-matched GRPO on Ouro-1.4B and 2.6B, with identical rollout budgets, rewards and
+      advantage normalization over ten seeds, the paper reports mean mathematics accuracy up by 5.8
+      points at 1.4B and 10.9 at 2.6B across MATH-500, AIME24, AIME26 and BeyondAIME. Trained on
+      mathematics only, the 2.6B model's GPQA score goes from 19.7% to 38.4%, and the 1.4B
+      model's from 14.7% to 26.8%. Responses get shorter with no brevity term in the reward, and
+      entropy falls more steeply than under GRPO. The authors read the first as the model converging
+      internally sooner once intermediate states are rewarded, and the second as confidence rather than
+      collapse, on the evidence that pass@k does not fall.
+    </p>
+
+    <p class="muted">
+      Two important things to note. The statement that reinforcement learning had failed on looped models is
+      RLTT's account of the state before it, resting on Ouro's own report, and Ouro attributes
+      the failure primarily to inference infrastructure rather than to the objective. And RLTT's
+      own description keeps the terminal reward backpropagating through the loops, so the per-loop terms
+      are a better-conditioned objective, not a demonstration that a terminal signal cannot reach the
+      recurrence. The <a href="./bibliography.html">bibliography</a> entry states the second point.
+    </p>
+
+    <h2>Process rewards without a readable trace</h2>
+
+    <aside class="note"><b>Process reward.</b> A reward assigned to individual intermediate steps rather than only to the final answer, so credit reaches the step that earned it. For explicit chains it is usually produced by a model that reads the written steps.</aside>
+    <p>
+      A process reward model for explicit chain of thought reads the steps. A latent step has no text to read,
+      so every process-level signal for latent reasoning needs a readout of some kind. Four are in use.
+    </p>
+
+    <ul>
+      <li>
+        <em>Decode and grade externally.</em> LSRL (<a
+        href="https://aclanthology.org/2025.findings-emnlp.669/">Ren 2025</a>) decodes each recurrent
+        depth of a 3.5B Huginn model (<a href="https://arxiv.org/abs/2502.05171">Geiping et al.
+        2025</a>) to text and scores the partial solution with GPT-4.1-nano as a judge, aligned
+        to final-answer correctness, for a dense per-depth reward inside GRPO. It adds 4.27 points on
+        GSM8K from 500 training problems. The cost is a decode and an API call per depth per rollout,
+        which RLTT cites as its reason for avoiding the approach.
+      </li>
+      <li>
+        <em>Read through the head the model already has.</em> RLTT's per-loop log-probabilities
+        are a process signal that needs no decoding, because the language model head applied to an
+        intermediate state is a legitimate readout. This works only when intermediate states live in the
+        same space as the final one, which is true of looped models and false of most continuous-thought
+        methods.
+      </li>
+      <li>
+        <em>Train a reader.</em> SIM-CoT's auxiliary decoder and the generative-reconstruction
+        supervision of Chen et al. are the supervised-training analog: a
+        decoder is trained to regenerate the written step from the latent, and the reconstruction loss
+        is the reward. PMPS replaces the decoder with prototype assignment, so the alignment is
+        many-to-many between latents and steps of unequal length and nothing is ever rendered as text.
+      </li>
+      <li>
+        <em>Marginalize the reader out.</em> LaDi-RL scores a latent trajectory by the mean reward of
+        several text decodings of it. That is not a step-level signal, but it rests on the same distinction between the latent and
+        its decoding, which should not share one reward.
+      </li>
+    </ul>
+
+    <p>
+      Each of these obtains a signal by installing a readout. The <a
+      href="./monitorability.html">monitorability</a> page covers the consequence: a readout trained
+      to make latent states gradeable can also be optimized against.
+    </p>
+
+    <h2>What is unsettled</h2>
+
+    <h3>The best latent-trained models often infer discretely</h3>
+    <p>
+      Butt et al.'s strongest configuration decodes hard tokens at inference. SofT-GRPO's
+      pass@1 advantage over discrete GRPO is 0.13 points. HRPO, TARPO and SWITCH keep the vocabulary in
+      the loop by design. Across the noise-injection family, the demonstrated gains are in pass@k and in
+      preserved diversity, which are training-time properties, and the evidence that a continuous rollout at
+      deployment beats a discrete one trained the same way is limited.
+    </p>
+
+    <h3>The noise-location results disagree across setups</h3>
+    <p>
+      Butt et al. report Gaussian embedding noise working on 3B and 8B instruction-tuned models.
+      SofT-GRPO reports the same noise costing 10.7 points on a 1.5B distilled model against its Gumbel
+      alternative. The base models, temperatures, noise scales, and training data all differ, so neither
+      result rules out the other, and no compute-matched comparison across noise locations on one base
+      exists.
+    </p>
+
+    <h3>The looped-model result is one paper on one family</h3>
+    <p>
+      RLTT's gains are on Ouro at two sizes with ten seeds, which is a larger seed count than most of
+      this literature uses. It has not been replicated on Huginn or on a retrofitted looped model, and the
+      length reduction and entropy decline it reports are the same signals that, in other settings, have
+      been read as collapse rather than confidence.
+    </p>
+
+    <h3>Scale</h3>
+    <p>
+      Outside Butt et al. and LaDi-RL, the reinforcement learning results here are on models from 124M
+      to 3B parameters, and the supervised results are mostly GPT-2 and 1B. The
+      <a href="./implementations.html">implementations</a> page has the reasons cross-paper comparison is
+      unreliable even within that range.
+    </p>
+
+    <div class="next-steps">
+      <p><em>Related.</em> The <a href="./families.html">families</a> page covers what these methods
+      compute once trained, <a href="./routing.html">routing</a> covers the stop heads and action
+      routers several of them share, and the <a href="./theory.html">theory</a> page separates what
+      a latent chain can express from what training can find.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>
