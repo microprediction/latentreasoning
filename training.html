@@ -395,8 +395,12 @@
       Gaussian, so the latent step has a density before any reinforcement learning begins. A supervised
       first stage trains the head on embeddings compressed by a randomly drawn factor, and a second
       stage runs GRPO with a correctness-only, group-normalized reward. The compression pressure is not
-      in the reward. It comes from exploration finding shorter chains that still score, and on MATH the
-      reinforcement stage adds up to 5.4% accuracy while cutting the latent chain by 82.8%.
+      in the reward, which is binary. It comes from how the advantage is applied: the group-relative
+      value is averaged across the latent positions, so a shorter chain concentrates more credit per
+      position and a longer one dilutes it. The paper&apos;s own ablation isolates this. Removing the
+      averaging leaves the exploration in place and the accuracy gain roughly intact, but the chain
+      length runs straight to the cap instead of contracting. With it, the reinforcement stage adds
+      up to 5.4% accuracy on MATH while cutting the latent chain by 82.8%.
     </p>
 
     <p>
