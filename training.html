@@ -400,8 +400,11 @@
       but never beats the base model at pass@128, while the latent-diffusion policy improves both. It
       also faces a credit-assignment problem of its own. The policy acts in latent space and the reward
       arrives after decoding to text, so a wrong answer could be a bad latent or a bad decode. The fix
-      is to sample several text completions per latent trajectory and average their rewards, which on
-      its own moves pass@1 from 60.0 to 77.1.
+      is to sample several latent trajectories and several text completions per latent, averaging the
+      decodes for each latent&apos;s advantage. The two axes are not interchangeable. Four latents
+      alone moves pass@1 from 60.0 to 68.5, four decodes alone only to 63.5, and the full four-by-four
+      rollout to 77.1, so most of the gain belongs to the latent diversity rather than to averaging
+      the decodes.
     </p>
 
     <h3>Noise in the weights</h3>
