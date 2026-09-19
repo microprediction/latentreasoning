@@ -93,11 +93,16 @@
     </li>
     <li>
       <em>No open-checkpoint measurement of monitorability loss.</em>
-      One external evaluation is attached: the Astra card carries a section headed
-      &ldquo;External Evaluation for Monitorability &mdash; UK AISI&rdquo;, reporting that the model
-      can strategically shorten its chain of thought when it knows it is being watched. What is
-      missing is a shared public suite run on open recurrent-depth checkpoints. Both exist. Nobody
-      has run one on the other. <em>Confidence: high.</em>
+      An external capability evaluation is attached. UK AISI ran four non-agentic tests on Astra and
+      found a no-CoT reasoning horizon of 30.9 minutes against 3.6 for the previous model, a
+      constraint-following rate of 93% against 48%, a more compressed reasoning style, and missing
+      reasoning summaries on up to 80% of long simulated cyber trajectories. The card then states
+      that &ldquo;UK AISI did not directly test if Astra evades monitors successfully and makes no
+      claims about the overall monitorability of the model,&rdquo; and that agentic monitorability
+      evaluations could not be completed. The separate finding that awareness of a monitor shortens
+      the chain of thought comes from OpenAI&apos;s own adversarial honeypot evaluation, not from
+      AISI. So what is missing is an external test of monitor evasion, and a shared public suite run
+      on open recurrent-depth checkpoints. <em>Confidence: high.</em>
     </li>
     <li>
       <em>No shared benchmark for latent computation.</em>

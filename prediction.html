@@ -160,10 +160,11 @@
       <a href="https://arxiv.org/abs/2409.19839">ForecastBench</a> scores models against expert
       forecasters and the general public on a rolling set of questions, and reports that expert
       forecasters outperform the best model at $p &lt; 0.001$.
-      <a href="https://arxiv.org/abs/2604.14199">PolyBench</a> runs seven models against 38,666 live
-      prediction-market questions under timestamp-locked market state and finds two of the seven turn
-      a positive return, with the remaining five losing money despite uniformly high stated
-      confidence.
+      <a href="https://arxiv.org/abs/2604.14199">PolyBench</a> collects 38,666 prediction-market
+      snapshots and scores seven models on the 5,097 that were resolved and had both an order book
+      and news context. Models may skip a market, and decisions below 0.6 confidence are discarded,
+      so the reported figure is a simulated confidence-weighted return on the trades each model chose
+      to make. Two of the seven come out positive on that measure and five lose money.
     </p>
 
     <p>
