@@ -1128,7 +1128,7 @@
         <li>
           Yue, Z., Jin, B., Zeng, H., Zhuang, H., Qin, Z., Yoon, J., Shang, L., Han, J., and Wang, D. (2025).
           <a href="https://arxiv.org/abs/2505.18454"><em>Hybrid Latent Reasoning via Reinforcement Learning</em></a>. arXiv:2505.18454.
-          <em>HRPO. Samples discrete tokens as usual and gates the previous hidden state into the sampled embedding, so the token sampler supplies the stochasticity and no chain-of-thought traces are needed. A hybrid by construction: the loop still closes through the vocabulary.</em>
+          <em>HRPO. Samples discrete tokens as usual and gates a vocabulary-projected soft token, the previous hidden state passed through the language-model head and back to an embedding average, into the sampled embedding, so the token sampler supplies the stochasticity and no chain-of-thought traces are needed. A hybrid by construction: the loop still closes through the vocabulary.</em>
         </li>
         <li>
           Jain, A., and Rappazzo, B. (2025).
@@ -1138,7 +1138,7 @@
         <li>
           Ren, H. (2025).
           <a href="https://aclanthology.org/2025.findings-emnlp.669/"><em>LSRL: Process-Supervised GRPO on Latent Recurrent States Improves Mathematical Reasoning</em></a>. Findings of EMNLP 2025.
-          <em>Decodes each recurrent depth of Huginn-3.5B to text and grades it with GPT-4.1-nano for a dense per-depth reward. +4.27 on GSM8K from 500 problems. The decode-and-grade answer to process reward in a space nobody can read, and the overhead RLTT was built to avoid.</em>
+          <em>Decodes each recurrent depth of Huginn-3.5B to text and grades it with GPT-4.1-nano, discounting the per-depth scores into one trajectory reward, so the credit is shaped rather than depth-indexed. +4.27 on GSM8K from 500 problems. The decode-and-grade answer to process reward in a space nobody can read, and the overhead RLTT was built to avoid.</em>
         </li>
         <li>
           Yu, Z., Shen, Q., Li, H., Zhang, Z., Zhu, S.-C., Zhang, C., and Zheng, Z. (2026).

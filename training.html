@@ -257,17 +257,21 @@
           </tr>
           <tr>
             <td class="nowrap">Logits</td>
-            <td>SofT-GRPO (Zheng et al. 2025); Mixture of Tokens (Jain &amp; Rappazzo 2025)</td>
+            <td>SofT-GRPO (Zheng et al. 2025)</td>
             <td>Gumbel noise on the log-probabilities before the softmax, so the perturbed mixture stays
-            on the simplex. Density is the Gumbel density of the recovered noise.</td>
-            <td class="mode">GRPO with Gumbel reparameterization</td>
+            on the simplex. The score is the Gumbel density evaluated at the residual between the
+            perturbed and current logits, which makes it a likelihood-ratio estimator rather than a
+            pathwise one.</td>
+            <td class="mode">GRPO on a perturbed-logit score</td>
           </tr>
           <tr>
             <td class="nowrap">Token sampling</td>
-            <td>HRPO (Yue et al. 2025); TARPO (Zhang et al. 2026); SWITCH (Yang et al. 2026)</td>
-            <td>Ordinary discrete sampling supplies the randomness. Hidden state rides along through a
-            gate, a router, or a bounded latent block that carries no policy-gradient term of its
-            own.</td>
+            <td>HRPO (Yue et al. 2025); SWITCH (Yang et al. 2026); Mixture of Tokens (Jain &amp;
+            Rappazzo 2025)</td>
+            <td>Discrete sampling supplies the randomness. HRPO gates a vocabulary-projected soft
+            token into the sampled embedding; SWITCH leaves its latent blocks outside the gradient;
+            Mixture of Tokens samples Dirichlet weights or a token subset and scores the trajectory
+            with an explicit plug-in approximation rather than an exact density.</td>
             <td class="mode">Standard GRPO or REINFORCE</td>
           </tr>
           <tr>
@@ -355,8 +359,10 @@
       HRPO (<a href="https://arxiv.org/abs/2505.18454">Yue et al. 2025</a>) observes that continuous
       latent methods conflict with the discrete nature of autoregressive generation and that
       trace-dependent training fails to exploit whatever reasoning the model already has. It therefore
-      samples discrete tokens as usual and mixes the previous step's final hidden state into the
-      sampled token's embedding through a learnable gate, initialized so that the input is almost
+      samples discrete tokens as usual, projects the previous hidden state through the language-model
+      head to a probability vector, and mixes the resulting normalised embedding average into the
+      sampled token&apos;s embedding through a learnable gate. The paper&apos;s reason for the detour
+      is that raw hidden states sit off the token-embedding manifold. The gate is initialized so that the input is almost
       entirely the token embedding and allowed to admit more hidden state as training proceeds. The
       randomness comes from the sampler, the update is REINFORCE with group-relative advantages and a
       KL penalty, and the reward determines how much latent content the gate admits. A 3B model trained this way
@@ -374,8 +380,11 @@
       log-probabilities under a shared group-relative advantage. SWITCH (<a
       href="https://arxiv.org/abs/2606.13106">Yang et al. 2026</a>) makes the arrangement explicit. Two ordinary tokens open and close a latent block, so the GRPO ratio is defined at
       every text position including the boundaries. The latent positions between them contribute no
-      policy-gradient term at all. Gradients still flow through them from the tokens on either side,
-      the pathwise route from the previous section, confined to the inside of a block.
+      policy-gradient term at all. The abstract says the objective propagates gradients through
+      the recurrence, but the implementation runs latent segments inside <code>torch.no_grad()</code>
+      and the limitations section says the latent positions contribute only through the key-value
+      cache they hand to the next text segment. So the latent representation is shaped by the
+      curriculum, not by the reinforcement objective.
     </p>
 
     <h3>A generator that is stochastic by construction</h3>
@@ -414,8 +423,10 @@
       per rollout and holds it fixed across every latent step, so each rollout is a sample from a
       variational distribution over parameters and the group has something to be relative to. On a
       Coconut-style Qwen2.5-1.5B it moves GSM8K from 27.29% to 29.01%. SLPO uses the same source of
-      randomness to build a density rather than a sample: several dropout passes give an empirical mean
-      and variance for the next latent, the realized latent is scored under that Gaussian, and a
+      randomness to fit a surrogate: several dropout passes give an empirical mean and variance for
+      the next latent, and the realized latent is scored under that Gaussian rather than under the
+      discrete dropout law that actually produced it. The paper is explicit that this is a surrogate,
+      with propositions bounding when its gradient tracks the true one, and a
       correctness-supervised stopping head gives the outcome reward a horizon to lengthen. On Coconut
       with Llama-3.2-1B it adds 5.84 points at pass@8, and the paper reports longer latent computation
       being allocated to harder instances.
@@ -485,9 +496,10 @@
         href="https://aclanthology.org/2025.findings-emnlp.669/">Ren 2025</a>) decodes each recurrent
         depth of a 3.5B Huginn model (<a href="https://arxiv.org/abs/2502.05171">Geiping et al.
         2025</a>) to text and scores the partial solution with GPT-4.1-nano as a judge, aligned
-        to final-answer correctness, for a dense per-depth reward inside GRPO. It adds 4.27 points on
-        GSM8K from 500 training problems. The cost is a decode and an API call per depth per rollout,
-        which RLTT cites as its reason for avoiding the approach.
+        to final-answer correctness, and discounts the per-depth scores into a single
+        trajectory reward, so the credit is shaped rather than depth-indexed: GRPO still sees one
+        advantage and one whole-sequence ratio. It adds 4.27 points on GSM8K from 500 training
+        problems. The cost is a decode per depth plus two grader calls per trajectory.
       </li>
       <li>
         <em>Read through the head the model already has.</em> RLTT's per-loop log-probabilities
@@ -545,8 +557,9 @@
 
     <h3>Scale</h3>
     <p>
-      Outside Butt et al. and LaDi-RL, the reinforcement learning results here are on models from 124M
-      to 3B parameters, and the supervised results are mostly GPT-2 and 1B. The
+      Most of the reinforcement learning results here are on models from 124M to 3B parameters, and the
+      supervised results are mostly GPT-2 and 1B. The exceptions are worth naming: CoLaR reports an
+      8B run, SofT-GRPO goes to 7B, and LSRL trains a 3.5B Huginn. The
       <a href="./implementations.html">implementations</a> page has the reasons cross-paper comparison is
       unreliable even within that range.
     </p>
