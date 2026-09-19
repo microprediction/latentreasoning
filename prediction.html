@@ -78,9 +78,11 @@
       colleagues note the side effect: such rewards do not penalise a confident wrong answer, so they
       degrade calibration. Their method,
       <a href="https://arxiv.org/abs/2507.16806">RLCR</a>, has the model emit a numerical confidence
-      after its reasoning and adds a Brier score to the correctness reward. They prove that this, or
-      any reward built on a bounded proper scoring rule, yields models that are both accurate and
-      calibrated, and report that it &ldquo;substantially improves calibration with no loss in
+      after its reasoning and adds a Brier score to the correctness reward. They prove that this particular reward
+      gives incentives for both calibration and correctness, and that for a general bounded strictly
+      proper score there exists a large enough weight on correctness that the same holds. The paper
+      is explicit that it does not extend to any proper scoring rule, and names log loss as a case
+      that fails, and report that it &ldquo;substantially improves calibration with no loss in
       accuracy&rdquo; in and out of domain. Their summary of the contrast is direct: &ldquo;while
       ordinary RL hurts calibration, RLCR improves it.&rdquo;
     </p>
@@ -88,8 +90,11 @@
     <p>
       <a href="https://arxiv.org/abs/2505.17989">Turtel and colleagues</a> take the other route,
       training a 14B model with outcome-based reinforcement learning on questions drawn from a
-      prediction market. Calibration improves as a side effect of training against real resolutions
-      rather than as an explicit objective. The reward is outcome verification, not a scoring rule.
+      prediction market. The episode reward is the negative Brier score, which
+      the paper names as &ldquo;a strictly proper scoring rule that incentivises calibrated
+      probabilistic forecasts&rdquo;. The difference from RLCR is where the score is applied: here it
+      scores the forecast itself against the resolution, rather than scoring a confidence attached to
+      a separately judged answer.
     </p>
 
     <p>
@@ -111,16 +116,28 @@
       GLM models. Removing an influential source from the prompt &ldquo;often changes the model&apos;s
       forecast while leaving the reasoning trace untouched&rdquo;, and the probe activations track
       that shift, predicting its direction in 84% of cases including where the written reasoning
-      conceals it. Forced answering shows that &ldquo;forecasts are largely fixed before reasoning
-      begins&rdquo;: a single pre-reasoning pass recovers the committed answer and confidence, and
-      routing on the spread of that pre-set distribution saves 30&ndash;47% of generated tokens with
-      no loss of accuracy.
+      conceals it. Forcing an answer before any reasoning produces one that agrees with the model&apos;s eventual
+      answer on 56 to 67% of questions depending on the split, with confidence correlating at 0.78 to
+      0.90. The authors read this as forecasts being largely fixed before reasoning begins, though
+      agreement is not the same as precommitment. Routing on the spread of that early distribution
+      saves 30 to 47% of generated tokens, with each split within about a point of full reasoning and
+      confidence intervals including zero.
     </p>
 
     <p>
       This is a measurement of the gap between what the internal state carries and what the text
       reports, taken on probabilities rather than on symbolic answers. It is one model family at 8B
       on one benchmark, and has not been replicated.
+    </p>
+
+    <p>
+      The sharpest version of the same comparison is not about forecasting at all.
+      <a href="https://arxiv.org/abs/2602.07812">Yuchi, Du and Eisner</a> probe hidden states for the
+      magnitude of numbers a model has just read. A single linear projection recovers them to about
+      2.3% relative error on synthetic text and 19.06% on scientific papers, and a linear classifier
+      ranks a pair of numerals at over 90% accuracy. Asked to rank the same pairs in words, the same
+      models manage 50 to 70%. Their title puts it plainly: LLMs know more about numbers than they
+      can say.
     </p>
 
     <h2>Reasoning and calibration</h2>
@@ -140,7 +157,10 @@
       with deeper reasoning making it worse, and introspection helping two of the three models and
       hurting the third.
       <a href="https://arxiv.org/abs/2606.11211">Hiremath and Hiremath</a> describe a threshold beyond
-      which additional reasoning budget induces overconfidence.
+      which additional reasoning budget induces overconfidence, though their own data do not show a
+      clean trend, their validity rate is 42%, and the two calibration columns of their main table
+      cannot both be right: expected calibration error is reported below the absolute overconfidence
+      gap in every row, which the definitions do not allow.
       <a href="https://arxiv.org/abs/2504.06564">Zeng and colleagues</a> find that reasoning-oriented
       training raises verbalised calibration while lowering abstention rates on factual questions, and
       that within a trace, shorter reasoning correlates with higher confidence, which is the opposite
@@ -172,8 +192,9 @@
       <a href="https://arxiv.org/abs/2310.13014">Schoenegger and Park</a> entered GPT-4 in a live
       Metaculus tournament against 843 participants and found it significantly less accurate than the
       human median, and statistically indistinguishable from answering 50% to everything.
-      <a href="https://arxiv.org/abs/2402.19379">An ensemble of twelve models</a> did reach parity
-      with a 925-person crowd on 31 questions in a preregistered comparison, a result about aggregation rather than about any single model.
+      <a href="https://arxiv.org/abs/2402.19379">An ensemble of twelve models</a> matched a 925-person crowd on 31 questions, 0.20 against 0.19 in mean Brier score. The
+      preregistered test found no significant difference; the claim of equivalence rests on a separate
+      test the authors did not preregister and whose bounds they call wide. Either way it is a result about aggregation rather than about any single model.
     </p>
 
     <h2>Numbers through a token vocabulary</h2>
@@ -182,8 +203,8 @@
       Separately from reasoning, there is a body of work on how numeric quantities survive
       tokenisation, which bears on the same question one layer down.
       <a href="https://arxiv.org/abs/2402.14903">Singh and Strouse</a> show that forcing right-to-left
-      digit tokenisation substantially improves arithmetic in frontier models and that the errors
-      under left-to-right tokenisation are systematic rather than noise.
+      digit tokenisation substantially improves arithmetic in frontier models and that the error pattern looks
+      algorithmic rather than random, though they are careful to say the mechanism is unclear.
       <a href="https://arxiv.org/abs/2310.02989">xVal</a> replaces digit tokens with a single
       embedding scaled by the value, and reports better out-of-distribution generalisation on
       scientific data.
@@ -196,8 +217,12 @@
     </p>
 
     <p>
-      All of it concerns the output layer of a single prediction. None of it concerns intermediate
-      reasoning steps.
+      Most of this concerns how a number is represented going in or coming out rather than how it is
+      carried between reasoning steps. Not all: Singh and Strouse get much of their gain from
+      prompting the model to rewrite the problem in the other tokenisation direction before
+      answering, which is an intermediate step, and their control shows that answering in that
+      direction without the rewrite does not work as well. xVal changes the input representation
+      rather than the output layer.
     </p>
 
     <h2>Latent reasoning on structured data</h2>
@@ -212,43 +237,46 @@
     </p>
 
     <p>
-      The comparisons are against a same-depth model without the chain, a deeper model matched on
-      effective depth, and a weight-tied looped transformer. There is no comparison against the same
-      reasoning written out in tokens, and the targets are point predictions rather than
-      distributions, so the result does not separate the benefit of extra computation from the
-      benefit of keeping that computation continuous.
+      The targets are distributional. Forecasts are decoded into quantiles and trained with the
+      quantile loss at levels 0.1, 0.3, 0.5, 0.7 and 0.9, and tabular classification is trained with
+      cross-entropy, which is itself a proper score. The comparisons are against a same-depth model
+      without the chain, a deeper model matched on effective depth, and a weight-tied looped
+      transformer. What is missing is a comparison against the same reasoning written out in tokens,
+      so the result does not separate the benefit of extra computation from the benefit of keeping
+      that computation continuous, and the paper reports no calibration diagnostics for the
+      forecasts it produces.
     </p>
 
     <h2>What has not been done</h2>
 
     <p>
-      Four things that would settle parts of this, none of which appears in the literature.
+      Less than I thought when I started reading. Two of the obvious gaps turn out to be filled.
+      Dudley and Oymak already run latent chain of thought against distributional targets, trained
+      with quantile loss and cross-entropy, both proper scores. Yuchi, Du and Eisner already show an
+      internal representation more precise than the printed one. Neither result is framed as being
+      about latent reasoning and calibration, which is why they are easy to miss, but they are the
+      results.
     </p>
 
     <p>
-      No one has run a latent chain of thought whose target is an explicit probability, quantile or
-      distribution and compared it against the same reasoning emitted as tokens. Dudley and Oymak
-      come closest and have neither the distributional target nor the token-reasoning baseline.
+      What remains is narrower. Nobody has compared a latent chain of thought against the same
+      reasoning emitted as tokens, on the same distributional target, which is the comparison that
+      would isolate the benefit of keeping the intermediate quantities continuous from the benefit of
+      simply spending more computation. Dudley and Oymak have the target but not that baseline.
     </p>
 
     <p>
-      No one has trained a latent-reasoning architecture against a proper scoring rule. RLCR proves
-      the result that would motivate it and applies it to verbalised token-level confidence. The
-      latent-reasoning literature is motivated by search efficiency and does not cite calibration
-      work.
+      Nobody has measured how much numeric precision a decoding step costs. The argument that
+      cross-entropy treats digits as unordered categories is made in the Number Token Loss paper,
+      without a figure in bits attached to it.
     </p>
 
     <p>
-      No one has measured how much numeric precision is lost per decoding step when a continuous
-      intermediate is written out. The argument that cross-entropy discards proximity between digits
-      is made in the Number Token Loss paper, without an information-theoretic figure attached.
-    </p>
-
-    <p>
-      No one has shown that a model&apos;s internal representation of a quantity is more precise than
-      the number it prints. Probes recover numeric value from hidden states, and Sarfati and
-      colleagues show probes are better calibrated than stated forecasts, but the specific comparison
-      of internal resolution against printed resolution has not been made.
+      And nobody has trained the intermediate steps to stay continuous with a proper score on the
+      final distribution as the objective. RLCR scores a verbalised confidence after token-level
+      reasoning. Turtel and colleagues score the forecast itself, also after token-level reasoning.
+      Dudley and Oymak keep the reasoning continuous but do not report calibration. The three pieces
+      exist separately.
     </p>
 
     <div class="next-steps">
