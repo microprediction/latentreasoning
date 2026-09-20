@@ -413,9 +413,7 @@
       on the logical-reasoning datasets ProntoQA and ProsQA, where models almost always reach the
       same answer without them. The scope matters: on GSM8K-Aug every model they test needs at least
       some of its reasoning tokens, so this is a property of those logical tasks rather than of
-      latent reasoning generally. Where the tokens do carry the computation, a decoding method
-      recovers a verified natural-language trace 65&ndash;93% of the time on correctly-answered
-      instances, against 24&ndash;36% on incorrect ones. Their reading is that current latent-reasoning models largely
+      latent reasoning generally. Where the tokens do carry the computation, a backtracking search recovers a known gold trace on up to 65&ndash;93% of correctly-answered instances, against 24&ndash;36% on incorrect ones. That search is scored against traces already known for those problems, and the top of the range depends on letting numbers from the question supply operands. The authors call the evidence &ldquo;correlational rather than causal; merely finding gold reasoning chains does not prove that they&rsquo;re used by the model.&rdquo; A separate method decodes a verified trace without a gold answer, on a narrower subset, and its rate depends on how many counterfactual checks each step must pass. Their reading is that current latent-reasoning models largely
       implement the same solution a token-level chain of thought would have produced.
     </p>
 
@@ -454,7 +452,7 @@
       </li>
       <li>
         The interpretability results and the safety-policy literature do not engage each
-        other. "65&ndash;93% of latent traces are recoverable" has not been brought to bear
+        other. The gold-trace recovery results have not been brought to bear
         on the deployment question in any paper found. This is the most policy-relevant disconnect
         on the <a href="./map.html">map</a>.
       </li>

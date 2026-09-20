@@ -86,7 +86,7 @@
   <ol class="gaps">
     <li>
       Interpretability results have not reached the deployment question.
-      The finding that latent traces decode 65&ndash;93% of the time and the controversy over a
+      The finding that gold traces can be recovered from latent tokens on most correctly-answered arithmetic instances, and the controversy over a
       production model whose card records reduced monitorability do not cite each other. Nobody has
       applied the decoding methods to the deployed case. <em>Confidence: high. The most
       policy-relevant gap here.</em>
@@ -288,7 +288,7 @@ const NODES = [
  {id:"monmon", c:"monitor", label:"Monitoring Monitorability", url:"https://arxiv.org/abs/2512.18311",
   note:"Guan et al. 2025. A suite treating monitorability as a measurable, degradable property: 13 evaluations across 24 environments."},
  {id:"dilgren", c:"monitor", label:"Latent CoT decodable?", url:"https://arxiv.org/abs/2604.04902",
-  note:"Dilgren & Wiegreffe 2026. Latent traces decode 65–93% of the time where they carry the computation, and much less often on incorrectly answered instances."},
+  note:"Dilgren & Wiegreffe 2026. A backtracking search recovers known gold traces on up to 65-93% of correctly answered instances where the tokens carry the computation, and much less often on incorrect ones. The authors call this correlational, not causal."},
 
  // adjacent / frontier
  {id:"kava", c:"adjacent", label:"KV-cache distillation", url:"https://arxiv.org/abs/2510.02312",
