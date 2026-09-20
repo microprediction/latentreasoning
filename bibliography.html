@@ -895,7 +895,11 @@
           <a href="https://arxiv.org/abs/2606.01243"><em>Unlocking the Black Box of Latent
           Reasoning: An Interpretability-Guided Approach to Intervention</em></a>.
           arXiv:2606.01243. <em>Finds early latent vectors acting as causal hubs and builds
-          training-free decode-time interventions on that basis.</em>
+          decode-time interventions on that basis. The paper calls the suite training-free, but only
+          the weight-tying projection is: the linear mapper is fitted on 1,000 paired examples, the
+          energy score is a trained two-layer network, interpolation needs a cached exemplar bank,
+          and the gradient step nudges the vector toward the likelihood of the correct answer, which
+          is not available at test time.</em>
         </li>
               <li>
           Liu, Y. (2026).
@@ -922,10 +926,14 @@
           Backour, A. (2026).
           <a href="https://arxiv.org/abs/2609.02049"><em>The Dynamics of Continuous Mixture Collapse
           in Language Models</em></a>. arXiv:2609.02049.
-          <em>A dynamical account of why continuous mixtures collapse: the softmax readout and
-          autoregressive feedback form a system that either amplifies small differences until one
-          component dominates or contracts mixtures until they are indistinguishable, with
-          pretrained-model rollouts reported to sit on the amplifying side.</em>
+          <em>A dynamical account of why continuous mixtures collapse. Two theorems bracket the
+          behaviour: coupling above 2 amplifies small differences until one component dominates,
+          coupling in <code>[0, 2)</code> contracts mixtures until they are indistinguishable. The
+          pair is not exhaustive, since both assume non-negative coupling and zero bias; negative
+          coupling admits a stable oscillation between two mixture weights that neither theorem
+          covers. Pretrained-model rollouts are reported on the amplifying side, measured on a
+          logit-space surrogate that runs the model on the two pure branches rather than propagating
+          the mixture, and binary, on two model families.</em>
         </li>
         <li>
           Dilgren, R., and Wiegreffe, S. (2026).
@@ -1136,7 +1144,12 @@
         <li>
           Jung, W. (2026).
           <a href="https://arxiv.org/abs/2606.10184"><em>Dropout-GRPO: Variational Stochasticity for Continuous Latent Reasoning</em></a>. arXiv:2606.10184.
-          <em>The sharpest diagnosis of the same problem: group-relative advantage needs rollout diversity, but a deterministic latent phase makes the rollouts identical and the advantage collapses to zero. The proposed fix yields a modest gain on one benchmark.</em>
+          <em>Group-relative advantage needs reward variance within a group. A deterministic latent
+          phase does not by itself remove it, since sampled answer tokens can still differ; the
+          paper&apos;s own setup adds the condition that makes the rollouts identical, low-temperature
+          decoding, and reports rewards collapsing to exactly zero variance under it. The proposed
+          fix gains 1.72 points on GSM8K, 2.33 on SVAMP and 3.00 on MultiArith, against a Coconut
+          baseline run at a single seed where the dropout runs use three.</em>
         </li>
         <li>
           Zheng, Z., Gu, Y., Liu, W., Teh, Y. W., and Lee, W. S. (2025).
@@ -1211,12 +1224,24 @@
         <li>
           Yuan, H., Jin, B., Yu, S., Kuang, K., Yu, P., Dong, Y., and Wang, S. (2026).
           <a href="https://arxiv.org/abs/2606.06252"><em>Closing the Loop on Latent Reasoning via Test-Time Reconstruction</em></a>. arXiv:2606.06252.
-          <em>Adds a test-time reconstruction check so latent states can be verified against the original query instead of running open-loop.</em>
+          <em>Adapts the latent state at test time until it can reconstruct the query, sixteen
+          per-instance updates to LoRA parameters with the backbone frozen. The paper does not read
+          this as verification: reconstruction is &ldquo;not sufficient for correct reasoning&rdquo;
+          and is &ldquo;an input-anchored structural check rather than a certificate of
+          correctness.&rdquo; A state could encode the query alongside an unrelated conclusion and
+          reconstruct perfectly. The answer is generated from the original query with the adapted
+          model, not from the reconstruction.</em>
         </li>
         <li>
           Li, Y., Li, Z., and Zhou, D. (2026).
           <a href="https://arxiv.org/abs/2606.06574"><em>Skip a Layer or Loop It? Learning Program-of-Layers in LLMs</em></a>. arXiv:2606.06574.
-          <em>Pretrained models admit many valid programs of layers, skipping or looping per input without retraining, some cheaper and more accurate than the default pass.</em>
+          <em>Pretrained models admit many valid programs of layers, skipping or looping per input,
+          some cheaper and more accurate than the default pass. Those programs are found by a search
+          scored against the ground-truth answer: 71.9 per cent of already-correct inputs admit a
+          shorter program, and 34.0 per cent of wrong ones admit a shorter program that corrects the
+          prediction. Using this without the answer needs a separate 2.1M-parameter predictor,
+          supervised on the search&apos;s offline labels; the base model is what goes
+          unretrained.</em>
         </li>
         <li>
           Duraipandian, S. I., Boyane, A., Nagesh, S., Francis, J., Vaidheeswaran, A., and Zhu, S. (2026).
@@ -1235,12 +1260,31 @@
         <li>
           Zhang, C., Ding, N., Fang, Y., Liao, S., Ye, Q., Zhao, X., and Wang, S. (2026).
           <a href="https://arxiv.org/abs/2606.06188"><em>The Tell-Tale Norm: $\ell_2$ Magnitude as a Signal for Reasoning Dynamics in Large Language Models</em></a>. arXiv:2606.06188.
-          <em>Hidden-state norm is an endogenous signal of reasoning intensity, concentrated in late layers and validated against sparse-autoencoder features.</em>
+          <em>Hidden-state norm tracks reasoning intensity, concentrated in late layers and
+          compared against sparse-autoencoder features. Two gaps in that support. The
+          decomposition&apos;s error term is stated as
+          <code>O(&epsilon;<sub>orth</sub>&#8214;z&#8214;<sub>2</sub><sup>2</sup>)</code>, reached by
+          bounding <code>&#8214;z&#8214;<sub>1</sub><sup>2</sup> &le; m&#8214;z&#8214;<sub>2</sub><sup>2</sup></code>
+          and absorbing <code>m</code>, the dictionary size, into the constant; on a <code>k</code>-sparse code the
+          same step costs a factor of <code>k</code>, and with the reported
+          <code>&epsilon;<sub>orth</sub> = 0.0173</code> the error term stops being small once about
+          sixty features are active. An overcomplete decoder also cannot have small worst-case
+          coherence at all, since <code>D&#8868;D</code> has at least <code>m &minus; d</code> zero
+          eigenvalues however small the average pairwise correlation is. Separately, the suppression
+          experiment scales the selected dimensions to a tenth of their value and compares against
+          the same <em>number</em> of random dimensions. Matching count rather than magnitude leaves
+          the high-norm dimensions carrying the larger perturbation.</em>
         </li>
         <li>
           Malarkkan, A., Choudhury, R., Byahut, S., Charde, M., Gupta, S., and Fu, Y. (2026).
           <a href="https://arxiv.org/abs/2606.29164"><em>Invariant Reasoning Directions in Latent Trajectories of Language Models</em></a>. arXiv:2606.29164.
-          <em>A low-rank invariant reasoning direction mixed with unstable instance-specific variation in latent trajectories.</em>
+          <em>Low-rank directions along which reasoning quality differs, recovered by taking
+          differences between a later and an earlier training checkpoint of the same backbone on 200
+          calibration examples, then truncating the SVD. The subspace is a property of what changed
+          between those checkpoints, not of a native trajectory, and the authors make &ldquo;no
+          formal claim that it corresponds to causally invariant features,&rdquo; only that the
+          differences are consistent across the calibration set. Rank at 90 per cent energy averages
+          12 and ranges from 8 to 34.</em>
         </li>
         <li>
           Chang, R., Liu, Y., Wang, S., Gao, J., Ma, X., Zhao, Y., Miao, C., Sun, M., Peng, H., Li, J., and Niu, C. (2026).
@@ -1697,7 +1741,10 @@
           Jacobi Iteration.&rdquo; <em>EMNLP</em>.
           <a href="https://arxiv.org/abs/2506.18582">arXiv:2506.18582</a>.
           <em>Updates latent thought tokens by Jacobi iteration in parallel rather than
-          sequentially, about half the time of sequential continuous chain of thought.</em>
+          sequentially, taking about half the time of sequential continuous chain of thought. The
+          measurement covers processing the question and the chain, and excludes answer generation,
+          which the authors leave out because answer length varies by method and, on their
+          benchmark, runs to one or two tokens against roughly a hundred measured.</em>
         </li>
         <li>
           Svete, A., and Sabharwal, A. (2025). &ldquo;On the Reasoning Abilities of Masked Diffusion

@@ -202,8 +202,11 @@
 
     <p>
       <a href="https://arxiv.org/abs/2606.10184">Jung (2026)</a> states the consequence for
-      group-relative methods: multiple rollouts of the same prompt yield identical latent trajectories,
-      so the group-mean advantage collapses to zero and training stalls. SLPO puts the same obstacle in
+      group-relative methods: multiple rollouts of the same prompt yield identical latent
+      trajectories, and under the low-temperature decoding the paper uses, identical answers too, so
+      every reward in the group matches, the group-mean advantage is zero for each member, and
+      training stalls. What the advantage needs is reward variance, which sampling the answer tokens
+      at temperature could supply even from a fixed latent state. SLPO puts the same obstacle in
       terms of the likelihood. Intermediate steps "bypass the vocabulary distribution" so
       latent trajectories lack a tractable action likelihood, and a fixed thinking budget leaves nothing
       for an outcome reward to lengthen or shorten. There is no distribution $\pi$, no log-probability,
