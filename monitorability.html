@@ -206,16 +206,20 @@
       an <em>output-only</em> monitor, proposed to avoid pressuring the trace, still
       yields obfuscated and unfaithful chains. And monitoring can fail without any concealment to
       detect: <a href="https://arxiv.org/abs/2510.01367">Wang et al. (2025)</a> identify implicit
-      reward hacking where the trace reads as benign while the model exploits a loophole, caught
-      only by truncating the reasoning and measuring how little of it the answer required.
+      reward hacking where the trace reads as benign while the model exploits a loophole, flagged by
+      truncating the reasoning and measuring how little of it the answer required. Their hacking
+      labels come from separate counterfactual tests, and the measure assumes a task that cannot be
+      answered in a single forward pass.
     </p>
 
     <p>
       <a href="https://arxiv.org/abs/2505.23575">Arnav et al. (2025)</a> stress-test the monitor
       directly and find it defeated by traces that are deceptive but plausible, with a hybrid
       monitor reading both reasoning and actions roughly doubling detection of subtle sabotage.
-      <a href="https://arxiv.org/abs/2510.27338">Jose (2025)</a> reports illegible chains arising
-      with nobody training for them.
+      <a href="https://arxiv.org/abs/2510.27338">Jose (2025)</a> finds illegible chains across fourteen
+      models that were not trained to produce them, though the study is observational and cannot say
+      what causes them. The Claude models stay legible, which Jose reads as evidence that
+      outcome-based training does not make illegibility inevitable.
     </p>
 
     <p class="muted">
@@ -225,7 +229,9 @@
       whether the direct answer changes. That is a parameter intervention rather than a context
       perturbation, and the authors read the resulting rate as a lower bound on true faithfulness. <a href="https://arxiv.org/abs/2603.28590">
       MonitorBench</a> offers 1,514 instances across 19 tasks, a candidate for the shared
-      instrument this area has lacked.
+      instrument this area has lacked. Its monitorability score caps at one, so a monitor flagging
+      only the cases that would have succeeded without the intervention can reach the ceiling
+      without catching a single success the intervention caused.
     </p>
 
     <h2>Reasoning was always partly latent</h2>

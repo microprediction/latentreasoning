@@ -523,7 +523,11 @@
         <li>
           Lin, Y., Guo, Y., Zhu, R.-J., Ye, Z., and Eshraghian, J. (2026).
           <a href="https://arxiv.org/abs/2608.18230"><em>Allocating Recurrent Compute in Looped Language Models</em></a>. arXiv:2608.18230.
-          <em>Looping the whole stack is wasteful: looping only the mixer and applying the feedforward block once keeps most of the benefit at 45.9% lower recurrent-backbone cost.</em>
+          <em>Looping only the mixer and applying the feedforward block once beats full-block
+          recurrence at 15M parameters, but at 110M it retains 41.5 per cent of full recurrence&apos;s
+          CORE improvement, not the bulk of it. The 45.9 per cent saving counts recurrent-backbone
+          projection FLOPs; end to end the saving is 43.0 per cent at that scale. One checkpoint per
+          architecture, without error bars.</em>
         </li>
         <li>
           Wang, Y., Zhang, Y., Luo, S., Wu, Y., Liu, Z., Liu, J., Huang, F., Yan, J., and Li, W. (2026).
@@ -772,17 +776,33 @@
         <li>
           Sirivella, N., Newaz, A., and Melo, G. (2026).
           <a href="https://arxiv.org/abs/2608.29376"><em>Evaluating Tiny Recursive Models Across Training for Code Generation</em></a>. arXiv:2608.29376.
-          <em>On free-running code generation the fit ranking between a recursive model and a depth-matched control reverses twice across training, so a single-checkpoint comparison is not stable evidence in either direction.</em>
+          <em>Under teacher forcing the fit ranking between a recursive model and a depth-matched
+          control reverses twice across training, so a single-checkpoint comparison is not stable
+          evidence in either direction. On free-running generation the ranking does not reverse: the
+          depth-matched control leads from epoch 8 onward, seed-consistent, and the paper reads the
+          late fit reversal as an overfitting artefact rather than a recursion win. Scores come from
+          an LLM judge on a synthetic corpus with no unit tests.</em>
         </li>
         <li>
           Park, J., Jung, S., and Kang, M. (2026).
           <a href="https://arxiv.org/abs/2609.06746"><em>Reason Through the Latent! Making Latent Visual Reasoning Necessary</em></a>. arXiv:2609.06746.
-          <em>A causal test finds most latent visual-reasoning methods carry visual information in the latent state without using it to produce the answer.</em>
+          <em>Perturbing the latent state leaves predictions largely unchanged for several latent
+          visual-reasoning methods, so the visual content they carry is not behaviourally necessary.
+          The paper stops short of calling it unused: the interventions are not strict no-bypass
+          tests, because the original multimodal context stays available as another
+          image-conditioned route, and an internal state can be informative without being causally
+          required.</em>
         </li>
         <li>
-          Kim, J. (2026).
+          Kim, G. (2026).
           <a href="https://arxiv.org/abs/2608.26556"><em>Dynamical phase selection controls compute scaling in looped transformers</em></a>. arXiv:2608.26556.
-          <em>Identically trained, identically accurate looped transformers fall into distinct dynamical phases depending on initialisation, and the phase rather than the architecture sets the test-time compute scaling law.</em>
+          <em>Identically trained, identically accurate looped transformers fall into distinct
+          dynamical phases depending on initialisation, and the phase rather than the architecture
+          sets how iteration count grows near the bottleneck. The workload-level tail
+          <code>P(&tau;&gt;N) ~ N<sup>-2</sup></code> needs a second assumption, that the difficulty
+          density is regular there; the paper attributes the universality to the fold normal form
+          and that regularity, not to the network. Fifteen networks at width 16, and the paper calls
+          the result a classification of the models explored rather than an exclusion theorem.</em>
         </li>
 </ul>
 
@@ -1596,14 +1616,27 @@
           <em>ICLR 2026 oral</em>.
           <a href="https://arxiv.org/abs/2510.01367">arXiv:2510.01367</a>.
           <em>Implicit reward hacking, where the trace looks benign and the model still exploits a
-          loophole, is detected by truncating the reasoning and measuring how little of it the
-          answer needed. A monitor can be defeated without any verbalised cheating to catch.</em>
+          loophole, is flagged by truncating the reasoning and measuring how little of it the answer
+          needed, reaching near 1.0 F1 against a chain-of-thought monitor&apos;s 0.7 on single-model
+          math. The truncation score is a proxy for relative reasoning effort, not the ground truth:
+          hacking labels come from separate counterfactual tests, feeding the model a wrong hint or
+          a verifier without the loophole. It assumes a task that needs inference-time exploration,
+          and the authors note that a task solvable in one forward pass turns the long chain into
+          post-hoc rationalisation the score cannot see. A monitor can be defeated without any
+          verbalised cheating to catch.</em>
         </li>
         <li>
           Jose, A. (2025). &ldquo;Reasoning Models Sometimes Output Illegible Chains of
           Thought.&rdquo; <em>NeurIPS</em>.
           <a href="https://arxiv.org/abs/2510.27338">arXiv:2510.27338</a>.
-          <em>Illegibility arrives without anyone training for it.</em>
+          <em>Illegible chains appear across fourteen models that were not trained to produce
+          them. The evidence is observational: the authors say they cannot determine the causal
+          mechanism without controlled reinforcement-learning or ablation experiments, and the
+          Claude models stay legible, which they read as showing that outcome-based training does
+          not make illegibility inevitable. Truncating a QwQ chain and forcing an answer drops
+          definitely-correct answers from 24.6 to 11.5 per cent, while within-question resampling
+          finds no population-level link between illegibility and correctness (mean
+          <code>r = 0.061</code>).</em>
         </li>
         <li>
           Tutek, M., Hashemi Chaleshtori, F., Marasovi&cacute;, A., and Belinkov, Y. (2025).
@@ -1620,15 +1653,25 @@
           Hase, P., and Potts, C. (2026). &ldquo;Counterfactual Simulation Training for
           Chain-of-Thought Faithfulness.&rdquo; <em>COLM</em>.
           <a href="https://arxiv.org/abs/2602.20710">arXiv:2602.20710</a>.
-          <em>Trains for faithfulness by rewarding traces that let a simulator predict the
-          model&apos;s output on counterfactual inputs.</em>
+          <em>Trains traces to let a simulator predict the model&apos;s output on counterfactual
+          inputs, lifting monitor recall on SNLI from 12 to 87 per cent at under 3 per cent false
+          positives. What it optimises is counterfactual simulatability, which is weaker than
+          faithfulness: on two of four datasets the paper finds simulation accuracy improving
+          through more predictable answers rather than better chains, with no gain at all on MMLU
+          for model-generated counterfactuals. Training on cue-based and model-generated
+          counterfactuals does not transfer between them, and the cues are not tied to a threat
+          model.</em>
         </li>
         <li>
           Wang, H., Sun, Y., Ko, B., Talati, M., et al. (2026). &ldquo;MonitorBench: A
           Comprehensive Benchmark for Chain-of-Thought Monitorability.&rdquo; <em>COLM</em>.
           <a href="https://arxiv.org/abs/2603.28590">arXiv:2603.28590</a>.
           <em>1,514 instances across 19 tasks. A candidate for the shared instrument this area
-          lacks.</em>
+          lacks, though its headline number is not a causal-detection rate. The monitorability score
+          divides the monitor&apos;s hit rate on successful interventions by the share of successes
+          the intervention caused, then caps it at one, so a monitor that flags only the cases that
+          would have succeeded anyway can reach the ceiling while catching none of the successes
+          actually attributable to the intervention.</em>
         </li>
       </ul>
 
