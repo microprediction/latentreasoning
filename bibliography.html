@@ -1201,7 +1201,11 @@
         <li>
           Duraipandian, S. I., Boyane, A., Nagesh, S., Francis, J., Vaidheeswaran, A., and Zhu, S. (2026).
           <a href="https://arxiv.org/abs/2607.09698"><em>Interpreting Latent CoT Reasoning as Dynamical Systems</em></a>. arXiv:2607.09698.
-          <em>Treats CODI and Coconut latent-token sequences as dynamical trajectories to characterise superposition and compression mechanistically.</em>
+          <em>Treats CODI and Coconut latent-token sequences as dynamical trajectories, measuring
+          step geometry with a Lyapunov-like surrogate on GPT-2 Small at six latent steps and a
+          single seed. The description is geometric, not causal: the paper runs no intervention,
+          and says a direct correspondence with reasoning processes would need causal validation it
+          leaves to future work.</em>
         </li>
         <li>
           Fu, R., Guo, W., Wang, Y., Zhu, B., Lee, J. D., Jiao, J., Russell, S., and Mei, S. (2026).
@@ -1304,9 +1308,12 @@
           Scalena, D., Candussio, G., Bortolussi, L., Fersini, E., Nissim, M., and Sarti, G. (2026).
           <a href="https://arxiv.org/abs/2606.13603"><em>Beyond the Commitment Boundary: Probing
           Epiphenomenal Chain-of-Thought in Large Reasoning Models</em></a>. arXiv:2606.13603.
-          <em>Identifies a step after which further chain of thought is causally inert. Exiting
-          there shortens chains by up to 55 per cent on average with negligible performance
-          impact.</em>
+          <em>Identifies a step after which further chain of thought no longer changes the
+          greedily decoded answer. The paper calls such reasoning epiphenomenal rather than useless,
+          since a step can shift probability mass without moving the arg-max. Its abstract reports
+          up to 55 per cent of tokens saved, a median over the traces where a boundary was found;
+          its conclusion reports up to 35 per cent, and using the boundary as a live exit costs
+          accuracy.</em>
         </li>
         <li>
           Ning, A., Kuo, Y.-L., and Gomes, C. (2025).
@@ -1320,9 +1327,12 @@
           Popescu, A., S&aacute;ez de Oc&aacute;riz Borde, H., and Li&ograve;, P. (2026).
           <a href="https://arxiv.org/abs/2607.20519"><em>Adaptive Depth in Looped Transformers:
           Diagnosing Learned Halting Gates and Trajectory Readouts</em></a>. arXiv:2607.20519.
-          <em>Fixed-depth trajectories with a simple post-hoc confidence readout often match or beat
-          Ouro&apos;s jointly trained halting gate, tracing the problem to trajectory formation
-          rather than to gate capacity.</em>
+          <em>Fitting a halting gate to frozen trajectories separates trajectory quality from gate
+          capacity, and locates the difficulty in how the trajectory forms. That isolation runs only
+          on a four-layer model trained from scratch; Ouro&apos;s released checkpoints fix the
+          trajectory, so only the readout can be varied. There a post-hoc confidence readout beats
+          the two-stage halting gate on held-out accuracy in five of twelve model-benchmark pairs,
+          several differences small and on single runs.</em>
         </li>
         <li>
           Varshney, N., Surla, S., Xu, W., Krishnan, A., Jeblick, K., Austin, D., Vaidya, A., and

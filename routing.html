@@ -250,9 +250,12 @@
     </p>
 
     <p>
-      No head-to-head comparison exists between activation-based cross-model routing and the
-      text-based or output-confidence alternatives on the same tasks. The claim that internal state
-      helps rests on one recent unreplicated result.
+      That contrast is a real head-to-head. The text-only routers, some 1,300 configurations
+      spanning embeddings, lexical features, perplexity and a fine-tuned classifier, run on the same
+      model pools and the same held-out queries, and a paired bootstrap puts the AUC, Brier and
+      cost-curve differences clear of zero in all three pools. What has not been run is a comparison
+      against the output-confidence cascades under a shared compute budget, and nobody has
+      replicated the result independently.
     </p>
 
     <h2>Probes as live gates</h2>
@@ -265,9 +268,10 @@
     <p>
       <a href="https://arxiv.org/abs/2504.05419">Zhang et al. (2025)</a> probe reasoning-model hidden states to verify intermediate answers and
       exit early, cutting inference tokens by 24% without compromising performance. <a href="https://arxiv.org/abs/2606.13603">Scalena et al.
-      (2026)</a> identify a commitment boundary, a single step after which further chain-of-thought is
-      causally inert, and early-exiting there shortens chains by up to 55% on average with
-      negligible performance impact. <a href="https://arxiv.org/abs/2606.10487">Shu et al. (2026)</a> run a single-layer probe token by token
+      (2026)</a> identify a commitment boundary, a step after which further chain-of-thought stops
+      changing the greedily decoded answer. Their headline saving of 55% is a median over the traces
+      where a boundary was found. Run online as a gate it saves 39% of tokens and drops MATH-500
+      accuracy from 80% to 71%, with a gentler setting saving 26% at 78%. <a href="https://arxiv.org/abs/2606.10487">Shu et al. (2026)</a> run a single-layer probe token by token
       during decoding as a streaming moderation gate at sub-millisecond cost per token.
     </p>
 
