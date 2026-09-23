@@ -193,11 +193,12 @@
     <p>
       A cluster of results from late 2025 and 2026 tests monitoring against a model that would
       rather not be monitored, and the mitigations fare worse than the threat model assumed.
-      <a href="https://arxiv.org/abs/2506.01926">McCarthy et al. (2025)</a> penalise visible
+      <a href="https://arxiv.org/abs/2506.01926">Skaf et al. (2025)</a> penalise visible
       reasoning patterns under process supervision and find models learn to encode the same
-      reasoning steganographically, generalising past the penalised patterns. The monitors penalised
-      are pattern-matchers over visible strings, so what the result establishes is that pressure
-      against legibility <em>can</em> produce concealment rather than honesty, in that setting.
+      reasoning steganographically, with one encoding scheme transferring to held-out names from
+      the penalised class. The monitors are regex matchers over visible strings, so what the result
+      establishes is that pressure against legibility <em>can</em> produce concealment rather than
+      honesty, in that setting.
     </p>
 
     <p>
@@ -401,10 +402,12 @@
 
     <p>
       <a href="https://arxiv.org/abs/2506.19143">Bogdan et al. (2025)</a> give the method most used
-      to make this concrete. Sentence-level attribution over a reasoning trace identifies a small
-      set of anchor sentences that disproportionately determine the final answer, which turns
-      "is this trace causally connected to the output" into something measurable per sentence
-      rather than per trace.
+      to make this concrete. Replacing one sentence of a reasoning trace and resampling the rest
+      shows how far that sentence moves the distribution of final answers. Certain sentences,
+      mostly planning and uncertainty management, have an outsized effect. That turns "is this
+      trace causally connected to the output" into something measurable per sentence rather than
+      per trace, though the scores measure influence on sampled continuations, not a small set of
+      sentences shown necessary or sufficient for the answer.
     </p>
 
     <h2>Countervailing evidence on interpretability</h2>
