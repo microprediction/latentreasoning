@@ -605,7 +605,7 @@
         <li>
           Frey, M., Shomali, B., Bashir, A. H., Berghaus, D., Koehler, J., and Ali, M. (2026).
           <a href="https://arxiv.org/abs/2603.08391"><em>Adaptive Loops and Memory in Transformers: Think Harder or Know More?</em></a>. arXiv:2603.08391.
-          <em>Looping helps mathematical reasoning while gated memory banks recover the commonsense performance parameter-matched looped models lose.</em>
+          <em>At about 200M parameters, adaptive looping lowers bits per byte on the gold MATH answers and also beats the parameter-matched unlooped baseline on commonsense (accuracy 0.501 against 0.477). It trails a 36-layer iso-FLOP baseline on commonsense, and gated memory banks narrow that gap without closing it (0.511 against 0.535). The math metric is answer likelihood, not accuracy, which the authors say limits claims about reasoning.</em>
         </li>
         <li>
           Koriagin, N., Aksenov, Y., Bredis, N., Gerasimov, D., Balagansky, N., and Gavrilov, D. (2026).
@@ -1681,11 +1681,15 @@
           of injecting a cue.</em>
         </li>
         <li>
-          Bogdan, P., Macar, U., Nanda, N., et al. (2025).
+          Bogdan, P. C., Macar, U., Nanda, N., and Conmy, A. (2025).
           <a href="https://arxiv.org/abs/2506.19143"><em>Thought Anchors: Which LLM Reasoning Steps
-          Matter?</em></a> arXiv:2506.19143. <em>Sentence-level causal attribution over a reasoning
-          trace, identifying a small set of anchor sentences that disproportionately determine the
-          answer. Makes causal connection measurable per sentence rather than per trace.</em>
+          Matter?</em></a> arXiv:2506.19143. <em>Resamples the continuation after replacing each
+          sentence of a reasoning trace with a semantically different one, scoring how far the
+          distribution of final answers moves. On 40 traces for 20 MATH problems, certain
+          sentences, mostly planning and uncertainty management, have an outsized effect. Makes
+          causal influence measurable per sentence rather than per trace. The authors call it
+          preliminary and note that later steps can be overdetermined by independent sufficient
+          causes.</em>
         </li>
         <li>
           Boppana, S., Ma, A., Loeffler, M., et al. (2026).
@@ -1774,13 +1778,15 @@
           thought into latent space at variable compression ratios.</em>
         </li>
         <li>
-          Yang, J., Huang, Y., et al. (2026).
+          Yang, C., Huang, C., et al. (2026).
           <a href="https://arxiv.org/abs/2607.22083"><em>Nanbeige4.2-3B: Unlocking Agentic
           Capabilities in a Compact Model</em></a>. arXiv:2607.22083.
           <em>A general agentic model on a looped transformer that reuses its layer stack for depth
-          without extra parameters, 3B non-embedding parameters over 28T tokens, with open weights.
-          The first looped architecture here shipped as a product rather than as a research
-          artefact.</em>
+          without extra parameters, 3B non-embedding parameters over 28T tokens, with open weights,
+          evaluated as a local assistant inside the OpenClaw agent framework. Running it takes the
+          repository&apos;s own modelling code, and an
+          <a href="https://arxiv.org/abs/2608.13987">independent report</a> found five bugs in the
+          released checkpoint under Transformers 5.8.1.</em>
         </li>
       </ul>
 
@@ -1799,14 +1805,16 @@
           doubles detection of subtle sabotage.</em>
         </li>
         <li>
-          McCarthy, R., Skaf, J., Iba&ntilde;ez-Lissen, L., Georgiev, V., Watts, C., et al. (2025).
+          Skaf, J., Ibanez-Lissen, L., McCarthy, R., Watts, C., Georgiev, V., et al. (2025).
           &ldquo;Large language models can learn and generalize steganographic chain-of-thought
           under process supervision.&rdquo; <em>NeurIPS</em>.
           <a href="https://arxiv.org/abs/2506.01926">arXiv:2506.01926</a>.
-          <em>Penalise a model for visible reasoning patterns and it learns to encode the same
-          reasoning steganographically, generalising beyond the penalised patterns. The most direct
-          evidence that optimisation pressure against legibility produces concealment rather than
-          honesty.</em>
+          <em>RL against a regex monitor that penalises specific strings teaches small models to
+          substitute other strings that still carry the reasoning, on three constructed tasks, and a
+          name-encoding scheme transfers to held-out names from the same class. The authors call
+          the arithmetic result a minimum viable proof of concept, note that regex monitors are
+          significantly less sophisticated than monitors that might be deployed, and leave stronger monitors and reward-hacking settings
+          open.</em>
         </li>
         <li>
           Drori, J., Marks, L., Woodworth, B., Cloud, A., and Turner, A. M. (2025). &ldquo;Output
@@ -2069,7 +2077,7 @@
         <li>
           Balcells, D., Lee, A. J., Rastogi, C., Riechers, P. M., Shai, A., and Poncini, X. (2026).
           <a href="https://arxiv.org/abs/2609.17376"><em>Large Language Models Develop Belief State Geometry In-Context</em></a>. arXiv:2609.17376.
-          <em>Six open-source models prompted with hidden-Markov data carry the posterior over hidden states linearly in the residual stream, at peak probe $R^2$ of 0.83 to 0.99, with patching and steering on that subspace preserving prediction quality where controls degrade it.</em>
+          <em>Six open-source models prompted with data from 40 hidden Markov models carry the posterior over hidden states linearly in the residual stream, at peak held-out probe $R^2$ of 0.83 to 0.99, with patching and steering along the decoded directions preserving prediction quality where controls degrade it. Probes and intervention embeddings are fitted separately for each 20,000-token sequence, so whether one linear readout transfers across sequences is untested.</em>
         </li>
         <li>
           Shai, A., Marzen, S., Teixeira, L., Gietelink Oldenziel, A., and Riechers, P. (2024).
@@ -2089,7 +2097,7 @@
         <li>
           Zhu, J.-Q., and Griffiths, T. L. (2024).
           <a href="https://arxiv.org/abs/2401.16646"><em>Incoherent Probability Judgments in Large Language Models</em></a>. arXiv:2401.16646.
-          <em>Elicited probability judgments violate the probability calculus in human-like ways, with the same inverted-U mean-variance signature. A model's stated credence and its internal belief state are different objects.</em>
+          <em>Elicited probability judgments from four models on 24 event pairs violate the probability calculus in human-like ways, with the same inverted-U mean-variance signature across repeated samples. The evidence is the generated numbers alone. The link to Bayesian inference assumes truthful reporting of a latent probability rather than measuring one.</em>
         </li>
         <li>
           Xie, S. M., Raghunathan, A., Liang, P., and Ma, T. (2021).
@@ -2104,7 +2112,7 @@
         <li>
           Zhang, Y., Zhang, F., Yang, Z., and Wang, Z. (2023).
           <a href="https://arxiv.org/abs/2305.19420"><em>What and How does In-Context Learning Learn? Bayesian Model Averaging, Parameterization, and Generalization</em></a>. arXiv:2305.19420.
-          <em>Derives in-context learning as implicit Bayesian model averaging approximated by attention, with an $O(1/T)$ regret bound, under stated assumptions rather than against production models.</em>
+          <em>A perfectly pretrained predictor under the paper&apos;s latent-variable model performs Bayesian model averaging, independent of architecture. A separate construction realises it with a kernelised attention variant that approaches softmax attention only for long i.i.d. prompts with unit-norm keys and values. The $O(1/T)$ average log-loss regret assumes the true concept carries prior mass bounded below, as in a finite concept class, which a continuous prior does not give.</em>
         </li>
         <li>
           Arora, A., Jurafsky, D., Potts, C., and Goodman, N. D. (2024).
@@ -2127,9 +2135,9 @@
           <em>Tests the equivalence on an actually pretrained model and finds in-context learning and gradient descent move the output distribution differently, with different sensitivity to demonstration order. The counterweight to the constructive results above.</em>
         </li>
         <li>
-          Ak&uuml;rek, E., Schuurmans, D., Andreas, J., Ma, T., and Zhou, D. (2022).
+          Aky&uuml;rek, E., Schuurmans, D., Andreas, J., Ma, T., and Zhou, D. (2022).
           <a href="https://arxiv.org/abs/2211.15661"><em>What learning algorithm is in-context learning? Investigations with linear models</em></a>. arXiv:2211.15661.
-          <em>Transformers can implement gradient descent and ridge regression for in-context linear regression, and trained models&apos; activations match those estimators.</em>
+          <em>Hand-set weights let a transformer implement gradient descent and closed-form ridge regression for in-context linear regression. Trained models&apos; predictions match gradient descent, ridge or least squares depending on depth and noise. Probes decode the moment vector and least-squares weights from late layers through nonlinear probes, which the authors present as preliminary evidence of shared algorithmic features, not as identification of the algorithm the model runs.</em>
         </li>
         <li>
           Olsson, C., Elhage, N., Nanda, N., Joseph, N., DasSarma, N., et al. (2022).

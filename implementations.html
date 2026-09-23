@@ -53,9 +53,12 @@
 
     <p>
       The open weights are a different matter, and the gap between the two has widened. Ouro and
-      Nanbeige4.2-3B both load through standard tooling, and the latter was trained on 28T tokens
-      and shipped as a general agentic model rather than as a demonstration. Depth recurrence has
-      left the lab even though the methods around it have not.
+      Nanbeige4.2-3B both publish weights with model cards that say how to run them, and the latter
+      was trained on 28T tokens and evaluated as a general agentic model and local assistant.
+      Both repositories ship their own modelling code and both cards pin a Transformers version,
+      and Nanbeige&apos;s other documented paths run through its own branches of SGLang, vLLM,
+      llama.cpp and Ollama. Depth recurrence has reached checkpoints meant for use, even though the
+      methods around it have not.
     </p>
 
     <h2>Open model checkpoints</h2>
@@ -75,9 +78,9 @@
             <td class="nowrap">1.4B / 2.6B<br><span class="mode">7.7T tokens</span></td>
             <td>Looped language model, 24 layers, 4 recurrent steps by default with configurable
             early exit. Instruction-tuned <em>-Thinking</em> variants published alongside. Loads
-            through standard Hugging Face tooling. Claims 3&ndash;4B dense-equivalent quality at
-            2.6B parameters. The only release here a practitioner could plausibly deploy rather
-            than study.</td>
+            through Hugging Face Transformers with the repository&apos;s modelling code, pinned
+            below version 4.56. The card notes that vLLM runs it without adaptive exit. Claims
+            3&ndash;4B dense-equivalent quality at 2.6B parameters.</td>
             <td class="nowrap">Apache-2.0</td>
           </tr>
           <tr>
@@ -85,13 +88,15 @@
             <td class="nowrap">3B non-embed<br><span class="mode">28T tokens</span></td>
             <td>A general agentic model built on a looped transformer that reuses its layer stack
             for extra depth without extra parameters, trained on 28T tokens and released with open
-            weights. Roughly thirty-five times the training tokens of Huginn and about four times Ouro,
-            and the first case here of a looped architecture shipped as a general-purpose product
-            rather than as a research artefact. An independent
-            <a href="https://arxiv.org/abs/2608.13987">deployment report</a> documents five bugs
-            breaking the released checkpoint under Hugging Face Transformers on Apple Silicon,
-            including a silently zeroed RoPE buffer.</td>
-            <td class="nowrap">see repo</td>
+            weights. Roughly thirty-five times the training tokens of Huginn and about four times Ouro.
+            Its technical report evaluates it as a local assistant inside the OpenClaw agent framework. The card loads it
+            with repository code under Transformers 4.45.1, and serves it through Nanbeige&apos;s own
+            branches of SGLang, vLLM, llama.cpp and Ollama. An independent
+            <a href="https://arxiv.org/abs/2608.13987">deployment report</a>, run against
+            Transformers 5.8.1 on Apple Silicon, documents five bugs in the released checkpoint,
+            including a silently zeroed RoPE buffer and a model-construction error that is not
+            specific to Apple hardware.</td>
+            <td class="nowrap">Apache-2.0</td>
           </tr>
           <tr>
             <td><a href="https://huggingface.co/tomg-group-umd/huginn-0125">Huginn-0125</a></td>
