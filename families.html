@@ -87,10 +87,13 @@
         On ProsQA, a synthetic DAG-shaped multi-hop task released with the paper, Coconut reaches 97.0% against 77.5% for explicit chain of thought on a GPT-2 base, and the
         continuous thought vectors turn out to encode a <em>frontier</em> of several candidate
         reasoning paths rather than a single committed one, giving breadth-first-like search.
-        <a href="https://arxiv.org/abs/2505.12514">Zhu et al. (2025)</a> proved this is not an artifact: a two-layer transformer using $D$
-        continuous steps solves directed graph reachability where $D$ is the graph diameter, while
-        the best known <em>constant-depth</em> discrete-CoT construction needs $O(n^2)$ decoding
-        steps.
+        <a href="https://arxiv.org/abs/2505.12514">Zhu et al. (2025)</a> construct a two-layer
+        transformer that uses $D$ continuous steps to solve directed graph reachability, where $D$ is
+        the graph diameter, for a fixed maximum input length and with width growing with the
+        vocabulary, one orthonormal token per node. The best known <em>constant-depth</em>
+        discrete-CoT construction needs $O(n^2)$ decoding steps, and no lower bound is proved. In
+        their trained two-layer models the frontier shows up in attention and embedding similarity,
+        with no intervention testing whether the answer uses it.
       </p>
       <h4>The GSM8K result</h4>
     <p>On GSM8K, Coconut gets
@@ -132,14 +135,17 @@
         the original text is discarded.
       </p>
       <p>
-        CCoT (Cheng &amp; Van Durme 2024) generates variable-length dense representations as a
-        drop-in replacement for the rationale on off-the-shelf decoders, with a tunable compression
-        ratio. At a ratio of 0.10 it buys roughly nine accuracy points over emitting nothing while
+        CCoT (Cheng &amp; Van Durme 2024) fine-tunes an off-the-shelf decoder to generate
+        variable-length dense representations in place of the rationale, plus a separate answer
+        decoder, since the compressed states are out of distribution for the base model. The
+        compression ratio is fixed at training time, with a learned stopping rule setting the count
+        per example. At a ratio of 0.10 it buys roughly nine accuracy points over emitting nothing while
         adding about 0.4s of generation against 8.1s for the full decode. </p>
       <p>
         LightThinker (Zhang et al. 2025) compresses during generation and evicts the original tokens from context using
         specialised attention masks. Heima (Shen et al. 2025) does the multimodal version and pairs
-        it with an auxiliary interpreter that reconstructs the discarded text. KaVa (Kuzina et al.
+        it with trained interpreters that write approximate text back from the question and the
+        thinking token, at a reasoning-stage BLEU of 11.2. KaVa (Kuzina et al.
         2025) attacks the KV cache directly, distilling a compressed teacher cache into a latent
         student and finding CoT-bearing caches highly redundant.
       </p>
@@ -208,8 +214,9 @@
       <p>
         The pragmatic response to the fact that neither endpoint dominates. Token Assorted (Su et
         al. 2025) abstracts only the <em>early</em> portion of a trace into discrete VQ-VAE latent
-        tokens and mixes them with ordinary text, reporting gains of 4&ndash;13% across model sizes
-        with traces about 17% shorter. SpiralThinker (Piao &amp; Park 2025) alternates latent
+        tokens and mixes them with ordinary text. Averaged over seven maths benchmarks, accuracy rises
+        3.7, 2.9 and 4.5 points over the best baseline at 1B, 3B and 8B, with a 13.3-point gain on
+        one 8B task, and responses average about 17% fewer tokens than chain of thought. SpiralThinker (Piao &amp; Park 2025) alternates latent
         iterations with text. LOTUS (Fan et al. 2026) supervises loop latents in parallel and is
         reported as the first latent-CoT method to close the gap with explicit CoT at 3B scale,
         having noted that earlier latent methods fall behind past 1B and that the gap widens with
