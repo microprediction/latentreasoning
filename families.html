@@ -197,8 +197,9 @@
       </p>
       <p>
         The negative result is equally important: <a href="https://arxiv.org/abs/2411.11371">Vennam et al. (2024)</a> find naive thinking tokens
-        consistently underperform real chain of thought, because a single repeated embedding
-        produces noisy gradients. Contentless tokens are a proof about expressivity, not a
+        underperform supervised chain of thought on small models. They hypothesise that the single
+        repeated embedding receives noisy gradients, though they report no task accuracy for the
+        two-embedding variant that would test it. Contentless tokens are a proof about expressivity, not a
         practical substitute.
       </p>
     </div>
@@ -256,10 +257,11 @@
         strong results on these puzzle benchmarks.
       </p>
       <p class="muted">
-        Several results cut against the reading. <a href="https://arxiv.org/abs/2601.10679">Ren, Liu et
-        al. (2026)</a> probe HRM and find it fails on trivially simple puzzles and appears to rely
-        on pattern matching rather than the hierarchical process claimed for it. The team that runs
-        the benchmark reached a similar place earlier: in
+        Several results cut against the reading. <a href="https://arxiv.org/abs/2601.10679">Ren and Liu
+        (2026)</a> find HRM can fail on a Sudoku with one unknown cell, because a correct answer is
+        not always a stable fixed point, and that it tends to settle on the first fixed point it
+        reaches, sometimes a wrong one. They call this &ldquo;guessing&rdquo; rather than reasoning.
+        They do not ablate the hierarchy itself. The team that runs the benchmark did: in
         <a href="https://arcprize.org/blog/hrm-analysis">their own ablations</a> the hierarchical
         architecture &ldquo;had minimal performance impact when compared to a similarly sized
         transformer,&rdquo; while the under-documented outer refinement loop drove most of the gain,

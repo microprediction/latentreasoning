@@ -146,9 +146,12 @@
       <em>Confidence: high, checked by full-text search of the four surveys.</em>
     </li>
     <li>
-      Weights-as-memory and cache-as-scratchpad have never been compared head to head.
-      Test-time training compresses context into weights; KV-cache distillation compresses it into
-      the cache. No paper evaluates them against each other on reasoning tasks.
+      Weights-as-memory and cache-as-memory have been compared only on long-context language
+      modelling. <a href="https://arxiv.org/abs/2512.23675">TTT-E2E</a> writes the test context
+      into updated weights and is measured against full and sliding-window attention, which keeps
+      the context in the cache. Full attention wins on needle-in-a-haystack recall. No paper runs
+      that comparison on multi-step reasoning. KaVa, the nearest cache-side reasoning method,
+      compresses a teacher&apos;s chain of thought during training, not a test context.
       <em>Confidence: medium.</em>
     </li>
     <li>
@@ -268,7 +271,7 @@ const NODES = [
  {id:"filler", c:"contentless", label:"Filler tokens", big:true, url:"https://arxiv.org/abs/2404.15758",
   note:"Pfau, Merrill & Bowman 2024. Repeated dots solve tasks unsolvable in one pass, under dense supervision. The control experiment for the field."},
  {id:"thinkfail", c:"contentless", label:"⟂ Thinking tokens fail", url:"https://arxiv.org/abs/2411.11371",
-  note:"Vennam et al. 2024. Naive thinking tokens underperform real CoT — one repeated embedding gives noisy gradients."},
+  note:"Vennam et al. 2024. Naive thinking tokens underperform supervised CoT on small models. The authors hypothesise noisy gradients on the one repeated embedding."},
  {id:"dots", c:"contentless", label:"Reading between the dots", url:"https://arxiv.org/abs/2607.03502",
   note:"2026. Filler computation defeats token-level monitoring, yet unsupervised decoding of hidden states recovers intermediates at 80–95%. Monitorability lives in activations."},
 
@@ -292,7 +295,7 @@ const NODES = [
 
  // adjacent / frontier
  {id:"kava", c:"adjacent", label:"KV-cache distillation", url:"https://arxiv.org/abs/2510.02312",
-  note:"KaVa 2025. Distils a compressed teacher KV cache into a latent student; CoT-bearing caches are highly redundant. Cache-as-scratchpad."},
+  note:"KaVa 2025. Distils a compressed teacher KV cache into a latent student; CoT-bearing caches are highly redundant. Teacher cache and eviction are training-only. At inference the student generates its own latent cache."},
  {id:"ladir", c:"adjacent", label:"Latent diffusion reasoning", url:"https://arxiv.org/abs/2510.04573",
   note:"LaDiR 2025. Continuous latent representation with iterative diffusion refinement."},
  {id:"rltt", c:"adjacent", label:"Rewarding latent trajectories", url:"https://arxiv.org/abs/2602.10520",
@@ -397,7 +400,7 @@ const LINKS = [
  {s:"rltt", t:"cotvlatent", k:"gap", lab:"which auxiliary objective, and why"},
  {s:"isodepth", t:"ouro", k:"builds", lab:"one recurrence, priced"},
  {s:"isodepth", t:"reddi", k:"builds"},
- {s:"kava", t:"huginn", k:"gap", lab:"cache vs weights, never compared"},
+ {s:"kava", t:"huginn", k:"gap", lab:"cache vs weights, not compared on reasoning"},
  {s:"mamba", t:"ssm", k:"builds"},
  {s:"ssm", t:"hub", k:"gap", lab:"untested beyond tiny scale"},
  {s:"ladir", t:"ladirl", k:"builds"},
