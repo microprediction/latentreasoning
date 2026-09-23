@@ -300,10 +300,13 @@
 
     <p>
       <a href="https://arxiv.org/abs/2410.03768">Mathew et al. (2024)</a> report the more troubling version: steganographic collusion between
-      agents emerging from ordinary mis-specified RL incentives rather than deliberate training,
-      and robust to passive output monitoring and to paraphrase-based mitigation. <a href="https://arxiv.org/abs/2505.03439">Karpov et al.
-      (2025)</a> find frontier models developing covert encoding schemes in realistic settings, though
-      current capability is rudimentary and decoding accuracy falls off sharply with payload
+      agents emerging from a mis-specified reward rather than deliberate training, in a synthetic
+      screening task built so that a hidden attribute pays. In separate experiments where the
+      collusion is explicitly requested, passive output monitoring and paraphrasing prove not
+      fully effective against channels optimised against those same fixed defences. <a href="https://arxiv.org/abs/2505.03439">Karpov et al.
+      (2025)</a> find prompted frontier models capable of steganography in setups they call
+      idealized, and RL fine-tuning of an 8B model improving it by about 20% for a 3-bit
+      payload. Capability is rudimentary and decoding accuracy falls off sharply with payload
       length.
     </p>
 
