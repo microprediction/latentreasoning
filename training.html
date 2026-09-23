@@ -65,9 +65,12 @@
       href="https://arxiv.org/abs/2405.14838">Deng, Choi &amp; Shieber 2024</a>) replaces it with
       nothing. Tokens are deleted from the front of the rationale on a schedule, a fixed number per
       epoch, with the optimizer state reset at each deletion, until the model goes from question to
-      answer with no intermediate positions at all. Whatever computation the chain carried has to
-      move into the layer stack of the remaining positions. The paper's ablations show how sensitive
-      the procedure is. Without the smoothing that
+      answer with no intermediate positions at all. The evidence is answer accuracy. Whether the
+      hidden states now reproduce the deleted steps or implement some other route to the same
+      answers is not tested: the paper runs no probe or intervention and lists probing as future
+      work. The procedure is also fragile. Of two 9&times;9 multiplication runs differing only in
+      seed, one solved the task after the last chain token was gone and the other did not.
+      Without the smoothing that
       randomizes the deletion point, accuracy drops to zero and does not recover. Without the optimizer
       reset, the same thing happens within about a hundred steps.
     </p>
