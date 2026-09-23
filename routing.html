@@ -260,6 +260,34 @@
       replicated the result independently.
     </p>
 
+    <h4>Label-conditioned classifiers as text routers</h4>
+    <p>
+      <a href="https://arxiv.org/abs/2508.07662">GLiClass</a> and
+      <a href="https://aclanthology.org/2025.emnlp-demos.10/">GLiNER2</a> score a query against a
+      list of candidate labels in one encoder pass, and TypeSafe&apos;s
+      <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">Jev</a> offers the
+      same kind of decision through a hosted API. Any of them can pick a route, a tool or an
+      escalation without generating text. They read the text they are given, not a running
+      model&apos;s activations, so they belong in the prompt-text row of the table whatever their
+      own activations do. Deciding without a written rationale does not show latent reasoning, and
+      fixed-depth classification is still inference. The
+      <a href="./bibliography.html">bibliography</a> lists them with their antecedents, and the
+      <a href="./prediction.html">prediction</a> page covers what their scores mean.
+    </p>
+
+    <p>
+      The GLiNER2 paper scores its classifier against GLiClass, a DeBERTa cross-encoder and GPT-4o
+      on the same public sets. I found no comparison that puts Jev against the open encoders, or
+      any of them against a reasoning model, on the same decisions. GLiClass times itself at batch
+      size 1 on one GPU. TypeSafe reports agreement with a frontier-model reference on its own
+      workflows, timed as calls to its service. A fair comparison would fix the input text, the
+      label descriptions and the candidate set, including a none-of-these option. It would include
+      a small generative model constrained to the same labels, since unconstrained generation is
+      the easiest baseline to beat on cost. It would score against outcomes with a proper score,
+      charge each system its full latency and cost at a stated batch size, and separate the gain
+      from decomposing a task into several questions from the gain due to the model.
+    </p>
+
     <h2>Probes as live gates</h2>
 
     <p>
