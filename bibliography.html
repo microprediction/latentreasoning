@@ -782,19 +782,19 @@
           <em>An ablation on the released checkpoint: replacing the puzzle-identifier token with a blank or random token yields zero accuracy, roughly eleven points of Pass@1 come from majority-vote test-time augmentation, and accuracy saturates after a few recursion steps.</em>
         </li>
         <li>
-          Liang, Y., and Pan, X. (2026).
+          Liang, J., and Pan, L. (2026).
           <a href="https://arxiv.org/abs/2602.00449"><em>Do Latent-CoT Models Think Step-by-Step? A Mechanistic Study on Sequential Reasoning Tasks</em></a>. arXiv:2602.00449.
-          <em>On longer hop-lengths CODI does not execute a full latent rollout, instead using a partial pathway concentrated on late intermediates that fuses with the final input position, and that pathway collapses under regime shift.</em>
+          <em>In three-layer CODI students trained on a synthetic modular recurrence, longer hop-lengths do not produce a full latent rollout: the latent trace carries the last one or two intermediates, which fuse with the final input at the answer position. Students trained separately on prime moduli, where every nonzero update is invertible, reach about 8-9% accuracy and show no such pathway. The paper calls this collapse under regime shift, but the contrast is between separately trained models on different tasks, not one model meeting shifted inputs.</em>
         </li>
         <li>
-          Kim, S., Kim, J., Lee, S., Kim, D., Seo, M., Lee, K., and Lee, J. (2026).
+          Kim, J., Kim, S., Lee, N., Kim, Y., Seo, J., Lee, G., and Lee, J. (2026).
           <a href="https://arxiv.org/abs/2609.04489"><em>Towards Understanding Pause Token Fine-Tuning Dynamics: A Mode Retention Perspective</em></a>. arXiv:2609.04489.
-          <em>Offers a training-dynamics account of pause-token gains as a rival to the expressivity explanation: masked pauses overwrite previously learned distributions about four times less at matched adaptation.</em>
+          <em>Offers a training-dynamics account of pause-token gains as a rival to the expressivity explanation. The fourfold figure comes from a synthetic two-regime pilot with a two-layer transformer: at matched fit to the new regime, held-out loss on the old one sits near 1.5 nats with masked pauses and near 6 without. The 1B-8B results are accuracy gains for pauses placed at step boundaries, and mode retention as their cause remains a working hypothesis.</em>
         </li>
         <li>
-          Tang, J., Fang, Y., Sun, W., Liu, Z., Wang, S., Zhao, X., Zhang, J., Liu, Y., Liu, Q., Zhang, M., and Chen, Z. (2026).
+          Tang, Y., Fang, Y., Sun, Y., Liu, J., Wang, Z., Zhao, X., Zhang, W., Liu, B., Liu, K., Zhang, W., and Chen, K. (2026).
           <a href="https://arxiv.org/abs/2608.23256"><em>Is Next-Chunk Reasoning RL Really Better than SFT? Revisiting Training Strategies under no-CoT Data</em></a>. arXiv:2608.23256.
-          <em>A mixed supervised baseline, trained jointly on no-CoT and long-CoT data, beats next-chunk reasoning RL using over sixty times less training compute, in and out of domain.</em>
+          <em>On one Qwen3-30B-A3B base with one data mixture, a mixed supervised baseline trained jointly on no-CoT and long-CoT data, followed by the same RLVR stage, beats next-chunk reasoning RL on the average of six math benchmarks, though not on each, and on all three out-of-domain ones. The sixty-fold saving is for the stage that uses the no-CoT data, 65.6 GPU-hours against 4,284 and 4,608. The shared RLVR stage is excluded and its cost unreported, so the end-to-end ratio is unknown.</em>
         </li>
         <li>
           Sirivella, N., Newaz, A., and Melo, G. (2026).
@@ -972,9 +972,12 @@
           <a href="https://transformer-circuits.pub/2026/workspace/index.html"><em>Verbalizable
           Representations Form a Global Workspace in Language Models</em></a>. Transformer Circuits
           Thread, 6 July 2026.
-          <em>Argues models maintain a privileged band of verbalizable representations used for
-          flexible multi-step reasoning, with other computation running outside it entirely
-          unverbalised. If a workspace is what monitoring reads, the question about any architecture
+          <em>Argues models maintain a privileged band of verbalizable representations, read
+          through a Jacobian lens over single-token concepts, that mediate report and flexible
+          multi-step reasoning, while some automatic computations survive ablating it. The authors
+          call the lens an imperfect tool that captures the workspace &ldquo;approximately and
+          incompletely,&rdquo; so computation outside it is not shown to be unverbalisable, and
+          they decline to call monitoring it sufficient. If a workspace is what monitoring reads, the question about any architecture
           is how much of its computation passes through it. Not on arXiv.</em>
         </li>
         <li>
@@ -997,16 +1000,22 @@
           Mathew, Y., Matthews, O., McCarthy, R., Velja, J., Schroeder de Witt, C., et al. (2024).
           <a href="https://arxiv.org/abs/2410.03768"><em>Hidden in Plain Text: Emergence &amp;
           Mitigation of Steganographic Collusion in LLMs</em></a>. arXiv:2410.03768.
-          <em>Steganographic collusion emerging from ordinary mis-specified RL incentives rather
-          than deliberate training, and robust to passive monitoring and paraphrase-based
-          mitigation. The more troubling version of the result.</em>
+          <em>Steganographic collusion emerging from a mis-specified reward rather than deliberate
+          training, in a synthetic candidate-screening task built so that a hidden sensitive
+          attribute pays: a Gemma-2-2B sender learns, unprompted, to pass it to the receiver past
+          an overseer. Separately, a Claude 3.5 Sonnet team explicitly told to build a covert
+          channel finds strategies that passive monitoring and paraphrasing do not fully stop, when
+          evaluated against the same fixed defences it was optimised against.</em>
         </li>
         <li>
-          Karpov, A., Adeleke, A., Cho, J., and Perez-Campanero, N. (2025).
+          Karpov, A., Adeleke, T., Cho, S. H., and P&eacute;rez-Campanero Antol&iacute;n, N. (2025).
           <a href="https://arxiv.org/abs/2505.03439"><em>The Steganographic Potentials of Language
           Models</em></a>. arXiv:2505.03439.
-          <em>RL-fine-tuned frontier models develop covert encoding schemes in realistic settings,
-          though capability is rudimentary and decoding accuracy falls off with payload length.</em>
+          <em>RL fine-tuning of Llama-3.1-8B-Instruct, updating only the encoder, improves
+          undetected transmission of a roughly 3-bit payload by about 20% in a stylised
+          summarisation task. The frontier models (GPT-4o, Claude 3.5 Sonnet, o1) are prompted, not
+          fine-tuned, in setups the authors call idealized. Capability is rudimentary and decoding
+          accuracy falls off with payload length.</em>
         </li>
         <li>
           Zolkowski, A., Nishimura-Gasparian, K., McCarthy, R., Zimmermann, R., and Lindner, D.
@@ -1096,21 +1105,30 @@
           all length-$K$ prompts fails by counting once $|V|^K > 2^{dp}$.</em>
         </li>
         <li>
-          Yang, Z., Li, J., Xia, H., and Hu, X. (2025).
+          Yang, Z., Li, J., Xia, S., and Hu, X. (2025).
           <a href="https://arxiv.org/abs/2505.14530"><em>Internal Chain-of-Thought: Empirical
           Evidence for Layer-wise Subtask Scheduling in LLMs</em></a>. arXiv:2505.14530.
           <em>Across fifteen two-step composite tasks, distinct subtasks are learned at different
           depths and executed in sequence across layers: multi-step structure inside a single
-          forward pass.</em>
+          forward pass. The ordering comes from LogitLens, which the authors call correlational.
+          Their causal check, on Llama-3.1-8B only, adds a vector along the difference of two
+          unembedding rows rather than patching in an activation from the alternative prompt. The
+          final answer does move to the alternative composite answer, but the edit is a steering
+          vector, not the model&apos;s own counterfactual intermediate state.</em>
         </li>
         <li>
-          Du, Z., Wang, C., Bai, Y., and Cao, Y. (2025).
-          <a href="https://arxiv.org/abs/2511.09149"><em>Enabling Agents to Communicate Entirely in
-          Latent Space</em></a>. arXiv:2511.09149.
+          Du, Z., Wang, R., Bai, H., Cao, Z., Zhu, X., Cheng, Y., Zheng, B., Chen, W., and Ying, H.
+          (2025). <a href="https://arxiv.org/abs/2511.09149"><em>Enabling Agents to Communicate
+          Entirely in Latent Space</em></a>. arXiv:2511.09149.
           <em>Agent-to-agent communication that bypasses tokens on the argument that discretising
-          internal states limits what can be transmitted. The concrete version of the neuralese
-          concern in <a href="./monitorability.html">monitorability</a>: multi-agent traffic with no
-          readable channel by construction.</em>
+          internal states limits what can be transmitted. In the full-length version the sender
+          still generates a text plan, and the receiver takes the last-layer hidden states recorded
+          while generating it, so a readable plan exists alongside the message. A separately
+          trained compressor emits short latent messages without decoding any tokens. That variant
+          is the concrete version of the neuralese concern in
+          <a href="./monitorability.html">monitorability</a>: multi-agent traffic with no native
+          text transcript, though the authors treat interpretability as open rather than showing
+          the messages undecodable. Mainly a two-agent feasibility study on ALFWorld and MATH.</em>
         </li>
       </ul>
 
