@@ -317,12 +317,13 @@
       surveys use.
     </p>
 
-    <h3>Prompted implicit reasoning is mostly shortcuts</h3>
+    <h3>Prompted and trained implicit reasoning differ</h3>
     <p>
-      <a href="https://arxiv.org/abs/2411.15862">Yu (2024)</a> finds that models merely <em>prompted</em> to reason implicitly barely compute
-      genuine intermediate steps and lean on memorised shortcuts. Models specifically
-      <em>trained</em> for implicit CoT do show evidence of real internal stepwise computation.
-      Both are brittle to superficial reformatting. Claims that "the model is reasoning
+      <a href="https://arxiv.org/abs/2411.15862">Yu (2024)</a> probes models answering generated multi-step arithmetic directly. In a
+      model merely <em>prompted</em> to reason implicitly, the intermediate results are hardly
+      decodable. In one <em>trained</em> for implicit CoT they are, consistent with stepwise
+      internal computation, though no intervention shows the model uses them. Both lose accuracy
+      when the equations are reversed or the values scaled. Claims that "the model is reasoning
       internally" need to say which of these two situations they are in.
     </p>
 
