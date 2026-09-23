@@ -322,7 +322,7 @@ const NODES = [
  {id:"tarpo", c:"latent", label:"Latent/explicit routing", url:"https://arxiv.org/abs/2606.05859",
   note:"TARPO 2026. An action head reads the hidden state each step and decides: emit a token, or stay latent. The site's central dial, made a learned per-step decision."},
  {id:"probegate", c:"monitor", label:"Probes as live gates", url:"https://arxiv.org/abs/2504.05419",
-  note:"Probes on hidden states verifying intermediate answers and driving early exit: 24% fewer inference tokens. Exiting at the commitment boundary saves a reported median 55% of tokens on traces where a boundary is found, and 39% when run online, at 71% accuracy against 80% for the full chain."},
+  note:"Probes on hidden states scoring intermediate answers, with early exit simulated on completed traces: about 24% fewer tokens at 88.2% accuracy against 88.6%. Exiting at the commitment boundary saves a reported median 55% of tokens on traces where a boundary is found, and 39% when run online, at 71% accuracy against 80% for the full chain."},
  {id:"probefail", c:"monitor", label:"\u22a5 Probes read the surface", url:"https://arxiv.org/abs/2509.21344",
   note:"Box\u00f3, Neelappa & Raval 2025. Filter out tokens carrying explicit textual evidence and probe AUROC drops 10\u201330 points; sandbagging detection falls 0.94 to 0.57. Much activation monitoring is reading the same surface signal a text monitor sees."},
  {id:"survey", c:"adjacent", label:"Survey", url:"https://arxiv.org/abs/2507.06203",

@@ -147,8 +147,10 @@
 
     <p>
       So the choice is not between oversight and none. It is between token-level oversight, cheap, general, human-readable, currently somewhat informative, and activation-level
-      oversight, which is experimental, needs bespoke tooling per architecture, and has not been
-      demonstrated at frontier scale or under adversarial pressure. Losing the cheap general channel
+      oversight, which is experimental and needs bespoke tooling per architecture. Probes that
+      predict the final answer have run on open-weight models as large as DeepSeek-R1, but
+      activation-based safety oversight has not been validated as a general method or under
+      adversarial pressure. Losing the cheap general channel
       before the expensive bespoke one is mature is the actual argument, and it is a good one.
     </p>
 
@@ -160,25 +162,31 @@
       an implicit bias, and unfaithful illogical shortcuts, where subtly flawed reasoning makes a
       speculative answer look proven. The phenomenon is not an artefact of injecting a cue.
       <a href="https://arxiv.org/abs/2603.05488">Boppana et al. (2026)</a> report what they call
-      performative chain of thought on DeepSeek-R1 and GPT-OSS-120B. The model becomes internally
-      confident in an answer and carries on emitting tokens that do not reveal that belief.
+      performative chain of thought on DeepSeek-R1 and GPT-OSS-120B. Activation probes and forced
+      answering predict the eventual answer well before a text monitor sees a commitment, far
+      more on MMLU than on GPQA-Diamond. The authors read this as a conclusion reached early.
+      The measurements show that the final answer is predictable early, not that the model holds
+      a settled belief the remaining tokens leave unused.
     </p>
 
     <p>
       <a href="https://arxiv.org/abs/2608.29070">Shi et al. (2026)</a> add a specific gap. Chains of
       thought do not uniformly surface the hidden directives a model has been given, which
       undermines the assumption that reading the trace tells you what the model was instructed to
-      do. And <a href="https://arxiv.org/abs/2607.22925">Baherwani et al. (2026)</a> demonstrate
-      across thirteen frontier models that semantically irrelevant filler tokens support hidden
-      computation, which is the filler-token result at deployment scale rather than on synthetic
-      tasks.
+      do. And <a href="https://arxiv.org/abs/2607.22925">Baherwani et al. (2026)</a> find that many
+      of thirteen frontier models, though not all, gain accuracy from fixed filler spans that carry
+      no problem-specific information. That moves the filler-token result to frontier models, but
+      the tasks remain generated arithmetic and code, and the authors do not claim filler tokens
+      evade a monitor in a realistic setting.
     </p>
 
     <p>
       Not everything points one way.
       <a href="https://arxiv.org/abs/2603.05706">Chen Yueh-Han et al. (2026)</a> find that reasoning
-      models largely <em>cannot</em> deliberately control what they verbalise when asked to, which
-      cuts against the worry that models will simply learn to hide.
+      models largely <em>cannot</em> control what they verbalise when instructed to, with
+      controllability mostly below 10%. That is reassuring about current prompted control. It is a
+      proxy, though. No model is trained to evade a monitor, and within the open-weight families
+      tested controllability rises with size.
       <a href="https://arxiv.org/abs/2602.03978">Xiong et al. (2026)</a> report monitorability
       improving on its own early in verifiable-reward training, though with two qualifications the
       headline invites one to skip: the effect is &ldquo;not universal&rdquo; and strongly
@@ -186,7 +194,10 @@
       increased attention to the prompt rather than to stronger causal reliance on the reasoning
       trace.
       <a href="https://arxiv.org/abs/2602.18297">Anwar et al. (2026)</a> give the mutual-information
-      formalisation the position paper lacks, as a necessary rather than sufficient condition.
+      formalisation the position paper lacks. When the monitored attribute is a function of the
+      prompt and final output, mutual information between trace and output is necessary for a
+      monitor to gain from reading the trace, though not sufficient. A hidden intention that never
+      reaches the output falls outside the theorem.
     </p>
 
     <h4>Stress-testing the monitor</h4>

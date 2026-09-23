@@ -221,8 +221,10 @@
       at each generation step and samples a binary decision: emit a discrete token, or continue in
       continuous latent space. HyLaR (<a href="https://arxiv.org/abs/2604.20328">Cheng et al. 2026</a>) does the multimodal version, interleaving
       text generation with continuous visual latents to avoid the semantic collapse that
-      discretising an image causes, trained with separate trust-region constraints for the textual
-      and latent components.
+      discretising an image causes, trained with separate clipping ranges for the textual and
+      latent components. Its latent objective starts from a von Mises-Fisher policy, but the
+      version it reports drops the normalisation, and the authors say the exact KL reading then
+      no longer strictly holds.
     </p>
 
     <p>
@@ -266,8 +268,11 @@
     </p>
 
     <p>
-      <a href="https://arxiv.org/abs/2504.05419">Zhang et al. (2025)</a> probe reasoning-model hidden states to verify intermediate answers and
-      exit early, cutting inference tokens by 24% without compromising performance. <a href="https://arxiv.org/abs/2606.13603">Scalena et al.
+      <a href="https://arxiv.org/abs/2504.05419">Zhang et al. (2025)</a> probe reasoning-model hidden states to score intermediate answers,
+      then simulate early exit by truncating completed traces at the first chunk the probe
+      trusts. That cuts tokens by about 24% at 88.2% accuracy against 88.6% without exit, or 19%
+      at no loss. The chunks come from parsing the finished trace, so the gate is never run
+      during generation. <a href="https://arxiv.org/abs/2606.13603">Scalena et al.
       (2026)</a> identify a commitment boundary, a step after which further chain-of-thought stops
       changing the greedily decoded answer. Their headline saving of 55% is a median over the traces
       where a boundary was found. Run online as a gate it saves 39% of tokens and drops MATH-500

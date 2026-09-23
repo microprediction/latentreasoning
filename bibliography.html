@@ -561,9 +561,9 @@
           <em>Uses gating to counter the representational collapse of naive depth sharing, with fixed prelude and coda around a single shared recurrent core.</em>
         </li>
         <li>
-          Viakhirev, M., Borodin, D., Almutairi, F., Barannikov, S., Abramov, A., and Mkrtchian, G. (2026).
-          <a href="https://arxiv.org/abs/2608.18222"><em>Dynamical Regimes of a Trained Recurrent Operator</em></a>. arXiv:2608.18222.
-          <em>Identifies a measurable settling, marginal or drifting regime that predicts whether more test-time iterations help, hurt or do nothing, with a sufficient depth-safety condition.</em>
+          Viakhirev, I., Borodin, K., Almutairi, A., Barannikov, S., Abramov, M., and Mkrtchian, G. (2026).
+          <a href="https://arxiv.org/abs/2608.18222"><em>Think Shallow, Solve Deep: Controlling Recurrent Dynamics for Reliable Test-Time Depth</em></a>. arXiv:2608.18222.
+          <em>Associates a measured settling, marginal or drifting regime with whether more test-time iterations help, hurt or do nothing, empirically, on small controlled models trained from 800 examples per tier. The formal depth-safety condition needs the total remaining path length, summed over all future steps, to stay below the decoder margin. It guarantees the answer stops changing, not that it is correct.</em>
         </li>
         <li>
           Kim, S., Hayashi, H., Kamiya, T., Koyama, M., Iwasawa, Y., and Matsuo, Y. (2026).
@@ -644,13 +644,14 @@
           repeated embedding produces noisy, inconsistent gradients.</em>
         </li>
         <li>
-          Yu, G. (2024).
+          Yu, Y. (2024).
           <a href="https://arxiv.org/abs/2411.15862"><em>Do LLMs Really Think Step-by-step In
           Implicit Reasoning?</em></a> arXiv:2411.15862.
-          <em>Models merely <em>prompted</em> to reason implicitly barely compute genuine
-          intermediate steps and lean on memorised shortcuts. Models specifically
-          <em>trained</em> for it do show real internal computation. Both are brittle to
-          reformatting.</em>
+          <em>On generated multi-step arithmetic, probes on a <em>prompted</em> Qwen2.5-72B recover
+          the first and last results but hardly the intermediate ones, while a Mistral-7B
+          <em>trained</em> to internalise chain of thought yields decodable intermediates. Probe
+          decodability, with no intervention showing the model uses them. Both models lose
+          accuracy when the equations are reversed or the values scaled.</em>
         </li>
         <li>
           Wu, Y., Lu, K., Ren, X., Hu, J., Wu, X., et al. (2025).
@@ -1354,19 +1355,23 @@
           latent space, made a learned choice.</em>
         </li>
         <li>
-          Cheng, T., Chen, S.-Z., Zhang, H., Qin, J., Luo, P., and Wei, X. (2026).
-          <a href="https://arxiv.org/abs/2604.20328"><em>Hybrid Latent Reasoning with Decoupled
+          Cheng, T., Chen, S.-Z., Zhang, H., Qin, Y., Luo, J., and Wei, Z. (2026).
+          <a href="https://arxiv.org/abs/2604.20328"><em>HyLaR: Hybrid Latent Reasoning with Decoupled
           Policy Optimization</em></a>. arXiv:2604.20328.
           <em>Interleaves discrete text with continuous visual latents for multimodal models,
-          trained with separate trust-region constraints for the two components.</em>
+          trained with separate clipping ranges for the two components. The latent objective is
+          derived from a von Mises-Fisher policy with a closed-form KL, but the reported system
+          uses an unnormalised surrogate for which, the authors say, that interpretation no longer
+          strictly holds.</em>
         </li>
         <li>
           Zhang, A., Chen, Y., Pan, J., Zhao, C., Panda, A., Li, J., and He, H. (2025).
           <a href="https://arxiv.org/abs/2504.05419"><em>Reasoning Models Know When They&apos;re
           Right: Probing Hidden States for Self-Verification</em></a>. arXiv:2504.05419.
-          <em>A probe verifies intermediate answers and drives early exit, cutting inference tokens
-          by 24 per cent without compromising performance. One of the few probes used as a live gate
-          rather than as analysis.</em>
+          <em>A probe scores intermediate answers for correctness. Truncating completed traces at the
+          first chunk it trusts cuts tokens by about 24 per cent at 88.2 per cent accuracy against
+          88.6 without exit, or 19 per cent at 88.6, on one model and MATH. The exit is simulated
+          after the fact on chunks parsed from the full trace, not run as a live gate.</em>
         </li>
         <li>
           Scalena, D., Candussio, G., Bortolussi, L., Fersini, E., Nissim, M., and Sarti, G. (2026).
@@ -1540,8 +1545,11 @@
           Boppana, S., Ma, A., Loeffler, M., et al. (2026).
           <a href="https://arxiv.org/abs/2603.05488"><em>Reasoning Theater: Disentangling Model
           Beliefs from Chain-of-Thought</em></a>. arXiv:2603.05488.
-          <em>Performative chain of thought on DeepSeek-R1 and GPT-OSS-120B: the model becomes
-          internally confident and keeps emitting tokens that do not reveal that belief.</em>
+          <em>On DeepSeek-R1 and GPT-OSS-120B, activation probes and forced answering predict the
+          eventual answer well before a text monitor finds a commitment, much more so on MMLU than
+          on GPQA-Diamond. The authors read this as performative chain of thought. The measurements
+          show early predictability of the final answer, not a settled belief that the remaining
+          tokens leave unused.</em>
         </li>
         <li>
           Shi, J., Tifft, E., Xing, C., et al. (2026).
@@ -1551,19 +1559,22 @@
           which undercuts the assumption that the trace reveals what the model was told to do.</em>
         </li>
         <li>
-          Baherwani, V., Goldstein, T., Panda, A., et al. (2026).
+          Baherwani, V., Goldstein, T., and Panda, A. (2026).
           <a href="https://arxiv.org/abs/2607.22925"><em>Not All LLM Reasoning is Visible in the
           Chain-of-Thought</em></a>. arXiv:2607.22925.
-          <em>Across thirteen frontier models, semantically irrelevant filler tokens support hidden
-          computation. The filler-token result at deployment scale rather than on synthetic
-          tasks.</em>
+          <em>Of thirteen frontier models, many, not all, gain accuracy from fixed filler spans on
+          three generated tasks, with effects that depend on model, task and token type. Frontier
+          models, but synthetic tasks, and the authors do not claim filler tokens evade a monitor in a
+          realistic setting.</em>
         </li>
         <li>
           Chen Yueh-Han, McCarthy, R., Lee, B., et al. (2026).
           <a href="https://arxiv.org/abs/2603.05706"><em>Reasoning Models Struggle to Control their
           Chains of Thought</em></a>. arXiv:2603.05706.
-          <em>A control suite finding that models largely cannot deliberately alter what they
-          verbalise. Evidence against the worry that models will simply learn to hide.</em>
+          <em>Asked to follow instructions about their chains of thought, such as avoiding a keyword,
+          models mostly fail, with controllability mostly below 10 per cent. A prompted proxy for
+          concealment. No model is trained to evade a monitor, and within the open-weight families
+          tested controllability rises with size.</em>
         </li>
         <li>
           Xiong, Z., Chen, S., Lakkaraju, H., et al. (2026).
@@ -1576,8 +1587,10 @@
           Anwar, U., Bakker, T., Kianfar, D., et al. (2026).
           <a href="https://arxiv.org/abs/2602.18297"><em>Analyzing and Improving Chain-of-Thought
           Monitorability Through Information Theory</em></a>. arXiv:2602.18297.
-          <em>A mutual-information formalisation of monitorability as a necessary rather than
-          sufficient condition, which the position paper leaves informal.</em>
+          <em>A mutual-information formalisation of monitorability, which the position paper leaves
+          informal. Positive monitor uplift needs the trace to carry information about the monitored
+          attribute. Mutual information between trace and output is also necessary, though not
+          sufficient, when that attribute is a function of the prompt and final output.</em>
         </li>
       </ul>
 
