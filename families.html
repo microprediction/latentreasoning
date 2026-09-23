@@ -201,6 +201,23 @@
         produces noisy gradients. Contentless tokens are a proof about expressivity, not a
         practical substitute.
       </p>
+      <p>
+        The pause need not persist, or even occupy a position. <a href="https://arxiv.org/abs/2607.01218">Monea
+        et al. (2026)</a> interleave a learned prediction slot with each input token, apply the loss
+        only at the prediction slot, and evict its keys and values after a short window, so the
+        persistent cache holds only the input stream. From 53M to 1.678B parameters on FineWeb-Edu this
+        lowers validation loss at every scale and adds 2.3 to 3.1 points to a five-task zero-shot
+        average, at roughly double the training compute per step. The free
+        pause tokens of <a href="https://arxiv.org/abs/2609.03807">Langford et al. (2026)</a> drop the
+        window: the prediction stream starts from one shared learned vector, shares the backbone
+        weights, queries the input stream's keys and values at every layer and writes none of its
+        own, adding no position, cache entry or decode step. On one 1B model trained on 100B tokens
+        the gain is 0.028 nats of cross-entropy at equal tokens and 0.005 to 0.013 at equal
+        node-hours, and individual downstream tasks stay within their 95% confidence intervals.
+        Both papers measure language modelling and aggregate benchmark scores rather than
+        chain-of-thought reasoning, and the free pause computation runs in parallel, layer by layer,
+        adding no serial depth.
+      </p>
     </div>
 
     <div class="family">

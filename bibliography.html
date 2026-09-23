@@ -398,8 +398,9 @@
           Butt, N., Kwiatkowski, A., Labiad, I., Kempe, J., and Ollivier, Y. (2025).
           <a href="https://arxiv.org/abs/2509.19170"><em>Soft Tokens, Hard Truths</em></a>.
           arXiv:2509.19170. <em>First scalable reinforcement learning of continuous chain of thought
-          without distilling from discrete traces. Matches discrete chain of thought at pass@1 and
-          exceeds it at pass@32, which is better coverage under repeated sampling; the authors read
+          without distilling from discrete traces. Broadly comparable to discrete chain of thought at
+          pass@1, though several points behind on Llama 3.2 3B when trained on MATH or DeepScaleR, and
+          ahead of it at pass@32, which is better coverage under repeated sampling; the authors read
           it as greater trace diversity and separately report a token-entropy analysis, which is the
           part that measures diversity.</em>
         </li>
@@ -629,6 +630,27 @@
           outright, yet an unsupervised decoder on hidden states alone recovers the intermediate
           values at 80&ndash;95% accuracy, with causal validation by cache transplantation.
           Monitorability is a property of activations, not of surface tokens.</em>
+        </li>
+        <li>
+          Monea, G., Godey, N., Brantley, K., and Artzi, Y. (2026).
+          <a href="https://arxiv.org/abs/2607.01218"><em>The State-Prediction Separation
+          Hypothesis</em></a>. arXiv:2607.01218.
+          <em>Interleaves a learned prediction slot with each input token and keeps only the input
+          stream in the persistent cache. From 53M to 1.678B parameters on one corpus it lowers
+          validation loss and adds 2.3 to 3.1 points on a five-task zero-shot average, at roughly
+          double the training compute per step. The scale results are single runs, with a three-seed
+          check at one small setting.</em>
+        </li>
+        <li>
+          Langford, J., Godey, N., Monea, G., Artzi, Y., Dong, H., Fan, Y., de Rosa, G., and Zhan, Z. (2026).
+          <a href="https://arxiv.org/abs/2609.03807"><em>Almost Free State Prediction Separation</em></a>.
+          arXiv:2609.03807 (first version titled <em>Free Pause Tokens</em>).
+          <em>A pause without a position: a weight-shared prediction stream queries the token
+          stream's keys and values at every layer and writes none of its own, so inference adds no
+          context, cache or decode step. On one 1B model it gains 0.028 nats at equal tokens, 0.005
+          to 0.013 at equal node-hours, and under a stricter iso-FLOP count the full-pause run falls
+          slightly behind. It measures language modelling and aggregate benchmark scores, not
+          chain-of-thought reasoning.</em>
         </li>
       </ul>
 
@@ -1857,7 +1879,7 @@
         <li>
           Anil, C., Pokle, A., Liang, K., Treutlein, J., Wu, Y., Bai, S., Kolter, J. Z., and Grosse, R. (2022).
           <a href="https://arxiv.org/abs/2211.09961"><em>Path Independent Equilibrium Models Can Better Exploit Test-Time Computation</em></a>. arXiv:2211.09961.
-          <em>Identifies path independence, converging to the same steady state regardless of initialisation, as the property correlating with whether extra test-time iterations help, and shows interventions promoting it improve upward generalisation.</em>
+          <em>Defines path independence as converging to the same steady state regardless of initialisation, and measures it by the cosine similarity between the fixed point reached from the usual initialisation and those reached when the solver starts from other inputs' fixed points. That score correlates with whether extra test-time iterations help, and on prefix sums, training changes that raise it improve upward generalisation while a penalty that lowers it hurts. The authors note that none of their metrics can verify that a network is globally path independent.</em>
         </li>
         <li>
           Gilmer, J., Schoenholz, S. S., Riley, P. F., Vinyals, O., and Dahl, G. E. (2017).

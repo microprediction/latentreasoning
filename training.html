@@ -313,9 +313,13 @@
 
     <aside class="note"><b>pass@k.</b> The fraction of problems for which at least one of k sampled answers is correct. pass@1 is single-sample accuracy. For a single problem with per-sample success probability $p$, pass@k is $1-(1-p)^k$, so the gap between pass@1 and pass@32 is fixed by $p$ and by how $p$ varies across problems. It measures success under repeated sampling, not how different the traces are.</aside>
     <p>
-      On Llama 3.2 3B, soft-token training matches discrete-token training at
-      pass@1 and beats it at pass@32 on all three mathematics benchmarks, and it leaves the base
-      model's out-of-domain likelihoods intact where discrete training degrades them. The best
+      On Llama 3.2 3B, soft-token training beats discrete-token training at pass@32 on all three
+      mathematics benchmarks. At greedy pass@1 the authors call the two "broadly comparable", but the
+      direction depends on the training set: trained on MATH or DeepScaleR, soft training is roughly 2 to 5
+      points behind, and trained on GSM8K it is ahead on MATH-500 and OlympiadBench. Out of domain,
+      soft training moves the likelihood of the correct answer less than discrete training does, on
+      average, without always leaving it where the base model had it. Qwen 2.5 3B trained on MATH
+      goes from 4.67 to 5.49 in per-token negative log-likelihood on ARC, against 5.62 for discrete training. The best
       configuration in the paper trains with soft tokens and then <em>infers with ordinary discrete
       tokens</em>. That is a recipe for a better discrete reasoner, obtained by exploring in a
       continuous space during training, rather than a latent reasoner at deployment. SofT-GRPO's ablation adds a second qualification: on a 1.5B model, replacing its
