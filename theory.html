@@ -394,9 +394,11 @@
 
     <p>
       On the empirical side, <a href="https://arxiv.org/abs/2505.12514">Zhu et al. (2025)</a> prove a two-layer transformer with $D$ continuous
-      steps solves directed graph reachability for diameter $D$, where the best known
-      <em>constant-depth</em> discrete-CoT construction needs $O(n^2)$ steps, and show the superposition that makes this work emerges
-      from training rather than being built in. <a href="https://arxiv.org/abs/2505.23648">Gozeten et al. (2025)</a> quantify the parallelism as
+      steps solves directed graph reachability for diameter $D$, for a fixed maximum input length
+      and at width growing with the vocabulary. The best known <em>constant-depth</em> discrete-CoT
+      construction needs $O(n^2)$ steps, and no lower bound is proved, so there is no separation.
+      Trained two-layer models show the frontier in attention and embedding similarity, which is
+      observational. <a href="https://arxiv.org/abs/2505.23648">Gozeten et al. (2025)</a> quantify the parallelism as
       tracking several discrete traces at once. Their construction is a single block run for $n$
       autoregressive steps at width $2^{n+1}+n+2$, holding every one of the $2^n$ signed partial
       sums, with $n+1$ position-specific experts and exact selection only in a hard-selection limit.

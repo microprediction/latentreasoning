@@ -188,8 +188,11 @@
           <a href="https://arxiv.org/abs/2505.12514"><em>Reasoning by Superposition: A Theoretical
           Perspective on Chain of Continuous Thought</em></a>. arXiv:2505.12514.
           <em>A two-layer transformer with $D$ continuous steps solves directed graph reachability
-          at diameter $D$, where the best known discrete construction needs $O(n^2)$ steps. The
-          superposition emerges from training rather than being built in. The companion paper on
+          at diameter $D$, for a fixed maximum input length and at width growing with the
+          vocabulary. The best known discrete construction needs $O(n^2)$ steps, an upper bound, and
+          a lower bound is listed as future work. Two-layer models trained with path supervision on
+          3&ndash;4-hop ProsQA show the frontier in attention and embedding similarity, with no
+          intervention. The companion paper on
           training dynamics is <a href="https://arxiv.org/abs/2509.23365">arXiv:2509.23365</a>.</em>
         </li>
         <li>
@@ -342,15 +345,18 @@
           Cheng, J., and Van Durme, B. (2024).
           <a href="https://arxiv.org/abs/2412.13171"><em>Compressed Chain of Thought: Efficient
           Reasoning Through Dense Representations</em></a>. arXiv:2412.13171.
-          <em>Variable-length dense contemplation tokens as a drop-in for the rationale on
-          off-the-shelf decoders, with a tunable compression ratio. No public implementation.</em>
+          <em>Variable-length dense contemplation tokens in place of the rationale, from a fine-tuned
+          generator and a separate answer decoder. The compression ratio is a training-time choice,
+          and a learned stopping rule varies the count per example. No public implementation.</em>
         </li>
         <li>
           Su, D., Zhu, H., Xu, Y., Jiao, J., Tian, Y., and Zheng, Q. (2025).
           <a href="https://arxiv.org/abs/2502.03275"><em>Token Assorted: Mixing Latent and Text
           Tokens for Improved Language Model Reasoning</em></a>. arXiv:2502.03275.
           <em>Abstracts only the early part of a trace into discrete VQ-VAE latent tokens and mixes
-          them with text. Gains of 4&ndash;13% across model sizes with traces about 17% shorter: a hybrid by construction.</em>
+          them with text. Seven-benchmark averages rise 2.9 to 4.5 points across model sizes, the
+          13.3-point gain being one 8B task, and responses average about 17% fewer tokens than chain
+          of thought: a hybrid by construction.</em>
         </li>
         <li>
           Xu, Y., Guo, X., Zeng, Z., and Miao, C. (2025).
@@ -378,12 +384,15 @@
           context via specialised attention masks.</em>
         </li>
         <li>
-          Shen, X., Wang, Y., Zhou, Y., Shi, S., Zhao, X., et al. (2025).
+          Shen, X., Wang, Y., Zhou, Y., Shi, X., Zhao, P., et al. (2025).
           <a href="https://arxiv.org/abs/2501.19201"><em>Efficient Reasoning with Hidden
           Thinking</em></a>. arXiv:2501.19201.
           <em>The Heima framework: multimodal reasoning condensed into a few abstract thinking
-          tokens, with an information-theoretic analysis and an auxiliary interpreter that
-          reconstructs the discarded text.</em>
+          tokens. The information-theoretic section is the data-processing inequality for tokens
+          defined from the input and the gold CoT, whereas deployed tokens are generated from the
+          input alone, and no information is estimated. Stage-wise interpreters, given the question
+          and the thinking token, write approximate text back (reasoning-stage BLEU 11.2, BERTScore
+          66.6), with no question-only control.</em>
         </li>
         <li>
           Zhang, Z., He, X., Yan, T., Shen, Y., Zhao, C., et al. (2025).
@@ -1823,7 +1832,7 @@
         <li>
           Fein-Ashley, J., and Rashidinejad, P. (2026).
           <a href="https://arxiv.org/abs/2605.12466"><em>Solve the Loop: Attractor Models for Language and Reasoning</em></a>. arXiv:2605.12466.
-          <em>Treats a looped model&apos;s output embedding as a fixed point solved by root-finding rather than unrolling, and differentiates through it by the implicit function theorem. Positioned explicitly against Coconut, Huginn and Ouro, whose unrolling makes training memory grow with depth.</em>
+          <em>Treats a looped model&apos;s output embedding as a fixed point solved by root-finding rather than unrolling. The exact implicit gradient is derived but mostly not used: the 140M and 370M language models train with the one-step Jacobian-free approximation, the 770M model with an Anderson adjoint solve, and the reasoning tasks with phantom gradients. In the ablation the exact gradient costs 4.8 times the memory and 2.7 times the step time for a 0.14 perplexity gain. Positioned explicitly against Coconut, Huginn and Ouro, whose unrolling makes training memory grow with depth.</em>
         </li>
         <li>
           Labovich, A. (2026).
@@ -1944,6 +1953,16 @@
           <em>The small-model antecedent: transformers trained on hidden-Markov data encode the belief simplex linearly, with the fractal structure computational mechanics predicts.</em>
         </li>
         <li>
+          Dai, Y., Gao, Z., Sattar, Y., Dean, S., and Sun, J. (2025).
+          <a href="https://arxiv.org/abs/2506.07298"><em>Pre-trained Large Language Models Learn to Predict Hidden Markov Models In-context</em></a>. arXiv:2506.07298.
+          <em>Behaviour, not representation: open Qwen and Llama models predict synthetic HMM sequences in context, converging reliably when entropy is low and mixing fast, and compete with expert models on animal decision data. The benchmark called the theoretical optimum is a Viterbi most-likely-path predictor, not the forward-filtered predictive distribution.</em>
+        </li>
+        <li>
+          Dai, Y., Gao, Z., Sattar, Y., Sun, J. J., and Dean, S. (2026).
+          <a href="https://arxiv.org/abs/2607.22646"><em>Extracting Algorithms in Pre-trained LLMs: A Case on Hidden Markov Models</em></a>. arXiv:2607.22646.
+          <em>Twelve pre-trained models against forward-filtering, spectral, n-gram and Baum&ndash;Welch predictors on 75 HMM configurations. No single class matches behaviour in every regime. Probing and patching find the true belief linearly decodable in early layers of a slow-mixing regime where patching it fails, and a soft n-gram representation the most causally effective.</em>
+        </li>
+        <li>
           Zhu, J.-Q., and Griffiths, T. L. (2024).
           <a href="https://arxiv.org/abs/2401.16646"><em>Incoherent Probability Judgments in Large Language Models</em></a>. arXiv:2401.16646.
           <em>Elicited probability judgments violate the probability calculus in human-like ways, with the same inverted-U mean-variance signature. A model's stated credence and its internal belief state are different objects.</em>
@@ -1991,7 +2010,12 @@
         <li>
           Olsson, C., Elhage, N., Nanda, N., Joseph, N., DasSarma, N., et al. (2022).
           <a href="https://arxiv.org/abs/2209.11895"><em>In-context Learning and Induction Heads</em></a>. arXiv:2209.11895.
-          <em>Induction heads emerge in a sharp phase transition coinciding with a jump in in-context ability. A mechanistic substrate later work connects to the gradient-descent reading, though this paper claims no such equivalence.</em>
+          <em>Induction heads emerge in a sharp phase transition coinciding with a jump in an in-context learning score defined as the loss at token 500 minus the loss at token 50, rather than few-shot task accuracy. The causal evidence is for small attention-only models, and for larger models with MLPs it is correlational. A mechanistic substrate later work connects to the gradient-descent reading, though this paper claims no such equivalence.</em>
+        </li>
+        <li>
+          Yin, K., and Steinhardt, J. (2025).
+          <a href="https://arxiv.org/abs/2502.14010"><em>Which Attention Heads Matter for In-Context Learning?</em></a>. arXiv:2502.14010.
+          <em>Across 12 models, ablating function-vector heads degrades few-shot accuracy while ablating induction heads does little beyond random heads, and the pattern reverses for Olsson et al.&apos;s token-loss difference. The two metrics measure different things. Many function-vector heads begin as induction heads during training.</em>
         </li>
         <li>
           Cohen-Wang, B., Shah, H., Georgiev, K., and Madry, A. (2024).
@@ -2096,7 +2120,7 @@
         <li>
           Kim, H., Papamakarios, G., and Mnih, A. (2020).
           <a href="https://arxiv.org/abs/2006.04710"><em>The Lipschitz Constant of Self-Attention</em></a>. arXiv:2006.04710.
-          <em>Standard dot-product self-attention is not Lipschitz over unbounded inputs. There is no general guarantee that a small change in input produces a bounded change in output.</em>
+          <em>Standard dot-product self-attention has no global Lipschitz constant over unbounded inputs, since its Jacobian grows with the spread of the other tokens. It is Lipschitz on any compact input set, with a constant that depends on the input range and can be very large.</em>
         </li>
       </ul>
 
