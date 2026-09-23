@@ -225,6 +225,46 @@
       rather than the output layer.
     </p>
 
+    <h2>Scores from classifiers that generate nothing</h2>
+
+    <p>
+      Label-conditioned encoders and decision APIs return numbers without writing them out, so
+      nothing is rounded to printed digits, but what the numbers mean remains open.
+      <a href="https://arxiv.org/abs/2508.07662">GLiClass</a> and
+      <a href="https://aclanthology.org/2025.emnlp-demos.10/">GLiNER2</a> apply a softmax across
+      labels in single-label mode, giving a distribution over mutually exclusive alternatives, and
+      an independent sigmoid per label in multi-label mode, giving scores that need not sum to one
+      and specify no joint distribution. Neither activation is evidence of calibration. The GLiClass
+      paper lists calibration differences across datasets among its limitations and reports no
+      calibration metric.
+    </p>
+
+    <p>
+      TypeSafe&apos;s Jev returns, for a Choice question, a distribution over the options and a
+      separate <em>confidence</em>, which the
+      <a href="https://docs.typesafe.ai/confidence">documentation</a> defines as a statistic of the
+      distribution&apos;s shape. In the
+      <a href="https://docs.typesafe.ai/primitives/choice">Choice example</a> the selected department
+      has probability 0.61 and confidence 0.42, so confidence is not the probability that the
+      selected answer is right. The same example describes the ticket as belonging to two teams, a
+      multi-label fact carried by a single-choice distribution. The documentation leaves thresholds
+      to be tuned on the user&apos;s own data.
+    </p>
+
+    <p>
+      The <a href="https://docs.typesafe.ai/introduction">introduction</a> says every question is
+      evaluated &ldquo;in parallel and in isolation against the same state&rdquo;. That is a
+      property of the execution, not of the events. If $P(A \mid x) = P(B \mid x) = 0.6$ exactly,
+      then $P(A \cap B \mid x)$ can be anything from 0.2 to 0.6, and the product 0.36 requires
+      conditional independence. Code that multiplies answers to separate questions assumes it.
+      Calibration, $E[Y \mid p] = p$, is a property of a population, and a constant base-rate
+      forecast has it while separating nothing.
+      <a href="https://proceedings.mlr.press/v70/guo17a.html">Guo et al. (2017)</a> fit their
+      recalibration on a hold-out validation set and assume it is drawn from the same distribution
+      as the test data. A deployment shift breaks that assumption, and a training objective named
+      for calibration does not restore it.
+    </p>
+
     <h2>Latent reasoning on structured data</h2>
 
     <p>

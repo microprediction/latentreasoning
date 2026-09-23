@@ -1440,6 +1440,90 @@
         </li>
       </ul>
 
+      <h3>Non-generative classification and decision models</h3>
+      <p class="muted" style="font-size:0.92rem;">Encoders and APIs that take text plus candidate
+      labels or a schema and return scores, with nothing generated. They read the input text, not
+      another model&apos;s activations, so as routers they belong with the text-based ones. Deciding
+      without a written rationale is not evidence of iterative latent computation, and fixed-depth
+      classification is still inference.</p>
+      <ul>
+        <li>
+          Guo, C., Pleiss, G., Sun, Y., and Weinberger, K. Q. (2017).
+          <a href="https://proceedings.mlr.press/v70/guo17a.html"><em>On Calibration of Modern
+          Neural Networks</em></a>. <em>ICML</em>, PMLR 70.
+          <em>Modern neural classifiers are poorly calibrated, and temperature scaling, a
+          one-parameter variant of Platt scaling, is effective on most of the datasets tested. The
+          reference point for reading any classifier&apos;s softmax as a probability.</em>
+        </li>
+        <li>
+          Yin, W., Hay, J., and Roth, D. (2019).
+          <a href="https://aclanthology.org/D19-1404/"><em>Benchmarking Zero-shot Text
+          Classification: Datasets, Evaluation and Entailment Approach</em></a>. <em>EMNLP-IJCNLP</em>.
+          <em>Casts zero-shot classification as textual entailment, with the label as the
+          hypothesis, and adds a label-fully-unseen evaluation in which no task-specific training
+          data is seen at all. The abstract credits that setting to Chang et al. (2008), so
+          classifying against label descriptions is an old task.</em>
+        </li>
+        <li>
+          Tunstall, L., Reimers, N., Jo, U. E. S., Bates, L., Korat, D., Wasserblat, M., and
+          Pereg, O. (2022). <a href="https://arxiv.org/abs/2209.11055"><em>Efficient Few-Shot
+          Learning Without Prompts</em></a>. arXiv:2209.11055.
+          <em>SetFit. Contrastively fine-tunes a sentence encoder on a few labelled pairs, then
+          trains a classification head, with no prompts. Reports accuracy comparable to PEFT and
+          PET at an order of magnitude less training time. It needs task-labelled examples, which
+          the zero-shot label-description models do not.</em>
+        </li>
+        <li>
+          Zaratiana, U., Tomeh, N., Holat, P., and Charnois, T. (2024).
+          <a href="https://aclanthology.org/2024.naacl-long.300/"><em>GLiNER: Generalist Model for
+          Named Entity Recognition using Bidirectional Transformer</em></a>. <em>NAACL</em>.
+          <em>A bidirectional encoder extracts entities of any type named as a label, in parallel
+          rather than by sequential generation, and reports beating ChatGPT and fine-tuned LLMs on
+          zero-shot NER benchmarks. Span extraction rather than classification, and the
+          architecture GLiClass and GLiNER2 adapt.</em>
+        </li>
+        <li>
+          Stepanov, I., Shtopko, M., Vodianytskyi, D., Lukashov, O., Yavorskyi, A., and
+          Yaroshenko, M. (2025). <a href="https://arxiv.org/abs/2508.07662"><em>GLiClass:
+          Generalist Lightweight Model for Sequence Classification Tasks</em></a>. arXiv:2508.07662.
+          <em>The main variant concatenates every candidate label, each behind a marker token,
+          with the input text, so one encoder pass scores all labels. Bi-encoder variants and a PPO
+          adaptation for multi-label training are also reported. The largest model averages 0.7193
+          F1 against 0.6821 for the strongest cross-encoder, though the two tables average over
+          slightly different dataset lists. Speeds are measured at batch size 1 on one GPU.
+          Calibration differences across datasets are listed as a limitation, and no calibration
+          metric is reported. <a href="https://github.com/Knowledgator/GLiClass">Code</a>, with
+          checkpoints such as <a href="https://huggingface.co/knowledgator/gliclass-edge-v3.0">edge-v3.0</a>
+          under Apache-2.0.</em>
+        </li>
+        <li>
+          Zaratiana, U., Pasternak, G., Boyd, O., Hurn-Maloney, G., and Lewis, A. (2025).
+          <a href="https://aclanthology.org/2025.emnlp-demos.10/"><em>GLiNER2: Schema-Driven
+          Multi-Task Learning for Structured Information Extraction</em></a>. <em>EMNLP System
+          Demonstrations</em>.
+          <em>Entity recognition, text classification and hierarchical record extraction in one
+          encoder of about 205M parameters, composed through a declarative schema and described as
+          CPU-efficient. Classification uses a softmax across labels for single-label tasks and an
+          independent sigmoid per label for multi-label ones.
+          <a href="https://github.com/fastino-ai/GLiNER2">Code</a>, Apache-2.0.</em>
+        </li>
+        <li>
+          Almeida, D. (2026). <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev"><em>Introducing
+          System One Models &amp; Jev</em></a>. TypeSafe AI blog, 15 September, with
+          <a href="https://docs.typesafe.ai/introduction">API documentation</a>.
+          <em>A vendor launch post, not a paper. Jev takes a state and typed questions (a choice
+          among up to 255 options, a score on an ordered rubric, a yes-or-no probability) and returns
+          probabilities without generating text. The architecture is described only as new. The
+          training method, Reinforcement Learning for Calibrated Decisions, is named but not
+          specified, and is not the RLCR method on the prediction page. The speed and cost headlines come from the
+          company&apos;s own workflow evals, which score agreement with the average of two frontier
+          models rather than outcomes, and the company says it deliberately does not publish
+          public-benchmark results. Its &ldquo;can&apos;t hallucinate&rdquo; is schema validity, by
+          the post&apos;s own account: &ldquo;Our number is not empirical. Schema matching is
+          guaranteed.&rdquo;</em>
+        </li>
+      </ul>
+
       <h3>Hierarchical and tiny recursive networks</h3>
       <ul>
         <li>
