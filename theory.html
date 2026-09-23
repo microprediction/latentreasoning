@@ -463,8 +463,15 @@
         from two sides with no known reduction between them.
       </li>
       <li>
-        No theory predicts the minimal number of steps a given task needs. The results are
-        existential. The practical question of reasoning-token budgets is untouched by them.
+        Minimal step counts are known only for particular tasks in a restricted model. <a
+        href="https://arxiv.org/abs/2502.02393">Amiri et al. (2025)</a> prove worst-case lower
+        bounds on chain-of-thought length for unique-hard-attention transformers with a bounded
+        number of layers and heads. Parity and Median need $\Omega(N)$ steps and reachability on a
+        family of DAGs needs $\Omega(|E|\log|V|)$, each bound attained by a construction. A middle
+        bit of a product of two $N$-bit numbers needs $\Omega(N)$, and the full product has a
+        scratchpad of length $\Theta(N\log N)$. No theory yet
+        predicts the budget a trained softmax model needs on a given instance of a natural-language
+        task. The authors list other transformer models and average-case bounds as open.
       </li>
     </ul>
 
