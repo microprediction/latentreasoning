@@ -55,16 +55,19 @@
     <div class="family">
       <h3>1. Internalisation by curriculum <span class="tag">token &rarr; nothing</span></h3>
       <p>
-        One keeps the architecture and the vocabulary exactly as they are, and trains the explicit
-        rationale away. A model is first taught to emit a chain of thought, then the intermediate
-        tokens are progressively deleted during fine-tuning until none remain and the same forward
-        pass must do the work that used to be spread over many.
+        One keeps the vocabulary, and in the simplest version the architecture, and trains the
+        explicit rationale away. A model is first taught to emit a chain of thought, then the
+        intermediate tokens are progressively deleted during fine-tuning until none remain and the
+        model answers from the question alone.
       </p>
       <p>
-        <a href="https://arxiv.org/abs/2311.01460">Deng et al. (2023)</a> do this by distilling a teacher's horizontal, token-by-token reasoning
-        into a student's vertical, layer-by-layer computation. The follow-up, stepwise
-        internalisation (Deng, Choi &amp; Shieber 2024), drops the emulator and simply removes
-        tokens on a schedule. It takes GPT-2 Small to 99% on nine-by-nine multiplication, a task
+        <a href="https://arxiv.org/abs/2311.01460">Deng et al. (2023)</a> distil a teacher's horizontal, token-by-token reasoning
+        into vertical, layer-by-layer computation, but not within one unchanged model: a separate
+        emulator predicts the teacher's hidden states and a student answers from them, so inference
+        runs two stacks. After the final joint fine-tuning, the intermediate states no longer decode
+        to anything resembling the teacher's steps. The follow-up, stepwise
+        internalisation (Deng, Choi &amp; Shieber 2024), drops the emulator, keeps the base
+        architecture, and simply removes tokens on a schedule. It takes GPT-2 Small to 99% on nine-by-nine multiplication, a task
         the same model cannot learn to do in one pass without the curriculum, and Mistral-7B past
         50% on GSM8K with nothing emitted between question and answer.
       </p>
@@ -116,9 +119,10 @@
       <p>
         SoftCoT (Xu et al. 2025) never
         fine-tunes the target model at all: a small frozen assistant produces soft thoughts
-        that a trained projector maps into the frozen LLM's embedding space, which is an
-        explicit workaround for the catastrophic forgetting that full-parameter latent fine-tuning
-        causes on models that already reason well. SIM-CoT (Wei et al. 2025) adds a step-level
+        that a trained projector maps into the frozen LLM's embedding space. The authors motivate
+        this by catastrophic forgetting, which they conjecture from LoRA and LoRA-adapted Coconut
+        baselines scoring below zero-shot CoT on instruction-tuned models. No experiment isolates
+        forgetting as the cause. SIM-CoT (Wei et al. 2025) adds a step-level
         auxiliary decoder, discarded at inference, to stop latent vectors homogenising.
       </p>
     </div>
@@ -192,8 +196,9 @@
         without the fillers, and give a quantifier-depth condition under which the benefit is
         available. Learning to exploit fillers requires dense, task-specific supervision and does
         not emerge from ordinary training. <a href="https://arxiv.org/abs/2310.02226">Goyal et al. (2024)</a> get real
-        downstream gains from learnable pause tokens on a 1B model, including +18% exact match on
-        SQuAD, but only when pause tokens appear in <em>both</em> pretraining and fine-tuning.
+        downstream gains from learnable pause tokens on a 1B model, taking SQuAD exact match from
+        36.4 to 55.9, when pause tokens appear in <em>both</em> pretraining and fine-tuning. Adding
+        them at fine-tuning alone gives mixed, smaller gains.
       </p>
       <p>
         The negative result is equally important: <a href="https://arxiv.org/abs/2411.11371">Vennam et al. (2024)</a> find naive thinking tokens

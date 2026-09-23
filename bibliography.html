@@ -118,9 +118,11 @@
         <li>
           Giannou, A., Rajput, S., Sohn, J., Lee, K., Lee, J. D., and Papailiopoulos, D. (2023).
           <a href="https://arxiv.org/abs/2301.13196"><em>Looped Transformers as Programmable
-          Computers</em></a>. arXiv:2301.13196. <em>A hand-programmed thirteen-layer transformer in
-          a loop emulates a general-purpose computer. Looping as universality, independent of
-          scale.</em>
+          Computers</em></a>. arXiv:2301.13196. <em>A hand-programmed nine-layer, two-head
+          transformer in a loop runs SUBLEQ programs, one instruction per pass. The numerical
+          routines use up to thirteen layers. Depth stays constant as the program grows. Width grows
+          as $\log n$, the loop count with runtime, and the softmax pointers need a temperature
+          growing with $n$.</em>
         </li>
       </ul>
 
@@ -269,7 +271,7 @@
         <li>
           Li, Z., Svete, A., Sabharwal, A., and Merrill, W. (2026).
           <a href="https://arxiv.org/abs/2606.19697"><em>Efficiently Representing Algorithms With Chain-of-Thought Transformers</em></a>. arXiv:2606.19697.
-          <em>Chain-of-thought transformers simulate arbitrary Word-RAM algorithms with only polylogarithmic overhead, against the quadratic overhead of Turing-machine simulations. Proved in three settings with different precision and attention preconditions, including one for continuous chain of thought.</em>
+          <em>Chain-of-thought transformers simulate Word-RAM algorithms with polylogarithmic overhead per instruction, against the quadratic overhead of going through existing Turing-machine simulations. The three constructions differ in architecture. Discrete tokens need non-uniform width growing as $\log^2(n+t)$ and rightmost hard attention. Fixed width needs either continuous chain of thought or a linear RNN layer beneath the transformer. Whether an ordinary fixed-width transformer can do it is left open.</em>
         </li>
         <li>
           Svete, A., Merrill, W., Cotterell, R., and Sabharwal, A. (2026).
@@ -314,9 +316,12 @@
           Deng, Y., Prasad, K., Fernandez, R., Smolensky, P., Chaudhary, V., and Shieber, S. (2023).
           <a href="https://arxiv.org/abs/2311.01460"><em>Implicit Chain of Thought Reasoning via
           Knowledge Distillation</em></a>. arXiv:2311.01460.
-          <em>Distils a teacher's horizontal token-by-token reasoning into a student's vertical
-          layer-by-layer computation. The first serious attempt to delete the rationale and keep the
-          capability.</em>
+          <em>Distils a teacher's horizontal token-by-token reasoning into vertical layer-by-layer
+          computation: a separate emulator predicts the teacher's hidden states, a student answers
+          from them, and the pair is fine-tuned end to end. Inference keeps both stacks, at
+          0.66&ndash;0.73 of no-CoT throughput. After the joint fine-tuning the decoded intermediate
+          states stop resembling the teacher's steps. The first serious attempt to delete the
+          rationale and keep the capability.</em>
         </li>
         <li>
           Zelikman, E., Harik, G., Shao, Y., Jayasiri, V., Haber, N., and Goodman, N. D. (2024).
@@ -352,8 +357,9 @@
           <a href="https://arxiv.org/abs/2502.12134"><em>SoftCoT: Soft Chain-of-Thought for
           Efficient Reasoning with LLMs</em></a>. arXiv:2502.12134.
           <em>Never fine-tunes the target model: a frozen assistant produces soft thoughts that a
-          trained projector maps into the frozen model's embedding space. An explicit dodge of the
-          catastrophic forgetting that latent fine-tuning causes on strong reasoners. Extended for
+          trained projector maps into the frozen model's embedding space. The motivation is
+          catastrophic forgetting, which the authors conjecture from LoRA and LoRA-adapted Coconut
+          baselines scoring below zero-shot CoT. No retention test isolates forgetting as the cause. Extended for
           test-time scaling in <a href="https://arxiv.org/abs/2505.11484">arXiv:2505.11484</a>.</em>
         </li>
         <li>
@@ -425,8 +431,11 @@
           Fan, Y., Du, Y., Ramchandran, K., and Lee, K. (2024).
           <a href="https://arxiv.org/abs/2409.15647"><em>Looped Transformers for Length
           Generalization</em></a>. arXiv:2409.15647.
-          <em>Task-adaptive iteration counts give near-perfect generalisation past forty-digit
-          parity when trained only to twenty, where fixed-depth transformers fail outright.</em>
+          <em>Trained on parity up to twenty digits with the step count set equal to the length, the
+          looped model stays near-perfect past forty digits when inference applies the same rule,
+          and beats next-token baselines with matched depth, pause tokens or weight-tied layers. The
+          step count is an oracle. A per-sample confidence stop does almost as well on tasks whose
+          iterates converge, and worse on parity, where they do not.</em>
         </li>
         <li>
           Bae, S., Fisch, A., Harutyunyan, H., Ji, Z., Kim, S., and Schuster, T. (2024).
@@ -448,8 +457,11 @@
           Language Models</em></a>. arXiv:2510.25741.
           <em>Ouro. 1.4B and 2.6B looped models over 7.7T tokens, with recurrence built into
           pretraining rather than bolted on at test time. Attributes the gains to better knowledge
-          manipulation rather than added capacity, and reports latent traces better aligned to final
-          outputs than explicit chains. Open weights.</em>
+          manipulation rather than added capacity. It also claims latent traces better aligned to
+          final outputs than explicit chains, on an observational proxy: on 1,000 Quora Question
+          Pairs the answer read out at each loop keeps changing (36.1% agreement between steps 2 and
+          4), where a thinking model's early probe predicts its final answer. The latent state is
+          never intervened on. Open weights.</em>
         </li>
         <li>
           McLeish, S., Li, X., Kirchenbauer, J., Kalra, D., Bartoldson, B. R., et al. (2025).
@@ -608,9 +620,10 @@
           Goyal, S., Ji, Z., Rawat, A. S., Menon, A. K., Kumar, S., and Nagarajan, V. (2024).
           &ldquo;Think before you speak: Training Language Models With Pause Tokens.&rdquo;
           <em>ICLR</em>. <a href="https://arxiv.org/abs/2310.02226">arXiv:2310.02226</a>.
-          <em>Learnable pause tokens delay answer extraction and buy computation: +18% exact match
-          on SQuAD at 1B. The precondition is strong: pauses must appear in both pretraining
-          and fine-tuning. No code was released.</em>
+          <em>Learnable pause tokens delay answer extraction and buy computation. At 1B, pauses in
+          both pretraining and fine-tuning take SQuAD exact match from 36.4 to 55.9 (the prose
+          quotes 18%). Pause fine-tuning alone gives mixed, smaller gains, 40.2 on SQuAD at best. No
+          code was released.</em>
         </li>
         <li>
           Pfau, J., Merrill, W., and Bowman, S. R. (2024).

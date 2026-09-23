@@ -230,7 +230,7 @@ const NODES = [
 
  // continuous / internalised
  {id:"implicit", c:"latent", label:"Implicit CoT", url:"https://arxiv.org/abs/2311.01460",
-  note:"Deng et al. 2023. Distil horizontal token-by-token reasoning into vertical layer-by-layer computation."},
+  note:"Deng et al. 2023. Distil horizontal token-by-token reasoning into vertical layer-by-layer computation, via a separate emulator of the teacher's hidden states that stays in the model at inference."},
  {id:"stepwise", c:"latent", label:"Stepwise internalisation", url:"https://arxiv.org/abs/2405.14838",
   note:"Deng, Choi & Shieber 2024. Delete CoT tokens on a schedule. GPT-2 Small hits 99% on 9×9 multiplication emitting nothing."},
  {id:"coconut", c:"latent", label:"Coconut", big:true, url:"https://arxiv.org/abs/2412.06769",
@@ -264,7 +264,7 @@ const NODES = [
 
  // contentless
  {id:"pause", c:"contentless", label:"Pause tokens", url:"https://arxiv.org/abs/2310.02226",
-  note:"Goyal et al. 2024. +18% EM on SQuAD at 1B — but only with pauses in both pretraining and fine-tuning."},
+  note:"Goyal et al. 2024. SQuAD EM 36.4 → 55.9 at 1B with pauses in both pretraining and fine-tuning. Fine-tuning alone gives mixed, smaller gains."},
  {id:"filler", c:"contentless", label:"Filler tokens", big:true, url:"https://arxiv.org/abs/2404.15758",
   note:"Pfau, Merrill & Bowman 2024. Repeated dots solve tasks unsolvable in one pass, under dense supervision. The control experiment for the field."},
  {id:"thinkfail", c:"contentless", label:"⟂ Thinking tokens fail", url:"https://arxiv.org/abs/2411.11371",
