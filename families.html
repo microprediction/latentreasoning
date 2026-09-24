@@ -126,7 +126,8 @@
         this by catastrophic forgetting, which they conjecture from LoRA and LoRA-adapted Coconut
         baselines scoring below zero-shot CoT on instruction-tuned models. No experiment isolates
         forgetting as the cause. SIM-CoT (Wei et al. 2025) adds a step-level
-        auxiliary decoder, discarded at inference, to stop latent vectors homogenising.
+        auxiliary decoder, discarded at inference, against the collapse into near-identical
+        latent vectors that it observes in some failed runs.
       </p>
     </div>
 
@@ -309,12 +310,15 @@
 
     <h2>Failure modes</h2>
 
-    <h3>Latent representations collapse as you add steps</h3>
+    <h3>Latent representations can collapse when steps are added</h3>
     <p>
-      SIM-CoT documents this as <em>latent instability</em>: as the number of latent reasoning
-      tokens grows, the vectors homogenise, lose semantic diversity, and training collapses. That
-      the fix is step-level auxiliary supervision is itself evidence that end-to-end latent
-      training under-constrains the representation.
+      SIM-CoT documents this as <em>latent instability</em>. Going from Coconut's default three
+      latent tokens to five first raises accuracy, then sometimes collapses training. In a failed
+      five-latent run the mean pairwise distance between latents falls to 4.21, against 28.34 in a
+      normal one, and the latents decode mostly to numbers. In normal runs that distance
+      <em>grows</em> with the number of latents, from 20.30 at one. Step-level auxiliary
+      supervision stabilises training and raises accuracy, though it changes the objective
+      broadly and does not show which geometric property it repairs.
     </p>
 
     <h3>The superposition story does not hold everywhere</h3>

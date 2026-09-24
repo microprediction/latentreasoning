@@ -402,12 +402,12 @@
           The rebuttal below qualifies it.</em>
         </li>
         <li>
-          Wei, X., Liu, Z., Zang, Y., Dong, X., Cao, Y., et al. (2025).
+          Wei, X., Liu, X., Zang, Y., Dong, X., Cao, Y., et al. (2025).
           <a href="https://arxiv.org/abs/2509.20317"><em>SIM-CoT: Supervised Implicit
           Chain-of-Thought</em></a>. arXiv:2509.20317.
-          <em>Diagnoses latent instability, latent vectors homogenise as steps are added
-          until training collapses, and fixes it with a step-level auxiliary decoder removed
-          at inference.</em>
+          <em>Diagnoses latent instability. Going from Coconut's default three latent tokens to
+          five sometimes collapses training, and failed runs have near-identical latents. A step-level
+          auxiliary decoder, removed at inference, stabilises it.</em>
         </li>
         <li>
           Butt, N., Kwiatkowski, A., Labiad, I., Kempe, J., and Ollivier, Y. (2025).
@@ -1263,19 +1263,19 @@
           <em>An explicit-CoT teacher's hidden states, stacked over layers and rationale tokens, have rapidly decaying singular values (LLaMA-3.2-1B, GSM8K). Layer and hidden-mode factors fixed from that teacher define a subspace in which the student's implicit states are matched to the teacher's by mean and covariance. The rank measurement is of the teacher's explicit rationale, not of implicit trajectories.</em>
         </li>
         <li>
-          Hao, Y., and Yang, Z. (2026).
-          <a href="https://arxiv.org/abs/2609.07406"><em>Latent Rank Collapse in Implicit Chain of Thought</em></a>. arXiv:2609.07406.
-          <em>Successive latent states become overly similar during implicit chain-of-thought training, an instability distinct from ordinary representational drift.</em>
+          Hao, Y., and Yang, M. (2026).
+          <a href="https://arxiv.org/abs/2609.07406"><em>Think Wider: Mitigating Latent Rank Collapse in Implicit Chain-of-Thought Reasoning</em></a>. arXiv:2609.07406.
+          <em>Within each example, a trained model's six latent states concentrate on one dominant direction (effective rank 1.49 for SIM-CoT on ASDiv-Aug). A training-time penalty on that direction raises it to 3.82 and improves most matched CODI and SIM-CoT accuracies. Rank is measured per example, and the authors state it does not directly measure semantic reasoning capacity.</em>
         </li>
         <li>
-          Li, Y., Chen, Z., Ju, W., Yao, S., Li, Y., Lan, T., Zhu, Y., Zheng, D., and Wang, S. (2026).
-          <a href="https://arxiv.org/abs/2609.09928"><em>PMPS: Prototype-Anchored Process Supervision for Latent Reasoning</em></a>. arXiv:2609.09928.
-          <em>Learnable reasoning prototypes as anchors for process-level supervision of latent embeddings, aimed at representation collapse.</em>
+          Li, Y., Chen, X., Ju, C., Yao, J., Li, Z., Lan, J., Zhu, X., Zheng, B., and Wang, Y. (2026).
+          <a href="https://arxiv.org/abs/2609.09928"><em>Structural Process Supervision for Latent Chain-of-Thought Reasoning</em></a>. arXiv:2609.09928.
+          <em>Prototype-Mediated Process Supervision (PMPS) soft-aligns latent embeddings with the teacher's hidden states at explicit chain-of-thought token positions, through learnable prototypes, aimed at representation collapse. No partition of the chain into steps is needed.</em>
         </li>
         <li>
-          Zou, Y., Huang, S., Li, Z., and Zhou, W. (2026).
+          Zou, X., Huang, J., Li, J., and Zhou, P. (2026).
           <a href="https://arxiv.org/abs/2606.16222"><em>Latent Thought Flow: Efficient Latent Reasoning in Large Language Models</em></a>. arXiv:2606.16222.
-          <em>Models latent reasoning as variable-length continuous trajectories with a trained sampler over correctness and cost, rather than one deterministic path.</em>
+          <em>Models latent reasoning as variable-length continuous trajectories, sampled by a continuous GFlowNet rewarded for decoded-answer quality and short length. The reward-proportional target integrates over unbounded latent vectors with no base measure, so its normaliser is not shown to be finite.</em>
         </li>
         <li>
           Tu, S., Fu, Y., Yu, X., Tang, J., Kang, Y., Qin, Z., Zhang, M., and Gu, Q. (2026).
