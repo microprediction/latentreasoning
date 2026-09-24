@@ -219,8 +219,10 @@
       <h3>SIM-CoT and latent instability <span class="verdict shines">shines</span></h3>
       <p class="meta"><a href="https://arxiv.org/abs/2509.20317">Wei et al. (2025)</a> &middot; <a href="https://arxiv.org/abs/2509.20317">arXiv:2509.20317</a></p>
       <p>
-        Its contribution is less the method than the diagnosis. As latent reasoning tokens are added,
-        the latent vectors homogenise, lose semantic diversity, and training collapses. This had been
+        Its contribution is less the method than the diagnosis. Going from three latent tokens to
+        five sometimes collapses training, and the failed runs have near-identical latent vectors
+        that decode mostly to numbers. Normal runs spread their latents further apart as tokens are
+        added, so the collapse is a failure mode rather than a trend. This had been
         visible in scattered form across earlier work, in curricula, staged schedules, and
         auxiliary losses whose necessity was never quite explained, and SIM-CoT names it.
       </p>

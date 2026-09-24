@@ -128,10 +128,12 @@
       against 43.1% for explicit chain of thought. SIM-CoT (<a
       href="https://arxiv.org/abs/2509.20317">Wei et al. 2025</a>) is the same fix applied to Coconut
       and CODI: an auxiliary decoder, discarded at inference, is trained to regenerate step $k$'s
-      text from latent $k$ alone, which stops the latents homogenizing as their number grows - it adds
+      text from latent $k$ alone, which prevents the collapse into near-identical latents seen in
+      some runs with more latent tokens - it adds
       8.2 points to Coconut on GPT-2. PMPS (<a href="https://arxiv.org/abs/2609.09928">Li et al.
-      2026</a>) gets a comparable result without a decoder, by soft-aligning latent and explicit-step
-      embeddings through a shared set of learned prototypes.
+      2026</a>) gets a comparable result without a decoder, by soft-aligning latent positions with the
+      teacher's hidden states at explicit chain-of-thought token positions through a shared set of
+      learned prototypes. No parsed reasoning steps or step labels are involved.
     </p>
 
     <h3>The teacher ceiling</h3>
@@ -527,7 +529,8 @@
         supervision of Chen et al. are the supervised-training analog: a
         decoder is trained to regenerate the written step from the latent, and the reconstruction loss
         is the reward. PMPS replaces the decoder with prototype assignment, so the alignment is
-        many-to-many between latents and steps of unequal length and nothing is ever rendered as text.
+        many-to-many between latent positions and chain-of-thought token states of unequal length, and
+        nothing is ever rendered as text.
       </li>
       <li>
         <em>Marginalize the reader out.</em> LaDi-RL scores a latent trajectory by the mean reward of
