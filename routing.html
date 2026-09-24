@@ -344,10 +344,14 @@
       <a href="https://arxiv.org/abs/2605.27958">Kumar (2026)</a> reports deception probes at
       AUROC 0.998 or above on clean data, degrading sharply under stylistic distribution shift. The
       collapse is scale-dependent: the 27B model falls to 0.485, near chance, while 12B, 4B and 1B
-      land at 0.609, 0.759 and 0.652. A single linear direction accounts for only 0.61 to 0.80
-      AUROC off-distribution, so the structure is a subspace rather than a direction. The paper
-      tests stylistic shift only, and says that whether stylistic and reinforcement-learning
-      vulnerability are related failure modes remains open.
+      land at 0.609, 0.759 and 0.652. Probes trained with stylistic augmentation recover mean AUROC
+      0.979 at 4B and 0.983 at 27B on held-out styles. On clean data, a probe restricted to the first
+      principal component reaches only 0.609 to 0.804, and five components give above 0.90. That
+      does not show a multidimensional code. A logistic score on any number of components is still
+      one direction in activation space, and the paper's permutation test finds no significant
+      subspace ($k^* = 0$), which it reads as many weak features combined. The paper tests stylistic
+      shift only, and says that whether stylistic and reinforcement-learning vulnerability are
+      related failure modes remains open.
     </p>
 
     <h4>Probes decay when the model is updated</h4>

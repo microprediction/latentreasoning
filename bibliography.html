@@ -1253,14 +1253,14 @@
           measure of decisional commitment governing an exploration-execution trade-off.</em>
         </li>
         <li>
-          Chen, S., Leong, C. T., Guo, Y., Wang, J., Li, X., and Shen, Z. (2026).
+          Chen, X., Leong, C. T., Guo, W., Wang, J., Li, W., and Shen, X. (2026).
           <a href="https://arxiv.org/abs/2606.20075"><em>What Makes Effective Supervision in Latent Chain-of-Thought: An Information-Theoretic Analysis</em></a>. arXiv:2606.20075.
-          <em>Identifies a dual collapse, gradient attenuation together with representational drift, as why outcome-only supervision of latent chains is weak.</em>
+          <em>Outcome-only latent training does no better than answering directly (GPT-2, GSM8K-Aug). The authors attribute this to a dual collapse, gradient attenuation together with representational drift, on the evidence of gradient norms and a PCA plot, without an intervention that tests either.</em>
         </li>
         <li>
-          Solgi, R., Tian, Y., and Zhang, Z. (2026).
+          Solgi, R., Tian, J., and Zhang, Z. (2026).
           <a href="https://arxiv.org/abs/2606.05315"><em>LoRi: Low-Rank Distillation for Implicit Reasoning</em></a>. arXiv:2606.05315.
-          <em>Implicit chain-of-thought hidden trajectories are low-rank, so teacher reasoning is distilled into a compact shared subspace.</em>
+          <em>An explicit-CoT teacher's hidden states, stacked over layers and rationale tokens, have rapidly decaying singular values (LLaMA-3.2-1B, GSM8K). Layer and hidden-mode factors fixed from that teacher define a subspace in which the student's implicit states are matched to the teacher's by mean and covariance. The rank measurement is of the teacher's explicit rationale, not of implicit trajectories.</em>
         </li>
         <li>
           Hao, Y., and Yang, Z. (2026).
@@ -1360,7 +1360,7 @@
         <li>
           Jung, D., Shi, P., Zhang, Y., Zhang, J., and Chen, M. (2026).
           <a href="https://arxiv.org/abs/2606.02871"><em>Adaptive Latent Agentic Reasoning</em></a>. arXiv:2606.02871.
-          <em>A dual-mode agent using compact latent reasoning for routine multi-turn decisions and escalating to explicit chain of thought for harder ones.</em>
+          <em>A dual-mode agent that chooses latent or explicit reasoning at each turn, trained with a reward on whole trajectories that favours latent turns only when the task succeeds. Explicit reasoning is more frequent on Bamboogle and 2Wiki than on single-hop NQ and TriviaQA, and in the first turn. No experiment tests whether the turns it escalates are the ones that need explicit reasoning.</em>
         </li>
         <li>
           Cho, J., Cui, Y., Kim, S., Han, D., and Han, B. (2026).
@@ -1500,8 +1500,10 @@
           Kumar, S. (2026).
           <a href="https://arxiv.org/abs/2605.27958"><em>Pressure-Testing Deception Probes in LLMs:
           Scaling, Robustness, and the Geometry of Deceptive Representations</em></a>.
-          arXiv:2605.27958. <em>Clean-data AUROC at or above 0.998 collapses under stylistic shift,
-          and a single linear direction accounts for only 0.61 to 0.80 AUROC off-distribution.</em>
+          arXiv:2605.27958. <em>Clean-data AUROC at or above 0.998 collapses under stylistic shift
+          unless probes are trained with style augmentation. On clean data a probe on the first
+          principal component alone reaches 0.609 to 0.804, but a permutation test finds no
+          significant deception subspace.</em>
         </li>
         <li>
           Duan, Y. (2026).

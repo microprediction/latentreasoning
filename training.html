@@ -119,13 +119,22 @@
     <h3>What outcome supervision loses</h3>
 
     <p>
-      <a href="https://arxiv.org/abs/2606.20075">Chen et al. (2026)</a> measure that directly. Under a
-      loss on the answer only, the gradient norm reaching each latent position decays along the chain
-      until positions two through six are effectively inactive, and the latent states drift out of the
-      region the token embeddings occupy. On GSM8K-Aug with GPT-2, outcome-only latent training lands
-      between 9.8% and 18.3%. Adding step-level supervision lifts that to 31.2%, and supervising each
-      latent by asking a decoder to reconstruct the corresponding written step lifts it to 39.1%,
-      against 43.1% for explicit chain of thought. SIM-CoT (<a
+      On GSM8K-Aug with GPT-2, <a href="https://arxiv.org/abs/2606.20075">Chen et al. (2026)</a> find
+      outcome-only latent training lands between 9.8% and 18.3%, against 18.7% for answering with no
+      chain at all. For that run the authors report a gradient norm concentrated on the first latent
+      position, with positions two through six receiving little, and a PCA plot in which the latent
+      states move away from the explicit chain's embeddings. They read these as the cause of the
+      failure, but neither is tested by intervention, and a gradient norm depends on the scale of
+      the coordinates it is measured in. Their Llama-3.2-1B and ProntoQA runs reproduce the accuracy
+      gap, not the diagnostics.
+    </p>
+
+    <p>
+      A progressive curriculum that replaces written steps with latents one stage at a time lifts
+      accuracy to 31.2%. The curriculum also resets the optimizer at each stage, and without the
+      reset it reaches 24.7%. Supervising each latent by asking a decoder to reconstruct the
+      corresponding written step lifts it to 39.1%, against 43.1% for explicit chain of thought.
+      SIM-CoT (<a
       href="https://arxiv.org/abs/2509.20317">Wei et al. 2025</a>) is the same fix applied to Coconut
       and CODI: an auxiliary decoder, discarded at inference, is trained to regenerate step $k$'s
       text from latent $k$ alone, which stops the latents homogenizing as their number grows - it adds
