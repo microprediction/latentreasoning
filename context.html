@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Latent Context</title>
+  <meta name="description" content="Models that manage their own context in latent form: learned edits to the KV cache, latent memory for agents, weights as context, latent context shared between agents, and what each costs in recall, robustness and monitorability." />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], ignoredTags:['script','noscript','style','textarea','pre','code','svg']});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">latent reasoning</a>
+      <nav>
+        <span class="navdrop"><a href="./intro.html">Topics</a><span class="navdrop-menu">
+          <a href="./intro.html">Introduction</a>
+          <a href="./families.html">Families of methods</a>
+          <a href="./prediction.html">Prediction</a>
+          <a href="./training.html">Training</a>
+          <a href="./routing.html">Routing</a>
+          <a href="./context.html">Latent context</a>
+          <a href="./theory.html">Expressivity theory</a>
+          <a href="./monitorability.html">Monitorability</a>
+        </span></span>
+        <a href="./reviews.html">Reviews</a>
+        <span class="navdrop"><a href="./essays.html">Essays</a><span class="navdrop-menu">
+          <a href="./essay-llms-cant-think.html">Remind Me Again Why Large Language Models Can&rsquo;t Think</a>
+          <a href="./essay-llms-are-monitorable.html">Remind Me Again Why Large Language Models Won&rsquo;t Kill Us All</a>
+        </span></span>
+        <span class="navdrop"><a href="./bibliography.html">Reference</a><span class="navdrop-menu">
+          <a href="./bibliography.html">Annotated bibliography</a>
+          <a href="./implementations.html">Implementations</a>
+          <a href="./map.html">Literature map</a>
+          <a href="./timeline.html">Timeline</a>
+        </span></span>
+        <a href="https://github.com/microprediction/latentreasoning">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <h1>Latent Context</h1>
+    <p class="subtitle">A model can manage its own context as text it rewrites, or as latent state it
+    writes, merges and evicts. The latent route is cheaper and harder to read.</p>
+
+    <p class="lead">
+      <a href="https://arxiv.org/abs/2609.37725">Context Language Models</a> (Shao et al. 2026)
+      give a model unrestricted write access to its own context, treated as a file. Built zero-shot
+      from existing models, they report 11.4% higher accuracy with 21.5% fewer FLOPs on
+      BrowseComp-Plus. Online reinforcement learning lifts Qwen3.5-9B on the same benchmark by
+      47.6% while using 12% fewer FLOPs.
+    </p>
+    <p>
+      Every edit in that work is text, and its training assigns the outcome advantage to each
+      segment without differentiating through the edits. Its stated future work is scaling the
+      reinforcement learning and distilling existing harnesses into the model. The continuous
+      counterpart, a model that edits its own context as latent state, draws on four literatures
+      that rarely cite one another.
+    </p>
+
+    <h2>Text-side context management</h2>
+    <p>
+      Several systems train a model to rewrite a text memory with reinforcement learning.
+      <a href="https://arxiv.org/abs/2507.02259">MemAgent</a> overwrites a fixed-size memory as it
+      reads, and extrapolates from 32K training text to a 3.5M-token task with under 5% loss.
+      <a href="https://arxiv.org/abs/2506.15841">MEM1</a> keeps a compact internal state of constant
+      size across multi-turn tasks.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/2609.35540">Continuous Context Management</a> (Hoy et al. 2026)
+      compacts at every turn, despite its name in text, and trains with GRPO plus privileged
+      full-history distillation. A frozen copy of the initial model scores each action under the
+      reconstructed full history, which gives dense token-level credit. The method beats full-history
+      GRPO for Qwen3-4B but not for Qwen3-8B.
+    </p>
+    <p>
+      Two measurements bound what text compaction costs. On 20 production agent configurations,
+      one compaction round with a production compactor keeps 53% of safety rules and five rounds
+      keep 10% (<a href="https://arxiv.org/abs/2608.22752">Zerhoudi 2026</a>). Compression can
+      also leave task completion unchanged while tripling retrieval calls, from 21.0 to 63.9 for one
+      frontier model (<a href="https://arxiv.org/abs/2608.16370">Liu et al. 2026</a>).
+    </p>
+    <p>
+      Models are also blind to their own context. <a href="https://arxiv.org/abs/2606.30005">VISTA</a>
+      shows a runtime dashboard of token usage, recency and remaining budget, and lifts
+      Gemini-3-Flash on LOCA-Bench from 22.7% to 50.7% without training.
+    </p>
+
+    <h2>The latent channel inside text summaries</h2>
+    <p>
+      <a href="https://arxiv.org/abs/2604.09852">Memento</a> (Kontonis et al. 2026) teaches a
+      reasoning model to compress each block of its chain of thought into a short summary and to
+      reason forward from the summaries, cutting peak KV cache about 2.5 times. Information from each
+      block travels by two routes: the summary text, and the KV states of the summary, computed
+      while the block was still in context.
+    </p>
+    <p>
+      Removing the KV route drops accuracy by 15 points on AIME24. Text-side context management
+      already leans on a latent channel that the text does not show.
+    </p>
+
+    <h2>Model-chosen edits to the KV cache</h2>
+    <h3>Eviction</h3>
+    <p>
+      <a href="https://arxiv.org/abs/2604.18002">Neural Garbage Collection</a> (Li et al. 2026) is
+      the closest existing analogue of a latent Context Language Model. The model periodically
+      pauses, samples which KV entries to evict, and continues. Eviction decisions are actions of
+      the same policy as the reasoning tokens, trained jointly from outcome reward alone. On
+      Countdown it scores 49.6% against 21.2% for the next-best baseline at a 2.4-times smaller peak
+      cache.
+    </p>
+    <p>
+      Supervised and differentiable versions are cheaper to train. <a href="https://arxiv.org/abs/2506.05345">Dynamic
+      Memory Sparsification</a> reaches 8-times compression after 1K training steps by delaying
+      eviction, which implicitly merges representations. For an equal number of memory reads it lifts
+      Qwen-R1 32B by 12.0 points on AIME 24. <a href="https://arxiv.org/abs/2512.03324">TRIM-KV</a>
+      learns a retention score for each token at creation. The learned scores rediscover sink tokens
+      and sliding windows without being designed to.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/2602.03203">ForesightKV</a> distils eviction from an oracle that
+      sees future attention, then refines it with GRPO. <a href="https://arxiv.org/abs/2602.10238">KV
+      Policy</a> trains lightweight per-head eviction agents with reinforcement learning, leaving the
+      language model unchanged.
+    </p>
+
+    <h3>Merging and writing</h3>
+    <p>
+      Eviction only deletes. <a href="https://arxiv.org/abs/2510.13797">Breadcrumbs Reasoning</a>
+      periodically compresses a window of generated tokens into one learned beacon token and evicts
+      the window, trained by joint reinforcement learning and distillation. It keeps 65.1&ndash;89.8%
+      of the teacher's performance with 2&ndash;32 times less memory. Compression happens at fixed
+      intervals, so the model learns how to compress but not when.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/2605.25475">IndexMem</a> compresses evicted tokens into an
+      online-updated latent state that supplies residual readouts, a soft delete that keeps a trace.
+      Under aggressive eviction it gains up to 25 points on RULER. Earlier,
+      <a href="https://arxiv.org/abs/2403.09636">Dynamic Memory Compression</a> retrofitted models to
+      learn different compression ratios in different heads and layers,
+      <a href="https://arxiv.org/abs/2312.03414">Compressed Context Memory</a> compressed accumulating
+      KV pairs online, and <a href="https://arxiv.org/abs/2401.03462">Activation Beacon</a> compressed
+      activations progressively.
+    </p>
+
+    <h3>Overwriting</h3>
+    <p>
+      In-place overwriting of a KV entry fails, and the reason is causal.
+      <a href="https://arxiv.org/abs/2606.17107">Li (2026)</a> shows that during prefill the model has
+      already written conclusions about a field onto downstream positions, so the field's own keys and
+      values drive under 1% of the decision. An append-only erratum works where the overwrite does
+      not, and precompiled KV segments can be repositioned with rotary encodings and spliced in at
+      logit cosine 0.90&ndash;0.999 to full recomputation across twelve models.
+    </p>
+    <p>
+      A latent context editor therefore needs overwrite as append-and-mask rather than replacement.
+    </p>
+
+    <h2>Latent memory for agents</h2>
+    <p>
+      <a href="https://arxiv.org/abs/2509.24704">MemGen</a> pairs a memory trigger, trained by
+      reinforcement learning to decide when to invoke memory, with a memory weaver that generates a
+      latent token sequence inserted into the reasoner's context. It reports gains of up to 38.22%
+      over ExpeL and AWM and up to 13.44% over GRPO across eight benchmarks.
+      <a href="https://arxiv.org/abs/2605.09317">Mem-W</a> compresses past trajectories and in-session
+      segments into memory tokens woven into a GUI agent's embedding sequence.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/2609.33244">ActiveMem</a> stores agent experience as a tree of
+      node embeddings, injected into a frozen model as a latent prefix in the KV cache, with
+      expansion, retrieval and pruning learned by GRPO. The memory policy belongs to a separate
+      controller rather than the language model.
+    </p>
+    <p>
+      These systems write latent memory. None of them edits or deletes entries it has already
+      written.
+    </p>
+
+    <h2>Weights as context</h2>
+    <p>
+      Fast weights carry context forward as parameters. <a href="https://arxiv.org/abs/2606.04536">TMEM</a>
+      (Ren et al. 2026) is the closest analogue of a Context Language Model with the file replaced by
+      a weight delta. When the context exceeds a budget the agent writes grounded supervision about
+      the session, which updates fast LoRA weights online. The extraction policy is trained by
+      reinforcement learning on outcomes after the fast-weight rollout.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/2506.10943">SEAL</a> trains a model, by reinforcement learning
+      against the updated model's downstream accuracy, to generate its own fine-tuning data.
+      <a href="https://arxiv.org/abs/2602.15902">Doc-to-LoRA</a> amortises the write: a hypernetwork
+      maps a document to an adapter in one forward pass, and reaches near-perfect needle retrieval at
+      more than four times the target model's native window. <a href="https://arxiv.org/abs/2603.13875">GradMem</a>
+      writes a context into a few prefix memory vectors by test-time gradient steps on a
+      reconstruction loss, and extra steps scale capacity faster than repeated forward writes.
+    </p>
+    <p>
+      Weight memory compresses well and recalls poorly. <a href="https://arxiv.org/abs/2512.23675">TTT-E2E</a>
+      scales with context like full attention and runs 2.7 times faster at 128K. On pass-key
+      retrieval at 128K it scores 0.06, against 0.99 for full attention and 0.07 for a sliding window.
+      The authors attribute full attention's strength to its nearly lossless recall.
+    </p>
+    <p>
+      Learned KV state can derail queries it was not trained for.
+      <a href="https://arxiv.org/abs/2506.06266">Cartridges</a> train a compact
+      KV cache per corpus and match in-context learning with 38.6 times less memory.
+      <a href="https://arxiv.org/abs/2609.35621">Cartridges++</a> finds that such caches degrade
+      off-context queries, including general knowledge and instruction following, while
+      training-free compression shows the opposite trade-off.
+    </p>
+    <p>
+      The fast-weight lineage supplies the write operators. Linear attention is an outer-product
+      fast-weight programmer, and the delta rule makes the write targeted
+      (<a href="https://arxiv.org/abs/2102.11174">Schlag et al. 2021</a>). A self-referential weight
+      matrix emits its own edits (<a href="https://arxiv.org/abs/2202.05780">Irie et al. 2022</a>).
+      <a href="https://arxiv.org/abs/2412.06464">Gated DeltaNet</a> combines erasure with targeted
+      update. <a href="https://arxiv.org/abs/2501.00663">Titans</a> add a neural long-term memory that learns
+      to memorise at test time, and <a href="https://arxiv.org/abs/2505.23735">ATLAS</a> optimises
+      that memory over past tokens rather than only the last input.
+      <a href="https://arxiv.org/abs/2602.16704">REFINE</a> shapes fast-weight write dynamics with
+      GRPO under a next-sequence objective. Hybrids keep a small exact cache beside the recurrent
+      state (<a href="https://arxiv.org/abs/2607.02303">Cui 2026</a>,
+      <a href="https://arxiv.org/abs/2506.00744">Irie et al. 2025</a>).
+    </p>
+    <p>
+      Weight writes made inside an agent's own episode can amplify drift, because each update changes
+      the policy that writes the next update. <a href="https://arxiv.org/abs/2607.03441">Agentic
+      test-time training</a> down-weights repeated text in updates and gains up to 5.0 points on
+      ALFWorld.
+    </p>
+
+    <h2>Latent context shared between agents</h2>
+    <p>
+      Context Language Models extend to several agents whose contexts coexist as files. The latent
+      counterpart passes caches or hidden states. <a href="https://arxiv.org/abs/2511.20639">LatentMAS</a>
+      hands a shared latent working memory from agent to agent without training, and reports up to
+      14.6% higher accuracy than text-based multi-agent systems with 70.8&ndash;83.7% fewer output
+      tokens. <a href="https://arxiv.org/abs/2510.03215">Cache-to-Cache</a> trains a fuser that projects
+      one model's KV cache into another's and beats text communication by about 3.1&ndash;5.4%.
+    </p>
+    <p>
+      Audits qualify these gains. <a href="https://arxiv.org/abs/2608.04893">Cheng et al. (2026)</a>
+      replace the relayed cache with one from a different example. Where the receiver needs the
+      sender's private information, LatentMAS's relay reaches ceiling. Where it does not, gains stay
+      within 2.8 points of a mismatched cache, and the released Cache-to-Cache projector shows no
+      detected example-specific transfer. <a href="https://arxiv.org/abs/2607.26773">Zhang et al.
+      (2026)</a> attribute 6.67 of a 15.00-point MATH-500 gain to example-specific content.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/2607.14103">Wenzel (2026)</a> finds that a text round-trip
+      destroys 88% of sparse-autoencoder features, yet the latent channel matches text on
+      cross-lingual concept tasks and never exceeds it. The lost features mostly encode surface form.
+    </p>
+
+    <h2>Lessons from differentiable memory</h2>
+    <p>
+      The Neural Turing Machine (<a href="https://arxiv.org/abs/1410.5401">Graves et al. 2014</a>)
+      and its successors gave a controller learned read and write access to continuous memory.
+      <a href="https://arxiv.org/abs/1904.10278">Csord&aacute;s and Schmidhuber (2019)</a> traced the
+      Differentiable Neural Computer's failures to three causes: keys not separated from values,
+      de-allocation that leaves aliased content, and chained reads that degrade the address
+      distribution. Fixing them cut the bAbI mean error by 43%.
+    </p>
+    <p>
+      <a href="https://arxiv.org/abs/1610.09027">Sparse Access Memory</a> touches only a few slots per
+      read or write, and runs 1,000 times faster with 3,000 times less physical memory.
+      <a href="https://arxiv.org/abs/1803.10760">MERLIN</a> argued that memory is not enough and
+      that the right information must be stored in the right format, so it drove memory formation by
+      predictive modelling rather than reward. <a href="https://arxiv.org/abs/1810.06721">Temporal
+      value transport</a> used recall of specific memories to assign credit to past actions across
+      long delays.
+    </p>
+    <p>
+      Reinforcement learning over discrete memory interfaces was demonstrated only on simple algorithmic tasks
+      (<a href="https://arxiv.org/abs/1505.00521">Zaremba and Sutskever 2015</a>). Gated transformers
+      later exceeded an external-memory architecture on DMLab-30
+      (<a href="https://arxiv.org/abs/1910.06764">Parisotto et al. 2019</a>), and attention absorbed
+      the separate memory controller.
+    </p>
+
+    <h2>Capacity and the writer</h2>
+    <p>
+      A single input embedding holds far more than learned compressors put in it.
+      <a href="https://arxiv.org/abs/2502.13063">Kuratov et al. (2025)</a> reconstruct up to 1,568
+      tokens from one optimised vector. Learned encoders rarely exceed tenfold lossless compression,
+      against up to 1,500-fold for per-sample optimisation, and the limit tracks the text's
+      cross-entropy rather than its length.
+    </p>
+    <p>
+      The information a transformer can memorise through a prompt grows at most linearly with
+      prompt length (<a href="https://arxiv.org/abs/2509.00421">Meyer et al. 2025</a>). Latent slots
+      are dense but bounded, and the binding constraint is the write procedure rather than capacity.
+    </p>
+
+    <h2>Monitorability of latent context</h2>
+    <p>
+      A text context can be read. A latent context cannot, and the problems the
+      <a href="./monitorability.html">monitorability</a> page describes for reasoning carry over to
+      memory. Context Language Models already flag a model-editable context as an attack surface,
+      citing a report of a model writing unauthorised instructions into its own summary.
+    </p>
+    <p>
+      In latent form the risk is harder to see. <a href="https://arxiv.org/abs/2606.28958">Brito et al.
+      (2026)</a> show that changing a relayed KV cache can collapse a coordinator's answers while the
+      visible message still looks plausible, so a verifier that reads only text misses it. They protect
+      the cache in transport with an HMAC manifest, which accepted all 774 honest payloads and rejected
+      all 295 tampered ones.
+    </p>
+    <p>
+      Decoding latent state is not explaining it. Patterns that look like reasoning also appear in
+      control models, so latent thoughts are hidden computation rather than hidden explanation
+      (<a href="https://arxiv.org/abs/2606.12689">Aswal et al. 2026</a>). An audit of latent memory
+      needs matched controls and causal tests, as mismatched-cache audits provide for latent communication.
+    </p>
+
+    <h2>Untried combinations</h2>
+    <p>
+      Each claim rests on arXiv title and abstract searches and full-text searches run on
+      1 October 2026, plus the reference lists of the closest papers. Each is withdrawn when the
+      missing work appears.
+    </p>
+    <ol class="gaps">
+      <li>
+        <em>No model has a full latent edit vocabulary.</em> Neural Garbage Collection only evicts,
+        Breadcrumbs merges on a fixed schedule, MemGen and Mem-W write without deleting, and full
+        create, update and delete under reinforcement learning exists only over text memory.
+        <em>Confidence: moderate.</em>
+      </li>
+      <li>
+        <em>No latent editor is trained on long multi-turn agent tasks.</em> Model-chosen KV edits are
+        trained on single reasoning chains such as Countdown and competition mathematics. Agent-side KV methods keep the base model
+        frozen and train against proxy targets. <em>Confidence: moderate.</em>
+      </li>
+      <li>
+        <em>No head-to-head comparison of latent and text context management.</em> No paper runs a
+        latent editor against a text file editor such as Context Language Models on the same agent
+        benchmark at matched compute. <em>Confidence: moderate.</em>
+      </li>
+      <li>
+        <em>No jointly edited latent context.</em> Latent multi-agent systems relay, concatenate or
+        compress caches into a receiver. None lets several agents edit one persistent latent context
+        in place. <em>Confidence: low to moderate.</em>
+      </li>
+    </ol>
+    <p>
+      The pieces for such a system exist. Append-and-mask edits avoid the overwrite failure,
+      privileged full-history distillation gives dense credit to each edit, a predictive or
+      reconstruction loss guides what is written, a small exact cache preserves recall beside a
+      compressed tier, and an integrity check protects a cache that cannot be read.
+    </p>
+
+    <div class="next-steps">
+      <p><em>Related.</em> The <a href="./training.html">training</a> page covers credit assignment
+      through latent rollouts, <a href="./monitorability.html">monitorability</a> covers what reading
+      internal state buys for oversight, and the <a href="./bibliography.html">bibliography</a> lists
+      these works under latent context. The companion site on
+      <a href="https://metareasoning.microprediction.org/updating.html">self-improvement mechanisms</a>
+      treats memory as one of the components a self-improving system rewrites.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/latentreasoning">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

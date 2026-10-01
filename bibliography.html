@@ -22,6 +22,7 @@
           <a href="./prediction.html">Prediction</a>
           <a href="./training.html">Training</a>
           <a href="./routing.html">Routing</a>
+          <a href="./context.html">Latent context</a>
           <a href="./theory.html">Expressivity theory</a>
           <a href="./monitorability.html">Monitorability</a>
         </span></span>
@@ -42,7 +43,6 @@
   </header>
 
   <main>
-    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
     <h1>Bibliography</h1>
     <p class="subtitle">Work on reasoning that does not pass through the token vocabulary, plus the
     faithfulness and expressivity literature that decides what it means.</p>
@@ -2276,6 +2276,275 @@
           Kim, H., Papamakarios, G., and Mnih, A. (2020).
           <a href="https://arxiv.org/abs/2006.04710"><em>The Lipschitz Constant of Self-Attention</em></a>. arXiv:2006.04710.
           <em>Standard dot-product self-attention has no global Lipschitz constant over unbounded inputs, since its Jacobian grows with the spread of the other tokens. It is Lipschitz on any compact input set, with a constant that depends on the input range and can be very large.</em>
+        </li>
+      </ul>
+
+      <h3>Latent context and memory</h3>
+      <ul>
+        <li>
+          Shao, R., Shen, S. Z., Yin, J. O., Li, Y., Wang, M., et al. (2026).
+          <a href="https://arxiv.org/abs/2609.37725"><em>Context Language Models</em></a>.
+          arXiv:2609.37725. <em>Context as a file the model rewrites without restriction. Zero-shot, 11.4% higher accuracy with 21.5% fewer FLOPs on BrowseComp-Plus; online RL lifts Qwen3.5-9B by 47.6%. Every edit is text.</em>
+        </li>
+        <li>
+          Li, M. Y., Hamid, J. I., Fox, E. B., and Goodman, N. D. (2026).
+          <a href="https://arxiv.org/abs/2604.18002"><em>Neural Garbage Collection: Learning to Forget while Learning to Reason</em></a>.
+          arXiv:2604.18002. <em>Eviction decisions sampled by the reasoning policy and trained with it from outcome reward alone. 49.6% against 21.2% on Countdown at a 2.4-times smaller peak cache. The closest latent analogue of a Context Language Model, but it only deletes.</em>
+        </li>
+        <li>
+          Monea, G., Feldman, Y., Padmanabhan, S., Brantley, K., and Artzi, Y. (2025).
+          <a href="https://arxiv.org/abs/2510.13797"><em>Breadcrumbs Reasoning: Memory-Efficient Reasoning with Compression Beacons</em></a>.
+          arXiv:2510.13797. <em>A learned beacon token compresses a window of generated tokens, which is then evicted. Keeps 65.1&ndash;89.8% of teacher performance with 2&ndash;32 times less memory, on a fixed schedule.</em>
+        </li>
+        <li>
+          Łańcucki, A., Staniszewski, K., Nawrot, P., and Ponti, E. M. (2025).
+          <a href="https://arxiv.org/abs/2506.05345"><em>Inference-Time Hyper-Scaling with KV Cache Compression</em></a>.
+          arXiv:2506.05345. <em>Dynamic Memory Sparsification: delayed eviction learned in 1K steps reaches 8-times compression and lifts Qwen-R1 32B by 12.0 points on AIME 24 at equal memory reads.</em>
+        </li>
+        <li>
+          Dong, Z., Liu, P., Li, J., Chen, Z., Peng, H., et al. (2026).
+          <a href="https://arxiv.org/abs/2602.03203"><em>ForesightKV: Optimizing KV Cache Eviction for Reasoning Models by Learning Long-Term Contribution</em></a>.
+          arXiv:2602.03203. <em>ForesightKV: eviction distilled from an oracle that sees future attention, then refined with GRPO.</em>
+        </li>
+        <li>
+          Bui, N., Sharma, S., Lamba, S., Mishra, S., and Ying, R. (2025).
+          <a href="https://arxiv.org/abs/2512.03324"><em>Cache What Lasts: Token Retention for Memory-Bounded KV Cache in LLMs</em></a>.
+          arXiv:2512.03324. <em>TRIM-KV: a retention score learned per token at creation. The scores rediscover sink tokens and sliding windows unprompted.</em>
+        </li>
+        <li>
+          Moschella, L., Manduchi, L., and Sener, O. (2026).
+          <a href="https://arxiv.org/abs/2602.10238"><em>Learning to Evict from Key-Value Cache</em></a>.
+          arXiv:2602.10238. <em>KV Policy: lightweight per-head reinforcement-learning agents rank tokens for eviction, with the language model unchanged.</em>
+        </li>
+        <li>
+          Yang, X., Gu, H., Xu, B., Li, L., Liu, B., et al. (2026).
+          <a href="https://arxiv.org/abs/2605.25475"><em>IndexMem: Learned KV-Cache Eviction with Latent Memory for Long-Context LLM Inference</em></a>.
+          arXiv:2605.25475. <em>IndexMem: evicted tokens are compressed into an online latent state with residual readouts, up to 25 points on RULER under aggressive eviction.</em>
+        </li>
+        <li>
+          Li, B. (2026).
+          <a href="https://arxiv.org/abs/2606.17107"><em>Models Take Notes at Prefill: KV Cache Can Be Editable and Composable</em></a>.
+          arXiv:2606.17107. <em>During prefill the model writes conclusions onto downstream positions, so a field&rsquo;s own KV drives under 1% of the decision. Overwrite fails; an append-only erratum works.</em>
+        </li>
+        <li>
+          Kontonis, V., Zeng, Y., Garg, S., Chen, L., Tang, H., et al. (2026).
+          <a href="https://arxiv.org/abs/2604.09852"><em>MEMENTO: Teaching LLMs to Manage Their Own Context</em></a>.
+          arXiv:2604.09852. <em>Memento: block summaries in text, plus the summaries&rsquo; KV states. Removing the KV route costs 15 points on AIME24.</em>
+        </li>
+        <li>
+          Nawrot, P., Łańcucki, A., Chochowski, M., Tarjan, D., and Ponti, E. M. (2024).
+          <a href="https://arxiv.org/abs/2403.09636"><em>Dynamic Memory Compression: Retrofitting LLMs for Accelerated Inference</em></a>.
+          arXiv:2403.09636. <em>Dynamic Memory Compression: retrofitted models learn per-head, per-layer compression ratios, up to 4-times cache compression at preserved performance.</em>
+        </li>
+        <li>
+          Kim, J.-H., Yeom, J., Yun, S., and Song, H. O. (2023).
+          <a href="https://arxiv.org/abs/2312.03414"><em>Compressed Context Memory For Online Language Model Interaction</em></a>.
+          arXiv:2312.03414. <em>Compressed Context Memory: accumulating key-value pairs compressed online, matching full context with a five-times smaller memory.</em>
+        </li>
+        <li>
+          Zhang, P., Liu, Z., Xiao, S., Shao, N., Ye, Q., and Dou, Z. (2024).
+          <a href="https://arxiv.org/abs/2401.03462"><em>Long Context Compression with Activation Beacon</em></a>.
+          arXiv:2401.03462. <em>Activation Beacon: progressive compression of keys and values rather than soft prompts.</em>
+        </li>
+        <li>
+          Zhang, G., Fu, M., and Yan, S. (2025).
+          <a href="https://arxiv.org/abs/2509.24704"><em>MemGen: Weaving Generative Latent Memory for Self-Evolving Agents</em></a>.
+          arXiv:2509.24704. <em>MemGen: an RL-trained trigger decides when to recall, and a weaver generates latent memory tokens. Up to 38.22% over ExpeL and AWM.</em>
+        </li>
+        <li>
+          Zhang, G., Ling, Y., Meng, F., Wang, K., and Yan, S. (2026).
+          <a href="https://arxiv.org/abs/2605.09317"><em>Mem-W: Latent Memory-Native GUI Agents</em></a>.
+          arXiv:2605.09317. <em>Mem-W: past trajectories and in-session segments compressed into memory tokens inside a GUI agent&rsquo;s embedding sequence.</em>
+        </li>
+        <li>
+          Wu, S.-L., Wang, J., Du, Z., and Gan, W. (2026).
+          <a href="https://arxiv.org/abs/2609.33244"><em>ActiveMem: Dynamic Latent Memory Trees for Long-Horizon Agents</em></a>.
+          arXiv:2609.33244. <em>ActiveMem: a tree of node embeddings injected as a latent KV prefix into a frozen model, with expansion and pruning learned by GRPO.</em>
+        </li>
+        <li>
+          Yu, H., Chen, T., Feng, J., Chen, J., Dai, W., et al. (2025).
+          <a href="https://arxiv.org/abs/2507.02259"><em>MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent</em></a>.
+          arXiv:2507.02259. <em>MemAgent: an overwritten fixed-size text memory trained with multi-conversation RL, extrapolating to 3.5M tokens with under 5% loss.</em>
+        </li>
+        <li>
+          Zhou, Z., Qu, A., Wu, Z., Kim, S., Prakash, A., et al. (2025).
+          <a href="https://arxiv.org/abs/2506.15841"><em>MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents</em></a>.
+          arXiv:2506.15841. <em>MEM1: a constant-size internal state for multi-turn agents, trained end to end with RL.</em>
+        </li>
+        <li>
+          Hoy, W., Fan, J., Celik, N., and Pan, X. (2026).
+          <a href="https://arxiv.org/abs/2609.35540"><em>Continuous Context Management</em></a>.
+          arXiv:2609.35540. <em>Compaction at every turn, in text despite the name, with privileged full-history distillation for dense credit.</em>
+        </li>
+        <li>
+          Xu, B., Li, H., and Zhang, K. (2026).
+          <a href="https://arxiv.org/abs/2606.30005"><em>LLM Agents Are Latent Context Managers: Eliciting Self-Managed Context via State Proprioception</em></a>.
+          arXiv:2606.30005. <em>VISTA: models cannot see their own context budget. A dashboard lifts Gemini-3-Flash on LOCA-Bench from 22.7% to 50.7%.</em>
+        </li>
+        <li>
+          Zerhoudi, S., Mitrovic, J., and Granitzer, M. (2026).
+          <a href="https://arxiv.org/abs/2608.22752"><em>The Compaction Cliff in Long-Running AI Agent Memory</em></a>.
+          arXiv:2608.22752. <em>One production compaction round keeps 53% of safety rules, five rounds keep 10%.</em>
+        </li>
+        <li>
+          Liu, S. (2026).
+          <a href="https://arxiv.org/abs/2608.16370"><em>What Does Context Compression Cost an Agent? Interaction Costs Unrevealed by Task-Completion Metrics</em></a>.
+          arXiv:2608.16370. <em>Compression leaves completion unchanged while retrieval calls rise from 21.0 to 63.9.</em>
+        </li>
+        <li>
+          Ren, T., Luo, W., Yang, H., Zhu, R., Huang, X., et al. (2026).
+          <a href="https://arxiv.org/abs/2606.04536"><em>Scaling Self-Evolving Agents via Parametric Memory</em></a>.
+          arXiv:2606.04536. <em>TMEM: the agent writes supervision into fast LoRA weights online, with the extraction policy trained by RL. A weight-delta counterpart of a context file.</em>
+        </li>
+        <li>
+          Zweiger, A., Pari, J., Guo, H., Akyürek, E., Kim, Y., and Agrawal, P. (2025).
+          <a href="https://arxiv.org/abs/2506.10943"><em>Self-Adapting Language Models</em></a>.
+          arXiv:2506.10943. <em>SEAL: a model trained by RL to generate its own fine-tuning data, rewarded by the updated model&rsquo;s accuracy.</em>
+        </li>
+        <li>
+          Charakorn, R., Cetin, E., Uesaka, S., and Lange, R. T. (2026).
+          <a href="https://arxiv.org/abs/2602.15902"><em>Doc-to-LoRA: Learning to Instantly Internalize Contexts</em></a>.
+          arXiv:2602.15902. <em>Doc-to-LoRA: a hypernetwork writes a document into an adapter in one forward pass, near-perfect needle retrieval beyond four times the native window.</em>
+        </li>
+        <li>
+          Kuratov, Y., Kairov, M., Bulatov, A., Rodkin, I., and Burtsev, M. (2026).
+          <a href="https://arxiv.org/abs/2603.13875"><em>GradMem: Learning to Write Context into Memory with Test-Time Gradient Descent</em></a>.
+          arXiv:2603.13875. <em>GradMem: a context written into prefix memory vectors by test-time gradient steps on a reconstruction loss.</em>
+        </li>
+        <li>
+          Tandon, A., Dalal, K., Li, X., Koceja, D., Rød, M., et al. (2025).
+          <a href="https://arxiv.org/abs/2512.23675"><em>End-to-End Test-Time Training for Long Context</em></a>.
+          arXiv:2512.23675. <em>TTT-E2E: context compressed into weights by test-time training. Scales like full attention and runs 2.7 times faster at 128K, but scores 0.06 on 128K pass-key retrieval against 0.99.</em>
+        </li>
+        <li>
+          Behrouz, A., Zhong, P., and Mirrokni, V. (2024).
+          <a href="https://arxiv.org/abs/2501.00663"><em>Titans: Learning to Memorize at Test Time</em></a>.
+          arXiv:2501.00663. <em>Titans: a neural long-term memory that learns to memorise at test time beside attention.</em>
+        </li>
+        <li>
+          Behrouz, A., Li, Z., Kacham, P., Daliri, M., Deng, Y., et al. (2025).
+          <a href="https://arxiv.org/abs/2505.23735"><em>ATLAS: Learning to Optimally Memorize the Context at Test Time</em></a>.
+          arXiv:2505.23735. <em>ATLAS: memory optimised over past tokens rather than only the last input.</em>
+        </li>
+        <li>
+          Eyuboglu, S., Ehrlich, R., Arora, S., Guha, N., Zinsley, D., et al. (2025).
+          <a href="https://arxiv.org/abs/2506.06266"><em>Cartridges: Lightweight and general-purpose long context representations via self-study</em></a>.
+          arXiv:2506.06266. <em>Cartridges: a compact KV cache trained per corpus by self-study, matching in-context learning with 38.6 times less memory.</em>
+        </li>
+        <li>
+          Laguna, S., Monteiro, J., Cuturi, M., Ablin, P., and Gualdoni, E. (2026).
+          <a href="https://arxiv.org/abs/2609.35621"><em>Cartridges++: KV Cache Compression without Off-Context Derailment</em></a>.
+          arXiv:2609.35621. <em>Cartridges++: learned caches degrade off-context queries, the reverse of training-free eviction&rsquo;s trade-off.</em>
+        </li>
+        <li>
+          Schlag, I., Irie, K., and Schmidhuber, J. (2021).
+          <a href="https://arxiv.org/abs/2102.11174"><em>Linear Transformers Are Secretly Fast Weight Programmers</em></a>.
+          arXiv:2102.11174. <em>Linear attention as outer-product fast-weight programming, with a delta-rule write.</em>
+        </li>
+        <li>
+          Irie, K., Schlag, I., Csordás, R., and Schmidhuber, J. (2022).
+          <a href="https://arxiv.org/abs/2202.05780"><em>A Modern Self-Referential Weight Matrix That Learns to Modify Itself</em></a>.
+          arXiv:2202.05780. <em>A self-referential weight matrix that emits its own edits.</em>
+        </li>
+        <li>
+          Yang, S., Kautz, J., and Hatamizadeh, A. (2024).
+          <a href="https://arxiv.org/abs/2412.06464"><em>Gated Delta Networks: Improving Mamba2 with Delta Rule</em></a>.
+          arXiv:2412.06464. <em>Gated DeltaNet: gated erasure combined with the delta rule.</em>
+        </li>
+        <li>
+          Hwang, H. S., Wu, X., Chun, S., and Russakovsky, O. (2026).
+          <a href="https://arxiv.org/abs/2602.16704"><em>Reinforced Fast Weights with Next-Sequence Prediction</em></a>.
+          arXiv:2602.16704. <em>REFINE: GRPO shapes fast-weight write dynamics under a next-sequence objective.</em>
+        </li>
+        <li>
+          Cui, W. (2026).
+          <a href="https://arxiv.org/abs/2607.02303"><em>A Hippocampus for Linear Attention: An Exact Memory for What the Recurrent State Forgets</em></a>.
+          arXiv:2607.02303. <em>HOLA: a bounded exact cache beside a delta-rule state, keeping what the state would overwrite.</em>
+        </li>
+        <li>
+          Irie, K., Yau, M., and Gershman, S. J. (2025).
+          <a href="https://arxiv.org/abs/2506.00744"><em>Blending Complementary Memory Systems in Hybrid Quadratic-Linear Transformers</em></a>.
+          arXiv:2506.00744. <em>Hybrids of key-value memory, precise but quadratic, and fast-weight memory, unbounded but imprecise.</em>
+        </li>
+        <li>
+          Wang, Y., Hao, J., Shi, Y., Yuan, K., and Sun, M. (2026).
+          <a href="https://arxiv.org/abs/2607.03441"><em>No Time Like the Present: Agentic Test-Time Training for LLM Agents</em></a>.
+          arXiv:2607.03441. <em>Agentic test-time training: in-episode weight writes amplify drift; down-weighting repeated text gains up to 5.0 points on ALFWorld.</em>
+        </li>
+        <li>
+          Zou, J., Qiu, R., Li, G., Yang, X., Tieu, K., et al. (2025).
+          <a href="https://arxiv.org/abs/2511.20639"><em>Latent Collaboration in Multi-Agent Systems</em></a>.
+          arXiv:2511.20639. <em>LatentMAS: agents share a latent working memory without training. Up to 14.6% higher accuracy and 70.8&ndash;83.7% fewer output tokens than text-based systems.</em>
+        </li>
+        <li>
+          Fu, T., Min, Z., Zhang, H., Yan, J., Dai, G., et al. (2025).
+          <a href="https://arxiv.org/abs/2510.03215"><em>Cache-to-Cache: Direct Semantic Communication Between Large Language Models</em></a>.
+          arXiv:2510.03215. <em>Cache-to-Cache: a trained fuser projects one model&rsquo;s KV cache into another&rsquo;s, about 3.1&ndash;5.4% over text communication.</em>
+        </li>
+        <li>
+          Cheng, J., Das, S., and Ramnath, R. (2026).
+          <a href="https://arxiv.org/abs/2608.04893"><em>When Does Latent Communication Pay? A Causal Audit of Relayed KV Caches in Multi-Agent LLMs</em></a>.
+          arXiv:2608.04893. <em>A mismatched-cache audit: relays reach ceiling when the receiver needs private information; otherwise gains stay within 2.8 points of a mismatched cache.</em>
+        </li>
+        <li>
+          Zhang, H. and Emu, M. (2026).
+          <a href="https://arxiv.org/abs/2607.26773"><em>Do Latent Channels Actually Communicate? A Causal Audit of Latent Multi-Agent LLM</em></a>.
+          arXiv:2607.26773. <em>Of a 15.00-point MATH-500 gain from latent relay, 6.67 points are attributable to example-specific content.</em>
+        </li>
+        <li>
+          Wenzel, M. (2026).
+          <a href="https://arxiv.org/abs/2607.14103"><em>Latent Communication Between Language Model Agents: Channels, Alignment, and the Limits of Text</em></a>.
+          arXiv:2607.14103. <em>A text round-trip destroys 88% of sparse-autoencoder features, yet the latent channel never beats text on the tasks tested.</em>
+        </li>
+        <li>
+          Brito, L. and Baquero, C. (2026).
+          <a href="https://arxiv.org/abs/2606.28958"><em>When Latent Agents Lie: KV-Cache Integrity in Multi-Agent LLM Collaboration</em></a>.
+          arXiv:2606.28958. <em>Tampering with a relayed KV cache collapses answers while visible messages look plausible. An HMAC manifest rejected all 295 tampered payloads.</em>
+        </li>
+        <li>
+          Graves, A., Wayne, G., and Danihelka, I. (2014).
+          <a href="https://arxiv.org/abs/1410.5401"><em>Neural Turing Machines</em></a>.
+          arXiv:1410.5401. <em>Neural Turing Machines: a controller with learned read and write heads over continuous memory.</em>
+        </li>
+        <li>
+          Csordás, R. and Schmidhuber, J. (2019).
+          <a href="https://arxiv.org/abs/1904.10278"><em>Improving Differentiable Neural Computers Through Memory Masking, De-allocation, and Link Distribution Sharpness Control</em></a>.
+          arXiv:1904.10278. <em>The Differentiable Neural Computer&rsquo;s faults: keys not separated from values, aliasing after de-allocation, degrading chained reads. Fixes cut bAbI error by 43%.</em>
+        </li>
+        <li>
+          Rae, J. W., Hunt, J. J., Harley, T., Danihelka, I., Senior, A., et al. (2016).
+          <a href="https://arxiv.org/abs/1610.09027"><em>Scaling Memory-Augmented Neural Networks with Sparse Reads and Writes</em></a>.
+          arXiv:1610.09027. <em>Sparse Access Memory: few slots per read or write, 1,000 times faster with 3,000 times less memory.</em>
+        </li>
+        <li>
+          Wayne, G., Hung, C.-C., Amos, D., Mirza, M., Ahuja, A., et al. (2018).
+          <a href="https://arxiv.org/abs/1803.10760"><em>Unsupervised Predictive Memory in a Goal-Directed Agent</em></a>.
+          arXiv:1803.10760. <em>MERLIN: memory is not enough without storing the right information in the right format, so predictive modelling drives what is written.</em>
+        </li>
+        <li>
+          Hung, C.-C., Lillicrap, T., Abramson, J., Wu, Y., Mirza, M., et al. (2018).
+          <a href="https://arxiv.org/abs/1810.06721"><em>Optimizing Agent Behavior over Long Time Scales by Transporting Value</em></a>.
+          arXiv:1810.06721. <em>Temporal value transport: recall of specific memories assigns credit to past actions across long delays.</em>
+        </li>
+        <li>
+          Zaremba, W. and Sutskever, I. (2015).
+          <a href="https://arxiv.org/abs/1505.00521"><em>Reinforcement Learning Neural Turing Machines - Revised</em></a>.
+          arXiv:1505.00521. <em>Reinforcement learning over discrete memory tapes, demonstrated on simple algorithmic tasks.</em>
+        </li>
+        <li>
+          Parisotto, E., Song, H. F., Rae, J. W., Pascanu, R., Gulcehre, C., et al. (2019).
+          <a href="https://arxiv.org/abs/1910.06764"><em>Stabilizing Transformers for Reinforcement Learning</em></a>.
+          arXiv:1910.06764. <em>Gated Transformer-XL: attention exceeds an external-memory architecture on DMLab-30.</em>
+        </li>
+        <li>
+          Kuratov, Y., Arkhipov, M., Bulatov, A., and Burtsev, M. (2025).
+          <a href="https://arxiv.org/abs/2502.13063"><em>Cramming 1568 Tokens into a Single Vector and Back Again: Exploring the Limits of Embedding Space Capacity</em></a>.
+          arXiv:2502.13063. <em>Up to 1,568 tokens reconstructed from one optimised vector. Learned encoders stop near tenfold compression against up to 1,500-fold.</em>
+        </li>
+        <li>
+          Meyer, M., Michelessa, M., Chaux, C., and Tan, V. Y. F. (2025).
+          <a href="https://arxiv.org/abs/2509.00421"><em>Memory Limitations of Prompt Tuning in Transformers</em></a>.
+          arXiv:2509.00421. <em>Memorisation through a prompt grows at most linearly with prompt length.</em>
         </li>
       </ul>
 

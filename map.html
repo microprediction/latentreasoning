@@ -31,6 +31,7 @@
           <a href="./prediction.html">Prediction</a>
           <a href="./training.html">Training</a>
           <a href="./routing.html">Routing</a>
+          <a href="./context.html">Latent context</a>
           <a href="./theory.html">Expressivity theory</a>
           <a href="./monitorability.html">Monitorability</a>
         </span></span>
@@ -209,6 +210,7 @@ const CLUSTERS = {
   monitor:   {label:"Faithfulness & monitorability",   color:"#c0392b"},
   adjacent:  {label:"Adjacent & frontier",             color:"#7f8c8d"},
   deploy:    {label:"Deployment",                      color:"#000000"},
+  context:   {label:"Latent context & memory",         color:"#b7950b"},
 };
 
 const NODES = [
@@ -298,6 +300,18 @@ const NODES = [
  // adjacent / frontier
  {id:"kava", c:"adjacent", label:"KV-cache distillation", url:"https://arxiv.org/abs/2510.02312",
   note:"KaVa 2025. Distils a compressed teacher KV cache into a latent student; CoT-bearing caches are highly redundant. Teacher cache and eviction are training-only. At inference the student generates its own latent cache."},
+ {id:"clm", c:"context", label:"Context Language Models", big:true, url:"https://arxiv.org/abs/2609.37725",
+  note:"Shao et al. 2026. The model rewrites its own context, treated as a text file, trained zero-shot, in context and with RL. 11.4% higher accuracy with 21.5% fewer FLOPs on BrowseComp-Plus. Every edit is text."},
+ {id:"ngc", c:"context", label:"Neural Garbage Collection", url:"https://arxiv.org/abs/2604.18002",
+  note:"Li et al. 2026. KV eviction sampled by the reasoning policy and trained jointly from outcome reward. 49.6% vs 21.2% on Countdown at a 2.4x smaller peak cache. Deletes only."},
+ {id:"memento", c:"context", label:"Memento", url:"https://arxiv.org/abs/2604.09852",
+  note:"Kontonis et al. 2026. Text block summaries whose KV states also carry the evicted block. Removing that latent route costs 15 points on AIME24."},
+ {id:"tmem", c:"context", label:"TMEM: fast-weight memory", url:"https://arxiv.org/abs/2606.04536",
+  note:"Ren et al. 2026. The agent writes supervision into fast LoRA weights online, with the extraction policy trained by RL. A weight delta in place of a context file."},
+ {id:"latentmas", c:"context", label:"LatentMAS", url:"https://arxiv.org/abs/2511.20639",
+  note:"Zou et al. 2025. Agents share a latent working memory without training. A mismatched-cache audit (Cheng et al. 2026) finds gains survive replacement unless the receiver needs the sender's private information."},
+ {id:"cartridges", c:"context", label:"Cartridges", url:"https://arxiv.org/abs/2506.06266",
+  note:"Eyuboglu et al. 2025. A KV cache trained per corpus, matching in-context learning with 38.6x less memory. Cartridges++ finds such caches degrade off-context queries."},
  {id:"ladir", c:"adjacent", label:"Latent diffusion reasoning", url:"https://arxiv.org/abs/2510.04573",
   note:"LaDiR 2025. Continuous latent representation with iterative diffusion refinement."},
  {id:"rltt", c:"adjacent", label:"Rewarding latent trajectories", url:"https://arxiv.org/abs/2602.10520",
@@ -340,6 +354,10 @@ const NODES = [
 ];
 
 const LINKS = [
+ {s:"clm", t:"ngc", k:"same", lab:"text vs latent edits"}, {s:"memento", t:"ngc", k:"builds"},
+ {s:"kava", t:"memento", k:"builds"}, {s:"kava", t:"cartridges", k:"builds"},
+ {s:"tmem", t:"clm", k:"same", lab:"weights vs file"}, {s:"latentmas", t:"clm", k:"same", lab:"shared context"},
+ {s:"latentmas", t:"korbak", k:"builds", lab:"unreadable channel"},
  // descent
  {s:"tc0", t:"cotexp", k:"builds"}, {s:"tc0", t:"serial", k:"builds"},
  {s:"cotexp", t:"cotvlatent", k:"builds"}, {s:"serial", t:"pauseth", k:"builds"},
